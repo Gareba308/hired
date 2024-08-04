@@ -27,14 +27,17 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    if (status === "authenticated" && userId) {
-      const socket = new (ClientIO as any)(
-        process.env.NEXT_PUBLIC_SITE_URL!,
-        {
-          path: "/api/socket/io",
-          addTrailingSlash: false,
-        }
-      );
+    if (status === 'authenticated' && userId) {
+      const socketUrl =
+        process.env.NODE_ENV === 'development'
+          ? process.env.NEXT_PUBLIC_SITE_URL
+          : process.env.NEXT_PUBLIC_BASE_URL;
+
+      const socket = new (ClientIO as any)(socketUrl, {
+        path: '/api/socket/io',
+        addTrailingSlash: false,
+      });
+
       setSocketInstance(socket);
 
       return () => {

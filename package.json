@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate"
@@ -51,6 +51,7 @@
     "autoprefixer": "10.4.15",
     "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
+    "browserslist": "^4.23.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
