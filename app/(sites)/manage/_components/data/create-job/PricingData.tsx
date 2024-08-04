@@ -1,0 +1,18 @@
+export const prices = [
+  { label: "Ksh. 1", value: 1 },
+  { label: "Ksh. 1000", value: 1000 },
+  { label: "Ksh. 1500", value: 1500 },
+  { label: "Ksh. 2000", value: 2000 },
+  { label: "Ksh. 2500", value: 2500 },
+  { label: "Ksh. 3000", value: 3000 },
+  { label: "Ksh. 3500", value: 3500 },
+  { label: "Ksh. 4000", value: 4000 },
+  { label: "Ksh. 4500", value: 4500 },
+  { label: "Ksh. 5000", value: 5000 },
+  { label: "Ksh. 6000", value: 6000 },
+  { label: "Ksh. 7000", value: 7000 },
+  { label: "Ksh. 9000", value: 9000 },
+  { label: "Ksh. 10000", value: 10000 },
+  { label: "Ksh. 12000", value: 12000 },
+  { label: "Ksh. 15000", value: 15000 },
+];

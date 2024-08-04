@@ -1,0 +1,296 @@
+"use client";
+
+import { trpc } from "@/app/_trpc/client";
+import QuillPreview from "@/components/QuillPreview";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useToast } from "@/components/ui/use-toast";
+import {
+  About,
+  Active,
+  Award,
+  CertificationLicense,
+  Experience,
+  Language,
+  ProfileView,
+  SecondaryEducation,
+  Skills,
+  TertiaryEducation,
+  WorkerBio,
+  WorkerContact,
+  WorkerDesires,
+} from "@prisma/client";
+import { formatDistance } from "date-fns";
+import { MapPinIcon, Pin, ThumbsUp, UserSquare2 } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+interface CombinedDataItem {
+  userId: string;
+  bio: WorkerBio;
+  desire: WorkerDesires | null;
+  about: About | null;
+  experience: Experience[];
+  contact: WorkerContact | null;
+  skills: Skills | null;
+  certification: CertificationLicense[];
+  award: Award[];
+  language: Language[];
+  secondary: SecondaryEducation | null;
+  tertiary: TertiaryEducation[];
+  active: Active | null;
+  profileViews: ProfileView[];
+}
+
+interface AllCandidatesProps {
+  combinedData: CombinedDataItem[];
+  profileViews: ProfileView[];
+  userId: string;
+}
+
+const CandidateCard = ({ combinedData, profileViews, userId }: AllCandidatesProps) => {
+  const [currentlyViewingID, setCurrentlyViewingID] = useState<string | null>(
+    null
+  );
+  const [isMutationInProgress, setIsMutationInProgress] = useState(false);
+  const specificBioView = profileViews.find(
+    (view) => view.bioID === currentlyViewingID
+  );
+  const [isBioViewed, setIsBioViewed] = useState<boolean>(
+    specificBioView?.viewed || false
+  );
+  const router = useRouter();
+  const { toast } = useToast();
+  function formatNumber(number: number): string {
+    if (number < 1000) {
+      return number.toString();
+    } else if (number < 10000) {
+      return (number / 1000).toFixed(1) + "k";
+    } else {
+      return Math.round(number / 1000) + "k";
+    }
+  }
+
+  function getInitials(fullName: string): string {
+    const titlesToOmit = [
+      "Mr.",
+      "Mr",
+      "Mrs.",
+      "Mrs",
+      "Miss.",
+      "Miss",
+      "Ms.",
+      "Ms",
+      "Dr.",
+      "Dr",
+      "Prof.",
+      "Prof",
+    ];
+    for (const title of titlesToOmit) {
+      if (fullName.startsWith(title + " ") || fullName === title) {
+        fullName = fullName.substring(title.length).trim();
+        break;
+      }
+    }
+    const nameParts = fullName.split(" ");
+    if (nameParts.length >= 2) {
+      let initials = nameParts[0];
+      for (let i = 1; i < nameParts.length; i++) {
+        if (i < nameParts.length - 1) {
+          initials += " " + nameParts[i].charAt(0) + ".";
+        } else {
+          if (nameParts.length > 2) {
+            initials += nameParts[i].charAt(0);
+          } else {
+            initials += " " + nameParts[i].charAt(0);
+          }
+        }
+      }
+      return initials.toUpperCase() + ".";
+    }
+    return fullName.charAt(0).toUpperCase();
+  }
+
+  const { mutate: viewingProfile } = trpc.employerCreateProfileView.useMutation(
+    {
+      onSuccess: () => {
+        router.refresh();
+      },
+      onError: () => {
+        toast({
+          title: "Something went wrong",
+          description: "We experienced a small problem trying to redirect you.",
+          variant: "destructive",
+          duration: 3000,
+        });
+      },
+      onMutate: ({ bioID }) => {
+        setCurrentlyViewingID(bioID);
+      },
+      onSettled: () => {
+        setCurrentlyViewingID(null);
+      },
+    }
+  );
+  const handleView = async (bio: WorkerBio) => {
+    if (isMutationInProgress) {
+      setIsBioViewed((prev) => !prev);
+      router.push(`/manage/candidates/${bio.userId}?origin=manage/candidates`);
+      return;
+    }
+
+    setIsMutationInProgress(true);
+
+    try {
+      setIsBioViewed((prev) => !prev);
+      router.push(`/manage/candidates/${bio.userId}?origin=manage/candidates`);
+      viewingProfile({
+        bioID: bio.id,
+        viewed: !isBioViewed,
+      });
+    } catch (error) {
+      console.error("Error occurred during mutation:", error);
+    } finally {
+      setIsMutationInProgress(false);
+    }
+  };
+
+  return (
+    <div className="mx-auto max-w-2xl md:max-w-7xl">
+      <>
+        <div className="max-w-screen-xl mx-auto">
+          <div className="mt-3 lg:mt-0">
+            <div className="grid gap-4 xl:grid-cols-2">
+              {combinedData.flatMap((item) => (
+                <div
+                  onClick={() => handleView(item.bio)}
+                  key={item.userId}
+                  className="border border-gray-200 pt-1 pb-2.5 px-2.5 cursor-pointer lg:px-3 rounded-sm"
+                >
+                  <div className="flex w-full items-start gap-4">
+                    <div className="w-24 h-24 shrink-0 items-start">
+                      {item.bio.profilePic ? (
+                        <img
+                          src={item.bio.profilePic as string}
+                          className="w-full h-full border shrink-0 border-gray-100 rounded-md"
+                          alt={item.bio.name}
+                        />
+                      ) : (
+                        <img
+                          src={
+                            "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
+                          }
+                          className="w-full h-full border shrink-0 border-gray-100 rounded-md"
+                          alt={item.bio.name}
+                        />
+                      )}
+                    </div>
+                    <div className="-space-y-1 w-full">
+                      <div className="flex items-center justify-between">
+                        {item.bio.name && (
+                          <h4 className="text-gray-600 line-clamp-1 font-semibold text-lg">
+                            {getInitials(item.bio.name)}
+                          </h4>
+                        )}
+                        <>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <span className="inline-flex rounded-sm bg-sky-50 px-2 py-0.5 font-medium text-sky-700 ring-1 ring-inset ring-sky-600/20">
+                                  <span className="text-[13.5px]">
+                                    Likes:{" "}
+                                    {formatNumber(item.bio.thumbUp as number)}
+                                  </span>
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent className="text-gray-500 leading-tight">
+                                <span>
+                                  This is the number of thumb up this candidates
+                                  has received. The thumb ups are given by other
+                                  employers.
+                                </span>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </>
+                      </div>
+                      {item.bio.currentJobTitle && (
+                        <p className="text-primary text-base font-medium pb-1 line-clamp-1">
+                          {item.bio.currentJobTitle}
+                        </p>
+                      )}
+                      {item.bio.county && (
+                        <p className="text-gray-500 text-sm flex items-center pb-0.5">
+                          <MapPinIcon className="h-4 w-4 mr-1 line-clamp-1 text-gray-400" />
+                          <span className="line-clamp-1">
+                            {item.bio.county} County
+                          </span>
+                        </p>
+                      )}
+                      {item.contact?.town && (
+                        <p className="text-gray-500 text-sm flex items-center">
+                          <Pin className="h-4 w-4 mr-1 line-clamp-1 text-gray-400" />
+                          <span className="line-clamp-1">
+                            {item.contact?.town} Town
+                          </span>
+                        </p>
+                      )}
+                      {item.bio.gender && (
+                        <p className="text-gray-500 text-sm flex items-center">
+                          <UserSquare2 className="h-4 w-4 mr-1 line-clamp-1 text-gray-400" />
+                          {item.bio.gender}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  {item.about?.about && (
+                    <>
+                      <span className="font-medium text-sm text-gray-600">
+                        About:
+                      </span>
+                      <div className="text-gray-500 text-sm -mt-1 font-normal line-clamp-2">
+                        <QuillPreview
+                          htmlContent={item.about?.about as string}
+                        />
+                      </div>
+                    </>
+                  )}
+                  {item.skills?.skills.length !== 0 && (
+                    <div className="mt-0.5">
+                      <span className="font-medium text-sm text-gray-600">
+                        Skills:
+                      </span>
+                      <div className="-mt-1 flex flex-wrap -mx-1">
+                        {item.skills?.skills.slice(0, 4).map((skill, idx) => (
+                          <span
+                            key={idx}
+                            className="inline-flex items-center rounded-md bg-secondary px-2 py-1 text-[13px] font-normal text-gray-600 ring-1 ring-inset ring-gray-500/10 mx-0.5 my-0.5"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                        {item.skills?.skills?.length &&
+                          item.skills?.skills.length > 4 && (
+                            <span className="inline-flex items-center rounded-md bg-secondary px-2 py-1 text-[12.5px] italic font-normal text-primary ring-1 ring-inset ring-gray-500/10 mx-0.5 my-0.5">
+                              +{item.skills?.skills.length - 4} more
+                            </span>
+                          )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </>
+    </div>
+  );
+};
+
+export default CandidateCard;

@@ -1,0 +1,180 @@
+"use client";
+
+import QuillPreview from "@/components/QuillPreview";
+import { Blogs } from "@prisma/client";
+import { format } from "date-fns";
+import { CornerUpLeft } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import ReactPaginate from "react-paginate";
+
+interface AllWithTagsProps {
+  allBlogsWithThisTag: Blogs[];
+  tag: string;
+  blogId: string;
+}
+const pageSize = 12;
+const AllWithTags = ({
+  allBlogsWithThisTag,
+  tag,
+  blogId,
+}: AllWithTagsProps) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const origin = searchParams?.get("origin");
+  const [currentPage, setCurrentPage] = useState(1);
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  function cleanHashtags(body: string): string {
+    return body.replace(/#(\w+)/g, "$1");
+  }
+
+  const pageBlogs = allBlogsWithThisTag.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(allBlogsWithThisTag.length / pageSize);
+
+  const handlePageChange = (selectedPage: number) => {
+    setCurrentPage(selectedPage);
+  };
+
+  return (
+    <div>
+      <div className="flex items-center justify-between gap-x-6 border-b border-gray-200 pb-1.5">
+        <div className="flex items-center gap-x-2 sm:gap-x-2.5">
+          <Link
+            href={origin ? `/${origin}` : `/home/blogs/job-seekers/${blogId}`}
+            className="hover:text-[#005580] text-gray-700"
+          >
+            <CornerUpLeft className="h-6 w-6 shrink-0" />
+          </Link>
+          <div className="flex flex-col">
+            <h3 className="font-bold capitalize line-clamp-1 text-gray-600 tracking-tight text-xl sm:text-2xl lg:text-3xl">
+              {tag} Blogs
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div className="mx-auto max-w-7xl relative">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 mt-2 lg:mx-0 lg:max-w-none sm:grid-cols-2 lg:grid-cols-3">
+          {pageBlogs.map((post) => (
+            <article
+              key={post.id}
+              className="flex max-w-xl flex-col border border-gray-300 rounded-lg items-start"
+            >
+              <Link
+                href={`/home/blogs/job-seekers/${post.id}?origin=home/blogs/job-seekers/${blogId}/${tag}`}
+                className="h-[200px] sm:h-[180px] rounded-tr-lg rounded-tl-lg w-full bg-sky-100 relative"
+              >
+                <Image
+                  src={post.image}
+                  alt="Blog Image"
+                  fill
+                  sizes="100%"
+                  priority
+                  style={{ objectFit: "cover" }}
+                  className="rounded-tr-lg rounded-tl-lg"
+                />
+              </Link>
+              <div className="px-2.5 pb-3 pt-1 w-full  border-t border-gray-200">
+                <div className="flex items-center gap-x-4 text-xs">
+                  <p className="text-gray-500 line-clamp-1">
+                    {format(post.createdAt, "PPP")},{" "}
+                    {format(post.createdAt, "HH:mm")}h
+                  </p>
+                  <div className="relative rounded-sm bg-gray-100 border-gray-200 px-2 py-[5px] font-medium text-gray-600 hover:bg-gray-100">
+                    <span className="line-clamp-1">{post.category}</span>
+                  </div>
+                </div>
+                <div className="group relative">
+                  <h3 className="mt-1 text-lg font-semibold text-gray-800 hover:underline leading-tight group-hover:text-gray-700">
+                    <Link
+                      href={`/home/blogs/job-seekers/${post.id}?origin=home/blogs/job-seekers/${blogId}/${tag}`}
+                    >
+                      <span className="absolute inset-0" />
+                      {post.heading}
+                    </Link>
+                  </h3>
+                  <div
+                    onClick={() =>
+                      router.push(
+                        `/home/blogs/job-seekers/${post.id}?origin=home/blogs/job-seekers/${blogId}/${tag}`
+                      )
+                    }
+                    className="line-clamp-3 mt-1 text-sm text-gray-700"
+                  >
+                    <QuillPreview htmlContent={cleanHashtags(post.body)} />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between gap-x-4 mt-2 w-full relative">
+                  <div className="flex items-center gap-x-3">
+                    <div className="relative h-9 w-9 overflow-hidden">
+                      {!post.publisherProfile ? (
+                        <Image
+                          src="https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
+                          alt="author"
+                          fill
+                          sizes="100%"
+                          className="rounded-full"
+                        />
+                      ) : (
+                        <Image
+                          src={post.publisherProfile}
+                          alt="author"
+                          fill
+                          sizes="100%"
+                          className="rounded-full"
+                        />
+                      )}
+                    </div>
+                    <div className="text-sm">
+                      <p className="font-semibold text-gray-700">
+                        {post.fullName}
+                      </p>
+                      <p className="text-gray-600">{post.position}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div className="mt-6">
+          {totalPages > 1 && (
+            <ReactPaginate
+              pageCount={totalPages}
+              onPageChange={({ selected }) => handlePageChange(selected + 1)}
+              containerClassName={"pagination flex"}
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              activeClassName={"active"}
+              pageClassName={"mx-0.5 sm:mx-1  cursor-pointer"}
+              breakClassName={"mx-0.5 sm:mx-1"}
+              previousClassName={"mx-0.5 sm:mx-1"}
+              nextClassName={"mx-0.5 sm:mx-1"}
+              pageLinkClassName={
+                "py-1.5 px-2.5 rounded-sm border border-gray-200 hover:bg-secondary text-gray-600"
+              }
+              activeLinkClassName={
+                "bg-primary text-white border-transparent hover:text-gray-600 hover:border hover:border-gray-200"
+              }
+              previousLinkClassName={
+                "py-1.5 px-2.5 rounded-sm border border-gray-300 hover:bg-secondary"
+              }
+              nextLinkClassName={
+                "py-1.5 px-2.5 rounded-sm border border-gray-300 hover:bg-secondary"
+              }
+              disabledClassName={"text-gray-400 cursor-not-allowed"}
+              marginPagesDisplayed={1}
+              pageRangeDisplayed={2}
+              breakLabel={"..."}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AllWithTags;

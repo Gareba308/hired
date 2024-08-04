@@ -1,0 +1,203 @@
+import { db } from "@/db";
+import { MetadataRoute } from "next";
+
+const convertToSlug = (text: string): string => {
+  return text.toLowerCase().replace(/\s+/g, "-");
+};
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = "https://www.hired.co.ke";
+
+  const currentDate = new Date();
+  const jobs = await db.job.findMany({
+    where: {
+      deadline: {
+        gte: currentDate,
+      },
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  const workerBlogs = await db.blogs.findMany({
+    where: {
+      target: {
+        in: ["Worker", "All"],
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  const employerBlogs = await db.blogs.findMany({
+    where: {
+      target: {
+        in: ["Employer", "All"],
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  const allBlogsForWorkerTags = await db.blogs.findMany({
+    where: {
+      target: {
+        in: ["Worker", "All"],
+      },
+    },
+  });
+
+  const allBlogsForEmployerTags = await db.blogs.findMany({
+    where: {
+      target: {
+        in: ["Employer", "All"],
+      },
+    },
+  });
+  const workerCategories = workerBlogs
+    .map((blog) => blog.category)
+    .filter((category, index, self) => category && self.indexOf(category) === index);
+  const employerCategories = employerBlogs
+    .map((blog) => blog.category)
+    .filter((category, index, self) => category && self.indexOf(category) === index);
+
+  const jobsUrls = jobs.map((job) => {
+    return {
+      url: `${baseUrl}/home/jobs/${job.id}`,
+      lastModified: new Date(job.updatedAt),
+    };
+  });
+
+  const workersBlogsDetailUrls = workerBlogs.map((blog) => {
+    return {
+      url: `${baseUrl}/home/blogs/job-seekers/${blog.id}`,
+      lastModified: new Date(blog.updatedAt),
+    };
+  });
+
+  const workerBlogsDetailCategoriesURL = workerBlogs.flatMap(
+    (blog): Array<{ url: string; lastModified: Date }> => {
+      const urls: Array<{ url: string; lastModified: Date }> = [];
+      workerCategories.forEach((category) => {
+        if (blog.category && blog.category.toLowerCase() === category.toLowerCase()) {
+          const categorySlug = convertToSlug(category);
+          urls.push({
+            url: `${baseUrl}/home/blogs/job-seekers/${blog.id}/categories/${categorySlug}`,
+            lastModified: new Date(blog.updatedAt),
+          });
+        }
+      });
+      return urls;
+    }
+  );
+
+  const employersBlogsDetailUrls = employerBlogs.map((blog) => {
+    return {
+      url: `${baseUrl}/home/blogs/employers/${blog.id}`,
+      lastModified: new Date(blog.updatedAt),
+    };
+  });
+
+  const employerBlogsDetailCategoriesURL = employerBlogs.flatMap(
+    (blog): Array<{ url: string; lastModified: Date }> => {
+      const urls: Array<{ url: string; lastModified: Date }> = [];
+      employerCategories.forEach((category) => {
+        if (blog.category && blog.category.toLowerCase() === category.toLowerCase()) {
+          const categorySlug = convertToSlug(category);
+          urls.push({
+            url: `${baseUrl}/home/blogs/employers/${blog.id}/categories/${categorySlug}`,
+            lastModified: new Date(blog.updatedAt),
+          });
+        }
+      });
+      return urls;
+    }
+  );
+
+  const workerBlogsTagsUrls = allBlogsForWorkerTags.flatMap(
+    (blog): Array<{ url: string; lastModified: Date }> => {
+      const tags = blog.body.match(/#\w+/g);
+      if (tags) {
+        return tags.map((tag) => {
+          const tagSlug = convertToSlug(tag.replace("#", ""));
+          return {
+            url: `${baseUrl}/home/blogs/job-seekers/${blog.id}/${tagSlug}`,
+            lastModified: new Date(blog.updatedAt),
+          };
+        });
+      }
+      return [];
+    }
+  );
+
+  const employerBlogsTagsUrls = allBlogsForEmployerTags.flatMap(
+    (blog): Array<{ url: string; lastModified: Date }> => {
+      const tags = blog.body.match(/#\w+/g);
+      if (tags) {
+        return tags.map((tag) => {
+          const tagSlug = convertToSlug(tag.replace("#", ""));
+          return {
+            url: `${baseUrl}/home/blogs/employers/${blog.id}/${tagSlug}`,
+            lastModified: new Date(blog.updatedAt),
+          };
+        });
+      }
+      return [];
+    }
+  );
+
+  const workerBlogsFiltersCategoryUrls = workerCategories.map((category) => {
+    const categorySlug = convertToSlug(category);
+    return {
+      url: `${baseUrl}/home/blogs/job-seekers/filter/${categorySlug}`,
+      lastModified: new Date(),
+    };
+  });
+
+  const employerBlogsFiltersCategoryUrls = employerCategories.map((category) => {
+    const categorySlug = convertToSlug(category);
+    return {
+      url: `${baseUrl}/home/blogs/employers/filter/${categorySlug}`,
+      lastModified: new Date(),
+    };
+  });
+
+  return [
+    {
+      url: baseUrl,
+    },
+    {
+      url: `${baseUrl}/home/jobs`,
+    },
+    {
+      url: `${baseUrl}/home/blogs/job-seekers`,
+    },
+    {
+      url: `${baseUrl}/home/blogs/employers`,
+    },
+    {
+      url: `${baseUrl}/home/faqs/employers`
+    },
+    {
+      url: `${baseUrl}/home/faqs/job-seekers`
+    },
+    {
+      url: `${baseUrl}/home/contact`
+    },
+    ...jobsUrls,
+    ...workersBlogsDetailUrls,
+    ...workerBlogsDetailCategoriesURL,
+    ...employersBlogsDetailUrls,
+    ...employerBlogsDetailCategoriesURL,
+    ...workerBlogsTagsUrls,
+    ...employerBlogsTagsUrls,
+    ...workerBlogsFiltersCategoryUrls,
+    ...employerBlogsFiltersCategoryUrls,
+  ];
+}

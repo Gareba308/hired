@@ -1,0 +1,1258 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider     = "postgres"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id                   String                 @id @default(cuid())
+  name                 String?
+  email                String                 @unique
+  password             String?
+  role                 String?                @default("new")
+  emailVerified        Boolean?               @default(false)
+  suspended            Boolean?               @default(false)
+  referralCode         String?
+  referred             Boolean                @default(false)
+  special              Boolean?               @default(false)
+  image                String?
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  accounts             Account[]
+  sessions             Session[]
+  verification         Verification[]
+  reset                Reset[]
+  updateEmailVerify    UpdateEmailVerify[]
+  updatePasswordVerify UpdatePasswordVerify[]
+
+  workers       Workers[]
+  employers     Employers[]
+  Admin         Admin?
+  ChatUser      ChatUser?
+  userReferrals UserReferrals[]
+}
+
+model Verification {
+  verifyToken        String   @unique
+  verifyTokenExpiry  DateTime
+  email              String   @unique
+  name               String
+  referrerUniqueCode String?
+  referrerUserId     String?
+  referrerEmail      String?
+  referrerName       String?
+
+  user User @relation(fields: [email], references: [email], onDelete: Cascade)
+}
+
+model Reset {
+  resetToken       String   @unique
+  resetTokenExpiry DateTime
+  email            String   @unique
+
+  user User @relation(fields: [email], references: [email], onDelete: Cascade)
+}
+
+model Account {
+  id                String   @id @default(cuid())
+  userId            String
+  type              String?
+  provider          String?
+  providerAccountId String
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?  @db.Text
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationRequest {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Workers {
+  id          String   @id @default(cuid())
+  workerEmail String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user                  User                    @relation(fields: [workerEmail], references: [email], onDelete: Cascade, onUpdate: Cascade)
+  about                 About[]
+  experience            Experience[]
+  secondaryEducation    SecondaryEducation[]
+  tertiaryEducation     TertiaryEducation[]
+  workerBio             WorkerBio[]
+  workerDesires         WorkerDesires[]
+  workerContact         WorkerContact[]
+  Resume                Resume[]
+  Skills                Skills[]
+  CertificationLicense  CertificationLicense[]
+  Award                 Award[]
+  Language              Language[]
+  Application           Application[]
+  SavedJobs             SavedJobs[]
+  HelpWorker            HelpWorker[]
+  ReportJob             ReportJob[]
+  WorkerCreditPoints    WorkerCreditPoints[]
+  WorkerRequestRedeem   WorkerRequestRedeem[]
+  ContactWorker         ContactWorker[]
+  EmployerContactWorker EmployerContactWorker[]
+  CareerWizard          CareerWizard[]
+  AcceptToBeAssessed    AcceptToBeAssessed[]
+  SubmitTest            SubmitTest[]
+}
+
+model Employers {
+  id            String   @id @default(cuid())
+  employerEmail String   @unique
+  jobPosition   String?
+  bgColor       String   @default("#bae6fd")
+  bgTextColor   String   @default("#075985")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [employerEmail], references: [email], onDelete: Cascade, onUpdate: Cascade)
+
+  job                       Job[]
+  company                   Company[]
+  HelpEmployer              HelpEmployer[]
+  EmployerMessageCandidate  EmployerMessageCandidate[]
+  ContactEmployer           ContactEmployer[]
+  AccountBalance            AccountBalance[]
+  EmployerContactWorker     EmployerContactWorker[]
+  Payment                   Payment[]
+  TopUp                     TopUp[]
+  PurchaseJobPlan           PurchaseJobPlan[]
+  EmployerRequestAssessment EmployerRequestAssessment[]
+  PickAssessCandidate       PickAssessCandidate[]
+}
+
+model ChatUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [email], references: [email], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Admin {
+  id                     String                   @id @default(cuid())
+  adminEmail             String                   @unique
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  user                   User                     @relation(fields: [adminEmail], references: [email], onDelete: Cascade, onUpdate: Cascade)
+  ContactEmployer        ContactEmployer[]
+  Blogs                  Blogs[]
+  AdminProfile           AdminProfile[]
+  EmailWorker            EmailWorker[]
+  EmailWorkerOnJobSkills EmailWorkerOnJobSkills[]
+  EmailWorkerGeneral     EmailWorkerGeneral[]
+  ContactWorker          ContactWorker[]
+  EmployerPlans          EmployerPlans[]
+}
+
+model UserReferrals {
+  id              String  @id @default(cuid())
+  userId          String
+  fullName        String
+  email           String
+  inviteeEmail    String
+  inviteeName     String?
+  redeemed        Boolean @default(false)
+  credit          Int     @default(0)
+  uniqueCode      String
+  myRole          String
+  inviteeViewID   String?
+  recurringViewID Boolean @default(false)
+  hide            Boolean @default(false)
+  invitationCode  String?
+  joined          Boolean @default(false)
+  approved        Boolean @default(false)
+  failed          Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([userId])
+}
+
+model Active {
+  id             String    @id @default(cuid())
+  userId         String?
+  viewId         String?
+  role           String    @default("unique")
+  connected      Boolean   @default(false)
+  connectedAt    DateTime?
+  disconnectedAt DateTime?
+}
+
+model Job {
+  id                  String    @id @default(cuid())
+  job_id              Int       @unique
+  userId              String
+  isEmployerID        String
+  createdByName       String?
+  companyId           String
+  company_name        String
+  company_description String?
+  companyLogo         String?
+  adminPosted         Boolean   @default(false)
+  job_type            String?
+  job_title           String
+  job_description     String    @db.Text
+  responsibilities    String?   @db.Text
+  requirement         String?   @db.Text
+  personal_skills     String[]  @default([])
+  experience          String?   @db.Text
+  numberOfPositions   String?
+  possible_pay        String?
+  category            String?
+  county              String?
+  published           Boolean?  @default(false)
+  deadline            DateTime?
+  filled              Boolean?  @default(false)
+  platform            String?
+  emailPlatform       String?
+  linkPlatform        String?
+  otherPlatform       String?
+  ownPlatformMethod   String?
+  viewCounts          Int       @default(0)
+  applied             Int       @default(0)
+  archived            Boolean   @default(false)
+  emailed             Boolean   @default(false)
+  experienceDesired   String?
+  address             String?
+  academic            String?
+  benefits            String[]  @default([])
+  instructions        String?
+  academicDesired     String?
+  logo2               String?   @default("https://res.cloudinary.com/dflvibeo6/image/upload/v1684840873/My_project_1_eadinu.png")
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  company     Company       @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  employer    Employers     @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Application Application[]
+  SavedJobs   SavedJobs[]
+  JobView     JobView[]
+
+  @@index([companyId])
+  @@index([isEmployerID])
+}
+
+model stackChats {
+  id        String   @id @default(cuid())
+  userId    String
+  messageID String?
+  likes     Int      @default(0)
+  role      String
+  name      String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model JobView {
+  id         String   @id @default(cuid())
+  viewID     String
+  jobID      String
+  userId     String?
+  viewed     Boolean  @default(false)
+  views      Int      @default(0)
+  isWorkerID String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  job Job @relation(fields: [jobID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([jobID])
+}
+
+model ProfileView {
+  id           String   @id @default(cuid())
+  bioID        String
+  userId       String?
+  workerUserID String
+  viewed       Boolean  @default(false)
+  views        Int      @default(0)
+  isEmployerID String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  bio WorkerBio @relation(fields: [bioID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([bioID])
+}
+
+model SavedJobs {
+  id         String   @id @default(cuid())
+  isWorkerID String
+  userId     String
+  saved      Boolean  @default(false)
+  jobID      String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  job    Job     @relation(fields: [jobID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+  @@index([jobID])
+}
+
+model WorkerBio {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  isWorkerID       String
+  name             String
+  county           String?
+  thumbUp          Int?     @default(0)
+  checked          Boolean  @default(false)
+  suspended        Boolean  @default(false)
+  viewCounts       Int?     @default(0)
+  gender           String?
+  citizen          String?
+  identityNumber   String?
+  yearOfBirth      String?
+  currentJobTitle  String?
+  employmentType   String?
+  highestEducation String?
+  profilePic       String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  worker      Workers       @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ProfileView ProfileView[]
+  ThumsUp     ThumbsUp[]
+
+  @@index([isWorkerID])
+}
+
+model ThumbsUp {
+  id           String   @id @default(cuid())
+  isEmployerID String
+  userId       String
+  liked        Boolean  @default(false)
+  bioID        String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  workerBio WorkerBio @relation(fields: [bioID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([bioID])
+}
+
+model WorkerDesires {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  isWorkerID               String
+  category                 String?
+  yearsOfExperience        String?
+  availability             String?
+  searchable               Boolean  @default(false)
+  noEmails                 Boolean  @default(false)
+  willingToRelocateWithin  String?
+  currentRemuneration      String?
+  currentRemunerationTerms String?
+  desiredRemuneration      String?
+  desiredRemunerationTerms String?
+  desiredEmploymentType    String?
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model EmailWorker {
+  id                String   @id @default(cuid())
+  userId            String
+  isAdminID         String
+  reason            String
+  subject           String
+  recipientsEmail   String[] @default([])
+  toEmailJobIDs     String[] @default([])
+  recipientsUserIds String[] @default([])
+  emailBody         String   @db.Text
+  jobCategory       String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  admin Admin @relation(fields: [isAdminID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isAdminID])
+}
+
+model EmailWorkerOnJobSkills {
+  id             String   @id @default(cuid())
+  userId         String
+  isAdminID      String
+  reason         String
+  subject        String
+  message        String   @db.Text
+  emailedUserIds String[] @default([])
+  emailedJobIds  String[] @default([])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  admin Admin @relation(fields: [isAdminID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isAdminID])
+}
+
+model EmailWorkerGeneral {
+  id             String   @id @default(cuid())
+  userId         String
+  isAdminID      String
+  reason         String
+  subject        String
+  message        String   @db.Text
+  emailedUserIds String[] @default([])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  admin Admin @relation(fields: [isAdminID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isAdminID])
+}
+
+model WorkerContact {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  isWorkerID     String
+  email          String
+  phone          String?
+  secondaryPhone String?
+  secondaryEmail String?
+  postal         String?
+  zip            String?
+  town           String?
+  county         String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model HelpWorker {
+  id         String   @id @default(cuid())
+  userId     String
+  isWorkerID String
+  role       String
+  fullName   String
+  priority   String
+  subject    String
+  message    String
+  hide       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model HelpEmployer {
+  id           String   @id @default(cuid())
+  userId       String
+  isEmployerId String
+  fullName     String
+  role         String
+  message      String
+  priority     String
+  subject      String
+  hide         Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  employer Employers @relation(fields: [isEmployerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isEmployerId])
+}
+
+model ReportJob {
+  id           String   @id @default(cuid())
+  userId       String
+  userName     String?
+  isWorkerID   String
+  jobId        String
+  jobName      String
+  companyPhone String
+  companyEmail String
+  companyId    String
+  sorted       Boolean  @default(false)
+  employerName String
+  subject      String
+  report       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model ContactEmployer {
+  id               String   @id @default(cuid())
+  adminUserId      String
+  employerUserId   String
+  employerUserName String?
+  isEmployerID     String
+  isAdminID        String
+  role             String
+  employerHide     Boolean  @default(false)
+  employerArchive  Boolean  @default(false)
+  adminArchive     Boolean  @default(false)
+  adminHide        Boolean  @default(false)
+  companyId        String
+  adminName        String
+  replyingToID     String?
+  subject          String
+  message          String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  employer Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  admin    Admin     @relation(fields: [isAdminID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isEmployerID])
+  @@index([isAdminID])
+}
+
+model ContactWorker {
+  id             String   @id @default(cuid())
+  adminUserId    String
+  workerUserId   String
+  workerUserName String?
+  isWorkerID     String
+  isAdminID      String
+  role           String
+  workerHide     Boolean  @default(false)
+  workerArchive  Boolean  @default(false)
+  adminArchive   Boolean  @default(false)
+  adminHide      Boolean  @default(false)
+  adminName      String
+  replyingToID   String?
+  subject        String
+  message        String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  admin  Admin   @relation(fields: [isAdminID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+  @@index([isAdminID])
+}
+
+model EmployerContactWorker {
+  id              String   @id @default(cuid())
+  employerUserId  String
+  workerUserId    String
+  workerUserName  String?
+  isWorkerID      String
+  isEmployerID    String
+  role            String
+  workerHide      Boolean  @default(false)
+  workerArchive   Boolean  @default(false)
+  employerArchive Boolean  @default(false)
+  employerHide    Boolean  @default(false)
+  companyId       String
+  employerName    String
+  replyingToID    String?
+  subject         String
+  message         String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  employer Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  worker   Workers   @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  adminId  String?
+
+  @@index([isEmployerID])
+  @@index([isWorkerID])
+}
+
+model EmployerMessageCandidate {
+  id             String   @id @default(cuid())
+  userId         String
+  userName       String?
+  isEmployerID   String
+  isWorkerID     String
+  receiverUserId String
+  receiverName   String?
+  companyId      String
+  companyName    String?
+  jobId          String
+  applicationID  String
+  jobTitle       String?
+  hide           Boolean  @default(false)
+  subject        String
+  message        String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  employer Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isEmployerID])
+}
+
+model CareerWizard {
+  id                 String   @id @default(cuid())
+  userId             String
+  isWorkerID         String
+  jobId              String
+  jobCategory        String
+  useGeneratedResume Boolean  @default(true)
+  vacancies          String
+  jobName            String
+  userName           String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model About {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  isWorkerID String
+  about      String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model Skills {
+  id         String   @id @default(cuid())
+  userId     String
+  isWorkerID String
+  skills     String[] @default([])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model Resume {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  isWorkerID String
+  resume     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model CertificationLicense {
+  id                     String   @id @default(cuid())
+  userId                 String
+  isWorkerID             String
+  certificateLicenseName String
+  validForever           Boolean? @default(false)
+  validStartMonth        String?
+  validStartYear         String?
+  validEndMonth          String?
+  validEndYear           String?
+  description            String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model Assessment {
+  id                  String   @id @default(cuid())
+  bannerID            String
+  name                String
+  scenarioExplanation String?
+  scenario            String?  @db.Text
+  category            String
+  question            String
+  choice1             String
+  choice2             String
+  choice3             String
+  attemptType         String
+  answer              String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  assessmentBanner AssessmentBanner @relation(fields: [bannerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([bannerID])
+}
+
+model AssessmentBanner {
+  id              String       @id @default(cuid())
+  name            String
+  category        String
+  briefSummary    String
+  numberQuestions Int
+  completeTime    Int
+  instructions    String?      @db.Text
+  attemptNumbers  String
+  forDemo         Boolean      @default(false)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  Assessment      Assessment[]
+}
+
+model InitiateReportAssessmentProblem {
+  id                      String                    @id @default(cuid())
+  userId                  String
+  isWorkerID              String
+  questionID              String
+  initiateTime            DateTime
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  ReportAssessmentProblem ReportAssessmentProblem[]
+}
+
+model ReportAssessmentProblem {
+  id                 String   @id @default(cuid())
+  userId             String
+  initiateID         String
+  fullName           String
+  email              String
+  assessmentName     String
+  assessmentCategory String
+  isWorkerID         String
+  questionID         String
+  sorted             Boolean  @default(false)
+  subject            String
+  report             String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  initiateReportAssessment InitiateReportAssessmentProblem @relation(fields: [initiateID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([initiateID])
+}
+
+enum AssessmentStatus {
+  PENDING
+  UNINITIATED
+  INITIATED
+  INCOMPLETE
+  REVIEWING
+  PASSED
+  FAILED
+}
+
+model AcceptToBeAssessed {
+  id             String           @id @default(cuid())
+  isWorkerID     String
+  userId         String
+  fullName       String
+  testName       String
+  myAttempts     Int              @default(0)
+  testCategory   String
+  completeTime   DateTime
+  acceptBeTested Boolean          @default(false)
+  new            Boolean          @default(true)
+  testId         String
+  status         AssessmentStatus @default(UNINITIATED)
+  score          Int              @default(0)
+  attemptType    String           @default("firstAttempt")
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  worker         Workers          @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model EmployerRequestAssessment {
+  id           String   @id @default(cuid())
+  userId       String
+  demoID       String
+  isEmployerID String
+  email        String
+  phoneNumber  String
+  fullName     String
+  category     String
+  companyName  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  employer Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isEmployerID])
+}
+
+model SubmitTest {
+  id          String   @id @default(cuid())
+  isWorkerID  String
+  userId      String
+  questionId  String
+  bannerID    String
+  attemptType String
+  realAnswer  String
+  myAnswer    String
+  passed      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  worker      Workers  @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model Award {
+  id           String   @id @default(cuid())
+  userId       String
+  isWorkerID   String
+  title        String
+  awardedMonth String?
+  awardedYear  String?
+  description  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model EmployerPlans {
+  id        String   @id @default(cuid())
+  name      String
+  price     Int
+  unit      Int
+  isAdminID String
+  feature1  String
+  feature2  String
+  feature3  String
+  feature4  String
+  feature5  String
+  feature6  String
+  forJobs   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  admin Admin @relation(fields: [isAdminID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isAdminID])
+}
+
+model PurchaseJobPlan {
+  id           String    @id @default(cuid())
+  userId       String
+  fullName     String
+  isEmployerID String
+  planID       String
+  county       String
+  town         String?
+  postal       String
+  zip          String?
+  companyName  String
+  companyID    String
+  invoiceID    String
+  planName     String
+  planPrice    Int
+  planUnits    Int
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  employer     Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isEmployerID])
+}
+
+model PickAssessCandidate {
+  id           String   @id @default(cuid())
+  userEmail    String
+  isEmployerID String
+  userId       String
+  userName     String
+  category     String
+  testID       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  employer Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isEmployerID])
+}
+
+model AccountBalance {
+  id           String   @id @default(cuid())
+  userEmail    String
+  isEmployerID String
+  balance      Int      @default(0)
+  units        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  employer Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isEmployerID])
+}
+
+model Payment {
+  id           String    @id @default(cuid())
+  userId       String
+  isEmployerID String
+  userEmail    String
+  fullName     String
+  county       String
+  town         String?
+  postal       String
+  zip          String?
+  companyName  String
+  companyID    String
+  mPesaID      String
+  paymentPhone String
+  amount       Int
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  employer     Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isEmployerID])
+}
+
+model TopUp {
+  id           String    @id @default(cuid())
+  userId       String
+  userEmail    String
+  fullName     String
+  isEmployerID String
+  county       String
+  town         String?
+  postal       String
+  zip          String?
+  companyName  String
+  companyID    String
+  paymentPhone String
+  amount       Int
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  employer     Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isEmployerID])
+}
+
+model Language {
+  id          String   @id @default(cuid())
+  userId      String
+  isWorkerID  String
+  language    String
+  proficiency String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model Experience {
+  id                    String   @id @default(cuid())
+  userId                String
+  isWorkerID            String
+  position              String?
+  employmentType        String?
+  nameCompany           String?
+  location              String?
+  stillWorking          Boolean? @default(false)
+  startMonth            String?
+  startYear             String?
+  endMonth              String?
+  endYear               String?
+  contactPersonName     String?
+  contactPersonPosition String?
+  contactPersonEmail    String?
+  description           String?  @db.Text
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWING
+  INTERVIEW
+  OFFERED
+  DECLINED
+}
+
+model Application {
+  id                   String            @id @default(cuid())
+  userId               String
+  isWorkerID           String
+  userEmail            String?
+  applicantName        String?
+  about                String?           @db.Text
+  experience           Json[]            @default([])
+  tertiaryEducation    Json[]            @default([])
+  secondaryEducation   Json[]            @default([])
+  userSkills           Json[]            @default([])
+  award                Json[]            @default([])
+  certificateLicense   Json[]            @default([])
+  language             Json[]            @default([])
+  workerBio            Json[]            @default([])
+  workerContact        Json[]            @default([])
+  uploadedResumeUrl    String?
+  matchScore           Int               @default(0)
+  jobId                String
+  job_id               Int?
+  ratingLetter         Int               @default(0)
+  ratingGenerated      Int               @default(0)
+  ratingOverall        Int               @default(0)
+  aboutRating          Int               @default(0)
+  experienceRating     Int               @default(0)
+  educationRating      Int               @default(0)
+  skillsRating         Int               @default(0)
+  awardsRating         Int               @default(0)
+  certificationRating  Int               @default(0)
+  rateResumeProfile    Int               @default(0)
+  rateResumeTotal      Int               @default(0)
+  finalScore           Int               @default(0)
+  rateWithUploadResume Boolean           @default(false)
+  hide                 Boolean?          @default(false)
+  jobTitle             String?
+  companyId            String
+  companyName          String?
+  company              Json[]            @default([])
+  isEmployerID         String
+  whyMostQualified     String            @db.Text
+  status               ApplicationStatus @default(PENDING)
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  worker               Workers           @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  job                  Job               @relation(fields: [jobId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+  @@index([jobId])
+}
+
+model SecondaryEducation {
+  id                String   @id @default(cuid())
+  userId            String
+  isWorkerID        String
+  school            String?
+  startMonth        String?
+  startYear         String?
+  endMonth          String?
+  endYear           String?
+  county            String?
+  certificateUpload String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model TertiaryEducation {
+  id                    String   @id @default(cuid())
+  userId                String
+  isWorkerID            String
+  institution           String?
+  programArea           String?
+  field                 String?
+  grade                 String?
+  county                String?
+  startMonth            String?
+  startYear             String?
+  endMonth              String?
+  contactPersonName     String?
+  contactPersonPosition String?
+  contactPersonEmail    String?
+  endYear               String?
+  stillStudying         Boolean? @default(false)
+  activities            String?  @db.Text
+  uploadCertificate     String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model Company {
+  id                  String   @id @default(cuid())
+  userId              String
+  isEmployerID        String
+  employerName        String?
+  employerPhone       String?
+  company_name        String?
+  category            String?
+  secondaryEmail      String?
+  secondaryPhone      String?
+  company_description String?  @db.Text
+  town                String?
+  postal              String?
+  zip                 String?
+  county              String?
+  established         String?
+  website             String?
+  suspended           Boolean  @default(false)
+  special             Boolean  @default(false)
+  verified            Boolean? @default(false)
+  logo                String?
+  logo2               String?  @default("https://res.cloudinary.com/dflvibeo6/image/upload/v1684840873/My_project_1_eadinu.png")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  jobs                Job[]
+
+  employer Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isEmployerID])
+}
+
+model AdminProfile {
+  id           String   @id @default(cuid())
+  userId       String
+  isAdminID    String
+  phoneNumber  String
+  role         String
+  postal       String
+  zip          String?
+  town         String
+  county       String
+  workEmail    String
+  briefSummary String
+  photo        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  admin Admin @relation(fields: [isAdminID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isAdminID])
+}
+
+model Blogs {
+  id               String   @id @default(cuid())
+  fullName         String
+  position         String
+  publisherProfile String?
+  publisherSummary String?
+  category         String
+  target           String
+  heading          String
+  body             String   @db.Text
+  hide             Boolean  @default(false)
+  viewCount        Int      @default(0)
+  image            String
+  credit           String
+  isAdminID        String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  admin Admin @relation(fields: [isAdminID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isAdminID])
+}
+
+model UpdateEmailVerify {
+  id                String   @id @default(cuid())
+  newEmail          String?
+  userId            String   @unique
+  verifyToken       String   @unique
+  verifyTokenExpiry DateTime
+  emailVerified     Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UpdatePasswordVerify {
+  id                String   @id @default(cuid())
+  newPassword       String?
+  userId            String   @unique
+  verifyToken       String   @unique
+  verifyTokenExpiry DateTime
+  passwordVerified  Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model WorkerCreditPoints {
+  id         String   @id @default(cuid())
+  userEmail  String
+  isWorkerID String
+  balance    Int      @default(0)
+  onRedeem   Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
+
+model WorkerRequestRedeem {
+  id              String   @id @default(cuid())
+  fullName        String
+  paymentID       String
+  phoneNumber     String
+  paymentPhone    String
+  paymentDate     DateTime
+  userId          String
+  isWorkerID      String
+  email           String
+  availablePoints Int
+  subtotal        Int
+  tax             Int
+  transactionFee  Int
+  paid            Boolean  @default(false)
+  hide            Boolean  @default(false)
+  totalPayable    Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isWorkerID])
+}
