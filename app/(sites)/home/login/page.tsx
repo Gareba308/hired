@@ -1,64 +1,71 @@
-"use client"
-import { useState} from "react"
-import { signIn} from "next-auth/react"
+"use client";
+
+import { useState } from "react";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const SigninPage = () => {
-  const [loading, setLoading]= useState(false)
-  const [data, setData]= useState({ 
-      email: "", 
-      password: ""
-  })
-  const router= useRouter()
-  
-  const { toast }= useToast()
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+  const router = useRouter();
 
-const onFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value: typeof data[keyof typeof data] = event.target.value;
+  const { toast } = useToast();
+
+  const onFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let value: (typeof data)[keyof typeof data] = event.target.value;
     setData({ ...data, [event.target.name]: value });
-};  
+  };
 
-const userLogin= async (event: React.FormEvent<HTMLFormElement>)=>{
-  event.preventDefault()
-    setLoading(true)
-    const response= await signIn('credentials', {...data, redirect: false})
+  const userLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoading(true);
+    const response = await signIn("credentials", { ...data, redirect: false });
 
-    if(response?.error){
+    if (response?.error) {
       toast({
         title: "Something went wrong",
         description: response.error,
-        variant: "destructive"
-      })
-      setLoading(false)
-    } 
-    if(response?.ok && !response?.error){
+        variant: "destructive",
+        duration: 3000
+      });
+      setLoading(false);
+    }
+    if (response?.ok && !response?.error) {
       toast({
         title: "Logged in",
-        description: "Welcome to Jobs Radar",
-        variant: "default"
-      })
-      setLoading(false)
-      router.refresh()
+        description: "Hello there, welcome to Hired.",
+        variant: "default",
+        duration: 3000
+      });
+      setLoading(false);
+      router.refresh();
     }
-}
+  };
 
   return (
     <>
-      <section className="relative z-10 overflow-hidden pt-2 pb-16 md:pb-20 lg:pt-[10px] lg:pb-28">
-        <div className="container">
-          <div className="-mx-4 flex flex-wrap">
-            <div className="w-full px-4">
-              <div className="mx-auto max-w-[500px] rounded-md bg-primary/20 bg-opacity-5 py-10 px-6 sm:p-[60px]">
-                <h3 className="mb-3 text-center text-2xl font-bold text-black sm:text-3xl">
-                  Sign in to your account
+      <section className="relative z-10 overflow-hidden min-h-[calc(100vh-70px)] pt-2 lg:pt-[30px]">
+        <div>
+          <div className="flex flex-wrap">
+            <div className="w-full">
+              <div className="mx-auto w-full px-4 sm:max-w-[540px] rounded-md py-4 sm:border sm:border-gray-200 sm:shadow-md sm:px-[60px]">
+                <h3 className="text-center text-2xl font-bold text-gray-700 sm:text-3xl">
+                  Sign in to your Hired account
                 </h3>
-                <p className="mb-11 text-center text-base font-medium text-body-color">
-                  Login to your account for a faster checkout.
+                <p className="mb-5 text-center text-base font-normal text-gray-700">
+                  You&apos;re just a login away from an enhanced user
+                  experience.
                 </p>
-                <button onClick={()=>signIn('google')} className="mb-6 flex w-full items-center justify-center rounded-md bg-white p-3 text-base font-medium text-body-color shadow-one hover:text-primary">
+                <button
+                  onClick={() => signIn("google")}
+                  className="mb-8 flex w-full h-11 items-center justify-center rounded-sm hover:bg-secondary bg-white p-3 text-base font-medium text-body-color border border-gray-300 shadow-one hover:text-primary"
+                >
                   <span className="mr-3">
                     <svg
                       width="20"
@@ -94,18 +101,15 @@ const userLogin= async (event: React.FormEvent<HTMLFormElement>)=>{
                   </span>
                   Sign in with Google
                 </button>
-                <div className="mb-8 flex items-center justify-center">
-                  <span className="hidden h-[1px] w-full max-w-[70px] bg-body-color sm:block"></span>
-                  <p className="w-full px-5 text-center text-base font-medium text-body-color">
-                    Or, sign in with your email
-                  </p>
-                  <span className="hidden h-[1px] w-full max-w-[70px] bg-body-color sm:block"></span>
-                </div>
-                <form  onSubmit={userLogin}>
-                  <div className="mb-8">
+                <div className="relative mb-8">
+                        <span className="block w-full h-px bg-gray-300"></span>
+                        <p className="inline-block w-fit text-sm bg-white px-2 text-gray-700 absolute -top-2 inset-x-0 mx-auto">Or, sign in with your email</p>
+                    </div>
+                <form onSubmit={userLogin}>
+                  <div className="mb-5">
                     <label
                       htmlFor="email"
-                      className="mb-3 block text-sm font-medium text-dark"
+                      className="mb-1 block text-sm font-medium text-gray-700"
                     >
                       Your Email
                     </label>
@@ -118,14 +122,14 @@ const userLogin= async (event: React.FormEvent<HTMLFormElement>)=>{
                       onChange={onFieldChange}
                       required
                       placeholder="Enter your Email"
-                      className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
+                      className="w-full h-11 rounded-sm border placeholder:text-gray-400 border-gray-300 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
                     />
                   </div>
 
-                  <div className="mb-8">
+                  <div className="mb-5">
                     <label
                       htmlFor="password"
-                      className="mb-3 block text-sm font-medium text-dark "
+                      className="mb-1 block text-sm font-medium text-gray-700 "
                     >
                       Your Password
                     </label>
@@ -138,29 +142,43 @@ const userLogin= async (event: React.FormEvent<HTMLFormElement>)=>{
                       onChange={onFieldChange}
                       required
                       placeholder="Enter your Password"
-                      className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
+                      className="w-full h-11 rounded-sm border placeholder:text-gray-400 border-gray-300 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
                     />
                   </div>
-                  <div className="mb-8 flex flex-col justify-between sm:flex-row sm:items-center">
+                  <div className="mb-1 flex justify-start flex-row items-start">
                     <div>
                       <Link
-                        href='/home/forgot-password'
-                        className="text-sm font-medium text-primary hover:underline"
+                        href="/home/forgot-password"
+                        className="text-sm font-normal text-primary underline hover:text-[#005580]"
                       >
-                        Forgot Password?
+                        Forgot your password?
                       </Link>
                     </div>
                   </div>
-                  <div className="mb-6">
-                    <button disabled={loading} type="submit" className="flex w-full items-center justify-center rounded-md bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp">
-                      {loading ? (<p className="flex items-center justify-center"><Loader2 className="h-4 w-4 animate-spin mr-1"/>Please wait...</p>) : (<p>Login</p>)}
+                  <div className="mb-2">
+                    <button
+                      disabled={loading}
+                      type="submit"
+                      className="flex w-full h-12 items-center hover:opacity-90 justify-center rounded-sm bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+                    >
+                      {loading ? (
+                        <p className="flex items-center justify-center">
+                          <Loader2 className="h-4 w-4 animate-spin mr-1" />
+                          Please wait...
+                        </p>
+                      ) : (
+                        <p>Login</p>
+                      )}
                     </button>
                   </div>
                 </form>
-                <p className="text-center text-base font-medium text-body-color">
+                <p className="text-center text-base font-medium text-gray-700">
                   You don&apos;t have an account?
-                  <Link href="/home/register" className="text-primary hover:underline ml-2">
-                    Register
+                  <Link
+                    href="/home/register"
+                    className="text-[#005580] hover:underline ml-2"
+                  >
+                    Register here
                   </Link>
                 </p>
               </div>

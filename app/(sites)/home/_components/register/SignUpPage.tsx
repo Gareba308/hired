@@ -1,79 +1,82 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 import Link from "next/link";
-import { signIn} from "next-auth/react"
+import { signIn } from "next-auth/react";
 import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const SignUpPage = () => {
-  const [data, setData]= useState({
-    name: "", 
-    email: "",  
-    password: "", 
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
     confirm_password: "",
-    role:""
-})
+    role: "",
+  });
 
-const router= useRouter()
+  const router = useRouter();
 
-const {toast}= useToast()
+  const { toast } = useToast();
 
-const onFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  let value: typeof data[keyof typeof data] = event.target.value;
-  setData({ ...data, [event.target.name]: value });
-};
+  const onFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let value: (typeof data)[keyof typeof data] = event.target.value;
+    setData({ ...data, [event.target.name]: value });
+  };
 
-const {mutate:registerUser, isLoading}= trpc.registerUser.useMutation({
-  onSuccess: ()=>{
-    toast({
-      title: "Successful registration",
-      description: "Check your email for account confirmation email.",
-      variant: "default",
-      duration: 3000
-    })
-    router.push('/home/registered')
-  },
-  onError: (err)=>{
-    if(err.message){
+  const { mutate: registerUser, isLoading } = trpc.registerUser.useMutation({
+    onSuccess: () => {
       toast({
-        title: "Something went wrong",
-        description: err.message,
-        variant: "destructive",
-        duration: 3000
-      })
-    }else{
-      toast({
-        title: "Something went wrong",
-        description: "Please try again later",
-        variant: "destructive",
-        duration: 3000
-      })
-    }
-  }
-})
+        title: "Successful registration",
+        description: "Check your email for account confirmation email.",
+        variant: "default",
+        duration: 3000,
+      });
+      router.push("/home/registered");
+    },
+    onError: (err) => {
+      if (err.message) {
+        toast({
+          title: "Something went wrong",
+          description: err.message,
+          variant: "destructive",
+          duration: 3000,
+        });
+      } else {
+        toast({
+          title: "Something went wrong",
+          description: "Please try again later",
+          variant: "destructive",
+          duration: 3000,
+        });
+      }
+    },
+  });
 
-const onSubmit= (event: React.FormEvent<HTMLFormElement>)=>{
-  event.preventDefault()
-  registerUser({...data})
-}
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    registerUser({ ...data });
+  };
 
   return (
     <>
-      <section className="relative z-10 overflow-hidden pt-36 pb-16 md:pb-20 lg:pt-[10px] lg:pb-28">
-        <div className="container">
-          <div className="-mx-4 flex flex-wrap">
-            <div className="w-full px-4">
-              <div className="mx-auto max-w-[500px] rounded-md bg-primary/20 bg-opacity-5 py-10 px-6 sm:p-[60px]">
-                <h3 className="mb-3 text-center text-2xl font-bold text-black sm:text-3xl">
-                  Create your account
+      <section className="relative z-10 overflow-hidden min-h-[calc(100vh-70px)] pt-2 lg:pt-[30px]">
+        <div>
+          <div className="flex flex-wrap">
+            <div className="w-full">
+              <div className="mx-auto w-full px-4 sm:max-w-[540px] mb-8 rounded-md py-4 sm:border sm:border-gray-200 sm:shadow-md sm:px-[60px]">
+                <h3 className="text-center text-2xl font-bold text-gray-700 sm:text-3xl">
+                  Sign up to create Hired account
                 </h3>
-                <p className="mb-11 text-center text-base font-medium text-body-color">
-                  Is totally free and super easy
+                <p className="mb-5 text-center text-base font-normal text-gray-700">
+                  It&apos;s completely free to create an account.
                 </p>
-                <button onClick={()=>signIn('google')} className="mb-6 flex w-full items-center justify-center rounded-md bg-white p-3 text-base font-medium text-body-color shadow-one hover:text-primary">
+                <button
+                  onClick={() => signIn("google")}
+                  className="mb-8 flex w-full h-11 items-center justify-center rounded-sm bg-white p-3 text-base font-medium text-body-color border border-gray-300 shadow-one hover:text-primary hover:bg-secondary"
+                >
                   <span className="mr-3">
                     <svg
                       width="20"
@@ -109,40 +112,19 @@ const onSubmit= (event: React.FormEvent<HTMLFormElement>)=>{
                   </span>
                   Sign up with Google
                 </button>
-                <div className="mb-8 flex items-center justify-center">
-                  <span className="hidden h-[1px] w-full max-w-[60px] bg-body-color sm:block"></span>
-                  <p className="w-full px-5 text-center text-base font-medium text-body-color">
-                    Or, register with your email
+                <div className="relative mb-8">
+                  <span className="block w-full h-px bg-gray-300"></span>
+                  <p className="inline-block w-fit text-sm bg-white px-2 text-gray-700 absolute -top-2 inset-x-0 mx-auto">
+                    Or, sign up with your email
                   </p>
-                  <span className="hidden h-[1px] w-full max-w-[60px] bg-body-color sm:block"></span>
                 </div>
-                <form  onSubmit={onSubmit}>
-                  <div className="mb-8">
-                    <label
-                      htmlFor="name"
-                      className="mb-3 block text-sm font-medium text-dark "
-                    >
-                      {" "}
-                      Full Name{" "}
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      value={data.name}
-                      onChange={onFieldChange}
-                      required
-                      name="name"
-                      placeholder="Enter your full name"
-                      className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
-                    />
-                  </div>
-                  <div className="mb-8">
+                <form onSubmit={onSubmit}>
+                  <div className="mb-5">
                     <label
                       htmlFor="email"
-                      className="mb-3 block text-sm font-medium text-dark"
+                      className="mb-1 block text-sm font-medium text-gray-700"
                     >
-                      {" "}
-                      Email Address{" "}
+                      Your Email
                     </label>
                     <input
                       type="email"
@@ -153,16 +135,16 @@ const onSubmit= (event: React.FormEvent<HTMLFormElement>)=>{
                       required
                       name="email"
                       placeholder="Enter your Email"
-                      className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
+                      className="w-full h-11 rounded-sm border border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
                     />
                   </div>
-                  <div className="mb-8">
+
+                  <div className="mb-5">
                     <label
                       htmlFor="role"
-                      className="mb-3 block text-sm font-medium text-dark"
+                      className="mb-1 block text-sm font-medium text-gray-700 "
                     >
-                      {" "}
-                      Role{" "}
+                      Role
                     </label>
                     <input
                       type="text"
@@ -172,16 +154,15 @@ const onSubmit= (event: React.FormEvent<HTMLFormElement>)=>{
                       required
                       name="role"
                       placeholder="Enter your role"
-                      className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
+                      className="w-full h-11 rounded-sm border border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
                     />
                   </div>
-                  <div className="mb-8">
+                  <div className="mb-5">
                     <label
                       htmlFor="password"
-                      className="mb-3 block text-sm font-medium text-dark"
+                      className="mb-1 block text-sm font-medium text-gray-700 "
                     >
-                      {" "}
-                      Your Password{" "}
+                      Your Password
                     </label>
                     <input
                       id="password"
@@ -192,16 +173,15 @@ const onSubmit= (event: React.FormEvent<HTMLFormElement>)=>{
                       onChange={onFieldChange}
                       required
                       placeholder="Enter your Password"
-                      className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
+                      className="w-full h-11 rounded-sm border border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
                     />
                   </div>
-                  <div className="mb-8">
+                  <div className="mb-5">
                     <label
                       htmlFor="confirm_password"
-                      className="mb-3 block text-sm font-medium text-dark"
+                      className="mb-1 block text-sm font-medium text-gray-700 "
                     >
-                      {" "}
-                      Confirm  Password{" "}
+                      Confirm Password
                     </label>
                     <input
                       id="confirm_password"
@@ -212,45 +192,48 @@ const onSubmit= (event: React.FormEvent<HTMLFormElement>)=>{
                       autoComplete="new-password"
                       required
                       placeholder="Enter your Password"
-                      className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
+                      className="w-full h-11 rounded-sm border placeholder:text-gray-400 border-gray-300 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
                     />
                   </div>
-                  <div className="mb-8 flex">
-                    <label
-                      htmlFor="checkboxLabel"
-                      className="flex cursor-pointer select-none text-sm font-medium text-body-color"
-                    >
-                      <div className="relative">
-                        <input
-                          type="checkbox"
-                          id="checkboxLabel"
-                          className="sr-only"
-                        />
-                      </div>
-                      <span>
-                        By creating account means you agree to the
-                        <a href="#0" className="text-primary hover:underline">
-                          {" "}
-                          Terms and Conditions{" "}
-                        </a>
-                        , and our
-                        <a href="#0" className="text-primary hover:underline">
-                          {" "}
-                          Privacy Policy{" "}
-                        </a>
-                      </span>
-                    </label>
+                  <div className="mb-1 flex flex-col justify-between sm:flex-row sm:items-center">
+                    <div className="text-xs">
+                      By clicking register means you agree to the
+                      <a href="#0" className="text-[#005580] hover:underline">
+                        {" "}
+                        Terms{" "}
+                      </a>
+                      and our
+                      <a href="#0" className="text-[#005580] hover:underline">
+                        {" "}
+                        Privacy Policy
+                      </a>
+                      .
+                    </div>
                   </div>
-                  <div className="mb-6">
-                    <button disabled={isLoading} type="submit" className="flex w-full items-center justify-center rounded-md bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp">
-                      {isLoading ? (<p className="flex items-center justify-center"><Loader2 className="h-4 w-4 animate-spin mr-1"/>Registering account...</p>) : (<p>Register</p>)}
+                  <div className="mb-2">
+                    <button
+                      disabled={isLoading}
+                      type="submit"
+                      className="flex w-full h-12 items-center hover:opacity-90 justify-center rounded-sm bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+                    >
+                      {isLoading ? (
+                        <p className="flex items-center justify-center">
+                          <Loader2 className="h-4 w-4 animate-spin mr-1" />
+                          Please wait...
+                        </p>
+                      ) : (
+                        <p>Register</p>
+                      )}
                     </button>
                   </div>
                 </form>
-                <p className="text-center text-base font-medium text-body-color">
-                  Already using Jobs Radar?
-                  <Link href="/home/login" className="text-primary hover:underline ml-2">
-                    Login
+                <p className="text-center text-base font-medium text-gray-700">
+                  You already have an account?
+                  <Link
+                    href="/home/login"
+                    className="text-[#005580] hover:underline ml-2"
+                  >
+                    Login here
                   </Link>
                 </p>
               </div>

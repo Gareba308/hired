@@ -1,81 +1,84 @@
-"use client"
+"use client";
 
-import { trpc } from "@/app/_trpc/client"
-import { useToast } from "@/components/ui/use-toast"
-import { Loader2 } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { trpc } from "@/app/_trpc/client";
+import { useToast } from "@/components/ui/use-toast";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-interface ResetTokenProps{
+interface ResetTokenProps {
   params: {
-    resetToken: string
-  }
+    resetToken: string;
+  };
 }
-const Page = ({params}: ResetTokenProps) => {
-  const {resetToken}= params
+const Page = ({ params }: ResetTokenProps) => {
+  const { resetToken } = params;
 
-  const router= useRouter()
+  const router = useRouter();
 
-  const {toast}= useToast()
+  const { toast } = useToast();
 
-  const [data, setData]= useState({
+  const [data, setData] = useState({
     password: "",
-    confirm_password: ""
-  })
+    confirm_password: "",
+  });
 
   const onFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value: typeof data[keyof typeof data] = event.target.value;
+    let value: (typeof data)[keyof typeof data] = event.target.value;
     setData({ ...data, [event.target.name]: value });
   };
 
-  const {mutate:resetPassword, isLoading }= trpc.resetPassword.useMutation({
-    onSuccess: ()=>{
+  const { mutate: resetPassword, isLoading } = trpc.resetPassword.useMutation({
+    onSuccess: () => {
       toast({
         title: "Successful registration",
-        description: "Your password has been reset, login to continue using Jobs Radar",
-        variant: "default"
-      })
-      router.push('/home/login')
+        description:
+          "Your password has been reset, login to continue using Jobs Radar",
+        variant: "default",
+        duration: 3000
+      });
+      router.push("/home/login");
     },
-    onError: (err)=>{
-      if(err.message){
+    onError: (err) => {
+      if (err.message) {
         toast({
           title: "Something went wrong",
           description: err.message,
-          variant: "destructive"
-        })
-      }else{
+          variant: "destructive",
+          duration: 3000
+        });
+      } else {
         toast({
           title: "Something went wrong",
           description: "Please try again later",
-          variant: "destructive"
-        })
+          variant: "destructive",
+          duration: 3000
+        });
       }
-    }
-  })
+    },
+  });
 
-  const userReset = (event: React.FormEvent<HTMLFormElement>)=>{
-    event.preventDefault()
-    resetPassword({...data, resetToken})
-  }
+  const userReset = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    resetPassword({ ...data, resetToken });
+  };
   return (
     <>
-    <section className="relative z-10 overflow-hidden pt-2 pb-16 md:pb-20 lg:pt-[10px] lg:pb-28">
-      <div className="container">
-        <div className="-mx-4 flex flex-wrap">
-          <div className="w-full px-4">
-            <div className="mx-auto max-w-[500px] rounded-md bg-primary/20 bg-opacity-5 py-10 px-6  sm:p-[60px]">
-              <h3 className="mb-3 text-center text-2xl font-bold text-black  sm:text-3xl">
-                Recover your password
+      <section className="relative z-10 overflow-hidden min-h-[calc(100vh-70px)] pt-2 lg:pt-[40px]">
+        <div className="flex flex-wrap">
+          <div className="w-full">
+            <div className="mx-auto px-4 w-full sm:max-w-[540px] rounded-md py-4 sm:py-8 sm:border sm:border-gray-200 sm:shadow-md sm:px-[60px]">
+              <h3 className="text-center text-2xl font-bold text-gray-700 sm:text-3xl">
+                Reset your account&apos;s password
               </h3>
-              <p className="mb-11 text-center text-base font-medium text-body-color">
-                Enter your registered email to recover password.
+              <p className="mb-5 text-center text-base font-normal text-gray-700">
+                Enter new password details to reset your account
               </p>
-              <form  onSubmit={userReset}>
-                <div className="mb-8">
+              <form onSubmit={userReset}>
+                <div className="mb-5">
                   <label
                     htmlFor="password"
-                    className="mb-3 block text-sm font-medium text-dark"
+                    className="mb-1 block text-sm font-medium text-dark"
                   >
                     Your New Password
                   </label>
@@ -87,14 +90,14 @@ const Page = ({params}: ResetTokenProps) => {
                     value={data.password}
                     onChange={onFieldChange}
                     required
-                    placeholder="Enter your New Password"
-                    className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
+                    placeholder="Enter your new password"
+                    className="w-full rounded-sm border h-11 border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
                   />
                 </div>
-                <div className="mb-8">
+                <div className="mb-5">
                   <label
                     htmlFor="confirm_password"
-                    className="mb-3 block text-sm font-medium text-dark"
+                    className="mb-1 block text-sm font-medium text-dark"
                   >
                     Your Confirm Password
                   </label>
@@ -106,23 +109,33 @@ const Page = ({params}: ResetTokenProps) => {
                     value={data.confirm_password}
                     onChange={onFieldChange}
                     required
-                    placeholder="Re-enter your Password"
-                    className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
+                    placeholder="Re-enter your password"
+                    className="w-full rounded-sm border h-11 border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
                   />
                 </div>
-                <div className="mb-6">
-                  <button disabled={isLoading} type="submit" className="flex w-full items-center justify-center rounded-md bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp">
-                    {isLoading ? (<p className="flex items-center justify-center"><Loader2 className="h-4 w-4 animate-spin mr-1"/>Please wait...</p>) : (<p>Recover Password</p>)}
+                <div className="mb-2">
+                  <button
+                    disabled={isLoading}
+                    type="submit"
+                    className="flex w-full h-12 items-center justify-center hover:opacity-90 rounded-sm bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+                  >
+                    {isLoading ? (
+                      <p className="flex items-center justify-center">
+                        <Loader2 className="h-4 w-4 animate-spin mr-1" />
+                        Please wait...
+                      </p>
+                    ) : (
+                      <p>Reset Password</p>
+                    )}
                   </button>
                 </div>
               </form>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  </>
-  )
-}
+      </section>
+    </>
+  );
+};
 
-export default Page
+export default Page;
