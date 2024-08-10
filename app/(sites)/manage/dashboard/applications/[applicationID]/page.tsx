@@ -15,7 +15,7 @@ const Page = async ({ params }: ApplicationsDetailsProps) => {
 
   const session = await getServerSession(authOptions);
   if (!session)
-    redirect(`/home/login?origin=manage/applications/${applicationID}`);
+    redirect(`/home/login/enterprises?origin=manage/applications/${applicationID}`);
 
   const userId = session.id;
   const email = session.user?.email as string;
@@ -28,7 +28,7 @@ const Page = async ({ params }: ApplicationsDetailsProps) => {
   });
 
   if (!dbUser)
-    redirect(`/home/login?origin=manage/applications/${applicationID}`);
+    redirect(`/home/login/enterprises?origin=manage/applications/${applicationID}`);
 
   const application = await db.application.findFirst({
     where: {

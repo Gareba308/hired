@@ -17,7 +17,7 @@ const Page = async () => {
       id: userId,
     },
   });
-  if (!dbUser) redirect("/home/login?origin=manage/profile");
+  if (!dbUser) redirect("/home/login?origin=control/profile");
 
   const profileExists = await db.adminProfile.findFirst({
     where: {

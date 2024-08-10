@@ -17,7 +17,7 @@ const referrer= await db.userReferrals.findFirst({
     },
 })
 
-  if(!referrer) redirect('/home/register')
+  if(!referrer) redirect('/')
   return (
     <div>
       <EmailReferSignUp referrer={referrer}/>

@@ -8,12 +8,12 @@ import AllBlogs from "../_components/blogs/AllBlogs";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/home/login?origin=manage/blogs");
+  if (!session) redirect("/home/login/enterprises?origin=manage/blogs");
   const userId = session.id;
   const role = session.role;
 
-  if (!userId) redirect("/home/login?origin=manage/blogs");
-  if (!role) redirect("/home/login?origin=manage/blogs");
+  if (!userId) redirect("/home/login/enterprises?origin=manage/blogs");
+  if (!role) redirect("/home/login/enterprises?origin=manage/blogs");
 
   const dbUser = await db.user.findFirst({
     where: {
@@ -22,7 +22,7 @@ const Page = async () => {
     },
   });
 
-  if (!dbUser) redirect("/home/login?origin=manage/blogs");
+  if (!dbUser) redirect("/home/login/enterprises?origin=manage/blogs");
 
   const employerBlogs = await db.blogs.findMany({
     where: {

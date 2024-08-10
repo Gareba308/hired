@@ -7,12 +7,12 @@ import SecurityProfile from "../../_components/profile/SecurityProfile";
 const Page = async () => {
   const session = await getServerSession(authOptions);
 
-  if (!session) redirect("/home/login?origin=manage/profile");
+  if (!session) redirect("/home/login/enterprises?origin=manage/profile");
 
   const userId = session.id;
   const email= session?.user?.email
 
-  if (!userId || !email) redirect("/home/login?origin=manage/profile");
+  if (!userId || !email) redirect("/home/login/enterprises?origin=manage/profile");
 
   const dbUser = await db.user.findFirst({
     where: {
@@ -20,7 +20,7 @@ const Page = async () => {
     },
   });
 
-  if (!dbUser) redirect("/home/login?origin=manage/profile");
+  if (!dbUser) redirect("/home/login/enterprises?origin=manage/profile");
 
   const user = await db.user.findFirst({
     where: {
@@ -28,7 +28,7 @@ const Page = async () => {
     },
   });
 
-  if (!user) redirect("/home/login?origin=manage/profile");
+  if (!user) redirect("/home/login/enterprises?origin=manage/profile");
 
   const employer= await db.employers.findFirst({
     where: {

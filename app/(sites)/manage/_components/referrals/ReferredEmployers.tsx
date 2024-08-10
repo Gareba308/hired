@@ -172,28 +172,6 @@ const deleteConfirm = (referralID: string) => {
 
   const columns: ColumnDef<CombinedDataItems, keyof CombinedDataItems>[] = [
     {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
       accessorKey: "createdAt",
       header: "Date Invited",
       cell: ({ row }) => {
@@ -398,19 +376,6 @@ const deleteConfirm = (referralID: string) => {
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between gap-x-4 mb-2 flex-row">
-        <div className=" flex flex-row items-center">
-          <Link
-            href={origin ? `/${origin}` : "/manage/referrals"}
-            className="hover:text-[#005580]"
-          >
-            <Undo className="h-6 w-6 mr-2 shrink-0" />
-          </Link>
-          <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
-            My Referrals
-          </h2>
-        </div>
-      </div>
       <div className="rounded-lg border mt-4 bg-white">
         <Table>
           <TableHeader>

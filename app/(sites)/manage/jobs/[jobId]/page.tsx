@@ -95,7 +95,7 @@ const Page = async ({ params }: JobsProps) => {
   });
 
   const session= await getServerSession(authOptions)
-  if(!session) redirect('/home/login')
+  if(!session) redirect('/home/login/enterprises')
   const userID= session.id
   
   const allJobs= await db.job.findMany()

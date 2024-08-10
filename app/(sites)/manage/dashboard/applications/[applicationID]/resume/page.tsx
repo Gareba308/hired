@@ -16,7 +16,7 @@ const Page = async ({ params }: ResumeRenderProps) => {
 
   const session = await getServerSession(authOptions);
   if (!session)
-    redirect(`/home/login?origin=manage/applications/${applicationID}/resume`);
+    redirect(`/home/login/enterprises?origin=manage/applications/${applicationID}/resume`);
 
   const userId = session.id;
   const email = session.user?.email as string;
@@ -29,7 +29,7 @@ const Page = async ({ params }: ResumeRenderProps) => {
   });
 
   if (!dbUser)
-    redirect(`/home/login?origin=manage/applications/${applicationID}/resume`);
+    redirect(`/home/login/enterprises?origin=manage/applications/${applicationID}/resume`);
 
   const application = await db.application.findFirst({
     where: {

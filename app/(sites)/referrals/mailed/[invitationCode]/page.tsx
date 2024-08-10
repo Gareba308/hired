@@ -9,7 +9,7 @@ interface InviteLinkProps {
 
 const Page = async ({ params }: InviteLinkProps) => {
   const { invitationCode } = params;
-  if (!invitationCode) redirect("/home/register");
+  if (!invitationCode) redirect("/");
   const codeExists = await db.userReferrals.findFirst({
     where: {
         invitationCode
@@ -19,7 +19,7 @@ const Page = async ({ params }: InviteLinkProps) => {
     }
   })
 
-  if (!codeExists) redirect("/home/register");
+  if (!codeExists) redirect("/");
 
   redirect (`/home/register/r/${invitationCode}`)
 };

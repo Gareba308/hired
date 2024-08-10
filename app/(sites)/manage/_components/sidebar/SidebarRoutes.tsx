@@ -8,7 +8,6 @@ import {
   Gift,
   HardDriveUpload,
   LineChart,
-  Mail,
   Newspaper,
   User2,
   Users2,
@@ -52,11 +51,6 @@ const guestRoute = [
     icon: Wallet,
     label: "Transactions",
     href: "/manage/transactions",
-  },
-  {
-    icon: Mail,
-    label: "Messages",
-    href: "/manage/messaging",
   },
   {
     icon: User2,

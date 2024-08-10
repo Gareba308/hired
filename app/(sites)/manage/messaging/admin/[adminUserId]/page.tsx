@@ -13,16 +13,16 @@ interface CompanyMessageProps {
 const Page = async ({ params }: CompanyMessageProps) => {
   const { adminUserId } = params;
   const session = await getServerSession(authOptions);
-  if (!session) redirect(`/home/login?origin=manage/messaging/admin/${adminUserId}`);
+  if (!session) redirect(`/home/login/enterprises?origin=manage/messaging/admin/${adminUserId}`);
   const userId = session.id;
-  if (!userId) redirect(`/home/login?origin=manage/messaging/admin/${adminUserId}`);
+  if (!userId) redirect(`/home/login/enterprises?origin=manage/messaging/admin/${adminUserId}`);
   const dbUser = await db.user.findFirst({
     where: {
       id: userId,
     },
   });
 
-  if (!dbUser) redirect(`/home/login?origin=manage/messaging/admin/${adminUserId}`);
+  if (!dbUser) redirect(`/home/login/enterprises?origin=manage/messaging/admin/${adminUserId}`);
   const adminSenderExists = await db.user.findFirst({
     where: {
       id: adminUserId,

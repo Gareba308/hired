@@ -7,7 +7,7 @@ import {
   FormField,
   FormItem,
 } from "@/components/ui/form";
-import { ArrowRight, Copy, Loader2, RefreshCw, Send, Undo } from "lucide-react";
+import { ArrowRight, Copy, Loader2, RefreshCw, Send } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
@@ -16,9 +16,11 @@ import { z } from "zod";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { trpc } from "@/app/_trpc/client";
-import { formatDistanceToNowStrict } from "date-fns";
+import { format } from "date-fns";
+import RelatedPost from "./RelatedBlogs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Blogs, User } from "@prisma/client";
 
 type EmployerReferralsTypes = z.infer<typeof formSchema>;
 
@@ -98,16 +100,12 @@ const features = [
     desc: "Once your invited employer has done all the above, your credit will automatically be channeled to your account balance you can use to post a job.",
   },
 ];
-interface UserItems {
-  id: string;
-  email: string;
-  referralCode: string | null;
-}
 
 interface EmployerReferralsProps {
-  user: UserItems;
+  user: User;
+  blog: Blogs | null;
 }
-const EmployerReferrals = ({ user }: EmployerReferralsProps) => {
+const EmployerReferrals = ({ user, blog }: EmployerReferralsProps) => {
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -219,218 +217,202 @@ const EmployerReferrals = ({ user }: EmployerReferralsProps) => {
       <div className="w-full mx-auto">
         <div className="flex flex-wrap">
           <div className="w-full lg:pr-4 lg:w-8/12">
-            <div className="flex items-center w-full justify-between gap-x-4">
-              <div className=" flex items-center flex-row">
-                <Link
-                  href={origin ? `/${origin}` : "/manage/jobs"}
-                  className="hover:text-[#005580]"
-                >
-                  <Undo className="h-6 w-6 mr-2 shrink-0" />
-                </Link>
-                <h1 className="mb-2 text-2xl font-bold leading-tight text-gray-600 sm:text-3xl tracking-tight">
-                  <span className="hidden sm:flex">Referrals and credits</span>
-                  <span className="sm:hidden">Referrals</span>
-                </h1>
-              </div>
-              <Button
-                size="sm"
-                variant="default"
-                type="button"
-                onClick={() =>
-                  router.push(
-                    "/manage/referrals/my-referrals?origin=manage/referrals"
-                  )
-                }
-                className="hover:bg-primary font-normal h-9 hover:opacity-90"
-              >
-                My Referrals
-              </Button>
-            </div>
-            <div>
-              <fieldset className="grid rounded-lg border border-slate-300 px-4 pb-6 pt-0">
-                <legend className="-ml-1 px-1 text-lg text-gray-700 font-semibold">
-                  Invite Potential Employers
-                </legend>
-                <div>
-                  <h2 className="text-lg mt-1 font-medium text-gray-700">
-                    Refer an employer and get paid
-                  </h2>
-                  <p className="text-sm leading-normal tracking-normal text-gray-600 font-normal">
-                    Refer a potential employer and you will both receive{" "}
-                    <span className="font-semibold">Ksh.500</span> of credit
-                    when they sign up, verify.
-                  </p>
+            <h2 className="text-lg mt-2 font-medium text-gray-700">
+              Refer an employer and get credit
+            </h2>
+            <p className="text-sm leading-normal tracking-normal text-gray-600 font-normal">
+              Refer a potential employer and you will both receive{" "}
+              <span className="font-semibold">Ksh.500</span> of credit when they
+              sign up, verify.
+            </p>
 
-                  <h3 className="text-lg font-medium text-gray-700 mt-2">
-                    How does it works?
-                  </h3>
-                  <div className="mb-4">
-                    <ul className="grid gap-y-4">
-                      {features.map((item, idx) => (
-                        <li
-                          key={idx}
-                          className="flex flex-col sm:flex-row sm:items-center gap-x-4"
-                        >
-                          <div className="flex-none w-12 h-12 bg-slate-200 text-slate-600 rounded-md flex items-center justify-center">
-                            {item.icon}
-                          </div>
-                          <div className="-space-y-1">
-                            <h4 className="text-lg text-gray-600 font-medium">
-                              {item.title}
-                            </h4>
-                            <p className="text-sm font-normal tracking-relaxed">
-                              {item.desc}
-                            </p>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {user.referralCode ? (
-                  <div>
-                    <Form {...form}>
-                      <Label className="text-lg font-medium">
-                        Send invitation email
-                      </Label>
-                      <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="flex flex-col sm:flex-row items-center gap-y-3 sm:gap-x-4"
-                      >
-                        <FormField
-                          control={form.control}
-                          name="inviteeEmail"
-                          render={({ field }) => (
-                            <FormItem className="text-gray-700 w-full text-base space-y-0">
-                              <FormControl>
-                                <Input
-                                  disabled={isLoading || isSubmitting}
-                                  required
-                                  {...field}
-                                  placeholder="Enter email address"
-                                  type="email"
-                                  className="w-full"
-                                />
-                              </FormControl>
-                              <FormDescription className="sm:hidden text-xs mt-0.5">
-                                By entering an employer&apos;s email and
-                                clicking invite, they will receive autogenerated
-                                invitation email from us.
-                              </FormDescription>
-                            </FormItem>
-                          )}
-                        />
-                        <Button
-                          variant="default"
-                          type="submit"
-                          size="default"
-                          className="hover:bg-primary w-full sm:w-[120px] font-normal hover:opacity-90"
-                        >
-                          {isLoading ? (
-                            <Loader2 className="h-5 w-5 shrink-0 animate-spin" />
-                          ) : (
-                            <>
-                              <span className="hidden sm:flex">Invite</span>
-                              <span className="sm:hidden">Send Invite</span>
-                              <Send className="h-4 w-4 ml-1.5" />
-                            </>
-                          )}
-                        </Button>
-                      </form>
-                      <FormDescription className="hidden sm:flex text-xs mt-0.5">
-                        By entering an employer&apos;s email and clicking
-                        invite, they will receive autogenerated invitation email
-                        from us.
-                      </FormDescription>
-                    </Form>
-                    <div className="mt-5 sm:mt-4 mb-5 sm:mb-2 italic text-base">
-                      <h2>Alternatively use referral link?</h2>
+            <h3 className="text-lg font-medium text-gray-700 mt-2">
+              How does it works?
+            </h3>
+            <div className="mb-4">
+              <ul className="grid gap-y-4">
+                {features.map((item, idx) => (
+                  <li
+                    key={idx}
+                    className="flex flex-col sm:flex-row sm:items-center gap-x-4"
+                  >
+                    <div className="flex-none w-12 h-12 bg-slate-200 text-slate-600 rounded-md flex items-center justify-center">
+                      {item.icon}
                     </div>
-                    <h3 className="text-lg font-medium text-gray-700">
-                      Use your referral link
-                    </h3>
-                    <div className="flex flex-col sm:flex-row items-center gap-y-3 sm:gap-x-4">
-                      <Input
-                        value={trialLink}
-                        readOnly
-                        className="bg-slate-200 text-[13px] sm:text-sm text-primary"
-                      />
-                      <Button
-                        type="button"
-                        size="default"
-                        onClick={handleCopy}
-                        variant="default"
-                        className="hover:bg-primary w-full sm:w-[120px] hover:opacity-90 font-normal"
-                      >
-                        <Copy className="h-4 w-4 shrink-0 mr-1.5" />
-                        <span className="hidden sm:flex">Copy</span>
-                        <span className="sm:hidden">Copy Link</span>
-                      </Button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="mt-2">
-                    <div className="-space-y-1 mb-4">
-                      <h3 className="text-lg text-gray-700 font-medium">
-                        You have no referral code
-                      </h3>
-                      <p className="text-base text-gray-600">
-                        Would you like to generate your referral code? It is
-                        simple, just takes a few seconds.
+                    <div className="-space-y-1">
+                      <h4 className="text-lg text-gray-600 font-medium">
+                        {item.title}
+                      </h4>
+                      <p className="text-sm font-normal tracking-relaxed">
+                        {item.desc}
                       </p>
                     </div>
-                    <Button
-                      type="button"
-                      variant="default"
-                      onClick={() => generateReferralLink()}
-                      size="lg"
-                      className="hover:bg-primary w-full sm:w-max hover:opacity-90 font-normal"
-                    >
-                      {generateLoading ? (
-                        <RefreshCw className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />
-                      ) : (
-                        <RefreshCw className="h-w w-4 mr-1.5 shrink-0" />
-                      )}{" "}
-                      Generate Link
-                    </Button>
-                  </div>
-                )}
-              </fieldset>
+                  </li>
+                ))}
+              </ul>
             </div>
+
+            {user.referralCode ? (
+              <div>
+                <Form {...form}>
+                  <Label className="text-lg font-medium">
+                    Send invitation email
+                  </Label>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="flex flex-col sm:flex-row items-center gap-y-3 sm:gap-x-4"
+                  >
+                    <FormField
+                      control={form.control}
+                      name="inviteeEmail"
+                      render={({ field }) => (
+                        <FormItem className="text-gray-700 w-full text-base space-y-0">
+                          <FormControl>
+                            <Input
+                              disabled={isLoading || isSubmitting}
+                              required
+                              {...field}
+                              placeholder="Enter email address"
+                              type="email"
+                              className="w-full h-10"
+                            />
+                          </FormControl>
+                          <FormDescription className="sm:hidden text-xs mt-0.5">
+                            By entering an employer&apos;s email and clicking
+                            invite, they will receive autogenerated invitation
+                            email from us.
+                          </FormDescription>
+                        </FormItem>
+                      )}
+                    />
+                    <Button
+                      variant="default"
+                      type="submit"
+                      size="default"
+                      className="hover:bg-primary w-full sm:w-[120px] h-10 font-normal hover:opacity-90"
+                    >
+                      {isLoading ? (
+                        <Loader2 className="h-5 w-5 shrink-0 animate-spin" />
+                      ) : (
+                        <>
+                          <span className="hidden sm:flex">Invite</span>
+                          <span className="sm:hidden">Send Invite</span>
+                          <Send className="h-4 w-4 ml-1.5" />
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                  <FormDescription className="hidden sm:flex text-xs mt-0.5">
+                    By entering an employer&apos;s email and clicking invite,
+                    they will receive autogenerated invitation email from us.
+                  </FormDescription>
+                </Form>
+                <div className="mt-5 sm:mt-4 mb-5 sm:mb-2 italic text-base">
+                  <h2>Alternatively use referral link?</h2>
+                </div>
+                <h3 className="text-lg font-medium text-gray-700">
+                  Use your referral link
+                </h3>
+                <div className="flex flex-col sm:flex-row items-center gap-y-3 sm:gap-x-4">
+                  <Input
+                    value={trialLink}
+                    readOnly
+                    className="bg-slate-200 text-[13px] h-10 sm:text-sm text-primary"
+                  />
+                  <Button
+                    type="button"
+                    size="default"
+                    onClick={handleCopy}
+                    variant="default"
+                    className="hover:bg-primary w-full sm:w-[120px] h-10 hover:opacity-90 font-normal"
+                  >
+                    <Copy className="h-4 w-4 shrink-0 mr-1.5" />
+                    <span className="hidden sm:flex">Copy</span>
+                    <span className="sm:hidden">Copy Link</span>
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="mt-2">
+                <div className="-space-y-1 mb-4">
+                  <h3 className="text-lg text-gray-700 font-medium">
+                    You have no referral code
+                  </h3>
+                  <p className="text-base text-gray-600">
+                    Would you like to generate your referral code? It is simple,
+                    just takes a few seconds.
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  variant="default"
+                  onClick={() => generateReferralLink()}
+                  size="lg"
+                  className="hover:bg-primary w-full sm:w-max hover:opacity-90 font-normal"
+                >
+                  {generateLoading ? (
+                    <RefreshCw className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />
+                  ) : (
+                    <RefreshCw className="h-w w-4 mr-1.5 shrink-0" />
+                  )}{" "}
+                  Generate Link
+                </Button>
+              </div>
+            )}
           </div>
           <div className="w-full lg:pl-4 lg:w-4/12">
-            <div className="shadow-sm border border-gray-200 mb-5 rounded-sm bg-white">
+            <div className="shadow-sm border lg:mt-2 border-gray-200 mb-12 rounded-md bg-white">
               <h3 className="border-b border-body-color border-opacity-10 px-5 py-4 text-lg font-semibold text-black">
-                What is on your mind?
+                Make a job listing?
               </h3>
               <div className="px-5 py-6 leading-relaxed">
                 <p className="text-base font-normal">
-                  For data on potential categories to email candidates on and
-                  those recently emailed.
+                  Post a job on our platform to connect with a wide pool of
+                  talented candidates. Our listing process is both
+                  affordable and user-friendly.
                 </p>
                 <div className="mt-4">
                   <Button
                     size="lg"
                     type="button"
-                    onClick={() =>
-                      router.push(
-                        "/control/email/analytics?origin=control/email"
-                      )
-                    }
+                    onClick={() => router.push("/manage/create-job")}
                     className="w-full sm:w-max lg:w-full hover:bg-primary hover:opacity-90"
                   >
-                    Emailing Analytics
+                    Post a Jobs
                     <ArrowRight className="h-4 w-4 ml-2 shrink-0" />
                   </Button>
                 </div>
               </div>
             </div>
-            <div className="shadow-sm border border-gray-200 mb-10 rounded-sm bg-white">
+            <div className="shadow-sm border border-gray-200 rounded-md bg-white">
               <h3 className="border-b border-body-color border-opacity-10 px-5 py-4 text-lg font-semibold text-primary">
-                Latest Categories Email
+                Read our latest blog article
               </h3>
-              do something here
+              {blog ? (
+                <ul className="p-5">
+                  <li className="pb-4">
+                    <RelatedPost
+                      title={blog.heading}
+                      blogId={blog.id}
+                      image={blog.image}
+                      slug={`/manage/blogs/${blog.id}`}
+                      date={`${format(blog.createdAt, "PPP")}, ${format(
+                        blog.createdAt,
+                        "HH:mm"
+                      )}h`}
+                    />
+                  </li>
+                </ul>
+              ) : (
+                <div className="text-sm px-5 py-8 font-normal text-gray-500">
+                  <h2 className="text-lg font-semibold text-gray-600 mb-1.5">
+                    No latest blog posts
+                  </h2>
+                  <p className="text-base">
+                    Our latest blog publication will appear here.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

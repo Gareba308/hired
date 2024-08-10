@@ -24,16 +24,18 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       referrerUserId: true,
       referrerEmail: true,
       referrerName: true,
+      role: true,
     },
   });
 
-  if (!user) redirect("/home/register");
+  if (!user) redirect("/");
 
   const { verifyTokenExpiry, email, name } = user;
   const referrerUniqueCode = user.referrerUniqueCode as string;
   const referrerUserId = user.referrerUserId as string;
   const referrerEmail = user.referrerEmail as string;
   const referrerName = user.referrerName as string;
+  const obtainedRole = user.role;
 
   const dbUser = await db.user.findFirst({
     where: {
@@ -50,22 +52,23 @@ const EmailVerified = async ({ params }: ActivateProps) => {
     },
   });
 
-  if (!dbUser) redirect("/home/register");
+  if (!dbUser) redirect("/");
   const { referred, role: dbRole } = dbUser;
   const inviteeName = dbUser?.name as string;
 
   function obfuscateEmail(email: string): string {
-    const [localPart, domain] = email.split('@');  
+    const [localPart, domain] = email.split("@");
     if (localPart.length < 3) {
-      return '*'.repeat(localPart.length) + '@' + domain;
+      return "*".repeat(localPart.length) + "@" + domain;
     } else {
       const charsToHide = Math.max(3, Math.floor(localPart.length / 2));
       const visibleChars = localPart.length - charsToHide;
-      const obfuscatedLocalPart = localPart.substring(0, visibleChars) + '*'.repeat(charsToHide);
-      return obfuscatedLocalPart + '@' + domain;
+      const obfuscatedLocalPart =
+        localPart.substring(0, visibleChars) + "*".repeat(charsToHide);
+      return obfuscatedLocalPart + "@" + domain;
     }
   }
-  if (verifyTokenExpiry <= currentDate) redirect("/home/register");
+  if (verifyTokenExpiry <= currentDate) redirect("/");
 
   if (referred === true) {
     const referralDetailsCreated = await db.userReferrals.findFirst({
@@ -145,7 +148,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
               <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
               <hr>
               <p>Hello ${referrerName},</p>
-              <p>Congratulations! Your referral (${obfuscateEmail(email)}) has signed up successfully. You have been credited with <b>Ksh.1000</b> to use to post a job.</p>
+              <p>Congratulations! Your referral (${obfuscateEmail(
+                email
+              )}) has signed up successfully. You have been credited with <b>Ksh.1000</b> to use to post a job.</p>
               <p><a href='https://www.hired.co.ke/manage/referrals/my-referrals'>Visit Hired to view your credit and use your credit to post a job</a></p>
               <p>Thanks!</p>
               <hr>
@@ -186,9 +191,27 @@ const EmailVerified = async ({ params }: ActivateProps) => {
           transporter.sendMail(referrerMailOptions),
           transporter.sendMail(referredMailOptions),
         ]);
+
+        await db.user.update({
+          where: {
+            email,
+          },
+          data: {
+            emailVerified: true,
+          },
+        });
+
+        await db.verification.delete({
+          where: {
+            verifyToken: token,
+            email,
+          },
+        });
+
+        return redirect("/home/login/enterprises");
       } catch (error) {
         console.error("Error sending emails:", error);
-        redirect("/home/login");
+        redirect("/home/login/enterprises");
       }
     }
 
@@ -231,7 +254,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
               <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
               <hr>
               <p>Hello ${referrerName},</p>
-              <p>Congratulations! Your referral (${obfuscateEmail(email)}) has signed up successfully. You have been credited with <b>10 credit points</b>. From a minimum of 200 approved credit point, you can redeem the points. <b>1 point</b> is equivalent to <b>Ksh.1</b>.</p>
+              <p>Congratulations! Your referral (${obfuscateEmail(
+                email
+              )}) has signed up successfully. You have been credited with <b>10 credit points</b>. From a minimum of 200 approved credit point, you can redeem the points. <b>1 point</b> is equivalent to <b>Ksh.1</b>.</p>
               <p><a href='https://www.hired.co.ke/site/referrals/my-referrals'>Visit Hired to view your credit and use your credit to post a job</a></p>
               <p>Thanks!</p>
               <hr>
@@ -272,6 +297,24 @@ const EmailVerified = async ({ params }: ActivateProps) => {
           transporter.sendMail(referrerMailOptions),
           transporter.sendMail(referredMailOptions),
         ]);
+
+        await db.user.update({
+          where: {
+            email,
+          },
+          data: {
+            emailVerified: true,
+          },
+        });
+
+        await db.verification.delete({
+          where: {
+            verifyToken: token,
+            email,
+          },
+        });
+
+        return redirect("/home/login");
       } catch (error) {
         console.error("Error sending emails:", error);
         redirect("/home/login");
@@ -336,9 +379,26 @@ const EmailVerified = async ({ params }: ActivateProps) => {
 
       try {
         await transporter.sendMail(mailOptions);
+
+        await db.user.update({
+          where: {
+            email,
+          },
+          data: {
+            emailVerified: true,
+          },
+        });
+
+        await db.verification.delete({
+          where: {
+            verifyToken: token,
+            email,
+          },
+        });
+        return redirect("/home/login/enterprises");
       } catch (error) {
         console.error("Error sending email:", error);
-        redirect("/home/login");
+        redirect("/home/login/enterprises");
       }
     }
 
@@ -380,6 +440,23 @@ const EmailVerified = async ({ params }: ActivateProps) => {
 
       try {
         await transporter.sendMail(mailOptions);
+
+        await db.user.update({
+          where: {
+            email,
+          },
+          data: {
+            emailVerified: true,
+          },
+        });
+
+        await db.verification.delete({
+          where: {
+            verifyToken: token,
+            email,
+          },
+        });
+        return redirect("/home/login");
       } catch (error) {
         console.error("Error sending email:", error);
         redirect("/home/login");
@@ -402,7 +479,14 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       email,
     },
   });
-  redirect("/home/login");
+
+  const roleRedirectMap: { [key: string]: string } = {
+    employer: "/home/login/enterprises",
+    worker: "/home/login",
+  };
+  
+  return redirect(roleRedirectMap[obtainedRole] || "/home/login");
+  
 };
 
 export default EmailVerified;

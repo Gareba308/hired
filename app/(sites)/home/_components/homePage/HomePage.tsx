@@ -242,7 +242,7 @@ const HomePage = () => {
       label: "For Employers",
       items: [
         {
-          href: "/home/register",
+          href: "/home/register/enterprises",
           name: "Sign Up",
         },
         {
@@ -305,13 +305,13 @@ const HomePage = () => {
             </p>
             <div className="items-center w-full space-y-5 sm:justify-center sm:space-x-5 sm:space-y-0 sm:flex lg:justify-start">
               <a
-                href="/home/enterprises"
+                href="/home/login/enterprises"
                 className="block py-4 px-5 text-center w-full text-white font-medium bg-primary duration-150 hover:opacity-90 rounded-sm shadow-sm hover:shadow-none"
               >
                 Find your next hire
               </a>
               <a
-                href="/home/candidates"
+                href="/home/login"
                 className="flex items-center w-full justify-center bg-gray-300 gap-x-2 py-4 px-5 text-primary hover:text-sky-700 font-medium duration-150 active:bg-gray-100 border rounded-sm md:inline-flex"
               >
                 Find your next job
@@ -546,12 +546,12 @@ const HomePage = () => {
                 src={
                   "https://res.cloudinary.com/dx0i37cyd/image/upload/v1722608373/Hired-_Kenya_3_tyegve.png"
                 }
-                height={65}
-                width={65}
+                height={56}
+                width={66}
                 alt="Logo"
                 title="Logo"
                 quality={100}
-                className="rounded-md"
+                className="rounded-sm"
                 priority={true}
               />
               <p className="leading-relaxed mt-1.5 text-[15px]">

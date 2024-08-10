@@ -21,15 +21,15 @@ const Page = async ({ params }: CandidateIDProps) => {
   if (!candidateAvailable) redirect("/manage/candidates");
 
   const session = await getServerSession(authOptions);
-  if (!session) redirect(`/home/login?origin=manage/candidates/${candidateID}`);
+  if (!session) redirect(`/home/login/enterprises?origin=manage/candidates/${candidateID}`);
   const userId = session.id;
-  if (!userId) redirect(`/home/login?origin=manage/candidates/${candidateID}`);
+  if (!userId) redirect(`/home/login/enterprises?origin=manage/candidates/${candidateID}`);
   const dbUser = await db.user.findFirst({
     where: {
       id: userId,
     },
   });
-  if (!dbUser) redirect(`/home/login?origin=manage/candidates/${candidateID}`);
+  if (!dbUser) redirect(`/home/login/enterprises?origin=manage/candidates/${candidateID}`);
 
   const workersBio = await db.workerBio.findFirst({
     where: {

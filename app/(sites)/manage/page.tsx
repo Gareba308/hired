@@ -24,11 +24,11 @@ const Page = async () => {
 
   const session = await getServerSession(authOptions);
 
-  if (!session) redirect("/home/login?origin=manage/jobs");
+  if (!session) redirect("/home/login/enterprises?origin=manage/jobs");
 
   const userId = session.id;
 
-  if (!userId) redirect("/home/login?origin=manage/jobs");
+  if (!userId) redirect("/home/login/enterprises?origin=manage/jobs");
 
   const dbUser = await db.user.findFirst({
     where: {
@@ -36,7 +36,7 @@ const Page = async () => {
     },
   });
 
-  if (!dbUser) redirect("/home/login?origin=manage/jobs");
+  if (!dbUser) redirect("/home/login/enterprises?origin=manage/jobs");
 
   if (jobs.length === 0) {
     return (

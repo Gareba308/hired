@@ -32,7 +32,7 @@ const SigninPage = () => {
         title: "Something went wrong",
         description: response.error,
         variant: "destructive",
-        duration: 3000
+        duration: 3000,
       });
       setLoading(false);
     }
@@ -41,7 +41,7 @@ const SigninPage = () => {
         title: "Logged in",
         description: "Hello there, welcome to Hired.",
         variant: "default",
-        duration: 3000
+        duration: 3000,
       });
       setLoading(false);
       router.refresh();
@@ -102,9 +102,11 @@ const SigninPage = () => {
                   Sign in with Google
                 </button>
                 <div className="relative mb-8">
-                        <span className="block w-full h-px bg-gray-300"></span>
-                        <p className="inline-block w-fit text-sm bg-white px-2 text-gray-700 absolute -top-2 inset-x-0 mx-auto">Or, sign in with your email</p>
-                    </div>
+                  <span className="block w-full h-px bg-gray-300"></span>
+                  <p className="inline-block w-fit text-sm bg-white px-2 text-gray-700 absolute -top-2 inset-x-0 mx-auto">
+                    Or, sign in with your email
+                  </p>
+                </div>
                 <form onSubmit={userLogin}>
                   <div className="mb-5">
                     <label

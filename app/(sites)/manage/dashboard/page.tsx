@@ -21,7 +21,7 @@ const Page = async () => {
   const session = await getServerSession(authOptions);
   const userId = session?.id;
   const email = session?.user?.email;
-  if (!userId || !email) redirect("/home/login?origin=manage/dashboard");
+  if (!userId || !email) redirect("/home/login/enterprises?origin=manage/dashboard");
 
   const dbUser = await db.user.findFirst({
     where: {
@@ -29,7 +29,7 @@ const Page = async () => {
       email,
     },
   });
-  if (!dbUser) redirect("/home/login?origin=manage/dashboard");
+  if (!dbUser) redirect("/home/login/enterprises?origin=manage/dashboard");
 
   const isEmployer = await db.employers.findFirst({
     where: {
@@ -40,7 +40,7 @@ const Page = async () => {
     },
   });
 
-  if (!isEmployer) redirect("/home/login?origin=manage/dashboard");
+  if (!isEmployer) redirect("/home/login/enterprises?origin=manage/dashboard");
   const isEmployerID = isEmployer.id;
 
   const companyDetails = await db.company.findFirst({
@@ -53,7 +53,7 @@ const Page = async () => {
     },
   });
 
-  if (!companyDetails) redirect("/home/login?origin=manage/dashboard");
+  if (!companyDetails) redirect("/home/login/enterprises?origin=manage/dashboard");
 
   const companyID = companyDetails.id;
   async function countApplicationsInCurrentMonth(

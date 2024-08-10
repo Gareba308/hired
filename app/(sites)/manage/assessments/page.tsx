@@ -7,7 +7,7 @@ import { db } from "@/db";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/home/login?origin=manage/assessments");
+  if (!session) redirect("/home/login/enterprises?origin=manage/assessments");
   const userId = session.id;
 
   const dbUser = await db.user.findFirst({
@@ -16,7 +16,7 @@ const Page = async () => {
     },
   });
 
-  if (!dbUser) redirect("/home/login?origin=manage/assessments");
+  if (!dbUser) redirect("/home/login/enterprises?origin=manage/assessments");
 
   const banners = await db.assessmentBanner.findMany({
     orderBy: {

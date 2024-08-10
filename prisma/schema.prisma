@@ -14,7 +14,7 @@ model User {
   name                 String?
   email                String                 @unique
   password             String?
-  role                 String?                @default("new")
+  role                 String?                @default("worker")
   emailVerified        Boolean?               @default(false)
   suspended            Boolean?               @default(false)
   referralCode         String?
@@ -42,6 +42,7 @@ model Verification {
   verifyTokenExpiry  DateTime
   email              String   @unique
   name               String
+  role               String
   referrerUniqueCode String?
   referrerUserId     String?
   referrerEmail      String?
@@ -54,6 +55,7 @@ model Reset {
   resetToken       String   @unique
   resetTokenExpiry DateTime
   email            String   @unique
+  role             String?
 
   user User @relation(fields: [email], references: [email], onDelete: Cascade)
 }

@@ -7,7 +7,7 @@ import TransactionAccounts from "../../_components/transactions/TransactionAccou
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/home/login?origin=manage/transactions/account");
+  if (!session) redirect("/home/login/enterprises?origin=manage/transactions/account");
   const userId = session.id;
   const dbUser = await db.user.findFirst({
     where: {
@@ -15,7 +15,7 @@ const Page = async () => {
     },
   });
 
-  if (!dbUser) redirect("/home/login?origin=manage/transactions/account");
+  if (!dbUser) redirect("/home/login/enterprises?origin=manage/transactions/account");
 
   const allAccountPurchases = await db.purchaseJobPlan.findMany({
     where: {

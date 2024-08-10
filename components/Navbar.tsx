@@ -51,11 +51,11 @@ const Navbar = () => {
               src={
                 "https://res.cloudinary.com/dx0i37cyd/image/upload/v1722608373/Hired-_Kenya_3_tyegve.png"
               }
-              height={74}
+              height={70}
               width={74}
               alt="Logo"
               title="Logo"
-              className="rounded-md"
+              className="rounded-sm"
               quality={100}
               priority={true}
             />
@@ -159,16 +159,16 @@ const Navbar = () => {
           <div className="flex flex-col pt-4 md:pt-0 pb-4 md:pb-0 sm:flex-row space-y-4 sm:space-y-0 sm:space-x-3 lg:space-x-4 sm:items-center">
             <li className="order-2 md:py-0">
               <Link
-                href={"/home/candidates"}
-                className="py-2 px-5 rounded-md w-full font-medium text-primary bg-gray-300 hover:bg-gray-300 hover:opacity-90 hover:text-sky-700 text-center border border-gray-200 hover:bg-opacity-90 duration-150 block md:py-3 md:inline"
+                href={"/home/login"}
+                className="py-2 px-5 rounded-sm w-full font-medium text-primary bg-gray-300 hover:bg-gray-300 hover:opacity-90 hover:text-sky-700 text-center border border-gray-200 hover:bg-opacity-90 duration-150 block md:py-3 md:inline"
               >
                 Job Seekers
               </Link>
             </li>
             <li className="order-2 md:py-0">
               <Link
-                href={"/home/enterprises"}
-                className="py-2 px-5 rounded-md font-medium w-full text-white text-center bg-slate-800 hover:bg-opacity-90 active:bg-slate-800 duration-150 block md:py-3 md:inline"
+                href={"/home/login/enterprises"}
+                className="py-2 px-5 rounded-sm font-medium w-full text-white text-center bg-slate-800 hover:bg-opacity-90 active:bg-slate-800 duration-150 block md:py-3 md:inline"
               >
                 For Employers
               </Link>

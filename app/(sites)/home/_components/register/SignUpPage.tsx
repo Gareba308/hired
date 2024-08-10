@@ -14,11 +14,9 @@ const SignUpPage = () => {
     email: "",
     password: "",
     confirm_password: "",
-    role: "",
   });
 
   const router = useRouter();
-
   const { toast } = useToast();
 
   const onFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +55,7 @@ const SignUpPage = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    registerUser({ ...data });
+    registerUser({ ...data, role: "worker" });
   };
 
   return (
@@ -121,6 +119,25 @@ const SignUpPage = () => {
                 <form onSubmit={onSubmit}>
                   <div className="mb-5">
                     <label
+                      htmlFor="name"
+                      className="mb-1 block text-sm font-medium text-gray-700"
+                    >
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      value={data.name}
+                      autoComplete="name"
+                      onChange={onFieldChange}
+                      required
+                      name="name"
+                      placeholder="Enter your full name"
+                      className="w-full h-11 rounded-sm border border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
+                    />
+                  </div>
+                  <div className="mb-5">
+                    <label
                       htmlFor="email"
                       className="mb-1 block text-sm font-medium text-gray-700"
                     >
@@ -135,25 +152,6 @@ const SignUpPage = () => {
                       required
                       name="email"
                       placeholder="Enter your Email"
-                      className="w-full h-11 rounded-sm border border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
-                    />
-                  </div>
-
-                  <div className="mb-5">
-                    <label
-                      htmlFor="role"
-                      className="mb-1 block text-sm font-medium text-gray-700 "
-                    >
-                      Role
-                    </label>
-                    <input
-                      type="text"
-                      id="role"
-                      value={data.role}
-                      onChange={onFieldChange}
-                      required
-                      name="role"
-                      placeholder="Enter your role"
                       className="w-full h-11 rounded-sm border border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
                     />
                   </div>

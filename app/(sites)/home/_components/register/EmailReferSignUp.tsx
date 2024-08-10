@@ -87,6 +87,25 @@ const EmailReferSignUp = ({
                 <span className="text-[#005580]">{referrer.fullName}</span>  you
               </p>
               <form onSubmit={onSubmit}>
+              <div className="mb-5">
+                    <label
+                      htmlFor="name"
+                      className="mb-1 block text-sm font-medium text-gray-700"
+                    >
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      value={data.name}
+                      autoComplete="name"
+                      onChange={onFieldChange}
+                      required
+                      name="name"
+                      placeholder="Enter your full name"
+                      className="w-full h-11 rounded-sm border border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
+                    />
+                  </div>
                 <div className="mb-5">
                   <label
                     htmlFor="email"
@@ -180,7 +199,7 @@ const EmailReferSignUp = ({
               <p className="text-center text-base font-medium text-gray-700">
                 You already have an account?
                 <Link
-                  href="/home/login"
+                  href={referrer.myRole === "worker" ? "/home/login" : "/home/login/enterprises"}
                   className="text-[#005580] hover:underline ml-2"
                 >
                   Login here

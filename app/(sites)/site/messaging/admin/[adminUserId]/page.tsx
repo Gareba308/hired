@@ -22,7 +22,7 @@ const Page = async ({ params }: CompanyMessageProps) => {
     },
   });
 
-  if (!dbUser) redirect(`/home/login?origin=manage/messaging/admin/${adminUserId}`);
+  if (!dbUser) redirect(`/home/login?origin=site/messaging/admin/${adminUserId}`);
   const adminSenderExists = await db.user.findFirst({
     where: {
       id: adminUserId,

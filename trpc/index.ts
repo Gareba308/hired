@@ -277,6 +277,7 @@ export const appRouter = router({
           verifyTokenExpiry,
           email,
           name,
+          role: newRole
         },
       });
       const transporter = nodemailer.createTransport({
@@ -673,6 +674,7 @@ export const appRouter = router({
           verifyTokenExpiry,
           email,
           name,
+          role: newRole,
           referrerUniqueCode: referrerUniqueCode,
           referrerUserId: referrerUserId,
           referrerEmail: referrerEmail,
@@ -2385,6 +2387,7 @@ export const appRouter = router({
         },
         select: {
           name: true,
+          role: true,
         },
       });
 
@@ -2394,6 +2397,7 @@ export const appRouter = router({
           message: "User does not exist or is already verified",
         });
       const name = dbUser.name as string;
+      const givenRole= dbUser.role as string;
 
       const userHasToken = await db.verification.findFirst({
         where: {
@@ -2424,6 +2428,7 @@ export const appRouter = router({
           verifyTokenExpiry,
           email,
           name,
+          role: givenRole
         },
       });
 
@@ -2497,6 +2502,7 @@ export const appRouter = router({
         select: {
           name: true,
           password: true,
+          role: true
         },
       });
 
@@ -2541,6 +2547,7 @@ export const appRouter = router({
           resetToken,
           resetTokenExpiry,
           email,
+          role: exists.role,
         },
       });
 
@@ -15255,7 +15262,7 @@ export const appRouter = router({
       if (!isWorker)
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "Seems you are in an unauthorized section.",
+          message: "Seems you are in an unauthorized section Or you have not created a user profile",
           cause: "Not a worker",
         });
 

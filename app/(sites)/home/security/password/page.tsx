@@ -2,15 +2,10 @@
 
 import React from "react";
 import { ArrowRight } from "lucide-react";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const PasswordChanged = () => {
     const router= useRouter()
-
-    useEffect(()=>{
-        router.prefetch('/home/login')
-    }, [router])
   return (
     <main>
       <div className="bg-white max-w-screen-xl mx-auto px-4 flex items-center justify-start min-h-[calc(100vh-80px)] md:px-8">
@@ -27,10 +22,10 @@ const PasswordChanged = () => {
           </p>
           <div className="flex flex-wrap items-center justify-center pt-8">
             <button
-              onClick={()=>router.push('/home/login')}
+              onClick={()=>router.push('/')}
             className="text-base sm:text-lg rounded-sm w-full bg-primary text-white p-3 hover:bg-primary/80 flex items-center justify-center"
             >
-              Login now
+              Homepage
               <ArrowRight className="h-4 w-4 ml-1" />
             </button>
           </div>

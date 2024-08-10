@@ -7,7 +7,7 @@ import { db } from "@/db";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/home/login?origin=manage/transactions");
+  if (!session) redirect("/home/login/enterprises?origin=manage/transactions");
   const userId = session.id;
   const dbUser = await db.user.findFirst({
     where: {
@@ -15,7 +15,7 @@ const Page = async () => {
     },
   });
 
-  if (!dbUser) redirect("/home/login?origin=manage/transactions");
+  if (!dbUser) redirect("/home/login/enterprises?origin=manage/transactions");
 
   const allMyPayments = await db.payment.findMany({
     where: {

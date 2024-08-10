@@ -24,18 +24,18 @@ const Page = async ({ params }: JobApplicationIDProps) => {
   });
   const jobTitle = jobExists?.job_title;
   const session = await getServerSession(authOptions);
-  if (!session) redirect(`/home/login?origin=manage/dashboard/jobs/${jobId}`);
+  if (!session) redirect(`/home/login/enterprises?origin=manage/dashboard/jobs/${jobId}`);
   const userId = session.id;
   const email = session.user?.email;
   if (!userId || !email)
-    redirect(`/home/login?origin=manage/dashboard/jobs/${jobId}`);
+    redirect(`/home/login/enterprises?origin=manage/dashboard/jobs/${jobId}`);
   const dbUser = await db.user.findFirst({
     where: {
       id: userId,
       email,
     },
   });
-  if (!dbUser) redirect(`/home/login?origin=manage/dashboard/jobs/${jobId}`);
+  if (!dbUser) redirect(`/home/login/enterprises?origin=manage/dashboard/jobs/${jobId}`);
   const isEmployer = await db.employers.findFirst({
     where: {
       employerEmail: email,
@@ -45,7 +45,7 @@ const Page = async ({ params }: JobApplicationIDProps) => {
     },
   });
   if (!isEmployer)
-    redirect(`/home/login?origin=manage/dashboard/jobs/${jobId}`);
+    redirect(`/home/login/enterprises?origin=manage/dashboard/jobs/${jobId}`);
 
   const { id: isEmployerID } = isEmployer;
 
@@ -60,7 +60,7 @@ const Page = async ({ params }: JobApplicationIDProps) => {
   });
 
   if (!companyExists)
-    redirect(`/home/login?origin=manage/dashboard/jobs/${jobId}`);
+    redirect(`/home/login/enterprises?origin=manage/dashboard/jobs/${jobId}`);
   const { id: companyId } = companyExists;
   const myApplication = await db.application.findMany({
     where: {

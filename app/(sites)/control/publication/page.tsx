@@ -7,7 +7,7 @@ import UnpublishedJobs from "../_components/job/UnpublishedJobs";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/home/login?origin=manage/my-jobs");
+  if (!session) redirect("/home/login?origin=control/publication");
   const userId = session.id;
   const userEmail = session.user?.email as string;
 

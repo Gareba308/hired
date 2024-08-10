@@ -81,7 +81,7 @@ const DocumentsRender = ({ document: application }: DocumentsRenderProps) => {
         <main className="mx-auto lg:-mt-2 max-w-7xl">
           <section>
             <div className="flex flex-wrap">
-              <div className="w-full min-h-[calc(100vh-100px)] lg:mt-2 px-4 pt-2 pb-4 mx-auto print:shadow-none bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
+              <div className="w-full min-h-[calc(100vh-90px)] lg:mt-2 px-4 pt-2 pb-4 mx-auto print:shadow-none bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
                 <div className="flex w-full items-end justify-between print:hidden border-b border-gray-300 pb-1">
                   <div className="flex items-center gap-x-1.5">
                       <h3 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl lg:text-3xl">

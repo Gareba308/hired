@@ -21,7 +21,7 @@ const Page = async ({ params }: ReferralProps) => {
       role: true,
     },
   });
-  if (!referrer) redirect("/home/register");
+  if (!referrer) redirect("/");
   return (
     <div>
       <ReferSignUpPage

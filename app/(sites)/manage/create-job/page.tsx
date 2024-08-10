@@ -8,7 +8,7 @@ import NoProfile from "../_components/profile/Unavailable";
 const Page = async () => {
   const session = await getServerSession(authOptions);
 
-  if (!session) redirect("/home/login?origin=manage/create-job");
+  if (!session) redirect("/home/login/enterprises?origin=manage/create-job");
 
   const userId = session?.id;
 

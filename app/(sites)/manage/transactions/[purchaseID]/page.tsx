@@ -21,7 +21,7 @@ const Page = async ({ params }: PurchaseProps) => {
   if (!purchaseExists) redirect(`/manage/transactions/account`);
   const session = await getServerSession(authOptions);
   if (!session)
-    redirect(`/home/login?origin=manage/transactions/${purchaseID}`);
+    redirect(`/home/login/enterprises?origin=manage/transactions/${purchaseID}`);
 
   const dbUser = await db.user.findFirst({
     where: {
@@ -29,7 +29,7 @@ const Page = async ({ params }: PurchaseProps) => {
     },
   });
 
-  if (!dbUser) redirect(`/home/login?origin=manage/transactions/${purchaseID}`);
+  if (!dbUser) redirect(`/home/login/enterprises?origin=manage/transactions/${purchaseID}`);
 
   return (
     <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-90px)] mx-auto bg-white px-4 md:px-5 text-gray-700 sm:shadow-sm sm:rounded-lg">

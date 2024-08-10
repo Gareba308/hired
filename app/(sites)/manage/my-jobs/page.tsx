@@ -7,7 +7,7 @@ import AllMyJobs from "../_components/job/AllMyJobs";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/home/login?origin=manage/my-jobs");
+  if (!session) redirect("/home/login/enterprises?origin=manage/my-jobs");
   const userId = session.id;
   const userEmail = session.user?.email as string;
 
@@ -18,7 +18,7 @@ const Page = async () => {
     },
   });
 
-  if (!dbUser) redirect("/home/login?origin=manage/my-jobs");
+  if (!dbUser) redirect("/home/login/enterprises?origin=manage/my-jobs");
 
   const isEmployer = await db.employers.findFirst({
     where: {
@@ -26,7 +26,7 @@ const Page = async () => {
     },
   });
 
-  if (!isEmployer) redirect("/home/login?origin=manage/my-jobs");
+  if (!isEmployer) redirect("/home/login/enterprises?origin=manage/my-jobs");
 
   const isEmployerID = isEmployer.id;
 

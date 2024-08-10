@@ -7,18 +7,18 @@ import WorkerMessages from "../_components/messaging/WorkerMessages";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/home/login?origin=manage/messaging");
+  if (!session) redirect("/home/login/enterprises?origin=manage/messaging");
   const userId = session.id;
   const email = session?.user?.email;
-  if (!userId) redirect("/home/login?origin=manage/messaging");
-  if (!email) redirect("/home/login?origin=manage/messaging");
+  if (!userId) redirect("/home/login/enterprises?origin=manage/messaging");
+  if (!email) redirect("/home/login/enterprises?origin=manage/messaging");
   const dbUser = await db.user.findFirst({
     where: {
       id: userId,
     },
   });
 
-  if (!dbUser) redirect("/home/login?origin=manage/messaging");
+  if (!dbUser) redirect("/home/login/enterprises?origin=manage/messaging");
 
   const contactWorkerMessages = await db.employerContactWorker.findMany({
     where: {

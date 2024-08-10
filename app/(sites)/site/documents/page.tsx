@@ -10,7 +10,7 @@ import NoProfile from "../_components/documents/NoProfile";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/home/login?origin=site/document");
+  if (!session) redirect("/home/login?origin=site/documents");
 
   const userId = session.id;
   const dbUser = await db.user.findFirst({
@@ -19,7 +19,7 @@ const Page = async () => {
     },
   });
 
-  if (!dbUser) redirect("/home/login?origin=site/document");
+  if (!dbUser) redirect("/home/login?origin=site/documents");
 
   const about = await db.about.findFirst({
     where: {

@@ -1,16 +1,14 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import UserAccountNav from "./UserAccountNav";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+import { redirect} from "next/navigation";
 import { db } from "@/db";
-import { ShieldQuestion } from "lucide-react";
+import DashButton from "./DashButton";
 
 const DashNavbarRoutes = async () => {
   const session = await getServerSession(authOptions);
 
-  if (!session) redirect("/home/login");
+  if (!session) redirect("/home/login/enterprises");
 
   const userId = session.id;
 
@@ -19,7 +17,7 @@ const DashNavbarRoutes = async () => {
       id: userId,
     },
   });
-  if (!user) redirect("/home/login");
+  if (!user) redirect("/home/login/enterprises");
 
   const profile = await db.company.findFirst({
     where: {
@@ -33,15 +31,9 @@ const DashNavbarRoutes = async () => {
   const email = user.email;
   const companyName = profile?.company_name;
   const name = user.name;
-
   return (
     <div className="flex gap-x-3 items-center shrink-0 ml-auto">
-      <Link href="/manage/faqs">
-        <Button size="sm" variant="ghost" className="text-gray-700 rounded-sm hover:opacity-80 hover:text-gray-800">
-          <ShieldQuestion className="h-5 w-5 mr-1 text-gray-700 font-normal" />{" "}
-          FAQs
-        </Button>
-      </Link>
+      <DashButton />
 
       <UserAccountNav
         email={email}

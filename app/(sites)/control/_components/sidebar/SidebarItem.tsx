@@ -30,7 +30,7 @@ const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
       )}
       style={{ transitionProperty: "border-radius" }}
     >
-      <div className="flex items-center gap-x-2 py-3.5">
+      <div className="flex items-center gap-x-2.5 py-2.5">
         <Icon
           size={20}
           className={cn("text-gray-500", isActive && "text-sky-700")}

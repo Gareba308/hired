@@ -6,7 +6,7 @@ import { db } from "@/db";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/home/login?origin=manage/help");
+  if (!session) redirect("/home/login/enterprises?origin=manage/help");
   const userId = session.id;
   const dbUser = await db.user.findFirst({
     where: {
@@ -14,7 +14,7 @@ const Page = async () => {
     },
   });
 
-  if (!dbUser) redirect("/home/login?origin=manage/help");
+  if (!dbUser) redirect("/home/login/enterprises?origin=manage/help");
 
   const name = dbUser.name!;
   const myHelpMessages = await db.helpEmployer.findMany({

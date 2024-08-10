@@ -8,7 +8,6 @@ import {
   Gift,
   Import,
   LineChart,
-  Mail,
   Network,
   Newspaper,
   User2,
@@ -36,11 +35,6 @@ const guestRoute = [
     icon: Building2,
     label: "Companies",
     href: "/site/companies",
-  },
-  {
-    icon: Mail,
-    label: "Messages",
-    href: "/site/messaging",
   },
   {
     icon: BookOpenCheck,

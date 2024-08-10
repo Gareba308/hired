@@ -14,16 +14,16 @@ const Page = async ({ params }: UserMessageProps) => {
   const { userId:workerId } = params;
 
   const session = await getServerSession(authOptions);
-  if (!session) redirect(`/home/login?origin=manage/messaging/${workerId}`);
+  if (!session) redirect(`/home/login/enterprises?origin=manage/messaging/${workerId}`);
   const userId = session.id;
-  if (!userId) redirect(`/home/login?origin=manage/messaging/${workerId}`);
+  if (!userId) redirect(`/home/login/enterprises?origin=manage/messaging/${workerId}`);
   const dbUser = await db.user.findFirst({
     where: {
       id: userId,
     },
   });
 
-  if (!dbUser) redirect(`/home/login?origin=manage/messaging/${workerId}`);
+  if (!dbUser) redirect(`/home/login/enterprises?origin=manage/messaging/${workerId}`);
   
   const userExists = await db.user.findFirst({
     where: {

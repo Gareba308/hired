@@ -17,9 +17,9 @@ const NoAllBlogs = () => {
           <p className="text-gray-600 text-2xl font-bold sm:text-3xl">
             There are no Blogs
           </p>
-          <p className="text-gray-600 text-base md:text-base">
-            There are no blogs yet. All blogs that are published will appear
-            in this section.
+          <p className="text-gray-600 text-base md:text-[15px]">
+            Our team has not published any blogs yet. Once available, all
+            published blogs will be displayed in this section.
           </p>
           <div className="mt-4 flex flex-col w-full sm:flex-row items-center justify-center gap-y-6 sm:gap-6">
             <Button

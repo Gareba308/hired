@@ -422,8 +422,8 @@ const CareerPointDetails = ({
                                 No match results yet
                               </p>
                               <p className="text-center text-sm text-muted-foreground">
-                                The match search just takes seconds. Try it
-                                today.
+                                The match search takes only seconds. Try
+                                it today.
                               </p>
                             </div>
                           )}
@@ -593,8 +593,8 @@ const CareerPointDetails = ({
                 <div className="px-5 py-6 leading-relaxed">
                   <p className="text-base font-normal">
                     Calculating job match ensures alignment with skills,
-                    experience, and career goals, enhancing job satisfaction,
-                    productivity, and long-term success for job seekers.
+                    experience, and career goals, thereby enhancing your job
+                    satisfaction, productivity, and long-term success.
                   </p>
                   <div className="mt-4">
                     <Button
