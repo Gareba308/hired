@@ -152,15 +152,15 @@ const SignUpPage1 = () => {
                   <div className="mb-1 flex flex-col justify-between sm:flex-row sm:items-center">
                     <div className="text-xs">
                       By clicking register means you agree to the
-                      <a href="#0" className="text-[#005580] hover:underline">
+                      <Link href="/home/terms" title="Terms" className="text-[#005580] hover:underline">
                         {" "}
                         Terms{" "}
-                      </a>
+                      </Link>
                       and our
-                      <a href="#0" className="text-[#005580] hover:underline">
+                      <Link href="/home/privacy" title="Privacy Policy" className="text-[#005580] hover:underline">
                         {" "}
                         Privacy Policy
-                      </a>
+                      </Link>
                       .
                     </div>
                   </div>
@@ -185,6 +185,7 @@ const SignUpPage1 = () => {
                   You already have an account?
                   <Link
                     href="/home/login/enterprises"
+                    title="To login page"
                     className="text-[#005580] hover:underline ml-2"
                   >
                     Login here

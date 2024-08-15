@@ -6,7 +6,7 @@ import Sidebar from "../sidebar/Sidebar";
 const MobileSidebar = () => {
   return (
     <Sheet>
-      <SheetTrigger className="md:hidden pr-4 opacity-90 transition">
+      <SheetTrigger className="md:hidden pr-2.5 opacity-90 transition">
         <Menu />
       </SheetTrigger>
       <SheetContent side="left" className="p-0 bg-white">

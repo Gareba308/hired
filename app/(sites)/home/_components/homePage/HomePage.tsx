@@ -544,7 +544,7 @@ const HomePage = () => {
             <div className="max-w-xs">
               <Image
                 src={
-                  "https://res.cloudinary.com/dx0i37cyd/image/upload/v1722608373/Hired-_Kenya_3_tyegve.png"
+                  "https://res.cloudinary.com/dx0i37cyd/image/upload/v1723627737/veryHired_lo5n1w.png"
                 }
                 height={56}
                 width={66}

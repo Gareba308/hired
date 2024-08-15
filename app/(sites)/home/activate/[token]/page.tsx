@@ -1,6 +1,15 @@
 import { redirect } from "next/navigation";
 import { db } from "@/db";
 import nodemailer from "nodemailer";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Activate User Account",
+  robots: {
+    index: false,
+    follow: true,
+  }
+}
 
 interface ActivateProps {
   params: {

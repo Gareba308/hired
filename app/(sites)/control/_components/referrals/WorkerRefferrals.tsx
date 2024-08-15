@@ -157,28 +157,6 @@ export function WorkerReferrals({ combinedData }: WorkerReferralsProps) {
 
   const columns: ColumnDef<CombinedDataItems, keyof CombinedDataItems>[] = [
     {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
       accessorKey: "createdAt",
       header: "Referred Date",
       cell: ({ row }) => {
@@ -381,31 +359,7 @@ export function WorkerReferrals({ combinedData }: WorkerReferralsProps) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between gap-x-4 mb-2 flex-row">
-        <div className=" flex flex-row items-center">
-          <Link
-            href={origin ? `/${origin}` : "/control/referrals"}
-            className="hover:text-[#005580]"
-          >
-            <Undo className="h-6 w-6 mr-2 shrink-0" />
-          </Link>
-          <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
-            Worker Referrals
-          </h2>
-        </div>
-        <div>
-          <Button
-            type="button"
-            variant="default"
-            size="default"
-            className="hover:bg-primary hover:opacity-90"
-            onClick={() => router.push("/control/referrals/worker/payments")}
-          >
-            Payments
-          </Button>
-        </div>
-      </div>
-      <div className="flex items-center justify-between gap-x-4 py-1">
+      <div className="flex items-center mt-4 justify-between gap-x-4 py-1">
         <Input
           placeholder="Search for a referrer's email"
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}

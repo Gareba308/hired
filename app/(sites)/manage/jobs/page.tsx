@@ -4,6 +4,11 @@ import NoJobs from "../_components/job/NoJobs";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "All Jobs",
+}
 
 const Page = async () => {
   const currentDate = new Date();

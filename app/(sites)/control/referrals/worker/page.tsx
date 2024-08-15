@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
-import { WorkerReferrals } from "../../_components/referrals/WorkerRefferrals";
+import WorkersReferralFirst from "../../_components/referrals/WorkersReferralFirst";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
@@ -46,7 +46,7 @@ const Page = async () => {
   });
   return (
     <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-90px)] mx-auto bg-white px-4 md:px-5 text-gray-700 sm:shadow-sm sm:rounded-lg">
-      <WorkerReferrals combinedData={getWorkerReferrals}/>
+      <WorkersReferralFirst combinedData={getWorkerReferrals} />
     </div>
   );
 };

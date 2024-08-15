@@ -30,7 +30,7 @@ type FormSchemaType = z.infer<typeof formSchema>;
 export const formSchema = z.object({
   heading: z.string().optional(),
 });
-const MIN_CHARACTERS = 50;
+const MIN_CHARACTERS = 40;
 const MAX_CHARACTERS = 75;
 
 const HeadingEdit = ({ blog }: HeadingEditProps) => {

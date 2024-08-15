@@ -10,6 +10,13 @@ interface UserMessageProps {
   };
 }
 
+export async function generateStaticParams() {
+  const workersMessages = await db.contactWorker.findMany();
+
+  const workersUserIDs= workersMessages.map((message) => message.workerUserId);
+  return workersUserIDs;
+}
+
 const Page = async ({ params }: UserMessageProps) => {
   const { userId:workerId } = params;
 

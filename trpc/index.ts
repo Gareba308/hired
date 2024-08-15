@@ -31,13 +31,22 @@ const generateID = () => {
   }
   return OTP;
 };
-const productionBASE_URL= process.env.NEXT_PUBLIC_BASE_URL
+const productionBASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const removeHtmlTags = (htmlString: string): string => {
   const cleanedHtml = sanitizeHtml(htmlString, {
     allowedTags: [],
     allowedAttributes: {},
   });
-  return cleanedHtml;
+  const noHashString = cleanedHtml.replace(/#(\w+)/g, "$1");
+
+  return noHashString;
+};
+const shortDescription = (htmlString: string): string => {
+  const cleanedString = removeHtmlTags(htmlString);
+  if (cleanedString.length > 300) {
+    return `${cleanedString.slice(0, 300)}...`;
+  }
+  return cleanedString;
 };
 
 // const deleteExpiredJobViews = async () => {
@@ -277,7 +286,7 @@ export const appRouter = router({
           verifyTokenExpiry,
           email,
           name,
-          role: newRole
+          role: newRole,
         },
       });
       const transporter = nodemailer.createTransport({
@@ -2397,7 +2406,7 @@ export const appRouter = router({
           message: "User does not exist or is already verified",
         });
       const name = dbUser.name as string;
-      const givenRole= dbUser.role as string;
+      const givenRole = dbUser.role as string;
 
       const userHasToken = await db.verification.findFirst({
         where: {
@@ -2428,7 +2437,7 @@ export const appRouter = router({
           verifyTokenExpiry,
           email,
           name,
-          role: givenRole
+          role: givenRole,
         },
       });
 
@@ -2502,7 +2511,7 @@ export const appRouter = router({
         select: {
           name: true,
           password: true,
-          role: true
+          role: true,
         },
       });
 
@@ -3517,6 +3526,7 @@ export const appRouter = router({
           job_type,
           job_title,
           job_description,
+          summaryDescription: shortDescription(job_description),
           responsibilities,
           requirement,
           personal_skills,
@@ -4211,6 +4221,8 @@ export const appRouter = router({
         academicDesired: z.string(),
         deadline: z.coerce.date(),
         companyID: z.string(),
+        jobFormNonRegisteredCompany: z.boolean().default(false),
+        adminCreatingCompanyName: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -4240,6 +4252,8 @@ export const appRouter = router({
         instructions,
         academicDesired,
         companyID,
+        jobFormNonRegisteredCompany,
+        adminCreatingCompanyName,
       } = input;
 
       if (!userId)
@@ -4309,6 +4323,13 @@ export const appRouter = router({
             "Looks like the employer you are posting for, does not exist.",
         });
 
+      if (jobFormNonRegisteredCompany === true && !adminCreatingCompanyName)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message:
+            "You indicated the job is from unregistered company. Company name must not be blank.",
+        });
+
       return await db.job.create({
         data: {
           userId: employerUserId,
@@ -4323,7 +4344,10 @@ export const appRouter = router({
           adminPosted: true,
           job_title,
           job_description,
+          summaryDescription: shortDescription(job_description),
           responsibilities,
+          jobFormNonRegisteredCompany,
+          adminCreatingCompanyName,
           requirement,
           personal_skills,
           experience,
@@ -4353,6 +4377,7 @@ export const appRouter = router({
         name: z.string(),
         category: z.string(),
         briefSummary: z.string(),
+        forDemo: z.boolean().default(false),
         instructions: z.string(),
         numberQuestions: z.string(),
         completeTime: z.string(),
@@ -4369,6 +4394,7 @@ export const appRouter = router({
         instructions,
         numberQuestions,
         completeTime,
+        forDemo,
       } = input;
 
       const dbUser = await db.user.findFirst({
@@ -4414,6 +4440,7 @@ export const appRouter = router({
           category,
           briefSummary,
           instructions,
+          forDemo,
           numberQuestions: Number(numberQuestions),
           completeTime: Number(completeTime),
           attemptNumbers,
@@ -4430,6 +4457,7 @@ export const appRouter = router({
         briefSummary: z.string().optional(),
         instructions: z.string().optional(),
         attemptNumbers: z.string().optional(),
+        forDemo: z.boolean().optional(),
         numberQuestions: z.string().optional(),
         completeTime: z.string().optional(),
       })
@@ -4445,6 +4473,7 @@ export const appRouter = router({
         attemptNumbers,
         numberQuestions,
         completeTime,
+        forDemo,
       } = input;
 
       const dbUser = await db.user.findFirst({
@@ -4489,6 +4518,7 @@ export const appRouter = router({
         ...(instructions && { instructions }),
         ...(briefSummary && { briefSummary }),
         ...(attemptNumbers && { attemptNumbers }),
+        ...(forDemo && { forDemo }),
         ...(numberQuestions && { numberQuestions: Number(numberQuestions) }),
         ...(completeTime && { completeTime: Number(completeTime) }),
       };
@@ -4900,7 +4930,7 @@ export const appRouter = router({
     .mutation(async ({ input, ctx }) => {
       const { demoID, category } = input;
       const { userId, email } = ctx;
-
+      const currentDate = new Date();
       const dbUser = await db.user.findFirst({
         where: {
           id: userId,
@@ -4947,6 +4977,8 @@ export const appRouter = router({
           message: "Sorry, this assessment demo, is currently unavailable",
         });
 
+      const completeTime = addMinutes(currentDate, demoExists.completeTime);
+
       const hadRequestedSameDemo = await db.employerRequestAssessment.findFirst(
         {
           where: {
@@ -4971,6 +5003,7 @@ export const appRouter = router({
           demoID: demoExists.id,
           isEmployerID: isEmployer.id,
           email: dbUser.email,
+          completeTime,
           phoneNumber: companyExists?.employerPhone as string,
           companyName: companyExists?.company_name as string,
           fullName: dbUser.name as string,
@@ -6239,6 +6272,9 @@ export const appRouter = router({
           message: "A job by that ID and by your user ID does not exist.",
         });
 
+      const newJobSummary = job_description
+        ? shortDescription(job_description)
+        : jobExists.summaryDescription;
       return await db.job.update({
         where: {
           id: jobID,
@@ -6247,6 +6283,7 @@ export const appRouter = router({
         data: {
           job_title,
           job_description,
+          summaryDescription: newJobSummary,
           responsibilities,
           requirement,
           personal_skills,
@@ -6287,7 +6324,8 @@ export const appRouter = router({
         emailPlatform: z.string().optional(),
         linkPlatform: z.string().optional(),
         otherPlatform: z.string().optional(),
-
+        jobFormNonRegisteredCompany: z.boolean().optional(),
+        adminCreatingCompanyName: z.string().optional(),
         experienceDesired: z.string().optional(),
         experience: z.string().optional(),
         numberOfPositions: z.string().optional(),
@@ -6330,6 +6368,8 @@ export const appRouter = router({
         instructions,
         deadline,
         academicDesired,
+        jobFormNonRegisteredCompany,
+        adminCreatingCompanyName,
       } = input;
 
       const dbUser = await db.user.findFirst({
@@ -6368,6 +6408,9 @@ export const appRouter = router({
             "A job by that job ID does not exist in our system, it could have been deleted..",
         });
 
+      const newJobSummary = job_description
+        ? shortDescription(job_description)
+        : jobExists.summaryDescription;
       return await db.job.update({
         where: {
           id: jobID,
@@ -6375,6 +6418,9 @@ export const appRouter = router({
         data: {
           job_title,
           job_description,
+          summaryDescription: newJobSummary,
+          jobFormNonRegisteredCompany,
+          adminCreatingCompanyName,
           responsibilities,
           requirement,
           personal_skills,
@@ -9699,11 +9745,13 @@ export const appRouter = router({
         image: z.string(),
         target: z.string(),
         credit: z.string(),
+        keywords: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const { userId, email } = ctx;
-      const { category, heading, body, image, target, credit } = input;
+      const { category, heading, body, image, target, credit, keywords } =
+        input;
 
       const dbUser = await db.user.findFirst({
         where: {
@@ -9773,10 +9821,12 @@ export const appRouter = router({
           image,
           position,
           isAdminID,
+          blogDescription: shortDescription(body),
           target,
           credit,
           publisherSummary,
           publisherProfile,
+          keywords,
         },
       });
     }),
@@ -9837,6 +9887,9 @@ export const appRouter = router({
           message: "This blog does not exist. It could have been deleted.",
         });
 
+      const blogDescription = body
+        ? shortDescription(body)
+        : blogExists.blogDescription;
       return await db.blogs.update({
         where: {
           id: blogId,
@@ -9848,6 +9901,7 @@ export const appRouter = router({
           target,
           body,
           image,
+          blogDescription,
           credit,
         },
       });
@@ -15262,7 +15316,8 @@ export const appRouter = router({
       if (!isWorker)
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "Seems you are in an unauthorized section Or you have not created a user profile",
+          message:
+            "Seems you are in an unauthorized section Or you have not created a user profile",
           cause: "Not a worker",
         });
 

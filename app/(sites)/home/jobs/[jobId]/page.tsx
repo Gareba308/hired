@@ -56,17 +56,18 @@ export async function generateMetadata({
     };
   }
   const jobSkills = job.personal_skills;
-  const selectedSkills = jobSkills.slice(0, 10);
+  const selectedSkills = jobSkills.slice(0, 7);
+  selectedSkills.push(`jobs in ${job.county}, jobs, jobs in Kenya`);
   return {
     title: `${job.job_title}`,
-    description: `Apply for ${job.job_title} at ${job.company_name}. Discover more job opportunities on Hired.`,
+    description: job.summaryDescription,
     keywords: selectedSkills,
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
       title: `${job.job_title}`,
-      description: `Apply for ${job.job_title} at ${job.company_name}. Discover more job opportunities on Hired.`,
+      description: job.summaryDescription,
       siteName: siteConfig.name,
       images: [
         {
@@ -86,7 +87,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: `${job.job_title}`,
-      description: `Apply for ${job.job_title} at ${job.company_name}. Discover more job opportunities on Hired.`,
+      description: job.summaryDescription,
       images: [
         {
           url: siteConfig.ogJobDetail,

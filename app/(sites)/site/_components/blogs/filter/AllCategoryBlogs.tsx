@@ -1,9 +1,9 @@
 "use client";
-import QuillPreview from "@/components/QuillPreview";
+
 import { Menu, Transition } from "@headlessui/react";
 import { Blogs } from "@prisma/client";
 import { format } from "date-fns";
-import { ChevronDownIcon, CornerUpLeft, SlidersHorizontal} from "lucide-react";
+import { ChevronDownIcon, CornerUpLeft, SlidersHorizontal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -160,7 +160,7 @@ const AllCategoryBlogs = ({ blogs, category }: AllCategoryBlogsProps) => {
                     }
                     className="line-clamp-3 mt-1 text-sm text-gray-700"
                   >
-                    <QuillPreview htmlContent={cleanHashtags(post.body)} />
+                    {post.blogDescription}
                   </div>
                 </div>
                 <div className="flex items-center justify-between gap-x-4 mt-2 w-full relative">

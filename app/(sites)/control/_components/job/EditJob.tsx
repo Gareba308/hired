@@ -32,6 +32,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ChooseMethodEdit from "./ChooseMethodEdit";
+import NonRegisteredEdit from "./NonRegisteredEdit";
+import CompanyNameEdit from "./CompanyNameEdit";
 
 interface EditJobPageProps {
   job: Job | null;
@@ -128,6 +130,10 @@ const EditJob = ({ job }: EditJobPageProps) => {
       <div className=" border-t border-gray-200">
         <dl className="divide-y divide-gray-100">
           <TitleEdit job={job} jobId={job?.id as string} />
+          <NonRegisteredEdit job={job} jobId={job?.id as string} />
+          {job?.jobFormNonRegisteredCompany === true && (
+            <CompanyNameEdit job={job} jobId={job?.id as string} />
+          )}
           <CountyEdit job={job} jobId={job?.id as string} />
           <CategoryEdit job={job} jobId={job?.id as string} />
           <EmploymentTypeEdit job={job} jobId={job?.id as string} />

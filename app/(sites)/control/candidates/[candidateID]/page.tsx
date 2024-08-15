@@ -10,6 +10,19 @@ interface CandidateIDProps {
   };
 }
 
+export async function generateStaticParams() {
+  const workers = await db.user.findMany({
+    where: {
+      role: {
+        equals: "worker"
+      }
+    }
+  });
+
+  const workersIDs= workers.map((worker) => worker.id);
+  return workersIDs;
+}
+
 const Page = async ({ params }: CandidateIDProps) => {
   const { candidateID } = params;
   const candidateAvailable = await db.user.findFirst({

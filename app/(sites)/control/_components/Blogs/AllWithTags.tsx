@@ -1,6 +1,5 @@
 "use client";
 import { trpc } from "@/app/_trpc/client";
-import QuillPreview from "@/components/QuillPreview";
 import { Button } from "@/components/ui/button";
 import { Menu, Transition } from "@headlessui/react";
 import { Blogs } from "@prisma/client";
@@ -15,7 +14,7 @@ import {
   MoreVertical,
   SlidersHorizontal,
   Trash,
-  Undo,
+  CornerUpLeft,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -179,7 +178,7 @@ const AllWithTags = ({
             href={origin ? `/${origin}` : `/control/blogs/posts/${blogId}`}
             className="hover:text-[#005580] text-gray-700"
           >
-            <Undo className="h-6 w-6 shrink-0" />
+            <CornerUpLeft className="h-6 w-6 shrink-0" />
           </Link>
           <div className="flex flex-col">
             <h3 className="font-bold capitalize line-clamp-1 text-gray-600 tracking-tight text-xl sm:text-2xl lg:text-3xl">
@@ -189,7 +188,7 @@ const AllWithTags = ({
         </div>
       </div>
       <div className="mx-auto max-w-7xl relative">
-        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 pt-4 sm:mt-2 lg:mx-0 lg:max-w-none sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 mt-2 lg:mx-0 lg:max-w-none sm:grid-cols-2 lg:grid-cols-3">
           {pageBlogs.map((post) => (
             <article
               key={post.id}
@@ -236,7 +235,7 @@ const AllWithTags = ({
                     }
                     className="line-clamp-3 mt-1 text-sm text-gray-700"
                   >
-                    <QuillPreview htmlContent={cleanHashtags(post.body)} />
+                    {post.blogDescription}
                   </div>
                 </div>
                 <div className="flex items-center justify-between gap-x-4 mt-2 w-full relative">

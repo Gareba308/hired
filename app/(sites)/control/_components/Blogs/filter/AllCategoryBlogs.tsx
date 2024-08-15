@@ -1,5 +1,4 @@
 "use client";
-import QuillPreview from "@/components/QuillPreview";
 import { Menu, Transition } from "@headlessui/react";
 import { Blogs } from "@prisma/client";
 import { format } from "date-fns";
@@ -68,7 +67,7 @@ const AllCategoryBlogs = ({ blogs, category }: AllCategoryBlogsProps) => {
         <div>
           <Menu as="div" className="relative inline-block text-left">
             <div>
-              <Menu.Button className="flex items-center w-full justify-center gap-x-1.5 rounded-sm bg-white px-3 py-2 text-sm font-medium text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+              <Menu.Button className="flex items-center w-full justify-center gap-x-1.5 rounded-sm bg-white px-3 py-1.5 text-sm font-medium text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                 <SlidersHorizontal className="h-4 w-4 mr-0.5" />
                 Filter
                 <ChevronDownIcon
@@ -115,7 +114,7 @@ const AllCategoryBlogs = ({ blogs, category }: AllCategoryBlogsProps) => {
         </div>
       </div>
       <div className="mx-auto max-w-7xl relative">
-        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 pt-4 sm:mt-2 lg:mx-0 lg:max-w-none sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 mt-2 lg:mx-0 lg:max-w-none sm:grid-cols-2 lg:grid-cols-3">
           {pageBlogs.map((post) => (
             <article
               key={post.id}
@@ -172,7 +171,7 @@ const AllCategoryBlogs = ({ blogs, category }: AllCategoryBlogsProps) => {
                     }
                     className="line-clamp-3 mt-1 text-sm text-gray-700"
                   >
-                    <QuillPreview htmlContent={cleanHashtags(post.body)} />
+                    {post.blogDescription}
                   </div>
                 </div>
                 <div className="flex items-center justify-between gap-x-4 mt-2 w-full relative">

@@ -177,7 +177,7 @@ const JobCard2 = ({ allJobs, mySavedJobs, popular }: JobCardProps) => {
                     <div>
                       <div
                         onClick={() => handleViewJob(item.id)}
-                        className="hidden w-[60px] cursor-pointer py-1 px-0.5 h-[60px] border shadow-sm border-gray-200 bg-white/70 shrink-0 rounded-md sm:flex items-center justify-center"
+                        className="hidden w-[60px] cursor-pointer py-1 px-0.5 h-[60px] border shadow-sm border-gray-200 bg-gray-200 shrink-0 rounded-lg sm:flex items-center justify-center"
                       >
                         <Image
                           src={item.companyLogo as string}
@@ -185,7 +185,7 @@ const JobCard2 = ({ allJobs, mySavedJobs, popular }: JobCardProps) => {
                           height={66}
                           width={66}
                           quality={100}
-                          className="shrink-0"
+                          className="shrink-0 rounded-lg"
                         />
                       </div>
                     </div>
@@ -352,7 +352,7 @@ const JobCard2 = ({ allJobs, mySavedJobs, popular }: JobCardProps) => {
                   style={{ color: "#4b5563 !important" }}
                   className="sm:text-base text-sm font-normal cursor-pointer line-clamp-2 sm:line-clamp-3"
                 >
-                  <QuillPreview htmlContent={item.job_description} />
+                  {item.summaryDescription} 
                 </div>
                 {item.ownPlatformMethod === "here" ? (
                   <TooltipProvider>

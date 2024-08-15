@@ -1,5 +1,4 @@
 "use client";
-import QuillPreview from "@/components/QuillPreview";
 import { Menu, Transition } from "@headlessui/react";
 import { Blogs } from "@prisma/client";
 import { format } from "date-fns";
@@ -175,7 +174,7 @@ const AllCategoryBlogs = ({
                     }
                     className="line-clamp-3 mt-1 text-sm text-gray-700"
                   >
-                    <QuillPreview htmlContent={cleanHashtags(post.body)} />
+                    {post.blogDescription}
                   </div>
                 </div>
                 <div className="flex items-center justify-between gap-x-4 mt-2 w-full relative">

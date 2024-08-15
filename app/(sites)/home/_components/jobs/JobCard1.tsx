@@ -1,8 +1,7 @@
 "use client";
-import { Application, Job, JobView, SavedJobs } from "@prisma/client";
+import { Job, JobView} from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Bookmark, Building2, Loader2, MapPinIcon } from "lucide-react";
-import QuillPreview from "@/components/QuillPreview";
 import {
   Tooltip,
   TooltipContent,
@@ -14,7 +13,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 
 interface JobCardProps {
@@ -122,10 +120,10 @@ const JobCard1 = ({ allJobs, popular, viewed, viewID }: JobCardProps) => {
                     {currentlyOpeningID === item.id && isLoading ? (
                       <span className="flex items-center">
                         <Loader2 className="h-4 w-4 mr-1 animate-spin shrink-0" />
-                        {(item.job_title).toLocaleLowerCase()}
+                        {item.job_title.toLocaleLowerCase()}
                       </span>
                     ) : (
-                      <>{(item.job_title).toLocaleLowerCase()}</>
+                      <>{item.job_title.toLocaleLowerCase()}</>
                     )}
                   </h3>
                   <span>
@@ -140,13 +138,13 @@ const JobCard1 = ({ allJobs, popular, viewed, viewID }: JobCardProps) => {
                     </Button>
                   </span>
                 </div>
-                
+
                 <div className="flex items-center mb-0.5 sm:gap-x-2">
                   {item.companyLogo ? (
                     <div>
                       <div
                         onClick={() => handleViewJob(item.id)}
-                        className="hidden w-[60px] cursor-pointer py-1 px-0.5 h-[60px] border shadow-sm border-gray-300 bg-white/70 shrink-0 rounded-sm sm:flex items-center justify-center"
+                        className="hidden w-[60px] cursor-pointer py-1 px-0.5 h-[60px] border shadow-sm border-gray-300 bg-gray-200 shrink-0 rounded-lg sm:flex items-center justify-center"
                       >
                         <Image
                           src={item.companyLogo as string}
@@ -154,7 +152,8 @@ const JobCard1 = ({ allJobs, popular, viewed, viewID }: JobCardProps) => {
                           height={66}
                           width={66}
                           quality={100}
-                          className="shrink-0"
+                          title="Company logo"
+                          className="shrink-0 rounded-lg"
                         />
                       </div>
                     </div>
@@ -182,10 +181,10 @@ const JobCard1 = ({ allJobs, popular, viewed, viewID }: JobCardProps) => {
                         {currentlyOpeningID === item.id && isLoading ? (
                           <span className="flex items-center">
                             <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 mr-1 animate-spin shrink-0" />
-                            {(item.job_title).toLocaleLowerCase()}
+                            {item.job_title.toLocaleLowerCase()}
                           </span>
                         ) : (
-                          <>{(item.job_title).toLocaleLowerCase()}</>
+                          <>{item.job_title.toLocaleLowerCase()}</>
                         )}
                       </h3>
                       <span>
@@ -298,9 +297,9 @@ const JobCard1 = ({ allJobs, popular, viewed, viewID }: JobCardProps) => {
                 </div>
                 <div
                   onClick={() => handleViewJob(item.id)}
-                  className="sm:text-base text-sm mt-0.5 font-normal text-gray-600 cursor-pointer line-clamp-3"
+                  className="sm:text-base text-sm mt-0.5 font-normal text-gray-600 cursor-pointer line-clamp-2"
                 >
-                  <QuillPreview htmlContent={item.job_description} />
+                  {item.summaryDescription}
                 </div>
               </div>
             </li>

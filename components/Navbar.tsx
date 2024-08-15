@@ -44,18 +44,30 @@ const Navbar = () => {
 
   return (
     <div className="border border-b border-gray-200 pb-1.5 h-[70px]">
-      <nav className="relative items-center pt-3 px-4 mx-auto max-w-screen-xl md:px-6 md:flex md:space-x-6">
-        <div className="flex justify-between">
-          <Link href="/" className="rounded-md">
+      <nav className="relative items-center pt-3 px-4 h-full mx-auto max-w-screen-xl md:px-6 md:flex md:space-x-6">
+        <div className="flex h-full justify-between">
+          <Link href="/" className="rounded-md flex items-center">
             <Image
               src={
-                "https://res.cloudinary.com/dx0i37cyd/image/upload/v1722608373/Hired-_Kenya_3_tyegve.png"
+                "https://res.cloudinary.com/dx0i37cyd/image/upload/v1723627737/veryHired_lo5n1w.png"
               }
               height={70}
-              width={74}
+              width={85}
               alt="Logo"
               title="Logo"
-              className="rounded-sm"
+              className="rounded-sm hidden md:flex"
+              quality={100}
+              priority={true}
+            />
+            <Image
+              src={
+                "https://res.cloudinary.com/dx0i37cyd/image/upload/v1723627737/veryHired_lo5n1w.png"
+              }
+              height={55}
+              width={65}
+              alt="Logo"
+              title="Logo"
+              className="rounded-sm md:hidden"
               quality={100}
               priority={true}
             />

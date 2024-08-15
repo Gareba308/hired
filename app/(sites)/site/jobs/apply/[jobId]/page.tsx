@@ -7,6 +7,11 @@ import { redirect } from "next/navigation";
 import NoProfile from "../../../_components/profile/Unavailable";
 import NoPortfolio from "../../../_components/portfolio/NoPortfolio";
 import { differenceInMonths, differenceInYears, parse } from "date-fns";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Submit Job Application",
+}
 
 interface Applicant {
   skills: string[];
@@ -31,6 +36,24 @@ interface ApplyJobProps {
     jobId: string;
   };
 }
+
+export async function generateStaticParams() {
+  const currentDate = new Date();
+  const jobs = await db.job.findMany({
+    where: {
+      deadline: {
+        gte: currentDate,
+      },
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+      },
+    },
+  });
+
+  const allJobIDs=jobs.map((job) => job.id);
+  return allJobIDs
+}
+
 
 const Page = async ({ params }: ApplyJobProps) => {
   const { jobId } = params;

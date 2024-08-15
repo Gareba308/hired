@@ -161,9 +161,9 @@ const CompanyCreateProfile = () => {
         <div className="border-b border-gray-200 pb-2">
           <h2 className="font-bold text-2xl text-gray-600">Create Profile</h2>
           <p className="text-gray-600">
-            Fill in required details to create your bio data section of the
-            profile. We will keep all sensitive information private. User
-            profile helps employer know who you are.
+            Ensure you provide comprehensive details about your company. This
+            information helps potential candidates gain a better understanding
+            of your organization.
           </p>
         </div>
 

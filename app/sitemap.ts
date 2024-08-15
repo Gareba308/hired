@@ -176,6 +176,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/home/jobs`,
     },
     {
+      url: `${baseUrl}/home/login`
+    },
+    {
+      url: `${baseUrl}/home/register`
+    },
+    {
+      url: `${baseUrl}/home/login/enterprises`
+    },
+    {
+      url: `${baseUrl}/home/register/enterprises`
+    },
+    {
       url: `${baseUrl}/home/blogs/job-seekers`,
     },
     {
@@ -186,9 +198,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/home/faqs/job-seekers`
+    }, 
+    {
+      url: `${baseUrl}/home/privacy`
+    },
+    {
+      url: `${baseUrl}/home/terms`
+    },
+   
+    {
+      url: `${baseUrl}/home/about`
     },
     {
       url: `${baseUrl}/home/contact`
+    },
+    {
+      url: `${baseUrl}/home/security/email`
+    },
+    {
+      url: `${baseUrl}/home/security/password`
+    },
+    {
+      url: `${baseUrl}/home/forgot-password`
     },
     ...jobsUrls,
     ...workersBlogsDetailUrls,

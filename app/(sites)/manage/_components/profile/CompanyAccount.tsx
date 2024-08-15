@@ -108,9 +108,8 @@ const CompanyAccount = ({
           Account&apos;s Security
         </h2>
         <p className="text-gray-600">
-          Fill in required details to create your bio data section of the
-          profile. We will keep all sensitive information private. User profile
-          helps employer know who you are.
+          Your account security details are private. You may update them at any
+          time, but please do so with caution.
         </p>
       </div>
 
@@ -150,7 +149,10 @@ const CompanyAccount = ({
                         Delete
                       </span>{" "}
                       button below, you will be asked to input your{" "}
-                      <span className="font-medium not-italic">email address</span>.
+                      <span className="font-medium not-italic">
+                        email address
+                      </span>
+                      .
                     </p>
                   )}
                   {!isDeleting && (

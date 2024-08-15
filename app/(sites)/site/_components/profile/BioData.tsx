@@ -151,9 +151,9 @@ const BioData = ({ profileBio }: BioProps) => {
           <div className="border-b border-gray-200 pb-2">
             <h2 className="font-bold text-2xl text-gray-600">Create Bio</h2>
             <p className="text-gray-600 text-base">
-              Fill in required details to create your bio data section of the
-              profile. We will keep all sensitive information private. User
-              profile helps employer know who you are.
+              Complete the required fields to create your bio section. All
+              sensitive information will be kept private. Your bio helps
+              employers understand who you are.
             </p>
           </div>
 

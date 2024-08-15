@@ -9,7 +9,6 @@ import {
   Import,
   LineChart,
   Network,
-  Newspaper,
   User2,
 } from "lucide-react";
 import React from "react";
@@ -55,11 +54,6 @@ const guestRoute = [
     icon: Network,
     label: "Career Point",
     href: "/site/career-point",
-  },
-  {
-    icon: Newspaper,
-    label: "Blog Articles",
-    href: "/site/blogs",
   },
   {
     icon: Gift,

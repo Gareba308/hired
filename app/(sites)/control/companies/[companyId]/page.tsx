@@ -8,6 +8,13 @@ interface CompanyDetailsProps {
   };
 }
 
+export async function generateStaticParams() {
+  const companies = await db.company.findMany();
+
+  const companiesIDs= companies.map((company) => company.id);
+  return companiesIDs;
+}
+
 const Page = async ({ params }: CompanyDetailsProps) => {
   const { companyId } = params;
   const currentDate = new Date();

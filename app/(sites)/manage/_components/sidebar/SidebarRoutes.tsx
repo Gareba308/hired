@@ -8,7 +8,6 @@ import {
   Gift,
   HardDriveUpload,
   LineChart,
-  Newspaper,
   User2,
   Users2,
   Wallet,
@@ -61,11 +60,6 @@ const guestRoute = [
     icon: Gift,
     label: "Refer & Earn",
     href: "/manage/referrals",
-  },
-  {
-    icon: Newspaper,
-    label: "Blog Articles",
-    href: "/manage/blogs",
   },
   {
     icon: Edit,

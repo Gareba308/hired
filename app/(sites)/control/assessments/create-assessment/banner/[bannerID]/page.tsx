@@ -8,6 +8,13 @@ interface SettingsProps {
   };
 }
 
+export async function generateStaticParams() {
+  const assessments = await db.assessmentBanner.findMany();
+
+  const assessmentsIDs= assessments.map((assess) => assess.id);
+  return assessmentsIDs;
+}
+
 const Page = async ({ params }: SettingsProps) => {
   const { bannerID } = params;
   const banner= await db.assessmentBanner.findFirst({

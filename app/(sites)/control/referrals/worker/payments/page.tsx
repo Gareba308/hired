@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import React from "react";
 import { RedeemHistory } from "../../../_components/referrals/RedeemHistory";
+import RedeemsHistoryFirst from "../../../_components/referrals/RedeemHistoryFirst";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
@@ -40,7 +41,7 @@ const Page = async () => {
   });
   return (
     <div  className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-90px)] mx-auto bg-white px-4 md:px-5 text-gray-700 sm:shadow-sm sm:rounded-lg">
-      <RedeemHistory history={getWorkerRedeems} />
+      <RedeemsHistoryFirst history={getWorkerRedeems} />
     </div>
   );
 };

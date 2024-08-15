@@ -12,6 +12,22 @@ interface JobApplicationIDProps {
   };
 }
 
+export async function generateStaticParams() {
+  const currentDate = new Date();
+  const jobs = await db.job.findMany({
+    where: {
+      deadline: {
+        gte: currentDate,
+      },
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+      },
+    },
+  });
+
+  return jobs.map((job) => job.id);
+}
+
 const Page = async ({ params }: JobApplicationIDProps) => {
   const { jobID:jobId } = params;
   const jobExists = await db.job.findFirst({

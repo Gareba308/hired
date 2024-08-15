@@ -9,7 +9,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Roboto } from "next/font/google";
 import { SocketProvider } from "@/context/Socket-Provider";
 import ScrollToTop from "../components/common/ScrollToTop";
-import { siteConfig} from "@/lib/config";
+import { siteConfig } from "@/lib/config";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700", "900"],
@@ -34,7 +34,9 @@ export const metadata: Metadata = {
     "apply for jobs Kenya",
     "Kenya job search",
     "professional jobs Kenya",
-    "latest jobs Kenya"
+    "latest jobs Kenya",
+    "jobs in Nairobi",
+    "jobs",
   ],
   authors: [
     {

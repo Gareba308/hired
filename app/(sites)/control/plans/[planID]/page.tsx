@@ -9,6 +9,14 @@ interface PlanEditProps {
     planID: string;
   };
 }
+
+export async function generateStaticParams() {
+  const plans = await db.employerPlans.findMany();
+
+  const plansIDs= plans.map((plan) => plan.id);
+  return plansIDs;
+}
+
 const Page = async ({ params }: PlanEditProps) => {
   const { planID } = params;
   const session = await getServerSession(authOptions);

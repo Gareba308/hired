@@ -39,14 +39,11 @@ import {
 
 import { useToast } from "@/components/ui/use-toast";
 import {
-  ArrowBigLeft,
-  ArrowLeft,
   CalendarIcon,
   CheckIcon,
   ChevronDown,
   GripVertical,
   Loader2,
-  Undo,
 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -54,6 +51,7 @@ import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
 import { Editor } from "@/components/Editor";
 import { useRef, useState } from "react";
+import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   academics,
@@ -117,6 +115,8 @@ export const reminderFormSchema = z.object({
   academicDesired: z.string(),
   deadline: z.coerce.date(),
   companyID: z.string(),
+  jobFormNonRegisteredCompany: z.boolean().default(false),
+  adminCreatingCompanyName: z.string(),
 });
 
 const CreateJob = ({ companies }: AdminCreateJobProps) => {
@@ -164,9 +164,14 @@ const CreateJob = ({ companies }: AdminCreateJobProps) => {
       instructions: "",
       deadline: new Date(currentDate),
       companyID: "",
+      jobFormNonRegisteredCompany: false,
+      adminCreatingCompanyName: "",
     },
   });
   const { control } = form;
+
+  const registration= useWatch({control, name: "jobFormNonRegisteredCompany"}) || false
+  const unregistered= registration === true
 
   const watchedJobTitle = useWatch({ control, name: "job_title" }) || "";
 
@@ -384,6 +389,90 @@ const CreateJob = ({ companies }: AdminCreateJobProps) => {
                     />
                   </dd>
                 </div>
+                <div className="py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0">
+                  <dt className="font-medium text-base text-gray-700">
+                    <div className="flex items-center flex-row">
+                      <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                      <span className="flex items-center">
+                        Non-Registered?
+                        <span className="text-lg font-normal pl-0.5 text-red-600">
+                          *
+                        </span>
+                      </span>
+                    </div>
+                  </dt>
+                  <dd className="mt-1 text-gray-700 lg:col-span-2 lg:mt-0 text-base">
+                    <Label className="font-medium text-base text-gray-700">
+                      Only for unregistered companies.
+                    </Label>
+                    <FormField
+                      control={form.control}
+                      name="jobFormNonRegisteredCompany"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <div className="flex items-start justify-between flex-row w-full gap-x-4">
+                            <div>
+                              <FormLabel className="text-base font-normal">
+                                Is job company unregistered in database?
+                              </FormLabel>
+                            </div>
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  </dd>
+                </div>
+
+                {unregistered && <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                  <dt className="text-base font-medium text-gray-600">
+                    <div className="flex items-center flex-row">
+                      <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                      <span className="flex items-center">
+                        Company Name
+                        <span className="text-lg font-normal pl-0.5 text-red-600">
+                          *
+                        </span>
+                      </span>
+                    </div>
+                  </dt>
+                  <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-base">
+                    <FormField
+                      disabled={isLoading}
+                      control={form.control}
+                      rules={{ required: "Job title cannot be left blank" }}
+                      name="adminCreatingCompanyName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-normal text-base text-gray-700">
+                            What is the name of the company?
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              disabled={isLoading}
+                              placeholder="e.g. Jobs Radar Kenya"
+                              required
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription></FormDescription>
+                          <FormMessage className="text-red-500 font-normal text-sm">
+                            {watchedJobTitle &&
+                              watchedJobTitle.length === 50 && (
+                                <>Maximum character limit of 50 reached.</>
+                              )}
+                          </FormMessage>
+                        </FormItem>
+                      )}
+                    />
+                  </dd>
+                </div>}
+
                 <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
                   <dt className="text-base font-medium text-gray-600">
                     <div className="flex items-center flex-row">

@@ -45,9 +45,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Editor } from "@/components/Editor";
 import ReactQuill from "react-quill";
 import ImageUpload from "@/components/ImageUpload";
+import { Textarea } from "@/components/ui/textarea";
 
 type CreateBlogFormSchema = z.infer<typeof formSchema>;
-const MIN_CHARACTERS = 50;
+const MIN_CHARACTERS = 40;
 const MAX_CHARACTERS = 75;
 
 const MIN_BODY_WORDS = 400;
@@ -60,6 +61,7 @@ export const formSchema = z.object({
   image: z.string(),
   target: z.string(),
   credit: z.string(),
+  keywords: z.string(),
 });
 const CreateBlog = () => {
   const { toast } = useToast();
@@ -75,6 +77,7 @@ const CreateBlog = () => {
       image: "",
       target: "",
       credit: "",
+      keywords: "",
     },
   });
 
@@ -423,6 +426,47 @@ const CreateBlog = () => {
                           <>Minimum body words is {MIN_BODY_WORDS}.</>
                         )}
                       </FormMessage>
+                    </FormItem>
+                  )}
+                />
+              </dd>
+            </div>
+
+            <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 border-b border-gray-100 lg:gap-4 lg:px-0 text-gray-700">
+              <dt className="text-base font-medium text-gray-600">
+                <div className="flex items-center flex-row">
+                  <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                  <span className="flex items-center">
+                    Blog Keywords
+                    <span className="text-lg font-normal pl-0.5 text-red-600">
+                      *
+                    </span>
+                  </span>
+                </div>
+              </dt>
+              <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-base">
+                <FormField
+                  disabled={isLoading}
+                  control={form.control}
+                  rules={{ required: "Keywords cannot be left blank" }}
+                  name="keywords"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-normal text-base text-gray-700">
+                        What are the maximum 10 keywords you would like the blog
+                        to have, separated by commas.
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Write maximum of 10 keywords"
+                          maxRows={6}
+                          minRows={6}
+                          rows={6}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription></FormDescription>
+                      <FormMessage className="text-red-500 font-normal text-sm" />
                     </FormItem>
                   )}
                 />

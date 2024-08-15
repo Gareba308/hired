@@ -218,48 +218,51 @@ model Active {
 }
 
 model Job {
-  id                  String    @id @default(cuid())
-  job_id              Int       @unique
-  userId              String
-  isEmployerID        String
-  createdByName       String?
-  companyId           String
-  company_name        String
-  company_description String?
-  companyLogo         String?
-  adminPosted         Boolean   @default(false)
-  job_type            String?
-  job_title           String
-  job_description     String    @db.Text
-  responsibilities    String?   @db.Text
-  requirement         String?   @db.Text
-  personal_skills     String[]  @default([])
-  experience          String?   @db.Text
-  numberOfPositions   String?
-  possible_pay        String?
-  category            String?
-  county              String?
-  published           Boolean?  @default(false)
-  deadline            DateTime?
-  filled              Boolean?  @default(false)
-  platform            String?
-  emailPlatform       String?
-  linkPlatform        String?
-  otherPlatform       String?
-  ownPlatformMethod   String?
-  viewCounts          Int       @default(0)
-  applied             Int       @default(0)
-  archived            Boolean   @default(false)
-  emailed             Boolean   @default(false)
-  experienceDesired   String?
-  address             String?
-  academic            String?
-  benefits            String[]  @default([])
-  instructions        String?
-  academicDesired     String?
-  logo2               String?   @default("https://res.cloudinary.com/dflvibeo6/image/upload/v1684840873/My_project_1_eadinu.png")
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  id                          String    @id @default(cuid())
+  job_id                      Int       @unique
+  userId                      String
+  isEmployerID                String
+  createdByName               String?
+  jobFormNonRegisteredCompany Boolean   @default(false)
+  adminCreatingCompanyName    String?
+  companyId                   String
+  company_name                String
+  company_description         String?
+  companyLogo                 String?
+  adminPosted                 Boolean   @default(false)
+  job_type                    String?
+  job_title                   String
+  summaryDescription          String
+  job_description             String    @db.Text
+  responsibilities            String?   @db.Text
+  requirement                 String?   @db.Text
+  personal_skills             String[]  @default([])
+  experience                  String?   @db.Text
+  numberOfPositions           String?
+  possible_pay                String?
+  category                    String?
+  county                      String?
+  published                   Boolean?  @default(false)
+  deadline                    DateTime?
+  filled                      Boolean?  @default(false)
+  platform                    String?
+  emailPlatform               String?
+  linkPlatform                String?
+  otherPlatform               String?
+  ownPlatformMethod           String?
+  viewCounts                  Int       @default(0)
+  applied                     Int       @default(0)
+  archived                    Boolean   @default(false)
+  emailed                     Boolean   @default(false)
+  experienceDesired           String?
+  address                     String?
+  academic                    String?
+  benefits                    String[]  @default([])
+  instructions                String?
+  academicDesired             String?
+  logo2                       String?   @default("https://res.cloudinary.com/dflvibeo6/image/upload/v1684840873/My_project_1_eadinu.png")
+  createdAt                   DateTime  @default(now())
+  updatedAt                   DateTime  @updatedAt
 
   company     Company       @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   employer    Employers     @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -812,6 +815,7 @@ model EmployerRequestAssessment {
   id           String   @id @default(cuid())
   userId       String
   demoID       String
+  completeTime DateTime
   isEmployerID String
   email        String
   phoneNumber  String
@@ -1179,6 +1183,8 @@ model Blogs {
   publisherSummary String?
   category         String
   target           String
+  keywords         String
+  blogDescription  String
   heading          String
   body             String   @db.Text
   hide             Boolean  @default(false)

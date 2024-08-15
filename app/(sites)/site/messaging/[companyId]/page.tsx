@@ -10,6 +10,13 @@ interface UserMessageProps {
   };
 }
 
+export async function generateStaticParams() {
+  const companies = await db.employerContactWorker.findMany();
+
+  const companiesIDs= companies.map((company) => company.companyId)
+  return companiesIDs;
+}
+
 const Page = async ({ params }: UserMessageProps) => {
   const { companyId } = params;
 

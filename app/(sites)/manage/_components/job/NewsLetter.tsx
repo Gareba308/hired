@@ -1,4 +1,5 @@
 import { Job } from "@prisma/client";
+import Link from "next/link";
 
 interface NewsLetterProps {
   job: Job | null;
@@ -26,7 +27,7 @@ const NewsLetter = ({ job, userId }: NewsLetterProps) => {
       <div className="mt-4 flex-1 text-base">
         <form
           onSubmit={(e) => e.preventDefault()}
-          className="items-center justify-center"
+          className="items-center my-2 justify-center"
         >
           <input
             type="text"
@@ -39,10 +40,10 @@ const NewsLetter = ({ job, userId }: NewsLetterProps) => {
         </form>
         <p className="text-base text-gray-400">
           Read our{" "}
-          <a className="text-primary underline" href="/manage">
+          <Link className="text-primary underline" href="/manage/privacy">
             {" "}
             Privacy Policy{" "}
-          </a>
+          </Link>
         </p>
       </div>
     </section>

@@ -75,8 +75,7 @@ export async function generateStaticParams({ params }: TagProps) {
   }
 
   const topHashtags1 = Array.from(hashtagsSet1);
-
-  const combinedHashtags = [...topHashtags, ...topHashtags1];
+  const combinedHashtags = Array.from(new Set([...topHashtags, ...topHashtags1]));
 
   return combinedHashtags;
 }

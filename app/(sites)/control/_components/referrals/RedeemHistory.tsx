@@ -177,28 +177,6 @@ export function RedeemHistory({ history }: RedeemHistoryProps) {
 
   const columns: ColumnDef<CombinedDataItems, keyof CombinedDataItems>[] = [
     {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
       accessorKey: "createdAt",
       header: "Date Requested",
       cell: ({ row }) => {
@@ -372,23 +350,10 @@ export function RedeemHistory({ history }: RedeemHistoryProps) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between gap-x-4 mb-2 flex-row">
-        <div className=" flex flex-row items-center">
-          <Link
-            href={origin ? `/${origin}` : "/control/referrals/worker"}
-            className="hover:text-[#005580]"
-          >
-            <CornerUpLeft className="h-6 w-6 mr-2 shrink-0" />
-          </Link>
-          <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
-            Redeem History
-          </h2>
-        </div>
-      </div>
-      <div className="mt-2.5">
+      <div className="mt-4">
         <p className="text-sm text-gray-700 font-normal">
-          Your redeemed amount will be made available to your mPesa by the
-          indicated payment date.
+          This includes workers&apos; redeemable credit points. Redeemed amounts are
+          disbursed to recipients via M-Pesa every Thursday.
         </p>
         <div className="rounded-lg border mt-1 bg-white">
           <Table>

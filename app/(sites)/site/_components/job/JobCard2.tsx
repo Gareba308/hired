@@ -49,8 +49,8 @@ const JobCard2 = ({ allJobs }: JobCardProps) => {
                       </h3>
                     )}
                     <>
-                      <div className="text-gray-600 text-base font-normal mt-1 line-clamp-3 sm:line-clamp-2">
-                        <QuillPreview htmlContent={item.job_description} />
+                      <div className="text-gray-600 text-base font-normal mt-1 line-clamp-2">
+                        {item.summaryDescription}
                       </div>
                     </>
                   </div>

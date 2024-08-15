@@ -19,7 +19,7 @@ const NoProfile = () => {
           <p className="text-gray-600 text-2xl font-bold sm:text-3xl">
             No User Profile Available
           </p>
-          <p className="text-gray-600 text-base md:text-base">
+          <p className="text-gray-600 text-base md:text-[15px]">
             Sorry, you are unable to create a blog because currently you do not
             have a user profile. Create a user profile to be able to publish
             blogs.

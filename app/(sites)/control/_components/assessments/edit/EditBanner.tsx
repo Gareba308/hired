@@ -12,6 +12,7 @@ import BannerInstructionsEdit from "./BannerInstructionsEdit";
 import BannerAttempts from "./BannerAttempts";
 import BannerQuestionsEdit from "./BannerQuestionsEdit";
 import BannerCompleteTime from "./BannerCompleteTime";
+import BannerDemoEdit from "./BannerDemoEdit";
 interface EditBannerProps {
   banner: AssessmentBanner;
 }
@@ -37,6 +38,7 @@ const EditBanner = ({ banner }: EditBannerProps) => {
           Edit Banner
         </legend>
         <dl className="divide-y divide-gray-100">
+          <BannerDemoEdit banner={banner} />
           <BannerNameEdit banner={banner} />
           <BannerCompleteTime banner={banner} />
           <BannerCategoryEdit banner={banner} />

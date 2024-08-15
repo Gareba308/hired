@@ -377,7 +377,7 @@ const WorkerReferrals = ({ user, blog }: WorkerReferralsProps) => {
               </div>
             )}
           </div>
-          <div className="w-full lg:pl-4 lg:w-4/12">
+          <div className="w-full mt-6 lg:mt-0 lg:pl-4 lg:w-4/12">
             <div className="shadow-sm border lg:mt-2 border-gray-200 mb-12 rounded-md bg-white">
               <h3 className="border-b border-body-color border-opacity-10 px-5 py-4 text-lg font-semibold text-black">
                 Are you looking for a job?

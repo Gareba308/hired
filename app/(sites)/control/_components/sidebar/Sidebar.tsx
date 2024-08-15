@@ -3,14 +3,15 @@ import React, { Fragment } from "react";
 import SidebarRoutes from "./SidebarRoutes";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
 import {
   AlignEndHorizontal,
-  ChevronsUpDown,
+  ChevronsUp,
   Edit,
   FolderEdit,
   ScrollText,
 } from "lucide-react";
-import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 
 const Sidebar = () => {
@@ -24,10 +25,23 @@ const Sidebar = () => {
     return classes.filter(Boolean).join(" ");
   }
   return (
-    <div className="h-full flex flex-col border-r justify-between gap-y-3 border-gray-200 bg-white/75">
+    <div className="h-full flex flex-col border-r justify-between gap-y-3 border-gray-200 bg-[#ffffff]">
       <div className="flex flex-col">
-        <div className="p-6">
-          <h2 className="text-xl font-bold sm:text-2xl text-gray-700">Administrator</h2>
+        <div className="h-[70px] flex my-auto items-center pl-6">
+          <Link href="/control">
+            <Image
+              src={
+                "https://res.cloudinary.com/dx0i37cyd/image/upload/v1723627737/veryHired_lo5n1w.png"
+              }
+              height={70}
+              width={85}
+              alt="Logo"
+              title="Logo"
+              quality={100}
+              className="rounded-sm"
+              priority={true}
+            />
+          </Link>
         </div>
         <div className="flex flex-col w-full">
           <SidebarRoutes />
@@ -44,6 +58,7 @@ const Sidebar = () => {
                   ? "text-sky-700 bg-sky-200/20 hover:bg-sky-200/20 hover:text-sky-700 border-r-4 border-sky-700 transition-all"
                   : "border border-gray-200"
               )}
+              title="Open Marketing Plan"
               style={{ transitionProperty: "border-radius" }}
             >
               <div className="flex items-center gap-x-2.5">
@@ -51,9 +66,9 @@ const Sidebar = () => {
                   size={20}
                   className={cn("text-gray-500", isActive && "text-sky-700")}
                 />
-                <div>Marketing</div>
+                <div>Marketing Plan</div>
               </div>
-              <ChevronsUpDown
+              <ChevronsUp
                 className={cn(
                   "h-4 w-4 text-gray-500 mr-1.5",
                   isActive && "text-sky-700"

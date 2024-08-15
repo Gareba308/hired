@@ -8,7 +8,7 @@ import Image from "next/image";
 
 import { Metadata } from "next";
 import { Blogs } from "@prisma/client";
-import {ArrowRight, Camera, Undo } from "lucide-react";
+import {ArrowRight, Camera, CornerUpLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -81,7 +81,7 @@ const BlogDetails = ({
                     href={origin ? `/${origin}` : "/manage/blogs"}
                     className="hover:text-[#005580]"
                   >
-                    <Undo className="h-6 w-6 mr-2.5 shrink-0" />
+                    <CornerUpLeft className="h-6 w-6 mr-2.5 shrink-0" />
                   </Link>
                   {blog.category && (
                     <span className="inline-flex items-center rounded-sm bg-green-100 px-2 py-[3px] text-[12.6px] font-medium text-green-700 ring-1 ring-inset ring-green-500/20">

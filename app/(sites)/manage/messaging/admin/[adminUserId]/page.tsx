@@ -10,6 +10,14 @@ interface CompanyMessageProps {
   };
 }
 
+export async function generateStaticParams() {
+  const admins = await db.contactEmployer.findMany();
+
+  const adminsUserIDs= admins.map((admin) => admin.adminUserId);
+
+  return adminsUserIDs
+}
+
 const Page = async ({ params }: CompanyMessageProps) => {
   const { adminUserId } = params;
   const session = await getServerSession(authOptions);

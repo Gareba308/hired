@@ -1,13 +1,9 @@
 "use client";
-import QuillPreview from "@/components/QuillPreview";
+
 import { Menu, Transition } from "@headlessui/react";
 import { Blogs } from "@prisma/client";
 import { format } from "date-fns";
-import {
-  ChevronDownIcon,
-  SlidersHorizontal,
-  Undo,
-} from "lucide-react";
+import { ChevronDownIcon, SlidersHorizontal, CornerUpLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -53,7 +49,7 @@ const AllBlogs = ({ blogs }: AllBlogsProps) => {
             href={origin ? `/${origin}` : "/manage/jobs"}
             className="hover:text-[#005580] text-gray-700"
           >
-            <Undo className="h-6 w-6 shrink-0" />
+            <CornerUpLeft className="h-6 w-6 shrink-0" />
           </Link>
           <div className="flex flex-col">
             <h3 className="font-bold capitalize line-clamp-1 text-gray-600 tracking-tight text-xl sm:text-2xl lg:text-3xl">
@@ -64,7 +60,7 @@ const AllBlogs = ({ blogs }: AllBlogsProps) => {
         <div>
           <Menu as="div" className="relative inline-block text-left">
             <div>
-              <Menu.Button className="flex items-center w-full justify-center gap-x-1.5 rounded-sm bg-white px-3 py-2 text-sm font-medium text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+              <Menu.Button className="flex items-center w-full justify-center gap-x-1.5 rounded-sm bg-white px-3 py-1.5 text-sm font-medium text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                 <SlidersHorizontal className="h-4 w-4 mr-0.5" />
                 Filter
                 <ChevronDownIcon
@@ -111,7 +107,7 @@ const AllBlogs = ({ blogs }: AllBlogsProps) => {
         </div>
       </div>
       <div className="mx-auto max-w-7xl relative">
-        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 pt-4 sm:mt-2 lg:mx-0 lg:max-w-none sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 mt-2 lg:mx-0 lg:max-w-none sm:grid-cols-2 lg:grid-cols-3">
           {pageBlogs.map((post) => (
             <article
               key={post.id}
@@ -143,9 +139,7 @@ const AllBlogs = ({ blogs }: AllBlogsProps) => {
                 </div>
                 <div className="group relative">
                   <h3 className="mt-1 text-lg font-semibold text-gray-800 hover:underline leading-tight group-hover:text-gray-700">
-                    <Link
-                      href={`/manage/blogs/${post.id}?origin=manage/blogs`}
-                    >
+                    <Link href={`/manage/blogs/${post.id}?origin=manage/blogs`}>
                       <span className="absolute inset-0" />
                       {post.heading}
                     </Link>
@@ -158,7 +152,7 @@ const AllBlogs = ({ blogs }: AllBlogsProps) => {
                     }
                     className="line-clamp-3 mt-1 text-sm text-gray-700"
                   >
-                    <QuillPreview htmlContent={cleanHashtags(post.body)} />
+                    {post.blogDescription}
                   </div>
                 </div>
                 <div className="flex items-center justify-between gap-x-4 mt-2 w-full relative">

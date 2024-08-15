@@ -10,6 +10,22 @@ interface ApplicationsDetailsProps {
     applicationID: string;
   };
 }
+
+export async function generateStaticParams() {
+  const currentDate = new Date();
+  const applications = await db.application.findMany({
+    where: {
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
+      },
+    },
+  });
+
+  const applicationsIDs= applications.map((application) => application.id).slice(0, 500);
+
+  return applicationsIDs
+}
+
 const Page = async ({ params }: ApplicationsDetailsProps) => {
   const applicationID = params.applicationID;
 

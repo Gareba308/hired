@@ -5,6 +5,13 @@ import { redirect } from "next/navigation";
 import React from "react";
 import NoAllBlogs from "../_components/blogs/NoBlogs";
 import AllBlogs from "../_components/blogs/AllBlogs";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Job Search Blogs",
+  description:
+    "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
+}
 
 const Page = async () => {
   const session = await getServerSession(authOptions);

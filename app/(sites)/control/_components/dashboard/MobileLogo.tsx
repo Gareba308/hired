@@ -4,19 +4,22 @@ import Link from "next/link";
 const MobileLogo = () => {
   return (
     <>
-      <Link href="/control" className="rounded-sm">
+      <Link href="/control">
         <Image
           src={
-            "https://res.cloudinary.com/dx0i37cyd/image/upload/v1722608373/Hired-_Kenya_3_tyegve.png"
+            "https://res.cloudinary.com/dx0i37cyd/image/upload/v1723627737/veryHired_lo5n1w.png"
           }
           height={55}
-          width={60}
+          width={65}
           alt="Logo"
           title="Logo"
           quality={100}
-          className="rounded-sm"
+          className="rounded-sm md:hidden"
           priority={true}
         />
+        <h2 className="font-bold text-4xl tracking-tighter hidden md:flex text-gray-700">
+          hired.co.ke
+        </h2>
       </Link>
     </>
   );

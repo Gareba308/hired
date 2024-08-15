@@ -10,7 +10,7 @@ const NoPortfolio = () => {
   const router = useRouter();
   return (
     <main>
-      <div className="bg-white max-w-screen-xl mx-auto px-6 flex items-start rounded-lg justify-start min-h-[calc(100vh-80px)] md:px-8">
+      <div className="bg-white max-w-screen-xl mx-auto pt-8 px-6 flex items-start rounded-lg justify-start min-h-[calc(100vh-80px)] md:px-8">
         <div className="max-w-lg mx-auto space-y-3 text-center">
           <h3 className="text-gray-600 font-semibold text-2xl flex flex-col items-center mb-8">
             <User2 className="h-16 w-16 sm:h-20 sm:w-20 border border-gray-600 rounded-full" />

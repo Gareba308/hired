@@ -9,6 +9,17 @@ interface CategoryProps {
   };
 }
 
+export async function generateStaticParams() {
+  const allBlogCategories = await db.blogs.findMany();
+
+  const convertToSlug = (text: string): string => {
+    return text.toLowerCase().replace(/\s+/g, "-");
+  };
+
+  const blogSlugs= allBlogCategories.map((blog) => convertToSlug(blog.category))
+  return blogSlugs;
+}
+
 const Page = async ({ params }: CategoryProps) => {
   const { blogId, category } = params;
 

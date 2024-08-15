@@ -25,25 +25,26 @@ const CompanyProfile = ({ profile }: CompanyProfileProps) => {
   return (
     <>
       <div className="border-b border-gray-200 pb-2">
-        <h2 className="font-bold text-2xl text-gray-600">Company&apos;s Profile</h2>
+        <h2 className="font-bold text-2xl text-gray-600">
+          Company&apos;s Profile
+        </h2>
         <p className="text-gray-600">
-          Fill in required details to create your bio data section of the
-          profile. We will keep all sensitive information private. User profile
-          helps employer know who you are.
+          You can edit your company details at any time. These details help
+          candidates understand your organization.
         </p>
       </div>
 
       <>
         <dl className="divide-y divide-gray-100">
-          <CompanyName profile={profile}/>
-          <CompanyEstablished profile={profile}/>
-          <EmployerAlternativeEmail profile={profile}/>
-          <CompanyPhone profile={profile}/>
-          <CompanyCategory profile={profile}/>
-          <CompanyWebsite profile={profile}/>
-          <CompanyDescription profile={profile}/>
-          <CompanyPostalAddress profile={profile}/>
-          <CompanyLogo profile={profile}/>
+          <CompanyName profile={profile} />
+          <CompanyEstablished profile={profile} />
+          <EmployerAlternativeEmail profile={profile} />
+          <CompanyPhone profile={profile} />
+          <CompanyCategory profile={profile} />
+          <CompanyWebsite profile={profile} />
+          <CompanyDescription profile={profile} />
+          <CompanyPostalAddress profile={profile} />
+          <CompanyLogo profile={profile} />
         </dl>
       </>
     </>

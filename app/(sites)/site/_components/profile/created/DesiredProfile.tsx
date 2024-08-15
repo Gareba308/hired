@@ -21,23 +21,22 @@ const DesiredProfile = ({ profiles }: DesiredProfileProps) => {
           <div className="border-b border-gray-200 pb-2">
             <h2 className="font-bold text-2xl text-gray-600">Desirable</h2>
             <p className="text-gray-600 text-base">
-              Fill in required details to create your bio data section of the
-              profile. We will keep all sensitive information private. User
-              profile helps employer know who you are.
+              You can update your preferences at any time. These details help us
+              and employers match you with suitable job opportunities.
             </p>
           </div>
 
           <>
             <dl className="divide-y divide-gray-100">
-                <DesiredJobCategoryEdit profile={profile} />
-                <DesiredYearsExperienceEdit profile={profile}/>
-                <DesiredAvailability profile={profile}/>
-                <DesiredCurrentRemuneration profile={profile}/>
-                <DesiredRemuneration profile={profile}/>
-                <DesiredRelocate profile={profile}/>
-                <DesiredCurrentRemunerationTerms profile={profile}/>
-                <DesiredRemunerationTerms profile={profile}/>
-                <DesiredEmploymentType profile={profile}/>
+              <DesiredJobCategoryEdit profile={profile} />
+              <DesiredYearsExperienceEdit profile={profile} />
+              <DesiredAvailability profile={profile} />
+              <DesiredCurrentRemuneration profile={profile} />
+              <DesiredRemuneration profile={profile} />
+              <DesiredRelocate profile={profile} />
+              <DesiredCurrentRemunerationTerms profile={profile} />
+              <DesiredRemunerationTerms profile={profile} />
+              <DesiredEmploymentType profile={profile} />
             </dl>
           </>
         </div>

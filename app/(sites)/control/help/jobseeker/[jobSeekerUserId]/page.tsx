@@ -9,6 +9,15 @@ interface JobSeekerID {
     jobSeekerUserId: string;
   };
 }
+
+export async function generateStaticParams() {
+  const workerHelps = await db.helpWorker.findMany();
+
+  const workersUserIDs= workerHelps.map((help) => help.userId);
+  return workersUserIDs;
+}
+
+
 const Page = async ({ params }: JobSeekerID) => {
   const { jobSeekerUserId } = params;
 

@@ -5,6 +5,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Job } from "@prisma/client";
 import NoJobs from "../../_components/job/NoJobs";
+import { cache } from "react";
+import { Metadata } from "next";
 
 interface JobsProps {
   params: {
@@ -12,14 +14,60 @@ interface JobsProps {
   };
 }
 
-const Page = async ({ params }: JobsProps) => {
-  const { jobId } = params;
-  const currentDate= new Date()
-  const job = await db.job.findFirst({
+const getJob = cache(async (jobId: string) => {
+  const jobExists = await db.job.findFirst({
     where: {
       id: jobId,
     },
   });
+
+  return jobExists;
+});
+
+export async function generateStaticParams() {
+  const currentDate = new Date();
+  const jobs = await db.job.findMany({
+    where: {
+      deadline: {
+        gte: currentDate,
+      },
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+      },
+    },
+  });
+
+  return jobs.map((job) => job.id);
+}
+
+export async function generateMetadata({
+  params,
+}: JobsProps): Promise<Metadata> {
+  const { jobId } = params;
+
+  const job = await getJob(jobId);
+
+  if (!job) {
+    return {
+      title: "Job not found",
+      description: "The job you are looking for does not exist.",
+    };
+  }
+  const jobSkills = job.personal_skills;
+  const selectedSkills = jobSkills.slice(0, 9);
+  selectedSkills.push(`jobs in ${job.county}`);
+  return {
+    title: `${job.job_title}`,
+    description: job.summaryDescription,
+    keywords: selectedSkills,
+  };
+}
+
+const Page = async ({ params }: JobsProps) => {
+  const { jobId } = params;
+  const currentDate= new Date()
+
+  const job = await getJob(jobId);
 
   if (!job){
     return (

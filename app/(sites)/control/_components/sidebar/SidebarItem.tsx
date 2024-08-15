@@ -22,6 +22,7 @@ const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
   return (
     <button
       onClick={onClick}
+      title={`Open ${label}`}
       type="button"
       className={cn(
         "flex items-center gap-x-2 text-gray-700 text-sm font-normal pl-6 hover:text-gray-700 hover:bg-slate-300/20",
@@ -30,7 +31,7 @@ const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
       )}
       style={{ transitionProperty: "border-radius" }}
     >
-      <div className="flex items-center gap-x-2.5 py-2.5">
+      <div className="flex items-center gap-x-2.5 py-[10.5px]">
         <Icon
           size={20}
           className={cn("text-gray-500", isActive && "text-sky-700")}

@@ -10,15 +10,15 @@ const NoPortfolio = () => {
   const router = useRouter();
   return (
     <main>
-      <div className="bg-white max-w-screen-xl pt-4 mx-auto px-6 flex items-start rounded-lg justify-start min-h-[calc(100vh-7rem)] lg:max-h-[calc(100vh-90px)] md:px-8">
+      <div className="bg-white max-w-screen-xl pt-4 mx-auto px-6 flex items-start rounded-lg justify-start min-h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)] md:px-8">
         <div className="max-w-lg mx-auto space-y-3 text-center">
           <h3 className="text-gray-600 font-medium text-2xl flex flex-col items-center mb-6">
-            <Squirrel className="h-20 w-20 sm:h-24 sm:w-28" />
+            <Squirrel className="h-20 w-20 sm:h-28 sm:w-28" />
           </h3>
           <p className="text-gray-600 text-2xl font-bold sm:text-3xl">
             Incomplete User Portfolio
           </p>
-          <p className="text-gray-600 md:text-lg">
+          <p className="text-gray-600 text-base md:text-[15px]">
             To view your documents, your portfolio should have details on your{" "}
             <span className="text-primary font-medium">skills</span>, a{" "}
             <span className="text-primary font-medium">summary</span> about

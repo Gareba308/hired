@@ -10,6 +10,20 @@ interface UserMessageProps {
   };
 }
 
+export async function generateStaticParams() {
+  const workersMessages = await db.employerContactWorker.findMany({
+    where: {
+      createdAt: {
+        gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+      },
+    },
+  });
+
+  const workersUserIDs= workersMessages.map((worker) => worker.workerUserId).slice(0, 500);
+
+  return workersUserIDs
+}
+
 const Page = async ({ params }: UserMessageProps) => {
   const { userId:workerId } = params;
 

@@ -12,6 +12,20 @@ interface BlogIDProps {
 interface CategoryCounts {
   [key: string]: number;
 }
+
+export async function generateStaticParams() {
+  const employerBlogs = await db.blogs.findMany({
+    where: {
+      target: {
+        in: ["Employer", "All"],
+      },
+    },
+  });
+
+  const blogIDs= employerBlogs.map((blog) => blog.id);
+  return blogIDs;
+}
+
 const Page = async ({ params }: BlogIDProps) => {
   const { blogId } = params;
 

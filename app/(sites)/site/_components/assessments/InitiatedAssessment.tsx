@@ -127,7 +127,7 @@ const InitiatedAssessment = ({
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [currentQuestionIndex, questions]);
+  }, [currentQuestionIndex, questions, initiated?.completeTime]);
 
   const currentQuestion = questions[currentQuestionIndex];
 

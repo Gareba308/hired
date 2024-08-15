@@ -8,6 +8,13 @@ interface SettingsProps {
   };
 }
 
+export async function generateStaticParams() {
+  const employerBlogs = await db.blogs.findMany();
+
+  const blogIDs= employerBlogs.map((blog) => blog.id);
+  return blogIDs;
+}
+
 const Page = async ({ params }: SettingsProps) => {
   const { postId } = params;
   const blog= await db.blogs.findFirst({

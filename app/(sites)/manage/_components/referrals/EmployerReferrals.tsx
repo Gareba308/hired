@@ -50,7 +50,7 @@ const features = [
       </svg>
     ),
     title: "Refer a friend",
-    desc: "Invite your friends, potential employers to join this platform using your referral link or by the alternative email invite",
+    desc: "Invite friends and potential employers to join the platform using your referral link or by sending an email invitation.",
   },
   {
     icon: (
@@ -74,7 +74,7 @@ const features = [
       </svg>
     ),
     title: "Earn your reward",
-    desc: " Together with your referred friend, you both earn Ksh.500 of credit after they sign up and verify email and you can use your credit to post a job.",
+    desc: "Both you and your referred friend will each earn Ksh.500 in credit once they sign up and verify their email. You can apply your credit towards posting a job.",
   },
   {
     icon: (
@@ -97,7 +97,7 @@ const features = [
       </svg>
     ),
     title: "Claim your reward",
-    desc: "Once your invited employer has done all the above, your credit will automatically be channeled to your account balance you can use to post a job.",
+    desc: "Once your invited employer completes the required steps, your credit will automatically be added to your account balance and can be used to post a job.",
   },
 ];
 
@@ -221,9 +221,10 @@ const EmployerReferrals = ({ user, blog }: EmployerReferralsProps) => {
               Refer an employer and get credit
             </h2>
             <p className="text-sm leading-normal tracking-normal text-gray-600 font-normal">
-              Refer a potential employer and you will both receive{" "}
-              <span className="font-semibold">Ksh.500</span> of credit when they
-              sign up, verify.
+              Refer a potential employer, and you&apos;ll both receive{" "}
+              <span className="font-semibold">Ksh.500</span> in credit when they
+              sign up and verify their email. Our referral system is
+              straightforward and easy to use.
             </p>
 
             <h3 className="text-lg font-medium text-gray-700 mt-2">
@@ -360,7 +361,7 @@ const EmployerReferrals = ({ user, blog }: EmployerReferralsProps) => {
               </div>
             )}
           </div>
-          <div className="w-full lg:pl-4 lg:w-4/12">
+          <div className="w-full mt-6 lg:mt-0 lg:pl-4 lg:w-4/12">
             <div className="shadow-sm border lg:mt-2 border-gray-200 mb-12 rounded-md bg-white">
               <h3 className="border-b border-body-color border-opacity-10 px-5 py-4 text-lg font-semibold text-black">
                 Make a job listing?
@@ -368,8 +369,8 @@ const EmployerReferrals = ({ user, blog }: EmployerReferralsProps) => {
               <div className="px-5 py-6 leading-relaxed">
                 <p className="text-base font-normal">
                   Post a job on our platform to connect with a wide pool of
-                  talented candidates. Our listing process is both
-                  affordable and user-friendly.
+                  talented candidates. Our listing process is both affordable
+                  and user-friendly.
                 </p>
                 <div className="mt-4">
                   <Button

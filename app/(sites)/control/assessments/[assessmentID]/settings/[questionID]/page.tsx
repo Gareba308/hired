@@ -8,6 +8,14 @@ interface QuestionsProps {
     assessmentID: string;
   };
 }
+
+export async function generateStaticParams() {
+  const questions = await db.assessment.findMany();
+
+  const questionsIDs= questions.map((quiz) => quiz.id);
+  return questionsIDs;
+}
+
 const Page = async ({ params }: QuestionsProps) => {
   const { questionID, assessmentID } = params;
 

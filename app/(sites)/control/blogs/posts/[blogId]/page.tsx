@@ -11,6 +11,13 @@ interface CategoryCounts {
   [key: string]: number;
 }
 
+export async function generateStaticParams() {
+  const employerBlogs = await db.blogs.findMany();
+
+  const blogIDs= employerBlogs.map((blog) => blog.id);
+  return blogIDs;
+}
+
 const Page = async ({ params }: BlogDetailsProps) => {
   const { blogId } = params;
   const blogExists = await db.blogs.findFirst({

@@ -9,6 +9,14 @@ interface AssessmentParamsProps {
     assessmentID: string;
   };
 }
+
+export async function generateStaticParams() {
+  const assessments = await db.assessmentBanner.findMany();
+
+  const assessmentsIDs= assessments.map((assess) => assess.id);
+  return assessmentsIDs;
+}
+
 const Page = async ({ params }: AssessmentParamsProps) => {
   const { assessmentID } = params;
   const session = await getServerSession(authOptions);

@@ -10,6 +10,19 @@ interface InstantResultsProps {
     instantID: string;
   };
 }
+
+export async function generateStaticParams() {
+  const instantAssess = await db.acceptToBeAssessed.findMany({
+    where: {
+      acceptBeTested: {
+        equals: true,
+      },
+    },
+  });
+
+  const instantAssessIDs= instantAssess.map((assess) => assess.id)
+  return instantAssessIDs;
+}
 const Page = async ({ params }: InstantResultsProps) => {
   const { instantID } = params;
   const session = await getServerSession(authOptions);

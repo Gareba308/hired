@@ -53,15 +53,17 @@ export async function generateMetadata({
       description: "The blog you are looking for does not exist.",
     };
   }
+  const keywords= blog.keywords.split(", ").map(name => name.trim()).slice(0, 10);
   return {
     title: `${blog.heading}`,
-    description: `${format(blog.createdAt, "PPP")}: Delve into ${blog.heading}. Keep abreast of developments in the hiring and job market.`,
+    description: `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
+    keywords: keywords,
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
       title: `${blog.heading}`,
-      description: `${format(blog.createdAt, "PPP")}: Delve into ${blog.heading}. Keep abreast of developments in the hiring and job market.`,
+      description: `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
       siteName: siteConfig.name,
       images: [
         {
@@ -87,7 +89,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: `${blog.heading}`,
-      description: `${format(blog.createdAt, "PPP")}: Delve into ${blog.heading}. Keep abreast of developments in the hiring and job market.`,
+      description: `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
       images: [
         {
           url: blog.image,

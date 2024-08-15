@@ -68,11 +68,6 @@ const guestRoute = [
     href: "/control/referrals",
   },
   {
-    icon: ShieldQuestion,
-    label: "Help Center",
-    href: "/control/help/jobseeker",
-  },
-  {
     icon: Edit,
     label: "Assessments",
     href: "/control/assessments",

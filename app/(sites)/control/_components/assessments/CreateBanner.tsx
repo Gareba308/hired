@@ -34,6 +34,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Editor } from "@/components/Editor";
 import ReactQuill from "react-quill";
+import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { assessmentCategories } from "../data/create-job/Assessment";
 import { cn } from "@/lib/utils";
@@ -49,6 +50,7 @@ export const formSchema = z.object({
   numberQuestions: z.string(),
   completeTime: z.string(),
   instructions: z.string(),
+  forDemo: z.boolean().default(false),
 });
 const MAX_SUMMARY_WORDS = 28;
 
@@ -69,6 +71,7 @@ const CreateBanner = () => {
       instructions: "",
       numberQuestions: "",
       completeTime: "",
+      forDemo: false
     },
   });
 
@@ -123,6 +126,46 @@ const CreateBanner = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <dl className="divide-y divide-gray-100">
+          <div className="py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0">
+            <dt className="font-medium text-base text-gray-700">
+              <div className="flex items-center flex-row">
+                <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                <span className="flex items-center">
+                  Demo Assessment?
+                  <span className="text-lg font-normal pl-0.5 text-red-600">
+                    *
+                  </span>
+                </span>
+              </div>
+            </dt>
+            <dd className="mt-1 text-gray-700 lg:col-span-2 lg:mt-0 text-base">
+              <Label className="font-medium text-base text-gray-700">
+                Category of assessment banner
+              </Label>
+              <FormField
+                control={form.control}
+                name="forDemo"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <div className="flex items-start justify-between flex-row w-full gap-x-4">
+                    <div>
+                      <FormLabel className="text-base font-normal">
+                        The banner is for a demo type of assessment?
+                      </FormLabel>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </dd>
+          </div>
+
           <div className="py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0">
             <dt className="font-medium text-base text-gray-700">
               <div className="flex items-center flex-row">
