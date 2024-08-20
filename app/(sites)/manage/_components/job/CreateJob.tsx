@@ -36,11 +36,9 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command";
-
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import {
-  ArrowBigLeft,
-  ArrowLeft,
   CalendarIcon,
   CheckIcon,
   ChevronDown,
@@ -72,6 +70,7 @@ import {
 } from "@mui/material";
 import { useCachedSkills } from "../data/create-job/AllSkills";
 import { useBenefits } from "../data/create-job/Benefits";
+import { PickAssessCandidate } from "@prisma/client";
 
 type ReminderFormSchemaType = z.infer<typeof reminderFormSchema>;
 
@@ -108,11 +107,18 @@ export const reminderFormSchema = z.object({
   academic: z.string(),
   benefits: z.array(z.string()),
   instructions: z.string(),
+  addAssessment: z.boolean().default(false),
+  assessmentOneID: z.string(),
+  assessmentTwoID: z.string(),
   academicDesired: z.string(),
   deadline: z.coerce.date(),
 });
 
-const CreateJob = () => {
+interface CreateJobProps {
+  orderedAssessments: PickAssessCandidate[];
+}
+
+const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
   const currentDate = new Date();
   const router = useRouter();
   const { toast } = useToast();
@@ -153,6 +159,9 @@ const CreateJob = () => {
       category: "",
       county: "",
       address: "",
+      addAssessment: false,
+      assessmentOneID: "",
+      assessmentTwoID: "",
       benefits: [],
       instructions: "",
       deadline: new Date(currentDate),
@@ -170,6 +179,15 @@ const CreateJob = () => {
   const isLinkPlatform = platformValue === "link";
   const isOtherPlatform = platformValue === "office";
 
+  const whereToGetApplications =
+    useWatch({ control, name: "ownPlatformMethod" }) || "";
+  const thisPlatform = whereToGetApplications === "here";
+
+  const addAssess = useWatch({ control, name: "addAssessment" });
+  const agreeAddAssessment = addAssess === true;
+
+  const firstAssessment= useWatch({control, name: "assessmentOneID"})
+
   const isEmailValues = useWatch({ control, name: "emailPlatform" }) || "";
   const isLinkValue = useWatch({ control, name: "linkPlatform" }) || "";
   const isOthersValue = useWatch({ control, name: "otherPlatform" }) || "";
@@ -179,6 +197,9 @@ const CreateJob = () => {
     return emailRegex.test(email);
   };
   const isEmailValue = isValidEmail(isEmailValues);
+
+  const [popoverOpen1, setPopoverOpen1] = useState<boolean>(false);
+  const [popoverOpenA, setPopoverOpenA] = useState<boolean>(false);
   const [popoverOpen2, setPopoverOpen2] = useState<boolean>(false);
   const [popoverOpen3, setPopoverOpen3] = useState<boolean>(false);
   const [popoverOpen4, setPopoverOpen4] = useState<boolean>(false);
@@ -1378,6 +1399,250 @@ const CreateJob = () => {
                     />
                   </dd>
                 </div>
+
+                {orderedAssessments.length !== 0 && thisPlatform && (
+                  <>
+                    <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                      <dt className="text-base font-medium text-gray-600">
+                        <div className="flex items-center flex-row">
+                          <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                          <span className="flex items-center">
+                            Add Assessment?
+                          </span>
+                        </div>
+                      </dt>
+                      <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                        <FormField
+                          control={form.control}
+                          name="addAssessment"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel className="font-normal text-base">
+                                Would you like to add a compulsory assessment to
+                                this job listing?
+                              </FormLabel>
+                              <div className="flex flex-row items-start space-x-3 space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                                <Label className="font-normal">
+                                  Yes, add an assessment test.
+                                </Label>
+                              </div>
+                              <FormDescription></FormDescription>
+                              <FormMessage className="text-red-500 font-normal text-base" />
+                            </FormItem>
+                          )}
+                        />
+                      </dd>
+                    </div>
+
+                    {agreeAddAssessment && (
+                      <>
+                        <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                          <dt className="text-base font-medium text-gray-600">
+                            <div className="flex items-center flex-row">
+                              <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                              <span className="flex items-center">
+                                Assessment Name
+                                <span className="text-lg font-normal pl-0.5 text-red-600">
+                                  *
+                                </span>
+                              </span>
+                            </div>
+                          </dt>
+                          <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                            <FormField
+                              disabled={isLoading}
+                              control={form.control}
+                              name="assessmentOneID"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                  <FormLabel className="font-normal text-base text-gray-700">
+                                    Select the name of the assessment you would
+                                    like to be added to this job listing?
+                                    <span className="text-xs text-gray-600">
+                                      (e.g., Talanta Language Test)
+                                    </span>
+                                  </FormLabel>
+                                  <Popover
+                                    open={popoverOpen1}
+                                    onOpenChange={setPopoverOpen1}
+                                  >
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          variant="outline"
+                                          role="combobox"
+                                          disabled={isLoading}
+                                          className={cn(
+                                            "w-full justify-between",
+                                            !field.value &&
+                                              "text-muted-foreground"
+                                          )}
+                                        >
+                                          {field.value
+                                            ? orderedAssessments.find(
+                                                (test) =>
+                                                  test.testID === field.value
+                                              )?.testName
+                                            : "---Select the test name---"}
+                                          <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="p-0 max-h-[400px] overflow-y-scroll">
+                                      <Command>
+                                        <CommandInput placeholder="Search for assessment..." />
+                                        <CommandEmpty>
+                                          No assessment found.
+                                        </CommandEmpty>
+                                        <CommandGroup>
+                                          {orderedAssessments
+                                            .sort((a, b) =>
+                                              a.testName!.localeCompare(
+                                                b.testName!
+                                              )
+                                            )
+                                            .map((test) => (
+                                              <CommandItem
+                                                value={test.testID}
+                                                key={test.id}
+                                                onSelect={() => {
+                                                  form.setValue(
+                                                    "assessmentOneID",
+                                                    test.testID
+                                                  );
+                                                  setPopoverOpen1(false);
+                                                }}
+                                              >
+                                                <CheckIcon
+                                                  className={cn(
+                                                    "mr-2 h-4 w-4",
+                                                    test.testID === field.value
+                                                      ? "opacity-100"
+                                                      : "opacity-0"
+                                                  )}
+                                                />
+                                                {test.testName}
+                                              </CommandItem>
+                                            ))}
+                                        </CommandGroup>
+                                      </Command>
+                                    </PopoverContent>
+                                  </Popover>
+                                  <FormDescription></FormDescription>
+                                  <FormMessage className="text-red-500 font-normal text-sm" />
+                                </FormItem>
+                              )}
+                            />
+                          </dd>
+                        </div>
+
+                        {orderedAssessments.length > 1 && firstAssessment && (
+                          <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                            <dt className="text-base font-medium text-gray-600">
+                              <div className="flex items-center flex-row">
+                                <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                                <span className="flex items-center">
+                                  Second Assessment?
+                                </span>
+                              </div>
+                            </dt>
+                            <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                              <FormField
+                                disabled={isLoading}
+                                control={form.control}
+                                name="assessmentTwoID"
+                                render={({ field }) => (
+                                  <FormItem className="flex flex-col">
+                                    <FormLabel className="font-normal text-base text-gray-700">
+                                      Would you like to add a second assessment to this job listing? Select from the list below.
+                                      <span className="text-xs text-gray-600">
+                                        (e.g., Talanta2 Language Test)
+                                      </span>
+                                    </FormLabel>
+                                    <Popover
+                                      open={popoverOpenA}
+                                      onOpenChange={setPopoverOpenA}
+                                    >
+                                      <PopoverTrigger asChild>
+                                        <FormControl>
+                                          <Button
+                                            variant="outline"
+                                            role="combobox"
+                                            disabled={isLoading}
+                                            className={cn(
+                                              "w-full justify-between",
+                                              !field.value &&
+                                                "text-muted-foreground"
+                                            )}
+                                          >
+                                            {field.value
+                                              ? orderedAssessments.find(
+                                                  (test) =>
+                                                    test.testID === field.value
+                                                )?.testName
+                                              : "---Select the second test name---"}
+                                            <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                          </Button>
+                                        </FormControl>
+                                      </PopoverTrigger>
+                                      <PopoverContent className="p-0 max-h-[400px] overflow-y-scroll">
+                                        <Command>
+                                          <CommandInput placeholder="Search for assessment..." />
+                                          <CommandEmpty>
+                                            No assessment found.
+                                          </CommandEmpty>
+                                          <CommandGroup>
+                                            {orderedAssessments
+                                              .sort((a, b) =>
+                                                a.testName!.localeCompare(
+                                                  b.testName!
+                                                )
+                                              )
+                                              .map((test) => (
+                                                <CommandItem
+                                                  value={test.testID}
+                                                  key={test.id}
+                                                  onSelect={() => {
+                                                    form.setValue(
+                                                      "assessmentTwoID",
+                                                      test.testID
+                                                    );
+                                                    setPopoverOpenA(false);
+                                                  }}
+                                                >
+                                                  <CheckIcon
+                                                    className={cn(
+                                                      "mr-2 h-4 w-4",
+                                                      test.testID === field.value
+                                                        ? "opacity-100"
+                                                        : "opacity-0"
+                                                    )}
+                                                  />
+                                                  {test.testName}
+                                                </CommandItem>
+                                              ))}
+                                          </CommandGroup>
+                                        </Command>
+                                      </PopoverContent>
+                                    </Popover>
+                                    <FormDescription></FormDescription>
+                                    <FormMessage className="text-red-500 font-normal text-sm" />
+                                  </FormItem>
+                                )}
+                              />
+                            </dd>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
 
                 {ownMethod && (
                   <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">

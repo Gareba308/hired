@@ -12,16 +12,31 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { cn } from "@/lib/utils";
-import { Application } from "@prisma/client";
+import { Application,  AssessmentStatus } from "@prisma/client";
 import PDFResumeRender from "./PDFResumeRender";
 
+interface BetterUploadItems {
+  id: string;
+  userId: string;
+  fullName: string;
+  testName: string;
+  testCategory: string;
+  myAttempts: number;
+  completeTime: Date;
+  status: AssessmentStatus;
+  score: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 interface BetterUploadedProps {
   application: Application;
   applicationID: string;
+  applicantAssessmentResults: BetterUploadItems[];
 }
 const BetterUploaded = ({
   application,
   applicationID,
+  applicantAssessmentResults,
 }: BetterUploadedProps) => {
   const pathname = usePathname();
   const isActive =
@@ -38,7 +53,7 @@ const BetterUploaded = ({
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>User Uploaded Resume</BreadcrumbPage>
+                <BreadcrumbPage>Uploaded Resume & Tests</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -65,13 +80,16 @@ const BetterUploaded = ({
                 "border-b-[3px] border-sky-800 font-medium hover:border-[#005580]"
             )}
           >
-            <span className="hidden sm:flex">Uploaded Resume</span>
-            <span className="sm:hidden">Uploaded</span>
+            <span className="hidden sm:flex">Uploaded & Tests</span>
+            <span className="sm:hidden">Uploaded & Tests</span>
           </Link>
         </div>
       </div>
       <div>
-        <PDFResumeRender application={application} />
+        <PDFResumeRender
+          application={application}
+          applicantAssessmentResults={applicantAssessmentResults}
+        />
       </div>
     </>
   );

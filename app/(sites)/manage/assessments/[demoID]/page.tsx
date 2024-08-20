@@ -12,6 +12,10 @@ interface DemoProps {
   };
 }
 
+const shuffleArray = (array: any[]) => {
+  return array.sort(() => Math.random() - 0.5);
+};
+
 export async function generateStaticParams() {
   const demos = await db.employerRequestAssessment.findMany();
 
@@ -43,6 +47,15 @@ const Page = async ({ params }: DemoProps) => {
 
   if (!isUserRequestedDemo) redirect("/manage/assessments");
 
+  const mySubmittedDemos= await db.submitDemo.findMany({
+    where:{
+      bannerID: demoID,
+      userId,
+    }
+  })
+
+  const submittedQuestionID= mySubmittedDemos.map((demo)=> demo.questionId)
+
   const demoExists = await db.assessmentBanner.findFirst({
     where: {
       id: isUserRequestedDemo.demoID,
@@ -51,20 +64,34 @@ const Page = async ({ params }: DemoProps) => {
 
   if (!demoExists) redirect("/manage/assessments");
 
-  const theAssessment = await db.assessment.findMany({
+  const availableAssessments= await db.assessment.findMany({
     where: {
+      bannerID: demoExists.id,
+    }
+  })
+
+  let theAssessment = await db.assessment.findMany({
+    where: {
+      id: {
+        notIn: submittedQuestionID,
+      },
       bannerID: demoExists.id,
     },
   });
+
+  theAssessment = shuffleArray(theAssessment);
+
+  const submittedQuestionsNumber= submittedQuestionID.length
   return (
     <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-90px)] mx-auto bg-white px-4 md:px-5 text-gray-700 sm:shadow-sm sm:rounded-lg">
-      {theAssessment.length === 0 ? (
+      {availableAssessments.length === 0 ? (
         <NoAssessments />
       ) : (
         <InitiatedAssessment
           firstTest={theAssessment}
           banner={demoExists}
           initiated={isUserRequestedDemo}
+          submitted={submittedQuestionsNumber}
         />
       )}
     </div>

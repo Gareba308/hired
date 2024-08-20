@@ -106,7 +106,7 @@ export const AcceptAssessmentAlertModal: React.FC<
                   <span className="text-muted-foreground font-medium">
                     Date:
                   </span>
-                  <span>{format(banner.createdAt, "PPP")}</span>
+                  <span>{format(new Date(), "PPP")}</span>
                 </li>
               </ul>
               <Separator className="my-1.5" />

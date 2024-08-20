@@ -71,7 +71,7 @@ const CreateBanner = () => {
       instructions: "",
       numberQuestions: "",
       completeTime: "",
-      forDemo: false
+      forDemo: false,
     },
   });
 
@@ -97,8 +97,17 @@ const CreateBanner = () => {
           variant: "default",
           duration: 3000,
         });
-        router.refresh();
-        form.reset();
+        form.reset({
+          name: "",
+          category: "",
+          briefSummary: "",
+          attemptNumbers: "",
+          instructions: "",
+          numberQuestions: "",
+          completeTime: "",
+          forDemo: false,
+        });
+        window.location.reload();
       },
       onError: (err) => {
         if (err) {
@@ -148,17 +157,17 @@ const CreateBanner = () => {
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <div className="flex items-start justify-between flex-row w-full gap-x-4">
-                    <div>
-                      <FormLabel className="text-base font-normal">
-                        The banner is for a demo type of assessment?
-                      </FormLabel>
-                    </div>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
+                      <div>
+                        <FormLabel className="text-base font-normal">
+                          The banner is for a demo type of assessment?
+                        </FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
                     </div>
                   </FormItem>
                 )}
@@ -249,7 +258,7 @@ const CreateBanner = () => {
                       <RadioGroup
                         onValueChange={field.onChange}
                         disabled={isLoading}
-                        defaultValue={field.value}
+                        defaultValue={field.value || ""}
                         className="flex flex-row gap-x-12"
                       >
                         <div className=" space-y-2">
@@ -511,7 +520,7 @@ const CreateBanner = () => {
                       <RadioGroup
                         onValueChange={field.onChange}
                         disabled={isLoading}
-                        defaultValue={field.value}
+                        defaultValue={field.value || ""}
                         className="flex flex-col space-y-1"
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0">
@@ -590,7 +599,7 @@ const CreateBanner = () => {
                       <RadioGroup
                         onValueChange={field.onChange}
                         disabled={isLoading}
-                        defaultValue={field.value}
+                        defaultValue={field.value || ""}
                         className="flex flex-col space-y-1"
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0">

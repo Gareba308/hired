@@ -48,11 +48,50 @@ const Page = async ({ params }: UploadedResumeProps) => {
       </>
     );
   }
+
+  const job= await db.job.findFirst({
+    where: {
+      id: application.jobId
+    }
+  })
+
+  const bannerIds = [
+    job?.assessmentOneID,
+    job?.assessmentTwoID,
+  ].filter((id): id is string => id !== null && id !== undefined);
+
+
+  const applicantAssessmentResults= await db.acceptToBeAssessed.findMany({
+    where: {
+      userId: application.userId,
+      isWorkerID: application.isWorkerID,
+      testId: {
+        in: bannerIds
+      },
+      status: {
+        notIn: ["UNINITIATED", "INITIATED"]
+      }
+    },
+    select: {
+      id: true,
+      userId: true,
+      fullName: true,
+      testName: true,
+      testCategory: true,
+      myAttempts: true,
+      completeTime: true,
+      status: true,
+      score: true,
+      createdAt: true,
+      updatedAt: true
+    }
+  })
   return (
-    <div className="min-h-[calc(100vh-7rem)] lg:max-h-[calc(100vh-90px)] sm:rounded-md  pt-2 bg-white sm:shadow-sm max-w-7xl px-4 pb-4 mx-auto">
+    <div className="min-h-[calc(100vh-90px)] sm:rounded-md  pt-2 bg-white sm:shadow-sm max-w-7xl px-4 pb-4 mx-auto">
       <BetterUploaded
         application={application}
         applicationID={applicationID}
+        applicantAssessmentResults={applicantAssessmentResults}
       />
     </div>
   );

@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect } from "react";
 import { differenceInSeconds } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -32,21 +34,20 @@ export const formSchema = z.object({
 interface InitiatedAssessmentProps {
   firstTest: Assessment[];
   initiated: EmployerRequestAssessment;
-  banner: AssessmentBanner | null;
+  banner: AssessmentBanner;
+  submitted: number
 }
-const shuffleArray = (array: any[]) => {
-  return array.sort(() => Math.random() - 0.5);
-};
 
 const InitiatedAssessment = ({
   firstTest,
   initiated,
   banner,
+  submitted,
 }: InitiatedAssessmentProps) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [questions] = useState(() => shuffleArray([...firstTest]));
+  const [questions] = useState(() => [...firstTest]);
   const [timeLeft, setTimeLeft] = useState("");
-  const maxQuestions = 15;
+  const maxQuestions = banner.numberQuestions;
   const [reportOpen, setReportOpen] = useState<boolean>(false);
   const reportClose = () => {
     setReportOpen((prev) => !prev);
@@ -71,7 +72,7 @@ const InitiatedAssessment = ({
   const { toast } = useToast();
 
   const { mutate: submitAnswer, isLoading } =
-    trpc.workerSubmitAssessmentAnswer.useMutation({
+    trpc.employerSubmitAssessmentAnswer.useMutation({
       onSuccess: () => {
         if (currentQuestionIndex < maxQuestions - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -150,9 +151,9 @@ const InitiatedAssessment = ({
   }, [currentQuestionIndex, maxQuestions, currentQuestion, timeLeft]);
 
   const { mutate: verdictGenerate, isLoading: verdictLoading } =
-    trpc.workerGetVerdict.useMutation({
+    trpc.employerGetVerdict.useMutation({
       onSuccess: () => {
-        router.push(`/site/assessments/${initiated.id}`)
+        router.push(`/manage/assessments/results/${initiated.id}`)
         router.refresh()
       },
       onError: (err) => {
@@ -228,7 +229,7 @@ const InitiatedAssessment = ({
                       The Assessment End.
                     </h2>
                     <p className="text-base text-gray-700">
-                      This is the end of this attempt. If your time has elapsed
+                      This is the end of this demo. If your time has elapsed
                       before you finished, please check to confirm if you have
                       an available attempt left.
                     </p>
@@ -238,7 +239,7 @@ const InitiatedAssessment = ({
                       onClick={() =>
                         verdictGenerate({
                           bannerID: initiated.demoID as string,
-                          acceptanceID: initiated.id as string,
+                          requestID: initiated.id as string,
                         })
                       }
                       type="button"
@@ -256,13 +257,13 @@ const InitiatedAssessment = ({
               ) : (
                 <div>
                   <h2 className="text-[16.6px] sm:text-[16.8px] font-medium text-gray-700">
-                    {`Question ${currentQuestionIndex + 1}/${maxQuestions}`}
+                    {`Question ${submitted + 1}/${maxQuestions}`}
                   </h2>
                   <h2 className="text-base font-medium text-gray-600">
                     {currentQuestion.scenarioExplanation}
                   </h2>
                   <div className="text-base font-normal text-gray-700">
-                    <QuillPreview htmlContent={currentQuestion.scenario} />
+                    <QuillPreview htmlContent={currentQuestion?.scenario as string} />
                   </div>
 
                   <div className="mt-4">
@@ -367,15 +368,15 @@ const InitiatedAssessment = ({
                               {loadReport ? (
                                 <span className="flex items-center">
                                   <Loader2 className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />
-                                  Report Problem?
+                                  Make Suggestion?
                                 </span>
                               ) : (
-                                <>Report Problem?</>
+                                <>Make Suggestion?</>
                               )}
                             </button>
                             <p className="text-sm">
                               <span className="font-semibold">Won&apos;t</span>{" "}
-                              interrupt assessment.
+                              interrupt the demo.
                             </p>
                           </div>
                         </div>

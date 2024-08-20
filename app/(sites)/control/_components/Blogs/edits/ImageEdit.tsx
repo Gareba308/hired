@@ -1,22 +1,9 @@
-// import { Blogs } from "@prisma/client"
-
-// interface ImageEditProps{
-//   blog: Blogs
-// }
-
-// const ImageEdit = ({blog}: ImageEditProps) => {
-//   return (
-//     <div>ImageEdit</div>
-//   )
-// }
-
-// export default ImageEdit
-
 "use client";
 
 import { trpc } from "@/app/_trpc/client";
 import ImageUpload from "@/components/ImageUpload";
 import { Button } from "@/components/ui/button";
+import CloudUpload from "@/components/CloudUpload";
 import {
   Form,
   FormControl,
@@ -139,11 +126,12 @@ const ImageEdit = ({ blog }: ImageEditProps) => {
                               Update the blog&apos;s image
                             </FormLabel>
                             <FormControl>
-                              <ImageUpload
+                              <CloudUpload
                                 disabled={isLoading}
                                 onChange={(url) => field.onChange(url)}
                                 value={field.value ? field.value : ""}
                                 onRemove={() => field.onChange("")}
+                                accept="image/*"
                               />
                             </FormControl>
                             <FormMessage className="text-red-600 font-normal text-sm" />

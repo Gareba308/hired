@@ -207,7 +207,7 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
                     router.push(`/control/publication/${item.id}?origin=control/publication`)
                   }
                   style={{ color: "#4b5563 !important" }}
-                  className="sm:text-base text-sm font-normal cursor-pointer line-clamp-2 sm:line-clamp-3"
+                  className="sm:text-base text-sm font-normal cursor-pointer line-clamp-2"
                 >
                   {item.summaryDescription}
                 </div>

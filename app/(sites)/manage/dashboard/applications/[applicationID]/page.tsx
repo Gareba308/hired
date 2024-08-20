@@ -61,7 +61,7 @@ const Page = async ({ params }: ApplicationsDetailsProps) => {
   }
 
   return (
-    <div className="min-h-[calc(100vh-7rem)] sm:rounded-md bg-white  pt-2 sm:shadow-sm max-w-7xl px-4 pb-4 mx-auto">
+    <div className="min-h-[calc(100vh-90px)] sm:rounded-md bg-white  pt-2 sm:shadow-sm max-w-7xl px-4 pb-4 mx-auto">
       <BetterApplication
         application={application}
         applicationID={applicationID}

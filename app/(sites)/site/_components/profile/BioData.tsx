@@ -34,7 +34,7 @@ import {
 import { CheckIcon, ChevronDown, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import ImageUpload from "@/components/ImageUpload";
+import CloudUpload from "@/components/CloudUpload";
 import {
   academics,
   counties,
@@ -622,11 +622,12 @@ const BioData = ({ profileBio }: BioProps) => {
                         Upload your profile picture
                       </FormLabel>
                       <FormControl>
-                        <ImageUpload
+                        <CloudUpload
                           disabled={isLoading}
                           onChange={(url) => field.onChange(url)}
                           value={field.value ? field.value : ""}
                           onRemove={() => field.onChange("")}
+                          accept="image/*"
                         />
                       </FormControl>
                       <FormDescription></FormDescription>

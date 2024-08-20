@@ -34,20 +34,19 @@ interface InitiatedAssessmentProps {
   firstTest: Assessment[];
   initiated: AcceptToBeAssessed | null;
   banner: AssessmentBanner | null;
+  submitted: number;
 }
-const shuffleArray = (array: any[]) => {
-  return array.sort(() => Math.random() - 0.5);
-};
 
 const InitiatedAssessment = ({
   firstTest,
   initiated,
   banner,
+  submitted
 }: InitiatedAssessmentProps) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [questions] = useState(() => shuffleArray([...firstTest]));
+  const [questions] = useState(() => [...firstTest]);
   const [timeLeft, setTimeLeft] = useState("");
-  const maxQuestions = 15;
+  const maxQuestions = banner?.numberQuestions as number;
   const [reportOpen, setReportOpen] = useState<boolean>(false);
   const reportClose = () => {
     setReportOpen((prev) => !prev);
@@ -257,13 +256,13 @@ const InitiatedAssessment = ({
               ) : (
                 <div>
                   <h2 className="text-[16.6px] sm:text-[16.8px] font-medium text-gray-700">
-                    {`Question ${currentQuestionIndex + 1}/${maxQuestions}`}
+                    {`Question ${submitted + 1}/${maxQuestions}`}
                   </h2>
-                  <h2 className="text-base font-medium text-gray-600">
+                  <h2 className="text-base mb-3 font-medium text-gray-600">
                     {currentQuestion.scenarioExplanation}
                   </h2>
-                  <div className="text-base font-normal text-gray-700">
-                    <QuillPreview htmlContent={currentQuestion.scenario} />
+                  <div className="text-base italic font-normal text-gray-700">
+                    <QuillPreview htmlContent={currentQuestion?.scenario as string} />
                   </div>
 
                   <div className="mt-4">

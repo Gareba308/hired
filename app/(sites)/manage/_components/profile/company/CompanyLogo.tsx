@@ -1,7 +1,7 @@
 "use client";
 
 import { trpc } from "@/app/_trpc/client";
-import ImageUpload from "@/components/ImageUpload";
+import CloudUpload from "@/components/CloudUpload";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -120,11 +120,12 @@ const CompanyLogo = ({ profile }: CompanyLogoProps) => {
                                 Update company&apos;s logo?
                               </FormLabel>
                               <FormControl>
-                                <ImageUpload
+                                <CloudUpload
                                   disabled={isLoading}
                                   onChange={(url) => field.onChange(url)}
                                   value={field.value ? field.value : ""}
                                   onRemove={() => field.onChange("")}
+                                  accept="image/*"
                                 />
                               </FormControl>
                               <FormDescription></FormDescription>

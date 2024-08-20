@@ -53,11 +53,11 @@ export const formSchema = z.object({
   scenario: z.string(),
 });
 
-interface CreateTestProps{
-  banners: AssessmentBanner[] 
+interface CreateTestProps {
+  banners: AssessmentBanner[];
 }
 
-const CreateTest = ({banners}: CreateTestProps) => {
+const CreateTest = ({ banners }: CreateTestProps) => {
   const router = useRouter();
   const { toast } = useToast();
   const editorRef = useRef<ReactQuill | null>(null);
@@ -88,8 +88,18 @@ const CreateTest = ({banners}: CreateTestProps) => {
           variant: "default",
           duration: 3000,
         });
-        router.refresh();
-        form.reset();
+        form.reset({
+          bannerID: "",
+          question: "",
+          choice1: "",
+          choice2: "",
+          choice3: "",
+          attemptType: "",
+          answer: "",
+          scenario: "",
+          scenarioExplanation: "",
+        });
+        window.location.reload();
       },
       onError: (err) => {
         if (err) {

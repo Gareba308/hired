@@ -55,10 +55,10 @@ const AllAssessments = ({
               return (
                 <div
                   key={banner.id}
-                  className="flex flex-col border border-gray-200 text-gray-700 rounded-sm w-full items-start"
+                  className="flex flex-col border-2 border-gray-200 text-gray-700 rounded-lg w-full items-start"
                 >
-                  <div className="flex items-center justify-between gap-x-4 px-2 py-1 rounded-t-sm bg-[#005580] w-full text-primary-foreground text-lg">
-                    <div className="text-[17px] line-clamp-1 capitalize font-bold">
+                  <div className="flex items-center justify-between gap-x-4 px-2 py-1.5 rounded-t-lg bg-primary w-full text-primary-foreground text-lg">
+                    <div className="text-[16.5px] line-clamp-1 capitalize font-semibold">
                       {banner.category}
                     </div>
                     <div>
@@ -69,7 +69,7 @@ const AllAssessments = ({
                   <div className="flex flex-col items-center justify-between h-full">
                     <div>
                       <div className="px-2 mt-2">
-                        <h2 className="flex-wrap text-lg font-medium">
+                        <h2 className="flex-wrap text-sm font-semibold">
                           {banner.name}
                         </h2>
                       </div>
@@ -97,7 +97,7 @@ const AllAssessments = ({
                               size="default"
                               onClick={() => toggleAssess(banner.id)}
                               type="button"
-                              className="bg-[#005580] text-normal text-sm text-primary-foreground hover:bg-[#005580] hover:opacity-95"
+                              className="bg-primary text-normal text-sm text-primary-foreground hover:bg-primary hover:opacity-95"
                             >
                               Details <ArrowRight className="h-4 w-4 ml-1.5" />
                             </Button>

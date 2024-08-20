@@ -4,7 +4,7 @@ import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useSearchParams } from "next/navigation";
 
@@ -35,7 +35,7 @@ import {
 import { CheckIcon, ChevronDown, GripVertical, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import ImageUpload from "@/components/ImageUpload";
+import CloudUpload from "@/components/CloudUpload";
 import { counties } from "../data/create-job/CreateJobData";
 import { Label } from "@/components/ui/label";
 import ReactQuill from "react-quill";
@@ -461,11 +461,12 @@ const CreateProfile = () => {
                       Upload a profile picture
                     </FormLabel>
                     <FormControl>
-                      <ImageUpload
+                      <CloudUpload
                         disabled={isLoading}
                         onChange={(url) => field.onChange(url)}
                         value={field.value ? field.value : ""}
                         onRemove={() => field.onChange("")}
+                        accept="image/*"
                       />
                     </FormControl>
                     <FormDescription></FormDescription>

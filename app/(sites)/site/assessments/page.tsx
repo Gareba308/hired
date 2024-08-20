@@ -5,6 +5,10 @@ import { redirect } from "next/navigation";
 import React from "react";
 import AssessmentBanners from "../_components/assessments/AssessmentBanners";
 
+
+const shuffleArray = (array: any[]) => {
+  return array.sort(() => Math.random() - 0.5);
+};
 const Page = async () => {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/home/login?origin=site/assessments");
@@ -114,19 +118,23 @@ const Page = async () => {
     selectedAssessment = thirdAttemptInitiatedAssessments;
   }
 
+  const newSelectedAssessment= shuffleArray(selectedAssessment)
+
   const testBanner =
     banners.find(
       (banner) => banner.id === (initiatedAssessment?.testId as string)
     ) || null;
 
+  const submitted= submittedQuestionIDS.length
   return (
     <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-90px)] mx-auto bg-white px-4 md:px-5 text-gray-700 sm:shadow-sm sm:rounded-lg">
       <AssessmentBanners
         banners={banners}
         initiated={initiatedAssessment}
-        firstTest={selectedAssessment}
+        firstTest={newSelectedAssessment}
         testBanner={testBanner}
         acceptedAssessments={myAcceptedAssessments}
+        submitted={submitted}
       />
     </div>
   );

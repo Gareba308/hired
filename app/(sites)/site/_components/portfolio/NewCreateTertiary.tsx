@@ -23,7 +23,6 @@ import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import {
   counties,
-  job_types,
   tertiaryResults,
 } from "../data/create-job/CreateJobData";
 import {
@@ -31,7 +30,6 @@ import {
   CheckIcon,
   ChevronDown,
   Loader2,
-  PenLine,
 } from "lucide-react";
 import {
   Command,
@@ -51,10 +49,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Editor } from "@/components/Editor";
-import ExperienceCreated from "./created/ExperienceCreated";
-import ExperienceCreatedStart from "./created/ExperienceCreatedStart";
 import { useRef, useState } from "react";
-import ImageUpload from "@/components/ImageUpload";
+import CloudUpload from "@/components/CloudUpload";
 import ReactQuill from "react-quill";
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -721,14 +717,15 @@ const NewCreateTertiary = ({
                       <FormItem>
                         <FormLabel className="font-normal text-base">
                           Upload your compressed certificate(can merge with
-                          transcripts)
+                          transcripts)-PDF only
                         </FormLabel>
                         <FormControl>
-                          <ImageUpload
+                          <CloudUpload
                             disabled={isLoading}
                             onChange={(url) => field.onChange(url)}
                             value={field.value ? field.value : ""}
                             onRemove={() => field.onChange("")}
+                            accept="application/pdf"
                           />
                         </FormControl>
                         <FormMessage />

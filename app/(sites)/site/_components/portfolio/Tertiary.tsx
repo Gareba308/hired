@@ -40,7 +40,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Editor } from "@/components/Editor";
-import ImageUpload from "@/components/ImageUpload";
+import CloudUpload from "@/components/CloudUpload";
 import TertiaryEducationCreatedStart from "./created/TertiaryEducationCreatedStart";
 import ReactQuill from "react-quill";
 import { useRef, useState } from "react";
@@ -703,14 +703,15 @@ const Tertiary = ({ tertiaryEducation }: TertiaryEducationProps) => {
                         <FormItem>
                           <FormLabel className="font-normal text-base">
                             Upload your compressed certificate(can merge with
-                            transcripts)
+                            transcripts)-PDF only
                           </FormLabel>
                           <FormControl>
-                            <ImageUpload
+                            <CloudUpload
                               disabled={isLoading}
                               onChange={(url) => field.onChange(url)}
                               value={field.value ? field.value : ""}
                               onRemove={() => field.onChange("")}
+                              accept="application/pdf"
                             />
                           </FormControl>
                           <FormMessage />

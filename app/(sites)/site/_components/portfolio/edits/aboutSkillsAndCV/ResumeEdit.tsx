@@ -1,7 +1,5 @@
 import { trpc } from "@/app/_trpc/client";
-import { Editor } from "@/components/Editor";
-import ImageUpload from "@/components/ImageUpload";
-import { Preview } from "@/components/Preview";
+import CloudUpload from "@/components/CloudUpload";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -180,14 +178,15 @@ const ResumeEdit = ({ resume, toggleCreate }: ResumeEditProps) => {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="font-normal text-base">
-                              Update your CV
+                              Update your CV(PDF only)
                             </FormLabel>
                             <FormControl>
-                              <ImageUpload
+                              <CloudUpload
                                 disabled={isLoading}
                                 onChange={(url) => field.onChange(url)}
                                 value={field.value ? field.value : ""}
                                 onRemove={() => field.onChange("")}
+                                accept="application/pdf"
                               />
                             </FormControl>
                             <FormMessage className="text-red-500 font-normal text-base" />
@@ -257,7 +256,7 @@ const ResumeEdit = ({ resume, toggleCreate }: ResumeEditProps) => {
                       </div>
                     )}
                   </div>
-                  <div className="bg-white lg:px-2 py-3" >
+                  <div className="bg-white lg:px-2 py-3">
                     {resume ? (
                       <div className="w-full truncate">
                         <a

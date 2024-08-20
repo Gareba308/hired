@@ -1,13 +1,6 @@
 import { trpc } from "@/app/_trpc/client";
 import { Button } from "@/components/ui/button";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
   Form,
   FormControl,
   FormDescription,
@@ -16,35 +9,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
-import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { WorkerBio } from "@prisma/client";
-import { CheckIcon, ChevronDown, Loader2, PenLine } from "lucide-react";
+import {Loader2, PenLine } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import {
-  academics,
-  counties,
-  job_types,
-} from "../../../data/create-job/CreateJobData";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import ImageUpload from "@/components/ImageUpload";
+import CloudUpload from "@/components/CloudUpload";
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -145,11 +118,12 @@ const BioProfilePic = ({ profile }: BioNameProps) => {
                               Update your current profile picture details?
                             </FormLabel>
                             <FormControl>
-                              <ImageUpload
+                              <CloudUpload
                                 disabled={isLoading}
                                 onChange={(url) => field.onChange(url)}
                                 value={field.value ? field.value : ""}
                                 onRemove={() => field.onChange("")}
+                                accept="image/*"
                               />
                             </FormControl>
                             <FormDescription></FormDescription>
@@ -206,7 +180,9 @@ const BioProfilePic = ({ profile }: BioNameProps) => {
                       </div>
                     </>
                   ) : (
-                    <span className="italic text-gray-500 text-sm">No record found</span>
+                    <span className="italic text-gray-500 text-sm">
+                      No record found
+                    </span>
                   )}
                 </>
               )}

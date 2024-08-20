@@ -61,8 +61,8 @@ const BetterResume = ({ application, applicationID }: BetterResumeProps) => {
             href={`/manage/dashboard/applications/${applicationID}/uploaded-resume`}
             className="border-b-[3px] border-transparent text-lg pb-0.5 transition-all duration-300"
           >
-            <span className="hidden sm:flex">Uploaded Resume</span>
-            <span className="sm:hidden">Uploaded</span>
+            <span className="hidden sm:flex">Uploaded & Tests</span>
+            <span className="sm:hidden">Uploaded & Tests</span>
           </Link>
         </div>
       </div>

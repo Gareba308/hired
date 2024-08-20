@@ -1,6 +1,6 @@
 "use client";
 
-import { Job } from "@prisma/client";
+import { Job, PickAssessCandidate } from "@prisma/client";
 import { ArrowBigLeft, Loader2, Trash } from "lucide-react";
 import TitleEdit from "./TitleEdit";
 import DescriptionEdit from "./DescriptionEdit";
@@ -34,11 +34,15 @@ import Link from "next/link";
 import ChooseMethodEdit from "./ChooseMethodEdit";
 import NonRegisteredEdit from "./NonRegisteredEdit";
 import CompanyNameEdit from "./CompanyNameEdit";
+import AddAssessmentEdit from "./AddAssessmentEdit";
+import AssessmentOneIDEdit from "./AssessmentOneIDEdit";
+import AssessmentTwoIDEdit from "./AssessmentTwoIDEdit";
 
 interface EditJobPageProps {
   job: Job | null;
+  myOrderedPicks: PickAssessCandidate[]
 }
-const EditJob = ({ job }: EditJobPageProps) => {
+const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -147,6 +151,21 @@ const EditJob = ({ job }: EditJobPageProps) => {
           <SalaryEdit job={job} jobId={job?.id as string} />
           <BenefitsEdit job={job} jobId={job?.id as string} />
           <ChooseMethodEdit job={job} jobId={job?.id as string} />
+          <AddAssessmentEdit job={job} jobId={job?.id as string} />
+          {job?.addAssessment === true && (
+            <AssessmentOneIDEdit
+              job={job}
+              jobId={job?.id as string}
+              orderedAssessments={myOrderedPicks}
+            />
+          )}
+          {job?.addAssessment === true && job.assessmentOneID && (
+            <AssessmentTwoIDEdit
+              job={job}
+              jobId={job?.id as string}
+              orderedAssessments={myOrderedPicks}
+            />
+          )}
         </dl>
       </div>
 

@@ -35,7 +35,7 @@ import {
 import { CheckIcon, ChevronDown, GripVertical, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import ImageUpload from "@/components/ImageUpload";
+import CloudUpload from "@/components/CloudUpload";
 import { counties } from "../data/create-job/CreateJobData";
 import { categories } from "../data/create-job/CreateJobData";
 import { Label } from "@/components/ui/label";
@@ -697,11 +697,12 @@ const CompanyCreateProfile = () => {
                       Upload the logo of your company
                     </FormLabel>
                     <FormControl>
-                      <ImageUpload
+                      <CloudUpload
                         disabled={isLoading}
                         onChange={(url) => field.onChange(url)}
                         value={field.value ? field.value : ""}
                         onRemove={() => field.onChange("")}
+                        accept="image/*"
                       />
                     </FormControl>
                     <FormDescription></FormDescription>

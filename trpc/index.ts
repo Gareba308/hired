@@ -21,6 +21,7 @@ import {
   subMinutes,
   addDays,
   differenceInMinutes,
+  subDays,
 } from "date-fns";
 
 const generateID = () => {
@@ -3420,7 +3421,10 @@ export const appRouter = router({
         address: z.string(),
         academic: z.string(),
         benefits: z.array(z.string()),
+        assessmentOneID: z.string(),
+        assessmentTwoID: z.string(),
         instructions: z.string(),
+        addAssessment: z.boolean().default(false),
         academicDesired: z.string(),
         deadline: z.coerce.date(),
       })
@@ -3490,6 +3494,9 @@ export const appRouter = router({
         academic,
         benefits,
         instructions,
+        assessmentOneID,
+        assessmentTwoID,
+        addAssessment,
         academicDesired,
       } = input;
 
@@ -3513,6 +3520,171 @@ export const appRouter = router({
       const { id: companyId, company_description } = employerProfile;
 
       const company_name = employerProfile.company_name!;
+
+      if (assessmentOneID) {
+        if (assessmentTwoID === assessmentOneID)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "The identity of the first assessment is same as the second",
+          });
+        const assessmentByIDExists = await db.assessmentBanner.findFirst({
+          where: {
+            id: assessmentOneID,
+          },
+        });
+
+        if (!assessmentByIDExists)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "The first assessment you requesting to include in the job does not exist. Could have been deleted.",
+          });
+
+        const checkIfEmployerRequestedID =
+          await db.pickAssessCandidate.findFirst({
+            where: {
+              testID: assessmentByIDExists.id,
+            },
+          });
+
+        if (!checkIfEmployerRequestedID)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "You have not ordered this assessment. Go to assessment section to order it.",
+          });
+
+        await db.pickAssessCandidate.update({
+          where: {
+            id: checkIfEmployerRequestedID.id,
+          },
+          data: {
+            utilized: true,
+          },
+        });
+
+        if (assessmentTwoID) {
+          if (assessmentTwoID === assessmentOneID)
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message:
+                "The identity of the second assessment is same as the first",
+            });
+          const secondAssessmentByIDExists =
+            await db.assessmentBanner.findFirst({
+              where: {
+                id: assessmentTwoID,
+              },
+            });
+
+          if (!secondAssessmentByIDExists)
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message:
+                "The second assessment you requesting to include in the job does not exist. Could have been deleted.",
+            });
+
+          const checkIfHadOrderedSecond =
+            await db.pickAssessCandidate.findFirst({
+              where: {
+                testID: secondAssessmentByIDExists.id,
+              },
+            });
+
+          if (!checkIfHadOrderedSecond)
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message:
+                "You haven't ordered for the second assessment you're requesting to add in the job. Order in the assessments section.",
+            });
+
+          await db.pickAssessCandidate.update({
+            where: {
+              id: checkIfHadOrderedSecond.id,
+            },
+            data: {
+              utilized: true,
+            },
+          });
+
+          return await db.job.create({
+            data: {
+              userId,
+              isEmployerID,
+              job_id,
+              createdByName: name,
+              companyId,
+              company_name,
+              company_description,
+              job_type,
+              job_title,
+              job_description,
+              summaryDescription: shortDescription(job_description),
+              responsibilities,
+              requirement,
+              personal_skills,
+              experience,
+              numberOfPositions,
+              possible_pay,
+              category,
+              county,
+              deadline,
+              platform,
+              emailPlatform,
+              linkPlatform,
+              otherPlatform,
+              ownPlatformMethod,
+              experienceDesired,
+              address,
+              academic,
+              benefits,
+              instructions,
+              addAssessment,
+              academicDesired,
+              assessmentOneID: checkIfEmployerRequestedID.testID,
+              assessmentTwoID: checkIfHadOrderedSecond.testID,
+            },
+          });
+        }
+        return await db.job.create({
+          data: {
+            userId,
+            isEmployerID,
+            job_id,
+            createdByName: name,
+            companyId,
+            company_name,
+            company_description,
+            job_type,
+            job_title,
+            job_description,
+            summaryDescription: shortDescription(job_description),
+            responsibilities,
+            requirement,
+            personal_skills,
+            experience,
+            numberOfPositions,
+            possible_pay,
+            category,
+            county,
+            deadline,
+            platform,
+            emailPlatform,
+            linkPlatform,
+            otherPlatform,
+            ownPlatformMethod,
+            experienceDesired,
+            address,
+            academic,
+            benefits,
+            instructions,
+            addAssessment,
+            academicDesired,
+            assessmentOneID: checkIfEmployerRequestedID.testID,
+          },
+        });
+      }
 
       return await db.job.create({
         data: {
@@ -3540,6 +3712,7 @@ export const appRouter = router({
           emailPlatform,
           linkPlatform,
           otherPlatform,
+          addAssessment,
           ownPlatformMethod,
           experienceDesired,
           address,
@@ -4221,6 +4394,9 @@ export const appRouter = router({
         academicDesired: z.string(),
         deadline: z.coerce.date(),
         companyID: z.string(),
+        addAssessment: z.boolean().default(false),
+        assessmentOneID: z.string(),
+        assessmentTwoID: z.string(),
         jobFormNonRegisteredCompany: z.boolean().default(false),
         adminCreatingCompanyName: z.string(),
       })
@@ -4252,8 +4428,11 @@ export const appRouter = router({
         instructions,
         academicDesired,
         companyID,
+        addAssessment,
         jobFormNonRegisteredCompany,
         adminCreatingCompanyName,
+        assessmentOneID,
+        assessmentTwoID,
       } = input;
 
       if (!userId)
@@ -4330,6 +4509,179 @@ export const appRouter = router({
             "You indicated the job is from unregistered company. Company name must not be blank.",
         });
 
+      if (assessmentOneID) {
+        if (assessmentTwoID === assessmentOneID)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "The identity of the first assessment is same as the second",
+          });
+        const assessmentByIDExists = await db.assessmentBanner.findFirst({
+          where: {
+            id: assessmentOneID,
+          },
+        });
+
+        if (!assessmentByIDExists)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "The first assessment you requesting to include in the job does not exist. Could have been deleted.",
+          });
+
+        const checkIfEmployerRequestedID =
+          await db.pickAssessCandidate.findFirst({
+            where: {
+              testID: assessmentByIDExists.id,
+            },
+          });
+
+        if (!checkIfEmployerRequestedID)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "The employer has not ordered for this assessment. Ask them to go to assessment section to order for it.",
+          });
+
+        await db.pickAssessCandidate.update({
+          where: {
+            id: checkIfEmployerRequestedID.id,
+          },
+          data: {
+            utilized: true,
+          },
+        });
+
+        if (assessmentTwoID) {
+          if (assessmentTwoID === assessmentOneID)
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message:
+                "The identity of the second assessment is same as the first",
+            });
+          const secondAssessmentByIDExists =
+            await db.assessmentBanner.findFirst({
+              where: {
+                id: assessmentTwoID,
+              },
+            });
+
+          if (!secondAssessmentByIDExists)
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message:
+                "The second assessment you requesting to include in the job does not exist. Could have been deleted.",
+            });
+
+          const checkIfHadOrderedSecond =
+            await db.pickAssessCandidate.findFirst({
+              where: {
+                testID: secondAssessmentByIDExists.id,
+              },
+            });
+
+          if (!checkIfHadOrderedSecond)
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message:
+                "The employer ordered for the second assessment you're requesting to add in the job. Ask them to order in the assessments section.",
+            });
+
+          await db.pickAssessCandidate.update({
+            where: {
+              id: checkIfHadOrderedSecond.id,
+            },
+            data: {
+              utilized: true,
+            },
+          });
+
+          return await db.job.create({
+            data: {
+              userId: employerUserId,
+              isEmployerID,
+              job_id,
+              createdByName: employerName,
+              companyId: companyID,
+              company_name,
+              company_description,
+              companyLogo: logo,
+              job_type,
+              adminPosted: true,
+              job_title,
+              job_description,
+              summaryDescription: shortDescription(job_description),
+              responsibilities,
+              jobFormNonRegisteredCompany,
+              adminCreatingCompanyName,
+              requirement,
+              personal_skills,
+              experience,
+              numberOfPositions,
+              possible_pay,
+              category,
+              county,
+              deadline,
+              platform,
+              emailPlatform,
+              linkPlatform,
+              otherPlatform,
+              ownPlatformMethod,
+              experienceDesired,
+              address,
+              academic,
+              benefits,
+              instructions,
+              academicDesired,
+              addAssessment,
+              assessmentOneID: checkIfEmployerRequestedID.testID,
+              assessmentTwoID: checkIfHadOrderedSecond.testID,
+            },
+          });
+        }
+        return await db.job.create({
+          data: {
+            userId: employerUserId,
+            isEmployerID,
+            job_id,
+            createdByName: employerName,
+            companyId: companyID,
+            company_name,
+            company_description,
+            companyLogo: logo,
+            job_type,
+            adminPosted: true,
+            job_title,
+            job_description,
+            summaryDescription: shortDescription(job_description),
+            responsibilities,
+            jobFormNonRegisteredCompany,
+            adminCreatingCompanyName,
+            requirement,
+            personal_skills,
+            experience,
+            numberOfPositions,
+            possible_pay,
+            category,
+            county,
+            deadline,
+            platform,
+            emailPlatform,
+            linkPlatform,
+            otherPlatform,
+            ownPlatformMethod,
+            experienceDesired,
+            address,
+            academic,
+            benefits,
+            instructions,
+            academicDesired,
+            addAssessment,
+            assessmentOneID: checkIfEmployerRequestedID.testID,
+          },
+        });
+      }
+
       return await db.job.create({
         data: {
           userId: employerUserId,
@@ -4366,6 +4718,7 @@ export const appRouter = router({
           academic,
           benefits,
           instructions,
+          addAssessment,
           academicDesired,
         },
       });
@@ -5022,6 +5375,7 @@ export const appRouter = router({
     .mutation(async ({ input, ctx }) => {
       const { userId, email } = ctx;
       const { testID, category } = input;
+      const thirtyDaysAgo = subDays(new Date(), 30);
       const dbUser = await db.user.findFirst({
         where: {
           id: userId,
@@ -5046,6 +5400,20 @@ export const appRouter = router({
           message: "This is employers only section",
         });
 
+      const company = await db.company.findFirst({
+        where: {
+          userId: dbUser.id,
+          isEmployerID: isEmployer.id,
+        },
+      });
+
+      if (!company)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message:
+            "You have to create company user profile before using this service.",
+        });
+
       const testExists = await db.assessmentBanner.findFirst({
         where: {
           id: testID,
@@ -5058,6 +5426,18 @@ export const appRouter = router({
           message:
             "There is no test by the selected test ID. It could have been deleted.",
         });
+      const samePickExists= await db.pickAssessCandidate.findFirst({
+        where: {
+          companyID: company.id,
+          userId,
+          testID: testExists.id,
+          createdAt: {
+            gte: thirtyDaysAgo,
+          },
+        }
+      })
+
+      if(samePickExists) throw new TRPCError({code:"BAD_REQUEST", message:"You have similar unexpired test picked. Kindly just use the same test you currently have."})
       const accountBalance = await db.accountBalance.findFirst({
         where: {
           userEmail: dbUser.email,
@@ -5100,6 +5480,8 @@ export const appRouter = router({
           isEmployerID: isEmployer.id,
           userName: dbUser.name as string,
           category,
+          companyID: company.id,
+          testName: testExists.name,
           testID: testExists.id,
         },
       });
@@ -5159,6 +5541,61 @@ export const appRouter = router({
         },
         data: {
           new: false,
+        },
+      });
+    }),
+
+  employerDeleteRequestedDemoDetails: privateProcedure
+    .input(
+      z.object({
+        requestID: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId, email } = ctx;
+      const { requestID } = input;
+
+      const dbUser = await db.user.findFirst({
+        where: {
+          id: userId,
+          email,
+        },
+      });
+
+      if (!dbUser)
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You are unauthorized. Login and try again",
+        });
+
+      const isEmployer = await db.employers.findFirst({
+        where: {
+          employerEmail: email,
+        },
+      });
+
+      if (!isEmployer)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "THis is an employer only section",
+        });
+
+      const requestExists = await db.employerRequestAssessment.findFirst({
+        where: {
+          id: requestID,
+          userId: userId,
+        },
+      });
+
+      if (!requestExists)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "There is no a demo requested by your details",
+        });
+
+      return await db.employerRequestAssessment.delete({
+        where: {
+          id: requestExists.id,
         },
       });
     }),
@@ -5768,6 +6205,125 @@ export const appRouter = router({
       });
     }),
 
+  employerGetVerdict: privateProcedure
+    .input(
+      z.object({
+        bannerID: z.string(),
+        requestID: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId, email } = ctx;
+      const { bannerID, requestID } = input;
+
+      const dbUser = await db.user.findFirst({
+        where: { id: userId, email },
+      });
+
+      if (!dbUser) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You are unauthorized. Login and try again.",
+        });
+      }
+
+      const isEmployer = await db.employers.findFirst({
+        where: { employerEmail: email },
+      });
+
+      if (!isEmployer) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "This is an employers only section.",
+        });
+      }
+
+      const bannerExists = await db.assessmentBanner.findFirst({
+        where: {
+          id: bannerID,
+        },
+      });
+
+      if (!bannerExists)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "The demo details could not be found",
+        });
+
+      const requestExists = await db.employerRequestAssessment.findFirst({
+        where: {
+          id: requestID,
+          isEmployerID: isEmployer.id,
+          userId,
+          demoID: bannerExists.id,
+        },
+      });
+
+      if (!requestExists)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "We could not find your dem request details.",
+        });
+
+      const allInitiatedTestsDone = await db.submitDemo.findMany({
+        where: {
+          userId,
+          isEmployerID: isEmployer.id,
+        },
+      });
+
+      if (allInitiatedTestsDone.length < bannerExists.numberQuestions) {
+        const passed = allInitiatedTestsDone.filter(
+          (done) => done.passed === true
+        ).length;
+        const multiplier = Math.round(100 / bannerExists.numberQuestions);
+        const myScore = passed * multiplier;
+        await db.employerRequestAssessment.update({
+          where: {
+            id: requestExists.id,
+          },
+          data: {
+            status: "INCOMPLETE",
+            score: myScore,
+          },
+        });
+
+        return await db.submitDemo.deleteMany({
+          where: {
+            userId,
+            bannerID: bannerExists.id,
+            isEmployerID: isEmployer.id,
+          },
+        });
+      }
+
+      const passed = allInitiatedTestsDone.filter(
+        (done) => done.passed === true
+      ).length;
+      const multiplier = Math.round(100 / bannerExists.numberQuestions);
+      const myScore = passed * multiplier;
+
+      const theRealPass = myScore > 80;
+
+      await db.employerRequestAssessment.update({
+        where: {
+          id: requestExists.id,
+        },
+        data: {
+          status: theRealPass ? "PASSED" : "FAILED",
+          score: myScore,
+        },
+      });
+
+      return await db.submitDemo.deleteMany({
+        where: {
+          userId,
+          bannerID: bannerExists.id,
+          isEmployerID: isEmployer.id,
+        },
+      });
+    }),
+
   workerSubmitAssessmentAnswer: privateProcedure
     .input(
       z.object({
@@ -5818,6 +6374,81 @@ export const appRouter = router({
       return await db.submitTest.create({
         data: {
           isWorkerID: isWorker.id,
+          userId,
+          questionId,
+          attemptType: questionExists.attemptType,
+          realAnswer: questionExists.answer,
+          bannerID: questionExists.bannerID,
+          myAnswer,
+          passed: verdict,
+        },
+      });
+    }),
+
+  employerSubmitAssessmentAnswer: privateProcedure
+    .input(
+      z.object({
+        questionId: z.string(),
+        myAnswer: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId, email } = ctx;
+      const { questionId, myAnswer } = input;
+
+      const dbUser = await db.user.findFirst({
+        where: { id: userId, email },
+      });
+
+      if (!dbUser) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You are unauthorized. Login and try again.",
+        });
+      }
+
+      const isEmployer = await db.employers.findFirst({
+        where: { employerEmail: email },
+      });
+
+      if (!isEmployer) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "This is an employer only section.",
+        });
+      }
+
+      const questionExists = await db.assessment.findFirst({
+        where: { id: questionId },
+      });
+
+      if (!questionExists) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message:
+            "The demo question does not exist. It could have been deleted.",
+        });
+      }
+
+      const suchQuestionAnswerExists = await db.submitDemo.findMany({
+        where: {
+          questionId: questionId,
+        },
+      });
+
+      if (suchQuestionAnswerExists.length !== 0) {
+        await db.submitDemo.deleteMany({
+          where: {
+            questionId,
+          },
+        });
+      }
+
+      const verdict = myAnswer === questionExists.answer;
+
+      return await db.submitDemo.create({
+        data: {
+          isEmployerID: isEmployer.id,
           userId,
           questionId,
           attemptType: questionExists.attemptType,
@@ -6202,6 +6833,9 @@ export const appRouter = router({
         instructions: z.string().optional(),
         academicDesired: z.string().optional(),
         deadline: z.coerce.date().optional(),
+        addAssessment: z.boolean().optional(),
+        assessmentOneID: z.string().optional(),
+        assessmentTwoID: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -6230,6 +6864,9 @@ export const appRouter = router({
         benefits,
         instructions,
         deadline,
+        addAssessment,
+        assessmentOneID,
+        assessmentTwoID,
         academicDesired,
       } = input;
 
@@ -6275,6 +6912,182 @@ export const appRouter = router({
       const newJobSummary = job_description
         ? shortDescription(job_description)
         : jobExists.summaryDescription;
+
+      if (jobExists.addAssessment === true && addAssessment === false) {
+        return await db.job.update({
+          where: {
+            id: jobID,
+            userId,
+          },
+          data: {
+            job_title,
+            job_description,
+            summaryDescription: newJobSummary,
+            responsibilities,
+            requirement,
+            personal_skills,
+            platform,
+            emailPlatform,
+            linkPlatform,
+            otherPlatform,
+            ownPlatformMethod,
+            experienceDesired,
+            experience,
+            numberOfPositions,
+            possible_pay,
+            job_type,
+            category,
+            county,
+            addAssessment,
+            assessmentOneID: "",
+            assessmentTwoID: "",
+            address,
+            academic,
+            benefits,
+            instructions,
+            deadline,
+            academicDesired,
+          },
+        });
+      }
+
+      if (jobExists.addAssessment === true && assessmentOneID) {
+        if (jobExists.assessmentTwoID === assessmentOneID)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "The identity of the first assessment is same as the second",
+          });
+        const pickedAssessmentExists = await db.pickAssessCandidate.findFirst({
+          where: {
+            testID: assessmentOneID,
+          },
+        });
+
+        if (!pickedAssessmentExists)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "You haven't ordered the assessment you are requesting to add in the job listing",
+          });
+
+        const assessmentExists = await db.assessmentBanner.findFirst({
+          where: {
+            id: pickedAssessmentExists.testID,
+          },
+        });
+
+        if (!assessmentExists)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "We have no this assessment in our database. It could be missing",
+          });
+        return await db.job.update({
+          where: {
+            id: jobID,
+            userId,
+          },
+          data: {
+            job_title,
+            job_description,
+            summaryDescription: newJobSummary,
+            responsibilities,
+            requirement,
+            personal_skills,
+            platform,
+            emailPlatform,
+            linkPlatform,
+            otherPlatform,
+            ownPlatformMethod,
+            experienceDesired,
+            experience,
+            numberOfPositions,
+            possible_pay,
+            job_type,
+            category,
+            county,
+            addAssessment,
+            assessmentOneID: assessmentExists.id,
+            assessmentTwoID,
+            address,
+            academic,
+            benefits,
+            instructions,
+            deadline,
+            academicDesired,
+          },
+        });
+      }
+
+      if (jobExists.addAssessment === true && assessmentTwoID) {
+        if (assessmentTwoID === jobExists.assessmentOneID)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "The identity of the second assessment is same as the first",
+          });
+        const pickedAssessmentExists = await db.pickAssessCandidate.findFirst({
+          where: {
+            testID: assessmentTwoID,
+          },
+        });
+
+        if (!pickedAssessmentExists)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "You haven't ordered the assessment you are requesting to add in the job listing",
+          });
+
+        const assessmentExists = await db.assessmentBanner.findFirst({
+          where: {
+            id: pickedAssessmentExists.testID,
+          },
+        });
+
+        if (!assessmentExists)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "We have no this assessment in our database. It could be missing",
+          });
+        return await db.job.update({
+          where: {
+            id: jobID,
+            userId,
+          },
+          data: {
+            job_title,
+            job_description,
+            summaryDescription: newJobSummary,
+            responsibilities,
+            requirement,
+            personal_skills,
+            platform,
+            emailPlatform,
+            linkPlatform,
+            otherPlatform,
+            ownPlatformMethod,
+            experienceDesired,
+            experience,
+            numberOfPositions,
+            possible_pay,
+            job_type,
+            category,
+            county,
+            addAssessment,
+            assessmentOneID,
+            assessmentTwoID: assessmentExists.id,
+            address,
+            academic,
+            benefits,
+            instructions,
+            deadline,
+            academicDesired,
+          },
+        });
+      }
       return await db.job.update({
         where: {
           id: jobID,
@@ -6299,6 +7112,7 @@ export const appRouter = router({
           job_type,
           category,
           county,
+          addAssessment,
           address,
           academic,
           benefits,
@@ -6339,6 +7153,9 @@ export const appRouter = router({
         instructions: z.string().optional(),
         academicDesired: z.string().optional(),
         deadline: z.coerce.date().optional(),
+        addAssessment: z.boolean().optional(),
+        assessmentOneID: z.string().optional(),
+        assessmentTwoID: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -6369,9 +7186,11 @@ export const appRouter = router({
         deadline,
         academicDesired,
         jobFormNonRegisteredCompany,
+        addAssessment,
+        assessmentOneID,
+        assessmentTwoID,
         adminCreatingCompanyName,
       } = input;
-
       const dbUser = await db.user.findFirst({
         where: {
           id: userId,
@@ -6411,9 +7230,182 @@ export const appRouter = router({
       const newJobSummary = job_description
         ? shortDescription(job_description)
         : jobExists.summaryDescription;
+
+      if (jobExists.addAssessment === true && addAssessment === false) {
+        return await db.job.update({
+          where: {
+            id: jobExists.id,
+          },
+          data: {
+            job_title,
+            job_description,
+            summaryDescription: newJobSummary,
+            responsibilities,
+            requirement,
+            personal_skills,
+            platform,
+            emailPlatform,
+            linkPlatform,
+            otherPlatform,
+            ownPlatformMethod,
+            experienceDesired,
+            experience,
+            numberOfPositions,
+            possible_pay,
+            job_type,
+            category,
+            county,
+            addAssessment,
+            assessmentOneID: null,
+            assessmentTwoID: null,
+            address,
+            academic,
+            benefits,
+            instructions,
+            deadline,
+            academicDesired,
+          },
+        });
+      }
+
+      if (jobExists.addAssessment === true && assessmentOneID) {
+        if (jobExists.assessmentTwoID === assessmentOneID)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "The identity of the first assessment is same as the second",
+          });
+        const pickedAssessmentExists = await db.pickAssessCandidate.findFirst({
+          where: {
+            testID: assessmentOneID,
+          },
+        });
+
+        if (!pickedAssessmentExists)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "The employer hasn't ordered the assessment you are requesting to add in the job listing",
+          });
+
+        const assessmentExists = await db.assessmentBanner.findFirst({
+          where: {
+            id: pickedAssessmentExists.testID,
+          },
+        });
+
+        if (!assessmentExists)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "We have no this assessment in our database. It could be missing",
+          });
+        return await db.job.update({
+          where: {
+            id: jobExists.id,
+          },
+          data: {
+            job_title,
+            job_description,
+            summaryDescription: newJobSummary,
+            responsibilities,
+            requirement,
+            personal_skills,
+            platform,
+            emailPlatform,
+            linkPlatform,
+            otherPlatform,
+            ownPlatformMethod,
+            experienceDesired,
+            experience,
+            numberOfPositions,
+            possible_pay,
+            job_type,
+            category,
+            county,
+            addAssessment,
+            assessmentOneID: assessmentExists.id,
+            assessmentTwoID,
+            address,
+            academic,
+            benefits,
+            instructions,
+            deadline,
+            academicDesired,
+          },
+        });
+      }
+
+      if (jobExists.addAssessment === true && assessmentTwoID) {
+        if (assessmentTwoID === jobExists.assessmentOneID)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "The identity of the second assessment is same as the first",
+          });
+        const pickedAssessmentExists = await db.pickAssessCandidate.findFirst({
+          where: {
+            testID: assessmentTwoID,
+          },
+        });
+
+        if (!pickedAssessmentExists)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "The employer hasn't ordered the assessment you are requesting to add in the job listing",
+          });
+
+        const assessmentExists = await db.assessmentBanner.findFirst({
+          where: {
+            id: pickedAssessmentExists.testID,
+          },
+        });
+
+        if (!assessmentExists)
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message:
+              "We have no this assessment in our database. It could be missing",
+          });
+        return await db.job.update({
+          where: {
+            id: jobExists.id,
+          },
+          data: {
+            job_title,
+            job_description,
+            summaryDescription: newJobSummary,
+            responsibilities,
+            requirement,
+            personal_skills,
+            platform,
+            emailPlatform,
+            linkPlatform,
+            otherPlatform,
+            ownPlatformMethod,
+            experienceDesired,
+            experience,
+            numberOfPositions,
+            possible_pay,
+            job_type,
+            category,
+            county,
+            addAssessment,
+            assessmentOneID,
+            assessmentTwoID: assessmentExists.id,
+            address,
+            academic,
+            benefits,
+            instructions,
+            deadline,
+            academicDesired,
+          },
+        });
+      }
       return await db.job.update({
         where: {
-          id: jobID,
+          id: jobExists.id,
         },
         data: {
           job_title,
@@ -6438,6 +7430,7 @@ export const appRouter = router({
           county,
           address,
           academic,
+          addAssessment,
           benefits,
           instructions,
           deadline,
@@ -15869,6 +16862,7 @@ export const appRouter = router({
         workEmail: z.string().optional(),
         briefSummary: z.string().optional(),
         postal: z.string().optional(),
+        photo: z.string().optional(),
         zip: z.string().optional(),
         town: z.string().optional(),
         county: z.string().optional(),
@@ -15884,6 +16878,7 @@ export const appRouter = router({
         briefSummary,
         postal,
         zip,
+        photo,
         town,
         county,
       } = input;
@@ -15939,6 +16934,7 @@ export const appRouter = router({
         data: {
           phoneNumber,
           role,
+          photo,
           workEmail,
           briefSummary,
           postal,

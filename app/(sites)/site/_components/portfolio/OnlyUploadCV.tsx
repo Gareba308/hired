@@ -1,6 +1,6 @@
 import { Resume } from "@prisma/client";
 import { trpc } from "@/app/_trpc/client";
-import ImageUpload from "@/components/ImageUpload";
+import CloudUpload from "@/components/CloudUpload";
 import {
   Form,
   FormControl,
@@ -106,14 +106,15 @@ const OnlyUploadCV = ({ resume }: OnlyUploadCVProps) => {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="font-normal text-base">
-                                Upload an upto date CV
+                                Upload an upto date CV-PDF only
                               </FormLabel>
                               <FormControl>
-                                <ImageUpload
+                                <CloudUpload
                                   disabled={isLoading}
                                   onChange={(url) => field.onChange(url)}
                                   value={field.value ? field.value : ""}
                                   onRemove={() => field.onChange("")}
+                                  accept="application/pdf"
                                 />
                               </FormControl>
                               <FormDescription></FormDescription>
@@ -147,31 +148,31 @@ const OnlyUploadCV = ({ resume }: OnlyUploadCVProps) => {
                       </div>
                     ) : (
                       <div className="sm:py-4">
-                          <div className="lg:border lg:border-gray-200 rounded-none">
-                            <div className="hidden lg:flex bg-secondary border-b border-gray-200 py-1.5 pl-4">
-                              <h2 className="text-lg font-medium text-gray-600">
-                                My Uploaded CV
-                              </h2>
-                            </div>
-                            <div className="lg:pl-4 lg:pt-2 lg:pb-4">
-                              <p className="text-start mb-1">
-                                Link to your uploaded CV will appear here.
-                              </p>
-                              <div className="flex items-center justify-start ">
-                                <Button
-                                  size="lg"
-                                  variant="outline"
-                                  type="button"
-                                  onClick={toggleCreate}
-                                  className="text-gray-600 text-[15px] hover:bg-inherit hover:text-primary hover:underline"
-                                >
-                                  <Plus className="h-5 w-5 mr-1.5" />
-                                  Upload Current CV
-                                </Button>
-                              </div>
+                        <div className="lg:border lg:border-gray-200 rounded-none">
+                          <div className="hidden lg:flex bg-secondary border-b border-gray-200 py-1.5 pl-4">
+                            <h2 className="text-lg font-medium text-gray-600">
+                              My Uploaded CV
+                            </h2>
+                          </div>
+                          <div className="lg:pl-4 lg:pt-2 lg:pb-4">
+                            <p className="text-start mb-1">
+                              Link to your uploaded CV will appear here.
+                            </p>
+                            <div className="flex items-center justify-start ">
+                              <Button
+                                size="lg"
+                                variant="outline"
+                                type="button"
+                                onClick={toggleCreate}
+                                className="text-gray-600 text-[15px] hover:bg-inherit hover:text-primary hover:underline"
+                              >
+                                <Plus className="h-5 w-5 mr-1.5" />
+                                Upload Current CV
+                              </Button>
                             </div>
                           </div>
                         </div>
+                      </div>
                     )}
                   </dd>
                 </div>

@@ -11,7 +11,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Submit Job Application",
-}
+};
 
 interface Applicant {
   skills: string[];
@@ -50,10 +50,9 @@ export async function generateStaticParams() {
     },
   });
 
-  const allJobIDs=jobs.map((job) => job.id);
-  return allJobIDs
+  const allJobIDs = jobs.map((job) => job.id);
+  return allJobIDs;
 }
-
 
 const Page = async ({ params }: ApplyJobProps) => {
   const { jobId } = params;
@@ -82,7 +81,7 @@ const Page = async ({ params }: ApplyJobProps) => {
     const match = text.match(/\d+/);
     return match ? parseInt(match[0], 10) : null;
   };
-  
+
   const myAbout = await db.about.findFirst({
     where: {
       userId,
@@ -199,7 +198,6 @@ const Page = async ({ params }: ApplyJobProps) => {
       id: jobId,
     },
   });
-
 
   const myCareerDetails = await db.careerWizard.findFirst({
     where: {
@@ -414,9 +412,8 @@ const Page = async ({ params }: ApplyJobProps) => {
 
   const myJobCriteria: JobCriteria = {
     desiredSkills: jobRequired?.personal_skills ?? [],
-    desiredExperienceYears: extractNumber(
-      jobRequired?.experience as string
-    ) ?? 0,
+    desiredExperienceYears:
+      extractNumber(jobRequired?.experience as string) ?? 0,
     desiredExperiences: jobRequired?.responsibilities ?? "",
     desiredQualifications: jobRequired?.requirement ?? "",
     skillsWeight: 0.3,
@@ -435,9 +432,35 @@ const Page = async ({ params }: ApplyJobProps) => {
       </>
     );
   }
+
+  const assessmentIds = [
+    jobExists?.assessmentOneID,
+    jobExists?.assessmentTwoID,
+  ].filter((id): id is string => id !== null && id !== undefined);
+
+  const assessmentsPicked = await db.assessmentBanner.findMany({
+    where: {
+      id: {
+        in: assessmentIds,
+      },
+    },
+  });
+
+  const myAcceptedAssessments = await db.acceptToBeAssessed.findMany({
+    where: {
+      userId: dbUser.id,
+    },
+  });
+
   return (
     <div className="space-y-6  pb-2 max-w-7xl mx-auto bg-white px-4 md:px-6 text-gray-700 rounded-lg shadow-sm">
-      <ApplyJob job={jobExists} user={dbUser} />
+      <ApplyJob
+        job={jobExists}
+        user={dbUser}
+        banners={assessmentsPicked}
+        assessmentIds={assessmentIds}
+        acceptedAssessments={myAcceptedAssessments}
+      />
     </div>
   );
 };

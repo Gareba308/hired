@@ -38,7 +38,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ImageUpload from "@/components/ImageUpload";
+import CloudUpload from "@/components/CloudUpload";
 import SecondaryEducationCreated from "./created/SecondaryEducationCreated";
 import { useState } from "react";
 
@@ -383,14 +383,15 @@ const Secondary = ({ secondaryEducation }: SecondaryEducationProps) => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="font-normal text-base">
-                            Upload your compressed secondary school certificate
+                            Upload your compressed secondary school certificate-PDF only
                           </FormLabel>
                           <FormControl>
-                            <ImageUpload
+                            <CloudUpload
                               disabled={isLoading}
                               onChange={(url) => field.onChange(url)}
                               value={field.value ? field.value : ""}
                               onRemove={() => field.onChange("")}
+                              accept="application/pdf"
                             />
                           </FormControl>
                           <FormMessage />

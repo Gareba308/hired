@@ -33,6 +33,7 @@ interface AssessmentBannersProps {
   firstTest: Assessment[];
   testBanner: AssessmentBanner | null;
   acceptedAssessments: AcceptToBeAssessed[];
+  submitted: number;
 }
 const AssessmentBanners = ({
   banners,
@@ -40,6 +41,7 @@ const AssessmentBanners = ({
   firstTest,
   testBanner,
   acceptedAssessments,
+  submitted,
 }: AssessmentBannersProps) => {
   const pathname = usePathname();
   const isActive = pathname === "/site/assessments";
@@ -183,6 +185,7 @@ const AssessmentBanners = ({
             firstTest={firstTest}
             initiated={initiated}
             banner={testBanner}
+            submitted={submitted}
           />
         ) : (
           <AllAssessments

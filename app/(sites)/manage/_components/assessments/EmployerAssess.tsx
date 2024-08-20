@@ -241,9 +241,9 @@ const EmployerAssess = ({ banners, demoBanners }: EmployerAssessProps) => {
             </h3>
             <p className="text-gray-600 text-base sm:text-[15px] leading-normal mt-2">
               Identify and select candidates who possess the
-              <span className="font-semibold">
+              <span className="font-semibold">{" "}
                 skills, qualifications, and knowledge
-              </span>
+              </span>{" "}
               that align with the core activities and requirements of your
               organization.
             </p>

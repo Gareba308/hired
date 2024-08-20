@@ -45,7 +45,7 @@ const Page = async ({ params }: ResumeRenderProps) => {
     );
   }
   return (
-    <div className="min-h-[calc(100vh-7rem)] sm:rounded-md bg-white sm:shadow-sm pt-2 max-w-7xl px-4 pb-4 mx-auto">
+    <div className="min-h-[calc(100vh-90px)] sm:rounded-md bg-white sm:shadow-sm pt-2 max-w-7xl px-4 pb-4 mx-auto">
       <BetterResume application={application} applicationID={applicationID} />
     </div>
   );

@@ -19,6 +19,11 @@ const Page = async () => {
   if (!dbUser) redirect("/home/login/enterprises?origin=manage/assessments");
 
   const banners = await db.assessmentBanner.findMany({
+    where: {
+      forDemo: {
+        equals: false
+      }
+    },
     orderBy: {
       createdAt: "desc"
     }

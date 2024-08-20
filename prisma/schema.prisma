@@ -130,6 +130,7 @@ model Workers {
   CareerWizard          CareerWizard[]
   AcceptToBeAssessed    AcceptToBeAssessed[]
   SubmitTest            SubmitTest[]
+  SubmitDemo            SubmitDemo[]
 }
 
 model Employers {
@@ -260,6 +261,9 @@ model Job {
   benefits                    String[]  @default([])
   instructions                String?
   academicDesired             String?
+  addAssessment               Boolean   @default(false)
+  assessmentOneID             String?
+  assessmentTwoID             String?
   logo2                       String?   @default("https://res.cloudinary.com/dflvibeo6/image/upload/v1684840873/My_project_1_eadinu.png")
   createdAt                   DateTime  @default(now())
   updatedAt                   DateTime  @updatedAt
@@ -811,8 +815,16 @@ model AcceptToBeAssessed {
   @@index([isWorkerID])
 }
 
+enum DemoStatus {
+  PENDING
+  INCOMPLETE
+  REVIEWING
+  PASSED
+  FAILED
+}
+
 model EmployerRequestAssessment {
-  id           String   @id @default(cuid())
+  id           String     @id @default(cuid())
   userId       String
   demoID       String
   completeTime DateTime
@@ -822,8 +834,10 @@ model EmployerRequestAssessment {
   fullName     String
   category     String
   companyName  String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  score        Int        @default(0)
+  status       DemoStatus @default(PENDING)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   employer Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
@@ -845,6 +859,23 @@ model SubmitTest {
   worker      Workers  @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([isWorkerID])
+}
+
+model SubmitDemo {
+  id           String   @id @default(cuid())
+  isEmployerID String
+  userId       String
+  questionId   String
+  bannerID     String
+  attemptType  String
+  realAnswer   String
+  myAnswer     String
+  passed       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  employer     Workers  @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isEmployerID])
 }
 
 model Award {
@@ -915,6 +946,9 @@ model PickAssessCandidate {
   userName     String
   category     String
   testID       String
+  companyID    String
+  testName     String
+  utilized     Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

@@ -4,12 +4,12 @@ import { MoveLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import UserProfile from "./UserProfile";
-import { AdminProfile, User } from "@prisma/client";
+import { AdminProfile as Profile, User } from "@prisma/client";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 interface AdminProfileProps {
-  profile: AdminProfile | null;
+  profile: Profile | null;
   user: User
 }
 
