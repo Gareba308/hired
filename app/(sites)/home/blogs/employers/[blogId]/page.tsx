@@ -16,7 +16,7 @@ interface CategoryCounts {
   [key: string]: number;
 }
 
-const dynamicParams= true;
+export const dynamicParams = true;
 
 const getBlog = cache(async (blogId: string) => {
   const blogExists = await db.blogs.findFirst({
