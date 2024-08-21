@@ -8,11 +8,11 @@ interface CompanyDetailsProps {
   };
 }
 
+export const revalidate = 60;
 export async function generateStaticParams() {
   const companies = await db.company.findMany();
 
-  const companiesIDs= companies.map((company) => company.id)
-  return companiesIDs;
+  return companies.map((company) => ({ companyId: company.id }));
 }
 
 const Page = async ({ params }: CompanyDetailsProps) => {

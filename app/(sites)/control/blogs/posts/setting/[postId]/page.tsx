@@ -7,26 +7,27 @@ interface SettingsProps {
     postId: string;
   };
 }
-
+export const revalidate = 60;
 export async function generateStaticParams() {
   const employerBlogs = await db.blogs.findMany();
 
-  const blogIDs= employerBlogs.map((blog) => blog.id);
-  return blogIDs;
+  return employerBlogs.map((blog) => ({
+    postId: blog.id,
+  }));
 }
 
 const Page = async ({ params }: SettingsProps) => {
   const { postId } = params;
-  const blog= await db.blogs.findFirst({
+  const blog = await db.blogs.findFirst({
     where: {
-      id: postId
-    }
-  })
+      id: postId,
+    },
+  });
 
-  if(!blog) redirect('/control/blogs/posts')
+  if (!blog) redirect("/control/blogs/posts");
   return (
     <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-90px)] mx-auto bg-white px-4 md:px-6 text-gray-700 sm:shadow-sm sm:rounded-lg">
-      <EditBlog blog={blog}/>
+      <EditBlog blog={blog} />
     </div>
   );
 };

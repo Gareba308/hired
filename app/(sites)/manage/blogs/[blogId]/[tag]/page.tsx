@@ -9,6 +9,8 @@ interface TagProps {
   };
 }
 
+export const revalidate = 60;
+
 export async function generateStaticParams({ params }: TagProps) {
   const { blogId } = params;
 
@@ -52,9 +54,9 @@ export async function generateStaticParams({ params }: TagProps) {
   }
 
   const topHashtags1 = Array.from(hashtagsSet1);
-  const combinedHashtags = Array.from(new Set([...topHashtags, ...topHashtags1]));
+  const tagArrays = Array.from(new Set([...topHashtags, ...topHashtags1]));
 
-  return combinedHashtags;
+  return tagArrays.map((tag) => ({ tag }));
 }
 
 const Page = async ({ params }: TagProps) => {

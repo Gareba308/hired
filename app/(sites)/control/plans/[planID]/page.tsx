@@ -9,12 +9,11 @@ interface PlanEditProps {
     planID: string;
   };
 }
-
+export const revalidate = 60;
 export async function generateStaticParams() {
   const plans = await db.employerPlans.findMany();
 
-  const plansIDs= plans.map((plan) => plan.id);
-  return plansIDs;
+  return plans.map((plan) => ({ planID: plan.id }));
 }
 
 const Page = async ({ params }: PlanEditProps) => {

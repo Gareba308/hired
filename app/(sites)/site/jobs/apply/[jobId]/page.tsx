@@ -36,6 +36,7 @@ interface ApplyJobProps {
     jobId: string;
   };
 }
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const currentDate = new Date();
@@ -50,8 +51,7 @@ export async function generateStaticParams() {
     },
   });
 
-  const allJobIDs = jobs.map((job) => job.id);
-  return allJobIDs;
+  return jobs.map((job) => ({ jobId: job.id }));
 }
 
 const Page = async ({ params }: ApplyJobProps) => {

@@ -10,11 +10,14 @@ interface UserMessageProps {
   };
 }
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const companies = await db.employerContactWorker.findMany();
 
-  const companiesIDs= companies.map((company) => company.companyId)
-  return companiesIDs;
+  return companies.map((company) => ({
+    companyId: company.companyId,
+  }));
 }
 
 const Page = async ({ params }: UserMessageProps) => {
@@ -31,14 +34,14 @@ const Page = async ({ params }: UserMessageProps) => {
   });
 
   if (!dbUser) redirect(`/home/login?origin=site/messaging/${companyId}`);
-  
+
   const companyExists = await db.company.findFirst({
     where: {
       id: companyId,
     },
   });
 
-  if(!companyExists) redirect('/site/messaging')
+  if (!companyExists) redirect("/site/messaging");
 
   const oneCompanyMessages = await db.employerContactWorker.findMany({
     where: {
@@ -48,20 +51,20 @@ const Page = async ({ params }: UserMessageProps) => {
         equals: false,
       },
       workerArchive: {
-        equals: false
-      }
+        equals: false,
+      },
     },
     orderBy: {
-      createdAt: "asc"
-    }
+      createdAt: "asc",
+    },
   });
 
-  const allOneCompanyMessages= await db.employerContactWorker.findMany({
+  const allOneCompanyMessages = await db.employerContactWorker.findMany({
     where: {
       companyId: companyId,
       workerUserId: dbUser.id,
-    }
-  })
+    },
+  });
 
   const workerMessages = await db.employerContactWorker.findMany({
     where: {
@@ -70,14 +73,12 @@ const Page = async ({ params }: UserMessageProps) => {
         equals: false,
       },
       workerArchive: {
-        equals: false
-      }
+        equals: false,
+      },
     },
   });
 
-  const messagesCompanyID = workerMessages.map(
-    (message) => message.companyId
-  );
+  const messagesCompanyID = workerMessages.map((message) => message.companyId);
 
   const companiesWithMessages = await db.company.findMany({
     where: {
@@ -94,10 +95,10 @@ const Page = async ({ params }: UserMessageProps) => {
         companiesWithMessages={companiesWithMessages}
         oneCompanyMessages={oneCompanyMessages}
         companyExists={companyExists}
-        allOneCompanyMessages={allOneCompanyMessages}                                                         
+        allOneCompanyMessages={allOneCompanyMessages}
       />
     </div>
   );
 };
-   
+
 export default Page;

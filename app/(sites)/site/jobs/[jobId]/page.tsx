@@ -24,6 +24,8 @@ const getJob = cache(async (jobId: string) => {
   return jobExists;
 });
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const currentDate = new Date();
   const jobs = await db.job.findMany({
@@ -37,7 +39,7 @@ export async function generateStaticParams() {
     },
   });
 
-  return jobs.map((job) => job.id);
+  return jobs.map((job) => ({ jobId: job.id }));
 }
 
 export async function generateMetadata({
@@ -65,11 +67,11 @@ export async function generateMetadata({
 
 const Page = async ({ params }: JobsProps) => {
   const { jobId } = params;
-  const currentDate= new Date()
+  const currentDate = new Date();
 
   const job = await getJob(jobId);
 
-  if (!job){
+  if (!job) {
     return (
       <>
         <NoJobs />
@@ -121,7 +123,7 @@ const Page = async ({ params }: JobsProps) => {
     (a, b) => b.count - a.count
   );
 
-  const jobIDS= sortedApplications?.map((top)=>top.jobId!)
+  const jobIDS = sortedApplications?.map((top) => top.jobId!);
 
   const popularJobs = await db.job.findMany({
     where: {
@@ -138,37 +140,37 @@ const Page = async ({ params }: JobsProps) => {
   });
 
   const sortedPopularJobs = jobIDS
-  .map((jobId) => popularJobs.find((job) => job.id === jobId))
-  .filter((job) => job !== undefined) as Job[];
+    .map((jobId) => popularJobs.find((job) => job.id === jobId))
+    .filter((job) => job !== undefined) as Job[];
 
-  const finalSortedPopularJobs= sortedPopularJobs.slice(0, 2)
-  
+  const finalSortedPopularJobs = sortedPopularJobs.slice(0, 2);
+
   const companyProfile = await db.company.findFirst({
     where: {
       userId: job.userId,
     },
   });
 
-  const session= await getServerSession(authOptions)
-  if(!session) redirect('/home/login')
-  const userID= session.id
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/home/login");
+  const userID = session.id;
 
-  const thisApplications= await db.application.findFirst({
+  const thisApplications = await db.application.findFirst({
     where: {
       userId: userID,
-      jobId: jobId
-    }
-  })
+      jobId: jobId,
+    },
+  });
 
-  const isIDSaved= await db.savedJobs.findFirst({
+  const isIDSaved = await db.savedJobs.findFirst({
     where: {
       jobID: jobId,
-      userId: userID
-    }
-  })
-  const isSaved= isIDSaved ? true : false
-  
-  const allJobs= await db.job.findMany({
+      userId: userID,
+    },
+  });
+  const isSaved = isIDSaved ? true : false;
+
+  const allJobs = await db.job.findMany({
     where: {
       deadline: {
         gte: currentDate,
@@ -176,18 +178,18 @@ const Page = async ({ params }: JobsProps) => {
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
-    }
-  })
+    },
+  });
 
-  const reportedThisJob= await db.reportJob.findFirst({
+  const reportedThisJob = await db.reportJob.findFirst({
     where: {
       jobId,
       userId: userID,
     },
     select: {
-      jobId: true
-    }
-  })
+      jobId: true,
+    },
+  });
   return (
     <div className="space-y-6 pb-3 max-w-7xl min-h-[calc(100vh-80px)] mx-auto bg-white px-4 md:px-6 text-gray-700 sm:shadow-sm sm:rounded-lg">
       <JobDetails

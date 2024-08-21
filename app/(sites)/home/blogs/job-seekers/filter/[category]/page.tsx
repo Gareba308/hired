@@ -30,6 +30,8 @@ const getBlog = cache(async (category: string) => {
   return allBlogsMatchingThisCategory;
 });
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const allBlogCategories = await db.blogs.findMany({
     where: {
@@ -43,26 +45,27 @@ export async function generateStaticParams() {
     return text.toLowerCase().replace(/\s+/g, "-");
   };
 
-  const blogCategories= allBlogCategories.map((blog) => convertToSlug(blog.category))
-  return blogCategories;
+  return allBlogCategories.map((blog) => ({
+    category: convertToSlug(blog.category),
+  }));
 }
 
 export async function generateMetadata({
   params,
 }: CategoryProps): Promise<Metadata> {
-  const {category } = params;
+  const { category } = params;
 
   function convertFromSlug(slug: string): string {
     return slug.replace(/-/g, " ");
   }
-  const newCategory= convertFromSlug(category)
+  const newCategory = convertFromSlug(category);
 
   const capitalizeFirstLetter = (text: string): string => {
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
-  const categoryUpper= capitalizeFirstLetter(newCategory)
-  const allBlogsMatchingThisCategory = await getBlog(newCategory)
+  const categoryUpper = capitalizeFirstLetter(newCategory);
+  const allBlogsMatchingThisCategory = await getBlog(newCategory);
   if (allBlogsMatchingThisCategory.length === 0) {
     return {
       title: "No blogs found",
@@ -71,13 +74,15 @@ export async function generateMetadata({
   }
   return {
     title: `${categoryUpper} blogs`,
-    description: "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
+    description:
+      "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
       title: `${categoryUpper} blogs`,
-      description: "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
+      description:
+        "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
       siteName: siteConfig.name,
       images: [
         {
@@ -97,7 +102,8 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: `${categoryUpper} blogs`,
-      description: "Dive into expert insights on hiring strategies and workforce management. Enhance your recruitment process with practical tips and industry advice.",
+      description:
+        "Dive into expert insights on hiring strategies and workforce management. Enhance your recruitment process with practical tips and industry advice.",
       images: [
         {
           url: siteConfig.ogWorkerBlogs,
@@ -112,20 +118,19 @@ export async function generateMetadata({
   };
 }
 
-
 const Page = async ({ params }: CategoryProps) => {
-  const {category } = params;
+  const { category } = params;
 
   function convertFromSlug(slug: string): string {
     return slug.replace(/-/g, " ");
   }
-  const newCategory= convertFromSlug(category)
+  const newCategory = convertFromSlug(category);
 
-  const allBlogsMatchingThisCategory = await getBlog(newCategory)
+  const allBlogsMatchingThisCategory = await getBlog(newCategory);
   return (
     <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-70px)] mx-auto bg-white px-4 md:px-6 text-gray-700 sm:shadow-sm sm:rounded-lg">
       {allBlogsMatchingThisCategory.length === 0 ? (
-        <NoCategoryBlogs  />
+        <NoCategoryBlogs />
       ) : (
         <AllCategoryBlogs
           blogs={allBlogsMatchingThisCategory}

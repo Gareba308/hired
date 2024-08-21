@@ -9,52 +9,54 @@ interface UserMessageProps {
     userId: string;
   };
 }
-
+export const revalidate = 60;
 export async function generateStaticParams() {
   const workersMessages = await db.contactWorker.findMany();
 
-  const workersUserIDs= workersMessages.map((message) => message.workerUserId);
-  return workersUserIDs;
+  return workersMessages.map((message) => ({ userId: message.workerUserId }));
 }
 
 const Page = async ({ params }: UserMessageProps) => {
-  const { userId:workerId } = params;
+  const { userId: workerId } = params;
 
   const session = await getServerSession(authOptions);
-  if (!session) redirect(`/home/login?origin=control/messages/workers/${workerId}`);
+  if (!session)
+    redirect(`/home/login?origin=control/messages/workers/${workerId}`);
   const userId = session.id;
-  if (!userId) redirect(`/home/login?origin=control/messages/workers/${workerId}`);
+  if (!userId)
+    redirect(`/home/login?origin=control/messages/workers/${workerId}`);
   const dbUser = await db.user.findFirst({
     where: {
       id: userId,
     },
   });
 
-  if (!dbUser) redirect(`/home/login?origin=control/messages/workers/${workerId}`);
-  
+  if (!dbUser)
+    redirect(`/home/login?origin=control/messages/workers/${workerId}`);
+
   const userExists = await db.user.findFirst({
     where: {
       id: workerId,
     },
-    select:{
+    select: {
       id: true,
       name: true,
       email: true,
-      role: true
-    }
+      role: true,
+    },
   });
 
-  if(!userExists) redirect('/control/messages/workers')
-  const users= await db.user.findMany({
+  if (!userExists) redirect("/control/messages/workers");
+  const users = await db.user.findMany({
     where: {
-      role:"worker"
+      role: "worker",
     },
-    select:{
+    select: {
       id: true,
       name: true,
       email: true,
-      role: true
-    }
+      role: true,
+    },
   });
   const oneUserMessages = await db.contactWorker.findMany({
     where: {
@@ -63,20 +65,20 @@ const Page = async ({ params }: UserMessageProps) => {
         equals: false,
       },
       adminArchive: {
-        equals: false
-      }
+        equals: false,
+      },
     },
     orderBy: {
-      createdAt: "asc"
-    }
+      createdAt: "asc",
+    },
   });
 
-  const allOneUserMessages= await db.contactWorker.findMany({
+  const allOneUserMessages = await db.contactWorker.findMany({
     where: {
       workerUserId: userExists.id,
-      adminUserId: userId
-    }
-  })
+      adminUserId: userId,
+    },
+  });
 
   const workerMessages = await db.contactWorker.findMany({
     where: {
@@ -85,14 +87,12 @@ const Page = async ({ params }: UserMessageProps) => {
         equals: false,
       },
       adminArchive: {
-        equals: false
-      }
+        equals: false,
+      },
     },
   });
 
-  const messagesUserID = workerMessages.map(
-    (message) => message.workerUserId
-  );
+  const messagesUserID = workerMessages.map((message) => message.workerUserId);
 
   const workersWithMessages = await db.user.findMany({
     where: {
@@ -100,24 +100,24 @@ const Page = async ({ params }: UserMessageProps) => {
         in: messagesUserID,
       },
     },
-    select:{
+    select: {
       id: true,
       name: true,
       email: true,
-      role: true
-    }
+      role: true,
+    },
   });
 
-  const isUserActive= await db.active.findFirst({
+  const isUserActive = await db.active.findFirst({
     where: {
-      userId: userExists.id
+      userId: userExists.id,
     },
     select: {
-      connected: true
-    }
-  })
+      connected: true,
+    },
+  });
 
-  const isConnected= isUserActive?.connected
+  const isConnected = isUserActive?.connected;
 
   return (
     <div>

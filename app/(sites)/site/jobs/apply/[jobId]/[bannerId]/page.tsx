@@ -16,11 +16,12 @@ const shuffleArray = (array: any[]) => {
   return array.sort(() => Math.random() - 0.5);
 };
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const pickedAssessments = await db.pickAssessCandidate.findMany();
 
-  const instantAssessIDs = pickedAssessments.map((assess) => assess.testID);
-  return instantAssessIDs;
+  return pickedAssessments.map((assess) => ({ bannerId: assess.testID }));
 }
 
 const Page = async ({ params }: TestProps) => {

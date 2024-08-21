@@ -9,18 +9,18 @@ interface CandidateIDProps {
     candidateID: string;
   };
 }
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const workers = await db.user.findMany({
     where: {
       role: {
-        equals: "worker"
-      }
-    }
+        equals: "worker",
+      },
+    },
   });
 
-  const workersIDs= workers.map((worker) => worker.id);
-  return workersIDs;
+  return workers.map((worker) => ({ candidateID: worker.id }));
 }
 
 const Page = async ({ params }: CandidateIDProps) => {
@@ -34,7 +34,8 @@ const Page = async ({ params }: CandidateIDProps) => {
   if (!candidateAvailable) redirect("/control/candidates");
 
   const session = await getServerSession(authOptions);
-  if (!session) redirect(`/home/login?origin=control/candidates/${candidateID}`);
+  if (!session)
+    redirect(`/home/login?origin=control/candidates/${candidateID}`);
   const userId = session.id;
   if (!userId) redirect(`/home/login?origin=control/candidates/${candidateID}`);
   const dbUser = await db.user.findFirst({
@@ -116,7 +117,7 @@ const Page = async ({ params }: CandidateIDProps) => {
   const candidateThumbed = await db.thumbsUp.findFirst({
     where: {
       userId,
-      bioID: bioId
+      bioID: bioId,
     },
   });
   return (

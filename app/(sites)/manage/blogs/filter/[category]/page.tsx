@@ -8,6 +8,7 @@ interface CategoryProps {
   };
 }
 
+export const revalidate = 60;
 export async function generateStaticParams() {
   const allBlogCategories = await db.blogs.findMany({
     where: {
@@ -21,19 +22,18 @@ export async function generateStaticParams() {
     return text.toLowerCase().replace(/\s+/g, "-");
   };
 
-  const blogCategories = allBlogCategories.map((blog) =>
-    convertToSlug(blog.category)
-  );
-  return blogCategories;
+  return allBlogCategories.map((blog) => ({
+    category: convertToSlug(blog.category)
+  }));
 }
 
 const Page = async ({ params }: CategoryProps) => {
-  const {category } = params;
+  const { category } = params;
 
   function convertFromSlug(slug: string): string {
     return slug.replace(/-/g, " ");
   }
-  const newCategory= convertFromSlug(category)
+  const newCategory = convertFromSlug(category);
 
   const allBlogsMatchingThisCategory = await db.blogs.findMany({
     where: {
@@ -52,7 +52,7 @@ const Page = async ({ params }: CategoryProps) => {
   return (
     <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-90px)] mx-auto bg-white px-4 md:px-6 text-gray-700 sm:shadow-sm sm:rounded-lg">
       {allBlogsMatchingThisCategory.length === 0 ? (
-        <NoCategoryBlogs  />
+        <NoCategoryBlogs />
       ) : (
         <AllCategoryBlogs
           blogs={allBlogsMatchingThisCategory}

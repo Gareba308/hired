@@ -8,7 +8,7 @@ interface CategoryProps {
     blogId: string;
   };
 }
-
+export const revalidate = 60;
 export async function generateStaticParams() {
   const allBlogCategories = await db.blogs.findMany({
     where: {
@@ -22,8 +22,9 @@ export async function generateStaticParams() {
     return text.toLowerCase().replace(/\s+/g, "-");
   };
 
-  const blogSlugs= allBlogCategories.map((blog) => convertToSlug(blog.category))
-  return blogSlugs;
+  return allBlogCategories.map((blog) => ({
+    category: convertToSlug(blog.category),
+  }));
 }
 
 const Page = async ({ params }: CategoryProps) => {
@@ -32,7 +33,7 @@ const Page = async ({ params }: CategoryProps) => {
   function convertFromSlug(slug: string): string {
     return slug.replace(/-/g, " ");
   }
-  const newCategory= convertFromSlug(category)
+  const newCategory = convertFromSlug(category);
 
   const allBlogsMatchingThisCategory = await db.blogs.findMany({
     where: {

@@ -15,8 +15,7 @@ interface BlogIDProps {
 interface CategoryCounts {
   [key: string]: number;
 }
-
-export const dynamicParams = true;
+export const revalidate = 60;
 
 const getBlog = cache(async (blogId: string) => {
   const blogExists = await db.blogs.findFirst({
@@ -37,8 +36,9 @@ export async function generateStaticParams() {
     },
   });
 
-  const blogIDs= employerBlogs.map((blog) => blog.id);
-  return blogIDs;
+  return employerBlogs.map((blog) => ({
+    blogId: blog.id,
+  }));
 }
 
 export async function generateMetadata({
@@ -46,7 +46,7 @@ export async function generateMetadata({
 }: BlogIDProps): Promise<Metadata> {
   const { blogId } = params;
 
-  const blog = await getBlog(blogId)
+  const blog = await getBlog(blogId);
 
   if (!blog) {
     return {
@@ -54,7 +54,10 @@ export async function generateMetadata({
       description: "The blog you are looking for does not exist.",
     };
   }
-  const keywords= blog.keywords.split(", ").map(name => name.trim()).slice(0, 10);
+  const keywords = blog.keywords
+    .split(", ")
+    .map((name) => name.trim())
+    .slice(0, 10);
   return {
     title: `${blog.heading}`,
     description: `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
@@ -84,8 +87,8 @@ export async function generateMetadata({
     authors: [
       {
         name: blog.fullName,
-        url: siteConfig.url
-      }
+        url: siteConfig.url,
+      },
     ],
     twitter: {
       card: "summary_large_image",
@@ -108,7 +111,7 @@ export async function generateMetadata({
 const Page = async ({ params }: BlogIDProps) => {
   const { blogId } = params;
 
-  const blogExists = await getBlog(blogId)
+  const blogExists = await getBlog(blogId);
 
   if (!blogExists) redirect(`/home/blogs?origin=home/blogs/${blogId}`);
 
@@ -132,8 +135,8 @@ const Page = async ({ params }: BlogIDProps) => {
     where: {
       target: {
         in: ["Employer", "All"],
-      }
-    }
+      },
+    },
   });
   const categoryCounts: CategoryCounts = theBlogs.reduce(
     (counts: CategoryCounts, blog) => {
@@ -155,8 +158,8 @@ const Page = async ({ params }: BlogIDProps) => {
     where: {
       target: {
         in: ["Employer", "All"],
-      }
-    }
+      },
+    },
   });
   const hashtagCounts: { [key: string]: number } = {};
   allBlogsForTags.forEach((blog) => {

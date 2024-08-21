@@ -10,6 +10,7 @@ interface PurchaseProps {
   };
 }
 
+export const revalidate = 60;
 export async function generateStaticParams() {
   const currentDate = new Date();
   const purchases = await db.purchaseJobPlan.findMany({
@@ -20,7 +21,7 @@ export async function generateStaticParams() {
     },
   });
 
-  return purchases.map((purchase) => purchase.id);
+  return purchases.map((purchase) => ({ purchaseID: purchase.id }));
 }
 
 const Page = async ({ params }: PurchaseProps) => {
@@ -34,7 +35,9 @@ const Page = async ({ params }: PurchaseProps) => {
   if (!purchaseExists) redirect(`/manage/transactions/account`);
   const session = await getServerSession(authOptions);
   if (!session)
-    redirect(`/home/login/enterprises?origin=manage/transactions/${purchaseID}`);
+    redirect(
+      `/home/login/enterprises?origin=manage/transactions/${purchaseID}`
+    );
 
   const dbUser = await db.user.findFirst({
     where: {
@@ -42,11 +45,14 @@ const Page = async ({ params }: PurchaseProps) => {
     },
   });
 
-  if (!dbUser) redirect(`/home/login/enterprises?origin=manage/transactions/${purchaseID}`);
+  if (!dbUser)
+    redirect(
+      `/home/login/enterprises?origin=manage/transactions/${purchaseID}`
+    );
 
   return (
     <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-90px)] mx-auto bg-white px-4 md:px-5 text-gray-700 sm:shadow-sm sm:rounded-lg">
-      <DisplayInvoice purchase={purchaseExists}/>
+      <DisplayInvoice purchase={purchaseExists} />
     </div>
   );
 };

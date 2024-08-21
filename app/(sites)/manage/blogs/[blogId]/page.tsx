@@ -13,6 +13,7 @@ interface CategoryCounts {
   [key: string]: number;
 }
 
+export const revalidate = 60;
 export async function generateStaticParams() {
   const employerBlogs = await db.blogs.findMany({
     where: {
@@ -22,8 +23,7 @@ export async function generateStaticParams() {
     },
   });
 
-  const blogIDs= employerBlogs.map((blog) => blog.id);
-  return blogIDs;
+  return employerBlogs.map((blog) => ({ blogId: blog.id }));
 }
 
 const Page = async ({ params }: BlogIDProps) => {
@@ -57,8 +57,8 @@ const Page = async ({ params }: BlogIDProps) => {
     where: {
       target: {
         in: ["Employer", "All"],
-      }
-    }
+      },
+    },
   });
   const categoryCounts: CategoryCounts = theBlogs.reduce(
     (counts: CategoryCounts, blog) => {
@@ -80,8 +80,8 @@ const Page = async ({ params }: BlogIDProps) => {
     where: {
       target: {
         in: ["Employer", "All"],
-      }
-    }
+      },
+    },
   });
   const hashtagCounts: { [key: string]: number } = {};
   allBlogsForTags.forEach((blog) => {

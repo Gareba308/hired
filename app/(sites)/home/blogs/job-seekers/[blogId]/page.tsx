@@ -15,7 +15,7 @@ interface BlogIDProps {
 interface CategoryCounts {
   [key: string]: number;
 }
-export const dynamicParams = true;
+export const revalidate = 60;
 
 const getBlog = cache(async (blogId: string) => {
   const blogExists = await db.blogs.findFirst({
@@ -36,8 +36,9 @@ export async function generateStaticParams() {
     },
   });
 
-  const blogIDs= workerBlogs.map((blog) => blog.id)
-  return blogIDs;
+  return workerBlogs.map((blog) => ({
+    blogId: blog.id,
+  }));
 }
 
 export async function generateMetadata({
@@ -45,7 +46,7 @@ export async function generateMetadata({
 }: BlogIDProps): Promise<Metadata> {
   const { blogId } = params;
 
-  const blog = await getBlog(blogId)
+  const blog = await getBlog(blogId);
 
   if (!blog) {
     return {
@@ -53,17 +54,20 @@ export async function generateMetadata({
       description: "The blog you are looking for does not exist.",
     };
   }
-  const keywords= blog.keywords.split(", ").map(name => name.trim()).slice(0, 10);
+  const keywords = blog.keywords
+    .split(", ")
+    .map((name) => name.trim())
+    .slice(0, 10);
   return {
     title: `${blog.heading}`,
-    description:  `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
+    description: `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
     keywords: keywords,
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
       title: `${blog.heading}`,
-      description:   `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
+      description: `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
       siteName: siteConfig.name,
       images: [
         {
@@ -83,13 +87,13 @@ export async function generateMetadata({
     authors: [
       {
         name: blog.fullName,
-        url: siteConfig.url
-      }
+        url: siteConfig.url,
+      },
     ],
     twitter: {
       card: "summary_large_image",
       title: `${blog.heading}`,
-      description:  `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
+      description: `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
       images: [
         {
           url: blog.image,
@@ -107,9 +111,10 @@ export async function generateMetadata({
 const Page = async ({ params }: BlogIDProps) => {
   const { blogId } = params;
 
-  const blogExists = await getBlog(blogId)
+  const blogExists = await getBlog(blogId);
 
-  if (!blogExists) redirect(`/home/blogs/job-seekers?origin=home/blogs/job-seekers/${blogId}`);
+  if (!blogExists)
+    redirect(`/home/blogs/job-seekers?origin=home/blogs/job-seekers/${blogId}`);
 
   const allOtherBlogs = await db.blogs.findMany({
     where: {
@@ -131,8 +136,8 @@ const Page = async ({ params }: BlogIDProps) => {
     where: {
       target: {
         in: ["Worker", "All"],
-      }
-    }
+      },
+    },
   });
   const categoryCounts: CategoryCounts = theBlogs.reduce(
     (counts: CategoryCounts, blog) => {
@@ -154,8 +159,8 @@ const Page = async ({ params }: BlogIDProps) => {
     where: {
       target: {
         in: ["Worker", "All"],
-      }
-    }
+      },
+    },
   });
   const hashtagCounts: { [key: string]: number } = {};
   allBlogsForTags.forEach((blog) => {

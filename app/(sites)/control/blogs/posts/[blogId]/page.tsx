@@ -11,11 +11,14 @@ interface CategoryCounts {
   [key: string]: number;
 }
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const employerBlogs = await db.blogs.findMany();
 
-  const blogIDs= employerBlogs.map((blog) => blog.id);
-  return blogIDs;
+  return employerBlogs.map((blog) => ({
+    blogId: blog.id,
+  }));
 }
 
 const Page = async ({ params }: BlogDetailsProps) => {
@@ -83,7 +86,8 @@ const Page = async ({ params }: BlogDetailsProps) => {
   if (hashtags1) {
     hashtags1.forEach((hashtag1) => {
       const cleanedHashtag1 = hashtag1.substring(1);
-      hashtagCounts1[cleanedHashtag1] = (hashtagCounts1[cleanedHashtag1] || 0) + 1;
+      hashtagCounts1[cleanedHashtag1] =
+        (hashtagCounts1[cleanedHashtag1] || 0) + 1;
     });
   }
   const hashtagArray1 = Object.keys(hashtagCounts1).map((hashtag1) => ({

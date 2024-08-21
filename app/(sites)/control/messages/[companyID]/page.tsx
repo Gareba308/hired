@@ -9,12 +9,13 @@ interface CompanyMessageProps {
     companyID: string;
   };
 }
-
+export const revalidate = 60;
 export async function generateStaticParams() {
   const companies = await db.contactEmployer.findMany();
 
-  const companiesIDs= companies.map((message) => message.companyId);
-  return companiesIDs;
+  return companies.map((message) => ({
+    companyID: message.companyId,
+  }));
 }
 
 const Page = async ({ params }: CompanyMessageProps) => {
@@ -36,8 +37,8 @@ const Page = async ({ params }: CompanyMessageProps) => {
     },
   });
 
-  if(!companyExists) redirect('/control/messages')
-  const companies= await db.company.findMany()
+  if (!companyExists) redirect("/control/messages");
+  const companies = await db.company.findMany();
 
   const oneCompanyMessages = await db.contactEmployer.findMany({
     where: {
@@ -46,20 +47,20 @@ const Page = async ({ params }: CompanyMessageProps) => {
         equals: false,
       },
       adminArchive: {
-        equals: false
-      }
+        equals: false,
+      },
     },
     orderBy: {
-      createdAt: "asc"
-    }
+      createdAt: "asc",
+    },
   });
 
-  const allOneCompanyMessages= await db.contactEmployer.findMany({
+  const allOneCompanyMessages = await db.contactEmployer.findMany({
     where: {
       companyId: companyExists.id,
-      adminUserId: userId
-    }
-  })
+      adminUserId: userId,
+    },
+  });
 
   const employerMessages = await db.contactEmployer.findMany({
     where: {
@@ -68,8 +69,8 @@ const Page = async ({ params }: CompanyMessageProps) => {
         equals: false,
       },
       adminArchive: {
-        equals: false
-      }
+        equals: false,
+      },
     },
   });
 
@@ -85,16 +86,16 @@ const Page = async ({ params }: CompanyMessageProps) => {
     },
   });
 
-  const isCompanyActive= await db.active.findFirst({
+  const isCompanyActive = await db.active.findFirst({
     where: {
-      userId: companyExists.userId
+      userId: companyExists.userId,
     },
     select: {
-      connected: true
-    }
-  })
+      connected: true,
+    },
+  });
 
-  const isConnected= isCompanyActive?.connected
+  const isConnected = isCompanyActive?.connected;
 
   return (
     <div>

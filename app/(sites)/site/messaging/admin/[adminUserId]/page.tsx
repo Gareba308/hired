@@ -9,38 +9,41 @@ interface CompanyMessageProps {
     adminUserId: string;
   };
 }
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const admins = await db.contactWorker.findMany();
 
-  const adminsUserIDs= admins.map((admin) => admin.adminUserId)
-  return adminsUserIDs;
+  return admins.map((admin) => ({ adminUserId: admin.adminUserId }));
 }
 
 const Page = async ({ params }: CompanyMessageProps) => {
   const { adminUserId } = params;
   const session = await getServerSession(authOptions);
-  if (!session) redirect(`/home/login?origin=site/messaging/admin/${adminUserId}`);
+  if (!session)
+    redirect(`/home/login?origin=site/messaging/admin/${adminUserId}`);
   const userId = session.id;
-  if (!userId) redirect(`/home/login?origin=site/messaging/admin/${adminUserId}`);
+  if (!userId)
+    redirect(`/home/login?origin=site/messaging/admin/${adminUserId}`);
   const dbUser = await db.user.findFirst({
     where: {
       id: userId,
     },
   });
 
-  if (!dbUser) redirect(`/home/login?origin=site/messaging/admin/${adminUserId}`);
+  if (!dbUser)
+    redirect(`/home/login?origin=site/messaging/admin/${adminUserId}`);
   const adminSenderExists = await db.user.findFirst({
     where: {
       id: adminUserId,
     },
-    select:{
+    select: {
       id: true,
       name: true,
-    }
+    },
   });
 
-  if(!adminSenderExists) redirect('/site/messaging/admin')
+  if (!adminSenderExists) redirect("/site/messaging/admin");
 
   const oneAdminMessages = await db.contactWorker.findMany({
     where: {
@@ -50,20 +53,20 @@ const Page = async ({ params }: CompanyMessageProps) => {
         equals: false,
       },
       workerArchive: {
-        equals: false
-      }
+        equals: false,
+      },
     },
     orderBy: {
-      createdAt: "asc"
-    }
+      createdAt: "asc",
+    },
   });
 
-  const allOneAdminMessages= await db.contactWorker.findMany({
+  const allOneAdminMessages = await db.contactWorker.findMany({
     where: {
       adminUserId: adminSenderExists.id,
-      workerUserId: userId
-    }
-  })
+      workerUserId: userId,
+    },
+  });
 
   const workerMessages = await db.contactWorker.findMany({
     where: {
@@ -72,8 +75,8 @@ const Page = async ({ params }: CompanyMessageProps) => {
         equals: false,
       },
       workerArchive: {
-        equals: false
-      }
+        equals: false,
+      },
     },
   });
 

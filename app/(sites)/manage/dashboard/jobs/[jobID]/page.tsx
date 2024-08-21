@@ -3,7 +3,17 @@ import { db } from "@/db";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { AllApplications } from "../../../_components/applications/AllApplications";
-import { endOfDay, endOfMonth, endOfWeek, startOfDay, startOfMonth, startOfWeek, subDays, subMonths, subWeeks } from "date-fns";
+import {
+  endOfDay,
+  endOfMonth,
+  endOfWeek,
+  startOfDay,
+  startOfMonth,
+  startOfWeek,
+  subDays,
+  subMonths,
+  subWeeks,
+} from "date-fns";
 import { ApplicationStatus } from "@prisma/client";
 
 interface JobApplicationIDProps {
@@ -12,6 +22,7 @@ interface JobApplicationIDProps {
   };
 }
 
+export const revalidate = 60;
 export async function generateStaticParams() {
   const currentDate = new Date();
   const jobs = await db.job.findMany({
@@ -25,11 +36,11 @@ export async function generateStaticParams() {
     },
   });
 
-  return jobs.map((job) => job.id);
+  return jobs.map((job) => ({ jobID: job.id }));
 }
 
 const Page = async ({ params }: JobApplicationIDProps) => {
-  const { jobID:jobId } = params;
+  const { jobID: jobId } = params;
   const jobExists = await db.job.findFirst({
     where: {
       id: jobId,
@@ -40,7 +51,8 @@ const Page = async ({ params }: JobApplicationIDProps) => {
   });
   const jobTitle = jobExists?.job_title;
   const session = await getServerSession(authOptions);
-  if (!session) redirect(`/home/login/enterprises?origin=manage/dashboard/jobs/${jobId}`);
+  if (!session)
+    redirect(`/home/login/enterprises?origin=manage/dashboard/jobs/${jobId}`);
   const userId = session.id;
   const email = session.user?.email;
   if (!userId || !email)
@@ -51,7 +63,8 @@ const Page = async ({ params }: JobApplicationIDProps) => {
       email,
     },
   });
-  if (!dbUser) redirect(`/home/login/enterprises?origin=manage/dashboard/jobs/${jobId}`);
+  if (!dbUser)
+    redirect(`/home/login/enterprises?origin=manage/dashboard/jobs/${jobId}`);
   const isEmployer = await db.employers.findFirst({
     where: {
       employerEmail: email,
@@ -111,7 +124,7 @@ const Page = async ({ params }: JobApplicationIDProps) => {
   }
   async function getApplicationCountAndPercentage(
     companyId: string,
-    jobId: string,
+    jobId: string
   ): Promise<{ countApplications: number; percentageApplications: string }> {
     const currentDate = new Date();
     const currentMonthCount = await countApplicationsInMonth(
@@ -174,7 +187,7 @@ const Page = async ({ params }: JobApplicationIDProps) => {
 
   async function getSuccessfulApplicationCountAndPercentage(
     companyId: string,
-    jobId: string,
+    jobId: string
   ): Promise<{ countSuccess: number; percentageSuccess: string }> {
     const currentDate = new Date();
     const currentMonthSuccessCount = await countSuccessfulApplicationsInMonth(
@@ -236,7 +249,7 @@ const Page = async ({ params }: JobApplicationIDProps) => {
 
   async function getWeekApplicationCountAndPercentage(
     companyId: string,
-    jobId: string,
+    jobId: string
   ): Promise<{ countWeek: number; percentageWeek: string }> {
     const currentDate = new Date();
     const startDate = startOfWeek(currentDate);
@@ -290,7 +303,7 @@ const Page = async ({ params }: JobApplicationIDProps) => {
 
     const queryFilters: {
       companyId: string;
-      jobId: string,
+      jobId: string;
       status: ApplicationStatus;
       createdAt: {
         gte: Date;
@@ -314,7 +327,7 @@ const Page = async ({ params }: JobApplicationIDProps) => {
 
   async function getPendingApplicationCountAndPercentage(
     companyId: string,
-    jobId: string,
+    jobId: string
   ): Promise<{ countPending: number; percentagePending: string }> {
     const currentDate = new Date();
     const currentPendingCount = await countPendingApplications(

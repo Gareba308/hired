@@ -9,11 +9,14 @@ interface QuestionsProps {
   };
 }
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const questions = await db.assessment.findMany();
 
-  const questionsIDs= questions.map((quiz) => quiz.id);
-  return questionsIDs;
+  return questions.map((quiz) => ({
+    questionID: quiz.id,
+  }));
 }
 
 const Page = async ({ params }: QuestionsProps) => {
@@ -33,7 +36,7 @@ const Page = async ({ params }: QuestionsProps) => {
 
   return (
     <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-90px)] mx-auto bg-white px-4 md:px-6 text-gray-700 sm:shadow-sm sm:rounded-lg">
-      <EditQuestion question={questionExists}/>
+      <EditQuestion question={questionExists} />
     </div>
   );
 };

@@ -11,6 +11,7 @@ interface ApplicationsDetailsProps {
   };
 }
 
+export const revalidate = 60;
 export async function generateStaticParams() {
   const currentDate = new Date();
   const applications = await db.application.findMany({
@@ -21,9 +22,9 @@ export async function generateStaticParams() {
     },
   });
 
-  const applicationsIDs= applications.map((application) => application.id).slice(0, 500);
-
-  return applicationsIDs
+  return applications.map((application) => ({
+    applicationID: application.id.slice(0, 500),
+  }));
 }
 
 const Page = async ({ params }: ApplicationsDetailsProps) => {
@@ -31,7 +32,9 @@ const Page = async ({ params }: ApplicationsDetailsProps) => {
 
   const session = await getServerSession(authOptions);
   if (!session)
-    redirect(`/home/login/enterprises?origin=manage/applications/${applicationID}`);
+    redirect(
+      `/home/login/enterprises?origin=manage/applications/${applicationID}`
+    );
 
   const userId = session.id;
   const email = session.user?.email as string;
@@ -44,7 +47,9 @@ const Page = async ({ params }: ApplicationsDetailsProps) => {
   });
 
   if (!dbUser)
-    redirect(`/home/login/enterprises?origin=manage/applications/${applicationID}`);
+    redirect(
+      `/home/login/enterprises?origin=manage/applications/${applicationID}`
+    );
 
   const application = await db.application.findFirst({
     where: {

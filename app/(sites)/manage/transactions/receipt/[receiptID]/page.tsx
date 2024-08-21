@@ -10,6 +10,7 @@ interface ReceiptProps {
   };
 }
 
+export const revalidate = 60;
 export async function generateStaticParams() {
   const currentDate = new Date();
   const receipts = await db.payment.findMany({
@@ -20,7 +21,7 @@ export async function generateStaticParams() {
     },
   });
 
-  return receipts.map((receipt) => receipt.id);
+  return receipts.map((receipt) => ({ receiptID: receipt.id }));
 }
 
 const Page = async ({ params }: ReceiptProps) => {
@@ -34,7 +35,9 @@ const Page = async ({ params }: ReceiptProps) => {
   if (!receiptExists) redirect(`/manage/transactions`);
   const session = await getServerSession(authOptions);
   if (!session)
-    redirect(`/home/login/enterprises?origin=manage/transactions/receipt/${receiptID}`);
+    redirect(
+      `/home/login/enterprises?origin=manage/transactions/receipt/${receiptID}`
+    );
 
   const dbUser = await db.user.findFirst({
     where: {
@@ -42,11 +45,14 @@ const Page = async ({ params }: ReceiptProps) => {
     },
   });
 
-  if (!dbUser) redirect(`/home/login/enterprises?origin=manage/transactions/receipt/${receiptID}`);
+  if (!dbUser)
+    redirect(
+      `/home/login/enterprises?origin=manage/transactions/receipt/${receiptID}`
+    );
 
   return (
     <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-90px)] mx-auto bg-white px-4 md:px-5 text-gray-700 sm:shadow-sm sm:rounded-lg">
-      <DisplayReceipt receipt={receiptExists}/>
+      <DisplayReceipt receipt={receiptExists} />
     </div>
   );
 };

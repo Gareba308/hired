@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { redirect } from "next/navigation";
-import { subDays } from 'date-fns';
+import { subDays } from "date-fns";
 import EditJob from "../../../_components/job/EditJob";
 
 interface EditJobProps {
@@ -9,6 +9,7 @@ interface EditJobProps {
   };
 }
 const thirtyDaysAgo = subDays(new Date(), 30);
+export const revalidate = 60;
 export async function generateStaticParams() {
   const currentDate = new Date();
   const jobs = await db.job.findMany({
@@ -22,7 +23,7 @@ export async function generateStaticParams() {
     },
   });
 
-  return jobs.map((job) => job.id);
+  return jobs.map((job) => ({ jobId: job.id }));
 }
 
 const Page = async ({ params }: EditJobProps) => {

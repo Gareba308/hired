@@ -10,17 +10,19 @@ interface CandidateIDProps {
   };
 }
 
+export const revalidate = 60;
 export async function generateStaticParams() {
   const candidates = await db.user.findMany({
     where: {
       role: {
-        equals: "worker"
-      }
-    }
+        equals: "worker",
+      },
+    },
   });
 
-  const candidatesIDs= candidates.map((candidate) => candidate.id).slice(0, 500);
-  return candidatesIDs;
+  return candidates.map((candidate) => ({
+    candidateID: candidate.id.slice(0, 500),
+  }));
 }
 
 const Page = async ({ params }: CandidateIDProps) => {
@@ -34,15 +36,18 @@ const Page = async ({ params }: CandidateIDProps) => {
   if (!candidateAvailable) redirect("/manage/candidates");
 
   const session = await getServerSession(authOptions);
-  if (!session) redirect(`/home/login/enterprises?origin=manage/candidates/${candidateID}`);
+  if (!session)
+    redirect(`/home/login/enterprises?origin=manage/candidates/${candidateID}`);
   const userId = session.id;
-  if (!userId) redirect(`/home/login/enterprises?origin=manage/candidates/${candidateID}`);
+  if (!userId)
+    redirect(`/home/login/enterprises?origin=manage/candidates/${candidateID}`);
   const dbUser = await db.user.findFirst({
     where: {
       id: userId,
     },
   });
-  if (!dbUser) redirect(`/home/login/enterprises?origin=manage/candidates/${candidateID}`);
+  if (!dbUser)
+    redirect(`/home/login/enterprises?origin=manage/candidates/${candidateID}`);
 
   const workersBio = await db.workerBio.findFirst({
     where: {
@@ -116,10 +121,10 @@ const Page = async ({ params }: CandidateIDProps) => {
   const candidateThumbed = await db.thumbsUp.findFirst({
     where: {
       userId,
-      bioID: bioId
+      bioID: bioId,
     },
   });
-  
+
   return (
     <div>
       <CandidateDetails

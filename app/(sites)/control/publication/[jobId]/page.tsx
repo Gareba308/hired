@@ -11,6 +11,8 @@ interface UnpublishedJobsDetailsProps {
   };
 }
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const currentDate = new Date();
   const jobs = await db.job.findMany({
@@ -24,7 +26,7 @@ export async function generateStaticParams() {
     },
   });
 
-  return jobs.map((job) => job.id);
+  return jobs.map((job) => ({ jobId: job.id }));
 }
 
 const Page = async ({ params }: UnpublishedJobsDetailsProps) => {

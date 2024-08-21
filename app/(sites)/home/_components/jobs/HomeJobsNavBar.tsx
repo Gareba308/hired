@@ -234,14 +234,14 @@ const HomeJobsNavBar = ({
     if (storedSearchHistory) {
       setSearchHistory(JSON.parse(storedSearchHistory));
     }
-  }, []);
+  }, [viewID]);
 
   useEffect(() => {
     localStorage.setItem(
       `searchHistory${viewID}`,
       JSON.stringify(searchHistory)
     );
-  }, [searchHistory]);
+  }, [searchHistory, viewID]);
 
   const handleSuggestionClick1 = (suggestion: string) => {
     const matchedJob = jobs.find(

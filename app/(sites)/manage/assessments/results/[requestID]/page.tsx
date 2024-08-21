@@ -9,11 +9,11 @@ interface RequestAssessmentProps {
   };
 }
 
+export const revalidate = 60;
 export async function generateStaticParams() {
   const instantAssess = await db.employerRequestAssessment.findMany();
 
-  const instantAssessIDs = instantAssess.map((assess) => assess.id);
-  return instantAssessIDs;
+  return instantAssess.map((assess) => ({ requestID: assess.id }));
 }
 const Page = async ({ params }: RequestAssessmentProps) => {
   const { requestID } = params;
@@ -41,7 +41,7 @@ const Page = async ({ params }: RequestAssessmentProps) => {
 
   return (
     <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-90px)] mx-auto bg-white px-4 md:px-5 text-gray-700 sm:shadow-sm sm:rounded-lg">
-      <InitiatedInstant banner={banner}  instantResults={requestExists}/>
+      <InitiatedInstant banner={banner} instantResults={requestExists} />
     </div>
   );
 };

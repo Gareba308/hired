@@ -1,4 +1,3 @@
-
 import AllCategoryBlogs from "@/app/(sites)/home/_components/employersBlogs/AllCategoryBlogs";
 import NoCategoryBlogs from "@/app/(sites)/home/_components/employersBlogs/NoCategoryBlogs";
 import { db } from "@/db";
@@ -32,6 +31,8 @@ const getBlogs = cache(async (category: string) => {
   return allBlogsMatchingThisCategory;
 });
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const allBlogCategories = await db.blogs.findMany({
     where: {
@@ -45,26 +46,27 @@ export async function generateStaticParams() {
     return text.toLowerCase().replace(/\s+/g, "-");
   };
 
-  const blogSlugs= allBlogCategories.map((blog) => convertToSlug(blog.category))
-  return blogSlugs;
+  return allBlogCategories.map((blog) => ({
+    category: convertToSlug(blog.category),
+  }));
 }
 
 export async function generateMetadata({
   params,
 }: CategoryProps): Promise<Metadata> {
-  const {category, blogId } = params;
+  const { category, blogId } = params;
 
   function convertFromSlug(slug: string): string {
     return slug.replace(/-/g, " ");
   }
-  const newCategory= convertFromSlug(category)
+  const newCategory = convertFromSlug(category);
 
   const capitalizeFirstLetter = (text: string): string => {
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
-  const categoryUpper= capitalizeFirstLetter(newCategory)
-  const allBlogsMatchingThisCategory = await getBlogs(newCategory)
+  const categoryUpper = capitalizeFirstLetter(newCategory);
+  const allBlogsMatchingThisCategory = await getBlogs(newCategory);
   if (allBlogsMatchingThisCategory.length === 0) {
     return {
       title: "No blogs matching this category found",
@@ -73,13 +75,15 @@ export async function generateMetadata({
   }
   return {
     title: `${categoryUpper} blogs`,
-    description: "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
+    description:
+      "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
       title: `${categoryUpper} blogs`,
-      description: "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
+      description:
+        "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
       siteName: siteConfig.name,
       images: [
         {
@@ -99,7 +103,8 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: `${categoryUpper} blogs`,
-      description: "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
+      description:
+        "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
       images: [
         {
           url: siteConfig.ogEmployerBlogs,
@@ -120,7 +125,7 @@ const Page = async ({ params }: CategoryProps) => {
   function convertFromSlug(slug: string): string {
     return slug.replace(/-/g, " ");
   }
-  const newCategory= convertFromSlug(category)
+  const newCategory = convertFromSlug(category);
 
   const allBlogsMatchingThisCategory = await getBlogs(newCategory);
   return (

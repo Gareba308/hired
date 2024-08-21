@@ -283,7 +283,7 @@ const HomePage = () => {
       <header>
         <Navbar />
       </header>
-      <section className="sm:mt-16 mt-12 mx-auto max-w-screen-xl pb-4 px-4 items-center lg:flex md:px-8">
+      <section className="sm:mt-16 mt-6 mx-auto max-w-screen-xl pb-4 px-4 items-center lg:flex md:px-8">
         <div className="space-y-4 flex-1 sm:text-center lg:text-left">
           <div>
             <span className="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20">

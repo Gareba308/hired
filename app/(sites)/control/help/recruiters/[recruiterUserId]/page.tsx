@@ -10,24 +10,25 @@ interface RecruiterID {
   };
 }
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const employerHelps = await db.helpEmployer.findMany();
 
-  const recruitersUserIDs= employerHelps.map((help) => help.userId);
-  return recruitersUserIDs;
+  return employerHelps.map((help) => ({ recruiterUserId: help.userId }));
 }
 
-const Page = async ({ params }: RecruiterID ) => {
+const Page = async ({ params }: RecruiterID) => {
   const { recruiterUserId } = params;
 
   const session = await getServerSession(authOptions);
   if (!session)
     redirect(`/home/login?origin=control/help/recruiters/${recruiterUserId}`);
   const userId = session.id;
-  const role= session.role
-  if (!userId )
+  const role = session.role;
+  if (!userId)
     redirect(`/home/login?origin=control/help/recruiters/${recruiterUserId}`);
-  if (!role )
+  if (!role)
     redirect(`/home/login?origin=control/help/recruiters/${recruiterUserId}`);
   const dbUser = await db.user.findFirst({
     where: {

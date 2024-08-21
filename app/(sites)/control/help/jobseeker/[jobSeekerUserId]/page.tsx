@@ -9,14 +9,13 @@ interface JobSeekerID {
     jobSeekerUserId: string;
   };
 }
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const workerHelps = await db.helpWorker.findMany();
 
-  const workersUserIDs= workerHelps.map((help) => help.userId);
-  return workersUserIDs;
+  return workerHelps.map((help) => ({ jobSeekerUserId: help.userId }));
 }
-
 
 const Page = async ({ params }: JobSeekerID) => {
   const { jobSeekerUserId } = params;
@@ -25,10 +24,10 @@ const Page = async ({ params }: JobSeekerID) => {
   if (!session)
     redirect(`/home/login?origin=control/help/jobseeker/${jobSeekerUserId}`);
   const userId = session.id;
-  const role= session.role
-  if (!userId )
+  const role = session.role;
+  if (!userId)
     redirect(`/home/login?origin=control/help/jobseeker/${jobSeekerUserId}`);
-  if (!role )
+  if (!role)
     redirect(`/home/login?origin=control/help/jobseeker/${jobSeekerUserId}`);
   const dbUser = await db.user.findFirst({
     where: {

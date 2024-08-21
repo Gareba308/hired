@@ -7,12 +7,12 @@ interface CompanyDetailsProps {
     companyId: string;
   };
 }
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const companies = await db.company.findMany();
 
-  const companiesIDs= companies.map((company) => company.id);
-  return companiesIDs;
+  return companies.map((company) => ({ companyId: company.id }));
 }
 
 const Page = async ({ params }: CompanyDetailsProps) => {
@@ -86,14 +86,14 @@ const Page = async ({ params }: CompanyDetailsProps) => {
     },
   });
 
-  const userSuspended= await db.user.findFirst({
+  const userSuspended = await db.user.findFirst({
     where: {
       id: companyExists.userId,
       suspended: {
-        equals: true
-      }
-    }
-  })
+        equals: true,
+      },
+    },
+  });
   return (
     <div>
       <CompanyDetails
