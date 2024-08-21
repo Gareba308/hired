@@ -11,10 +11,7 @@ const Providers = ({ children }: PropsWithChildren) => {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url:
-            process.env.NODE_ENV === 'production'
-              ? process.env.NEXT_PUBLIC_BASEURL_SET ?? 'https://wwww.hired.co.ke/api/trpc'
-              : 'http://localhost:3000/api/trpc',
+          url: 'https://wwww.hired.co.ke/api/trpc'
         }),
       ],
     })
