@@ -16,6 +16,7 @@ interface CategoryCounts {
   [key: string]: number;
 }
 
+const dynamicParams= true;
 
 const getBlog = cache(async (blogId: string) => {
   const blogExists = await db.blogs.findFirst({
@@ -27,18 +28,18 @@ const getBlog = cache(async (blogId: string) => {
   return blogExists;
 });
 
-// export async function generateStaticParams() {
-//   const employerBlogs = await db.blogs.findMany({
-//     where: {
-//       target: {
-//         in: ["Employer", "All"],
-//       },
-//     },
-//   });
+export async function generateStaticParams() {
+  const employerBlogs = await db.blogs.findMany({
+    where: {
+      target: {
+        in: ["Employer", "All"],
+      },
+    },
+  });
 
-//   const blogIDs= employerBlogs.map((blog) => blog.id);
-//   return blogIDs;
-// }
+  const blogIDs= employerBlogs.map((blog) => blog.id);
+  return blogIDs;
+}
 
 export async function generateMetadata({
   params,
