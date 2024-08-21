@@ -8,23 +8,23 @@ interface CategoryProps {
     blogId: string;
   };
 }
-export const revalidate = 60;
+// export const revalidate = 60;
 
-export async function generateStaticParams() {
-  const allBlogCategories = await db.blogs.findMany({
-    select: {
-      category: true
-    }
-  });
+// export async function generateStaticParams() {
+//   const allBlogCategories = await db.blogs.findMany({
+//     select: {
+//       category: true
+//     }
+//   });
 
-  const convertToSlug = (text: string): string => {
-    return text.toLowerCase().replace(/\s+/g, "-");
-  };
+//   const convertToSlug = (text: string): string => {
+//     return text.toLowerCase().replace(/\s+/g, "-");
+//   };
 
-  return allBlogCategories.map((blog) => ({
-    category: convertToSlug(blog.category),
-  }));
-}
+//   return allBlogCategories.map((blog) => ({
+//     category: convertToSlug(blog.category),
+//   }));
+// }
 
 const Page = async ({ params }: CategoryProps) => {
   const { blogId, category } = params;
