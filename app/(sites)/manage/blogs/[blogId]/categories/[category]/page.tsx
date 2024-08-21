@@ -12,11 +12,9 @@ interface CategoryProps {
 export const revalidate = 60;
 export async function generateStaticParams() {
   const allBlogCategories = await db.blogs.findMany({
-    where: {
-      target: {
-        in: ["Employer", "All"],
-      },
-    },
+    select: {
+      category: true
+    }
   });
 
   const convertToSlug = (text: string): string => {

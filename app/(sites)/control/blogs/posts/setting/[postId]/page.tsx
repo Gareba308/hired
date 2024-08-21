@@ -9,7 +9,11 @@ interface SettingsProps {
 }
 export const revalidate = 60;
 export async function generateStaticParams() {
-  const employerBlogs = await db.blogs.findMany();
+  const employerBlogs = await db.blogs.findMany({
+    select: {
+      id: true
+    }
+  });
 
   return employerBlogs.map((blog) => ({
     postId: blog.id,

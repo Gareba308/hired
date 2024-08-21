@@ -29,11 +29,9 @@ const getBlog = cache(async (blogId: string) => {
 
 export async function generateStaticParams() {
   const employerBlogs = await db.blogs.findMany({
-    where: {
-      target: {
-        in: ["Employer", "All"],
-      },
-    },
+    select: {
+      id: true
+    }
   });
 
   return employerBlogs.map((blog) => ({

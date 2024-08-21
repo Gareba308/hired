@@ -11,7 +11,11 @@ interface CategoryProps {
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const allBlogCategories = await db.blogs.findMany();
+  const allBlogCategories = await db.blogs.findMany({
+    select: {
+      category: true
+    }
+  });
 
   const convertToSlug = (text: string): string => {
     return text.toLowerCase().replace(/\s+/g, "-");

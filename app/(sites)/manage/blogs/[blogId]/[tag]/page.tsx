@@ -1,3 +1,4 @@
+import { subDays } from "date-fns";
 import AllWithTags from "../../../_components/blogs/AllWithTags";
 import NoTagBlogs from "../../../_components/blogs/NoTagBlogs";
 import { db } from "@/db";
@@ -11,25 +12,21 @@ interface TagProps {
 
 export const revalidate = 60;
 
-export async function generateStaticParams({ params }: TagProps) {
-  const { blogId } = params;
-
-  const blogExists = await db.blogs.findFirst({
-    where: {
-      id: blogId,
-    },
-  });
+export async function generateStaticParams() {
+  const sixtyDaysAgo = subDays(new Date(), 60);
 
   const allBlogsForTags = await db.blogs.findMany({
     where: {
-      target: {
-        in: ["Employer", "All"],
+      createdAt: {
+        gte: sixtyDaysAgo,
       },
     },
+    select: {
+      body: true
+    }
   });
 
   const hashtagsSet = new Set<string>();
-  const hashtagsSet1 = new Set<string>();
 
   allBlogsForTags.forEach((blog) => {
     const hashtags = blog.body.match(/#\w+/g);
@@ -41,20 +38,7 @@ export async function generateStaticParams({ params }: TagProps) {
     }
   });
 
-  const topHashtags = Array.from(hashtagsSet).slice(0, 6);
-
-  if (blogExists) {
-    const hashtags1 = blogExists.body.match(/#\w+/g);
-    if (hashtags1) {
-      hashtags1.forEach((hashtag1) => {
-        const cleanedHashtag1 = hashtag1.substring(1).toLowerCase();
-        hashtagsSet1.add(cleanedHashtag1);
-      });
-    }
-  }
-
-  const topHashtags1 = Array.from(hashtagsSet1);
-  const tagArrays = Array.from(new Set([...topHashtags, ...topHashtags1]));
+  const tagArrays = Array.from(hashtagsSet);
 
   return tagArrays.map((tag) => ({ tag }));
 }
