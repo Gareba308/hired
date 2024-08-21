@@ -28,7 +28,10 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (status === 'authenticated' && userId) {
-      const socketUrl = process.env.NEXT_PUBLIC_BASE_URL
+      const socketUrl =
+        process.env.NODE_ENV === 'development'
+          ? process.env.NEXT_PUBLIC_SITE_URL
+          : process.env.NEXT_PUBLIC_BASE_URL;
 
       const socket = new (ClientIO as any)(socketUrl, {
         path: '/api/socket/io',

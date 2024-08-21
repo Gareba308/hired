@@ -11,6 +11,7 @@ interface UserMessageProps {
 }
 
 export const revalidate = 60;
+
 export async function generateStaticParams() {
   const workersMessages = await db.employerContactWorker.findMany({
     where: {
@@ -20,7 +21,7 @@ export async function generateStaticParams() {
     },
   });
 
-  const workersUserIDs = workersMessages.map((worker) => ({
+  return workersMessages.map((worker) => ({
     userId: worker.workerUserId.slice(0, 500),
   }));
 }
