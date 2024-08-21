@@ -11,7 +11,7 @@ const Providers = ({ children }: PropsWithChildren) => {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url:'https://www.hired.co.ke/api/trpc',
+          url:'https://www.hired.co.ke/api/trpc'
         }),
       ],
     })

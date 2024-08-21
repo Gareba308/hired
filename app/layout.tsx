@@ -7,6 +7,7 @@ import ContextProvider from "@/context/ContextProviders";
 import "simplebar-react/dist/simplebar.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 import { SocketProvider } from "@/context/Socket-Provider";
 import ScrollToTop from "../components/common/ScrollToTop";
 import { siteConfig } from "@/lib/config";
@@ -15,6 +16,7 @@ const roboto = Roboto({
   weight: ["300", "400", "500", "700", "900"],
   subsets: ["latin"],
 });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
@@ -97,7 +99,7 @@ export default function RootLayout({
             <body
               className={cn(
                 "min-h-[calc(100vh-120px)] bg-gray-100 font-sans antialiased",
-                roboto.className
+                inter.className
               )}
             >
               {children}

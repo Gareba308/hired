@@ -12,7 +12,7 @@ const isAuth = middleware(async (opts) => {
   let viewID;
   for (const pair of cookiePairs ? cookiePairs.split(";") : []) {
     const [key, value] = pair.split("=").map((item) => item.trim());
-    if (key === "next-auth.csrf-token") {
+    if (key === "__Host-next-auth.csrf-token" || key === "next-auth.csrf-token") {
       viewID = value;
       break;
     }
@@ -74,7 +74,7 @@ const isViewAuth = middleware(async (opts) => {
   let viewID;
   for (const pair of cookiePairs ? cookiePairs.split(";") : []) {
     const [key, value] = pair.split("=").map((item) => item.trim());
-    if (key === "next-auth.csrf-token") {
+    if (key === "__Host-next-auth.csrf-token" || key === "next-auth.csrf-token") {
       viewID = value;
       break;
     }
