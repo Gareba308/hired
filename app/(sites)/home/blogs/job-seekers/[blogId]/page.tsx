@@ -15,7 +15,7 @@ interface BlogIDProps {
 interface CategoryCounts {
   [key: string]: number;
 }
-export const revalidate = 60;
+// export const revalidate = 60;
 
 const getBlog = cache(async (blogId: string) => {
   const blogExists = await db.blogs.findFirst({
@@ -27,17 +27,17 @@ const getBlog = cache(async (blogId: string) => {
   return blogExists;
 });
 
-export async function generateStaticParams() {
-  const workerBlogs = await db.blogs.findMany({
-    select: {
-      id: true
-    }
-  });
+// export async function generateStaticParams() {
+//   const workerBlogs = await db.blogs.findMany({
+//     select: {
+//       id: true
+//     }
+//   });
 
-  return workerBlogs.map((blog) => ({
-    blogId: blog.id,
-  }));
-}
+//   return workerBlogs.map((blog) => ({
+//     blogId: blog.id,
+//   }));
+// }
 
 export async function generateMetadata({
   params,
