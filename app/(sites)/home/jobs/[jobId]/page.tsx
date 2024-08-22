@@ -175,12 +175,6 @@ const Page = async ({ params }: JobDetailsProps) => {
 
   const finalSortedPopularJobs = sortedPopularJobs.slice(0, 4);
 
-  const viewedJobs = await db.jobView.findMany({
-    where: {
-      viewID,
-    },
-  });
-
   const jobCategory = jobExists.category as string;
 
   const similarJobs = await db.job.findMany({
@@ -211,7 +205,6 @@ const Page = async ({ params }: JobDetailsProps) => {
         jobs={jobs}
         viewID={viewID as string}
         popular={finalSortedPopularJobs}
-        viewed={viewedJobs}
         job={jobExists}
         similarJobs={randomElements}
       />

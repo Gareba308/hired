@@ -86,17 +86,6 @@ const Page = async ({ params }: CompanyMessageProps) => {
     },
   });
 
-  const isCompanyActive = await db.active.findFirst({
-    where: {
-      userId: companyExists.userId,
-    },
-    select: {
-      connected: true,
-    },
-  });
-
-  const isConnected = isCompanyActive?.connected;
-
   return (
     <div>
       <CompanyMessageDetails
@@ -106,7 +95,6 @@ const Page = async ({ params }: CompanyMessageProps) => {
         companyExists={companyExists}
         allOneCompanyMessages={allOneCompanyMessages}
         companies={companies}
-        isConnected={isConnected as boolean}
       />
     </div>
   );

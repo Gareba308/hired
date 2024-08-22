@@ -1,12 +1,11 @@
 "use client"
 
 import Link from "next/link";
-import { Combine, Crown, HelpCircle, LineChart, LogOut, User } from "lucide-react";
+import { Combine, Crown, LineChart, LogOut, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { useSocket } from "@/context/Socket-Provider";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -19,7 +18,6 @@ interface UserAccountNavProps {
 
 const UserAccountNav = ({ email, name }: UserAccountNavProps) => {
   const router = useRouter();
-  const { isConnected } = useSocket();
 
   function getInitials(fullName: string): string {
     const nameParts = fullName.split(" ");
@@ -53,12 +51,6 @@ const UserAccountNav = ({ email, name }: UserAccountNavProps) => {
               className="w-full h-full shrink-0 border-none rounded-full"
               alt={name}
             />
-          )}
-          {isConnected && (
-            <span className="absolute -bottom-1 right-0.5 w-3 h-3 rounded-full border border-white bg-green-500"></span>
-          )}{" "}
-          {!isConnected && (
-            <span className="absolute -bottom-1 right-0.5 w-3 h-3 rounded-full border border-white bg-yellow-500"></span>
           )}
         </Menu.Button>
       </div>

@@ -49,11 +49,6 @@ const Page = async () => {
   const workersExperience = await db.experience.findMany();
   const workersSecondary = await db.secondaryEducation.findMany();
   const workersTertiary = await db.tertiaryEducation.findMany();
-  const activeStatus = await db.active.findMany({
-    where: {
-      role: "worker",
-    },
-  });
 
   //ensure that user has both workersBio, workersAbout, workersDesire, workersContact, workersExperience, if non return null meaning they will not appear
 
@@ -296,7 +291,6 @@ const Page = async () => {
           workersSecondary={workersSecondary}
           workersTertiary={workersTertiary}
           userId={dbUser.id}
-          activeStatus={activeStatus}
         />
       </div>
     </>

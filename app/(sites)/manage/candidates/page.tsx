@@ -42,11 +42,6 @@ const Page = async () => {
   const workersExperience = await db.experience.findMany();
   const workersSecondary = await db.secondaryEducation.findMany();
   const workersTertiary = await db.tertiaryEducation.findMany();
-  const activeStatus = await db.active.findMany({
-    where: {
-      role: "worker",
-    },
-  });
 
   const myProfileViews = await db.profileView.findMany();
 
@@ -67,7 +62,6 @@ const Page = async () => {
           workersSecondary={workersSecondary}
           workersTertiary={workersTertiary}
           userId={dbUser.id}
-          activeStatus={activeStatus}
           myProfileViews={myProfileViews}
         />
       </div>

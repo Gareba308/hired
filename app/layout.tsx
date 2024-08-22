@@ -7,7 +7,6 @@ import ContextProvider from "@/context/ContextProviders";
 import "simplebar-react/dist/simplebar.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Roboto } from "next/font/google";
-import { SocketProvider } from "@/context/Socket-Provider";
 import ScrollToTop from "../components/common/ScrollToTop";
 import { siteConfig } from "@/lib/config";
 
@@ -93,7 +92,6 @@ export default function RootLayout({
     <html lang="en" className="light">
       <Providers>
         <ContextProvider>
-          <SocketProvider>
             <body
               className={cn(
                 "min-h-[calc(100vh-120px)] bg-gray-100 font-sans antialiased",
@@ -104,7 +102,6 @@ export default function RootLayout({
               <Toaster />
               <ScrollToTop />
             </body>
-          </SocketProvider>
         </ContextProvider>
       </Providers>
     </html>

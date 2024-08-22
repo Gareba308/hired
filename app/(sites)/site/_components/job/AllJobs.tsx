@@ -14,7 +14,7 @@ import {
 import ReactPaginate from "react-paginate";
 import { cn } from "@/lib/utils";
 import JobCard1 from "./JobCard1";
-import { Application, Job, JobView, SavedJobs } from "@prisma/client";
+import { Application, Job, SavedJobs } from "@prisma/client";
 import {
   academics,
   categories,
@@ -77,8 +77,6 @@ interface AllJobsProps {
   myApplications: Application[];
   mySavedJobs: SavedJobs[];
   popular: Job[];
-  viewed: JobView[];
-  viewID: string;
 }
 
 const sortByOptions = [
@@ -86,8 +84,6 @@ const sortByOptions = [
   { label: "Posted: Old to New", value: "createdAt_asc" },
   { label: "Deadline: Later to Sooner", value: "deadline_desc" },
   { label: "Deadline: Sooner to Later", value: "deadline_asc" },
-  { label: "Views: Lowest to Highest", value: "viewCounts_asc" },
-  { label: "Views: Highest to Lowest", value: "viewCounts_desc" },
 ];
 
 export default function AllJobs({
@@ -96,8 +92,6 @@ export default function AllJobs({
   myApplications,
   mySavedJobs,
   popular,
-  viewed,
-  viewID,
 }: AllJobsProps) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -493,10 +487,6 @@ export default function AllJobs({
           (b.deadline ? new Date(b.deadline).getTime() : Infinity) -
           (a.deadline ? new Date(a.deadline).getTime() : Infinity)
         );
-      } else if (sortBy === "viewCounts_asc") {
-        return (a.viewCounts || 0) - (b.viewCounts || 0);
-      } else if (sortBy === "viewCounts_desc") {
-        return (b.viewCounts || 0) - (a.viewCounts || 0);
       }
       return 0;
     });
@@ -1631,8 +1621,6 @@ export default function AllJobs({
                         myApplications={myApplications}
                         mySavedJobs={mySavedJobs}
                         popular={popular}
-                        viewed={viewed}
-                        viewID={viewID as string}
                       />
                     ) : (
                       <>

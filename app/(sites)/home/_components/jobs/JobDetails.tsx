@@ -128,30 +128,6 @@ export default function JobDetails({
   };
   const goodRecentlyViewed: Job[] = filterJobs(allJobs, recentlyViewedJobs);
 
-  const { mutate: saveJob } = trpc.workerSaveJob.useMutation({
-    onSuccess: () => {
-      router.refresh();
-    },
-    onError: () => {
-      toast({
-        title: "Something went wrong",
-        description:
-          "There was an error making save changes on this job. Please try again later.",
-        variant: "destructive",
-        duration: 3000,
-      });
-    },
-  });
-
-  const { mutate: createJobView } = trpc.createView.useMutation({
-    onSuccess: () => {
-      router.refresh();
-    },
-    onError: () => {
-      router.refresh();
-    },
-  });
-
   return (
     <>
       <div className="flex flex-col h-full">
@@ -183,31 +159,12 @@ export default function JobDetails({
                   }
                 )}
               </p>
-              {job.viewCounts !== 0 && job.viewCounts >= 5 && (
-                <p className="text-sm text-gray-600 shrink-0 flex items-center font-normal">
-                  <Eye className="h-5 w-5 mr-1.5" />
-                  {job.viewCounts} views
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <HelpCircle className="h-4 w-4 ml-0.5 text-gray-500" />
-                      </TooltipTrigger>
-                      <TooltipContent className="text-gray-600 tracking-normal">
-                        <p>
-                          One person, one click, one view. Simple and straight
-                          forward!
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </p>
-              )}
             </div>
             <div className="flex-shrink-0 flex justify-end">
-              <div className="flex-none w-16 h-16 border border-gray-200 md:hidden bg-sky-100 text-indigo-600 flex items-center justify-center">
+              <div className="flex-none w-16 h-16 border border-gray-200 md:hidden bg-gray-200 text-gray-700 flex items-center justify-center">
                 <Image src={job.logo2!} alt="Logo" width={64} height={64} />
               </div>
-              <div className="hidden flex-none w-20 h-20 border border-gray-200 bg-sky-100 text-indigo-600 md:flex items-center justify-center">
+              <div className="hidden flex-none w-20 h-20 border border-gray-200 bg-gray-200 text-gray-700 md:flex items-center justify-center">
                 <Image src={job.logo2!} alt="Logo" width={80} height={80} />
               </div>
             </div>
@@ -217,7 +174,8 @@ export default function JobDetails({
             <Button
               variant="secondary"
               type="button"
-              onClick={() => {}}
+              title="Save job"
+              onClick={() => router.push(`/home/login?origin=site/jobs/${job.id}`)}
               className="rounded-none border hover:text-primary hover:bg-primary/10 border-gray-200 hover:border-gray-200"
             >
               <>
@@ -542,9 +500,6 @@ export default function JobDetails({
                       >
                         <Link
                           href={`/home/jobs/${similarJob.id}`}
-                          onClick={() =>
-                            createJobView({ jobID: similarJob.id })
-                          }
                           className="hover:underline text-base cursor-pointer"
                         >
                           {similarJob.job_title}
@@ -588,9 +543,6 @@ export default function JobDetails({
                       >
                         <Link
                           href={`/home/jobs/${popularJob.id}`}
-                          onClick={() =>
-                            createJobView({ jobID: popularJob.id })
-                          }
                           className="hover:underline text-base cursor-pointer"
                         >
                           {popularJob.job_title}
@@ -641,9 +593,6 @@ export default function JobDetails({
                             >
                               <Link
                                 href={`/home/jobs/${recentlyViewedJob.id}`}
-                                onClick={() =>
-                                  createJobView({ jobID: recentlyViewedJob.id })
-                                }
                                 className="hover:underline text-base cursor-pointer"
                               >
                                 {recentlyViewedJob.job_title}

@@ -22,7 +22,6 @@ import { useRouter } from "next/navigation";
 import CandidateCard from "./CandidateCard";
 import {
   About,
-  Active,
   Award,
   CertificationLicense,
   Experience,
@@ -58,7 +57,6 @@ interface AllCandidatesProps {
   workersSecondary: SecondaryEducation[];
   workersTertiary: TertiaryEducation[];
   userId: string;
-  activeStatus: Active[];
 }
 const pageSize = 20;
 
@@ -126,7 +124,6 @@ export default function AllCandidates({
   workersSecondary,
   workersTertiary,
   userId,
-  activeStatus,
 }: AllCandidatesProps) {
   const router = useRouter();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -177,7 +174,6 @@ export default function AllCandidates({
     tertiary: workersTertiary.filter(
       (tertiary) => tertiary.userId === item.userId
     ),
-    active: activeStatus.find((active) => active.userId === item.userId),
   }));
 
   useEffect(() => {
@@ -580,7 +576,6 @@ export default function AllCandidates({
     tertiary: workersTertiary.filter(
       (tertiary) => tertiary.userId === item.userId
     ),
-    active: activeStatus.find((active) => active.userId === item.userId),
   }));
 
   const filteredJobTitles = filteredSuggestions.filter((suggestion) =>

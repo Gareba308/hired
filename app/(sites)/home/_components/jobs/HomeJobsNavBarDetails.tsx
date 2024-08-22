@@ -3,7 +3,6 @@
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import ControlledDisclosure from "./ControlledDisclosure";
 import {
-  ChevronDown,
   ChevronDownIcon,
   X as XMarkIcon,
   ChevronUpIcon,
@@ -16,7 +15,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { cn } from "@/lib/utils";
 import JobCard1 from "./JobCard1";
-import { Job, JobView } from "@prisma/client";
+import { Job} from "@prisma/client";
 import {
   academics,
   categories,
@@ -82,15 +81,12 @@ const sortByOptions = [
   { label: "Posted: Old to New", value: "createdAt_asc" },
   { label: "Deadline: Later to Sooner", value: "deadline_desc" },
   { label: "Deadline: Sooner to Later", value: "deadline_asc" },
-  { label: "Views: Lowest to Highest", value: "viewCounts_asc" },
-  { label: "Views: Highest to Lowest", value: "viewCounts_desc" },
 ];
 
 interface HomeJobsNavBarDetailsProps {
   jobs: Job[];
   viewID: string;
   popular: Job[];
-  viewed: JobView[];
   job: Job;
   similarJobs: Job[];
 }
@@ -99,13 +95,9 @@ const HomeJobsNavBarDetails = ({
   jobs,
   viewID,
   popular,
-  viewed,
   job,
   similarJobs,
 }: HomeJobsNavBarDetailsProps) => {
-  function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(" ");
-  }
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [isAnyCategorySelected, setIsAnyCategorySelected] = useState(false);
@@ -241,33 +233,15 @@ const HomeJobsNavBarDetails = ({
     if (storedSearchHistory) {
       setSearchHistory(JSON.parse(storedSearchHistory));
     }
-  }, []);
+  }, [viewID]);
 
   useEffect(() => {
     localStorage.setItem(
       `searchHistory${viewID}`,
       JSON.stringify(searchHistory)
     );
-  }, [searchHistory]);
+  }, [searchHistory, viewID]);
 
-  const handleSuggestionClick = (suggestion: string) => {
-    const matchedJob = jobs.find(
-      (job) =>
-        job.job_title.toLowerCase() === suggestion.toLowerCase() ||
-        (job.personal_skills &&
-          job.personal_skills.some(
-            (skill) => skill.toLowerCase() === suggestion.toLowerCase()
-          ))
-    );
-
-    if (matchedJob) {
-      setSearchQuery(suggestion);
-      setShowDropdown(false);
-      if (!searchHistory.includes(suggestion)) {
-        setSearchHistory([suggestion, ...searchHistory.slice(0, 9)]);
-      }
-    }
-  };
 
   const handleSuggestionClick1 = (suggestion: string) => {
     const matchedJob = jobs.find(
@@ -288,16 +262,6 @@ const HomeJobsNavBarDetails = ({
     }
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSearchQuery(value);
-    if (value.trim() === "") {
-      setShowDropdown(false);
-    } else {
-      setShowDropdown(true);
-    }
-  };
-
   const handleSearchChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchQuery(value);
@@ -308,21 +272,12 @@ const HomeJobsNavBarDetails = ({
     }
   };
 
-  const handleInputFocus = () => {
-    if (filteredSuggestions.length > 0 && searchQuery.trim() !== "") {
-      setShowDropdown(true);
-    }
-  };
-
   const handleInputFocus1 = () => {
     if (filteredSuggestions.length > 0 && searchQuery.trim() !== "") {
       setShowDropdown1(true);
     }
   };
 
-  const handleToggleDropdown = () => {
-    setShowDropdown((prevShowDropdown) => !prevShowDropdown);
-  };
   const handleToggleDropdown1 = () => {
     setShowDropdown1((prevShowDropdown) => !prevShowDropdown);
   };
@@ -663,10 +618,6 @@ const HomeJobsNavBarDetails = ({
           (b.deadline ? new Date(b.deadline).getTime() : Infinity) -
           (a.deadline ? new Date(a.deadline).getTime() : Infinity)
         );
-      } else if (sortBy === "viewCounts_asc") {
-        return (a.viewCounts || 0) - (b.viewCounts || 0);
-      } else if (sortBy === "viewCounts_desc") {
-        return (b.viewCounts || 0) - (a.viewCounts || 0);
       }
       return 0;
     });
@@ -2081,8 +2032,6 @@ const HomeJobsNavBarDetails = ({
                 <JobCard1
                   allJobs={jobsForCurrentPage}
                   popular={popular}
-                  viewed={viewed}
-                  viewID={viewID as string}
                 />
               ) : (
                 <>

@@ -22,7 +22,7 @@ export async function generateStaticParams() {
   });
 
   return workersMessages.map((worker) => ({
-    userId: worker.workerUserId.slice(0, 500),
+    userId: (worker.workerUserId).slice(0, 20),
   }));
 }
 
@@ -118,17 +118,6 @@ const Page = async ({ params }: UserMessageProps) => {
     },
   });
 
-  const isUserActive = await db.active.findFirst({
-    where: {
-      userId: userExists.id,
-    },
-    select: {
-      connected: true,
-    },
-  });
-
-  const isConnected = isUserActive?.connected;
-
   return (
     <div>
       <WorkerMessageDetails
@@ -138,7 +127,6 @@ const Page = async ({ params }: UserMessageProps) => {
         userExists={userExists}
         allOneUserMessages={allOneUserMessages}
         users={users}
-        isConnected={isConnected as boolean}
       />
     </div>
   );

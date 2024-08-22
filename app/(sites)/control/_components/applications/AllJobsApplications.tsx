@@ -117,8 +117,6 @@ export function AllJobsApplications({
   percentageJobSuccess,
   countJobUnsuccess,
   percentageJobUnsuccess,
-  countJobWeek,
-  percentageJobWeek,
   countJobPending,
   percentageJobPending,
 }: AllJobsProps) {
@@ -264,34 +262,6 @@ export function AllJobsApplications({
       cell: ({ row }) => (
         <div className="capitalize text-sm font-normal">
           {row.getValue("job_title")}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "createdAt",
-      header: "Published",
-      cell: ({ row }) => {
-        const date: Date = row.getValue("createdAt");
-
-        return <div className="font-normal text-sm">{format(date, "PPP")}</div>;
-      },
-    },
-    {
-      accessorKey: "viewCounts",
-      header: ({ column }) => {
-        return (
-          <div
-            className="flex justify-center items-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Views
-            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
-          </div>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="font-normal text-sm flex justify-center items-center">
-          {row.getValue("viewCounts")}
         </div>
       ),
     },

@@ -243,25 +243,6 @@ export default function JobDetails({
                   }
                 )}
               </p>
-              {job.viewCounts !== 0 && job.viewCounts >= 5 && (
-                <p className="text-sm text-gray-600 shrink-0 flex items-center font-normal">
-                  <Eye className="h-5 w-5 mr-1.5" />
-                  {job.viewCounts} views
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <HelpCircle className="h-4 w-4 ml-0.5 text-gray-500" />
-                      </TooltipTrigger>
-                      <TooltipContent className="text-gray-600 tracking-normal">
-                        <p>
-                          One person, one click, one view. Simple and straight
-                          forward!
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </p>
-              )}
             </div>
             <div className="flex-shrink-0 flex justify-end">
               <div className="flex-none w-16 h-16 border border-gray-200 md:hidden bg-sky-100 text-indigo-600 flex items-center justify-center">

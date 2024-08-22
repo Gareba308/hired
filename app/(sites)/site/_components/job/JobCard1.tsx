@@ -1,8 +1,7 @@
 "use client";
-import { Application, Job, JobView, SavedJobs } from "@prisma/client";
+import { Application, Job, SavedJobs } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
-import { Bookmark, Building2, Loader2, Zap } from "lucide-react";
-import QuillPreview from "@/components/QuillPreview";
+import { Bookmark, Building2,  Zap } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -13,9 +12,9 @@ import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface JobCardProps {
   allJobs: Job[];
@@ -23,8 +22,6 @@ interface JobCardProps {
   myApplications: Application[];
   mySavedJobs: SavedJobs[];
   popular: Job[];
-  viewed: JobView[];
-  viewID: string;
 }
 const JobCard1 = ({
   allJobs,
@@ -32,56 +29,19 @@ const JobCard1 = ({
   myApplications,
   mySavedJobs,
   popular,
-  viewed,
-  viewID,
 }: JobCardProps) => {
   const router = useRouter();
   const { toast } = useToast();
-  const [currentlyOpeningID, setCurrentlyOpeningID] = useState<string | null>(
-    null
-  );
   const initialIsAddedToSaved = allJobs.map((item) => {
     const isJobSaved = mySavedJobs.some(
       (savedJob) => savedJob.jobID === item.id
     );
     return isJobSaved;
   });
-  const [isJobViewed, setIsJobViewed] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isAddedToSavedArray, setIsAddedToSavedArray] = useState<boolean[]>(
     initialIsAddedToSaved
   );
-  const { mutate: createJobView } = trpc.createView.useMutation({
-    onMutate: ({ jobID }) => {
-      setCurrentlyOpeningID(jobID);
-      setIsLoading(true);
-    },
-    onSettled: () => {
-      if (currentlyOpeningID) {
-        setIsLoading(true);
-        const navigatePromise = new Promise<void>((resolve, reject) => {
-          router.push(`/site/jobs/${currentlyOpeningID}`);
-          router.refresh();
-        });
-        navigatePromise
-          .then(() => {
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            console.error("Error navigating:", error);
-          });
-      }
-    },
-  });
-
-  const handleViewJob = (jobID: string) => {
-    if (isLoading) {
-      return;
-    } else {
-      setIsJobViewed((prev) => !prev);
-      createJobView({ jobID, viewed: !isJobViewed });
-    }
-  };
 
   const { mutate: saveJob } = trpc.workerSaveJob.useMutation({
     onSuccess: () => {
@@ -138,10 +98,6 @@ const JobCard1 = ({
     <section className="max-w-screen-lg mx-auto">
       <ul className="space-y-3 lg:space-y-4">
         {allJobs.map((item, index) => {
-          const isViewed = viewed.some(
-            (viewedItem) =>
-              viewedItem.jobID === item.id && viewedItem.viewID === viewID
-          );
           const applied = myApplications.some(
             (appliedJob) =>
               appliedJob.jobId === item.id && appliedJob.userId === userId
@@ -152,26 +108,17 @@ const JobCard1 = ({
           return (
             <li
               key={item.id}
-              className="px-3 sm:px-4 py-3 sm:py-[14px] duration-150 border border-gray-200 rounded-lg"
+              className="px-3 sm:px-4 py-3 sm:py-[14px] duration-150 border border-gray-300 rounded-lg"
             >
               <div>
                 <div className="sm:hidden flex mb-0.5 items-center justify-between w-full gap-x-4">
-                  <h3
-                    onClick={() => handleViewJob(item.id)}
-                    className={cn(
-                      "text-[17px] capitalize line-clamp-1 hover:text-[#005580] cursor-pointer sm:text-[17.5px] font-medium",
-                      isViewed ? "text-zinc-600" : "text-slate-600"
-                    )}
+                  <Link
+                    title="Job title"
+                    href={`/site/jobs/${item.id}`}
+                    className="text-[17px] capitalize line-clamp-1 text-slate-600 hover:text-[#005580] cursor-pointer sm:text-[17.5px] font-medium"
                   >
-                    {currentlyOpeningID === item.id && isLoading ? (
-                      <span className="flex items-center">
-                        <Loader2 className="h-4 w-4 mr-1 animate-spin shrink-0" />
-                        {item.job_title.toLocaleLowerCase()}
-                      </span>
-                    ) : (
-                      <>{item.job_title.toLocaleLowerCase()}</>
-                    )}
-                  </h3>
+                    {item.job_title.toLocaleLowerCase()}
+                  </Link>
                   <span>
                     <Button
                       variant="ghost"
@@ -193,23 +140,26 @@ const JobCard1 = ({
                 <div className="flex items-center mb-0.5 sm:gap-x-2">
                   {item.companyLogo ? (
                     <div>
-                      <div
-                        onClick={() => handleViewJob(item.id)}
+                      <Link
+                        href={`/site/jobs/${item.id}`}
+                        title="Company details"
                         className="hidden w-[60px] cursor-pointer py-1 px-0.5 h-[60px] border shadow-sm border-gray-200 bg-gray-200 shrink-0 rounded-lg sm:flex items-center justify-center"
                       >
                         <Image
                           src={item.companyLogo as string}
                           alt="Logo"
+                          title="Logo"
                           height={66}
                           width={66}
                           quality={100}
                           className="shrink-0 rounded-lg"
                         />
-                      </div>
+                      </Link>
                     </div>
                   ) : (
-                    <div
-                      onClick={() => handleViewJob(item.id)}
+                    <Link
+                      href={`/site/jobs/${item.id}`}
+                      title="Company name"
                       className="hidden w-[60px] cursor-pointer py-1 px-0.5 h-[60px] border shadow-sm border-gray-200 shrink-0 bg-gray-100 hover:bg-secondary rounded-md sm:flex items-center justify-center"
                     >
                       <div className="flex items-center justify-center shrink-0 w-full h-full">
@@ -217,26 +167,17 @@ const JobCard1 = ({
                           {getInitials(item.company_name as string)}
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   )}
                   <div className="w-full flex items-start flex-col leading-tight">
                     <div className="hidden sm:flex items-center w-full justify-between gap-x-4">
-                      <h3
-                        onClick={() => handleViewJob(item.id)}
-                        className={cn(
-                          "text-[17px] capitalize line-clamp-1 hover:text-[#005580] cursor-pointer sm:text-[17.5px] font-medium",
-                          isViewed ? "text-zinc-600" : "text-slate-600"
-                        )}
+                      <Link
+                        href={`/site/jobs/${item.id}`}
+                        title="Job title"
+                        className="text-[17px] capitalize line-clamp-1 text-slate-600 hover:text-[#005580] cursor-pointer sm:text-[17.5px] font-medium"
                       >
-                        {currentlyOpeningID === item.id && isLoading ? (
-                          <span className="flex items-center">
-                            <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 mr-1 animate-spin shrink-0" />
-                            {item.job_title.toLocaleLowerCase()}
-                          </span>
-                        ) : (
-                          <>{item.job_title.toLocaleLowerCase()}</>
-                        )}
-                      </h3>
+                        {item.job_title.toLocaleLowerCase()}
+                      </Link>
                       <span>
                         <Button
                           variant="ghost"
@@ -386,13 +327,14 @@ const JobCard1 = ({
                     {item.possible_pay}
                   </span>
                 </div>
-                <div
-                  onClick={() => handleViewJob(item.id)}
+                <Link
+                  href={`/site/jobs/${item.id}`}
+                  title="Job description"
                   style={{ color: "#4b5563 !important" }}
                   className="sm:text-base text-sm font-normal cursor-pointer line-clamp-2"
                 >
                   {item.summaryDescription}
-                </div>
+                </Link>
                 {item.ownPlatformMethod === "here" ? (
                   <TooltipProvider>
                     <Tooltip>

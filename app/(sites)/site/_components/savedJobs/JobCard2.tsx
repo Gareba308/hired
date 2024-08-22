@@ -2,22 +2,13 @@
 
 import { Job, SavedJobs } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
-import {
-  Bookmark,
-  Building2,
-  CircleDollarSign,
-  Clock,
-  Loader2,
-  MapPinIcon,
-  Zap,
-} from "lucide-react";
+import { Bookmark, Building2, Loader2, Zap } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import QuillPreview from "@/components/QuillPreview";
 import { useRouter } from "next/navigation";
 import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
@@ -33,51 +24,16 @@ interface JobCardProps {
 const JobCard2 = ({ allJobs, mySavedJobs, popular }: JobCardProps) => {
   const router = useRouter();
   const { toast } = useToast();
-  const [currentlyOpeningID, setCurrentlyOpeningID] = useState<string | null>(
-    null
-  );
   const initialIsAddedToSaved = allJobs.map((item) => {
     const isJobSaved = mySavedJobs.some(
       (savedJob) => savedJob.jobID === item.id
     );
     return isJobSaved;
   });
-  const [isJobViewed, setIsJobViewed] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isAddedToSavedArray, setIsAddedToSavedArray] = useState<boolean[]>(
     initialIsAddedToSaved
   );
-  const { mutate: createJobView } = trpc.createView.useMutation({
-    onMutate: ({ jobID }) => {
-      setCurrentlyOpeningID(jobID);
-      setIsLoading(true);
-    },
-    onSettled: () => {
-      if (currentlyOpeningID) {
-        setIsLoading(true);
-        const navigatePromise = new Promise<void>((resolve, reject) => {
-          router.push(`/site/jobs/${currentlyOpeningID}`);
-          router.refresh();
-        });
-        navigatePromise
-          .then(() => {
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            console.error("Error navigating:", error);
-          });
-      }
-    },
-  });
 
-  const handleViewJob = (jobID: string) => {
-    if (isLoading) {
-      return;
-    } else {
-      setIsJobViewed((prev) => !prev);
-      createJobView({ jobID, viewed: !isJobViewed });
-    }
-  };
   const { mutate: saveJob } = trpc.workerSaveJob.useMutation({
     onSuccess: () => {
       window.location.reload();
@@ -138,22 +94,15 @@ const JobCard2 = ({ allJobs, mySavedJobs, popular }: JobCardProps) => {
           return (
             <li
               key={item.id}
-              className="px-3 sm:px-4 py-3 sm:py-[14px] duration-150 border border-gray-200 rounded-lg"
+              className="px-3 sm:px-4 py-3 sm:py-[14px] duration-150 border border-gray-300 rounded-lg"
             >
               <div>
                 <div className="sm:hidden flex mb-0.5 items-center justify-between w-full gap-x-4">
                   <h3
-                    onClick={() => handleViewJob(item.id)}
+                    onClick={() => router.push(`/site/jobs/${item.id}`)}
                     className="text-[17px] capitalize line-clamp-1 hover:underline text-slate-600 hover:text-[#005580] cursor-pointer sm:text-[17.5px] font-medium"
                   >
-                    {currentlyOpeningID === item.id && isLoading ? (
-                      <span className="flex items-center">
-                        <Loader2 className="h-4 w-4 mr-1 animate-spin shrink-0" />
-                        {item.job_title.toLocaleLowerCase()}
-                      </span>
-                    ) : (
-                      <>{item.job_title.toLocaleLowerCase()}</>
-                    )}
+                    {item.job_title.toLocaleLowerCase()}
                   </h3>
                   <span>
                     <Button
@@ -176,7 +125,7 @@ const JobCard2 = ({ allJobs, mySavedJobs, popular }: JobCardProps) => {
                   {item.companyLogo ? (
                     <div>
                       <div
-                        onClick={() => handleViewJob(item.id)}
+                        onClick={() => router.push(`/site/jobs/${item.id}`)}
                         className="hidden w-[60px] cursor-pointer py-1 px-0.5 h-[60px] border shadow-sm border-gray-200 bg-gray-200 shrink-0 rounded-lg sm:flex items-center justify-center"
                       >
                         <Image
@@ -191,7 +140,7 @@ const JobCard2 = ({ allJobs, mySavedJobs, popular }: JobCardProps) => {
                     </div>
                   ) : (
                     <div
-                      onClick={() => handleViewJob(item.id)}
+                      onClick={() => router.push(`/site/jobs/${item.id}`)}
                       className="hidden w-[60px] cursor-pointer py-1 px-0.5 h-[60px] border shadow-sm border-gray-200 shrink-0 bg-gray-100 hover:bg-secondary rounded-md sm:flex items-center justify-center"
                     >
                       <div className="flex items-center justify-center shrink-0 w-full h-full">
@@ -204,17 +153,10 @@ const JobCard2 = ({ allJobs, mySavedJobs, popular }: JobCardProps) => {
                   <div className="w-full flex items-start flex-col leading-tight">
                     <div className="hidden sm:flex items-center w-full justify-between gap-x-4">
                       <h3
-                        onClick={() => handleViewJob(item.id)}
+                        onClick={() => router.push(`/site/jobs/${item.id}`)}
                         className="text-[17px] capitalize line-clamp-1 hover:underline text-slate-600 hover:text-[#005580] cursor-pointer sm:text-[17.5px] font-medium"
                       >
-                        {currentlyOpeningID === item.id && isLoading ? (
-                          <span className="flex items-center">
-                            <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 mr-1 animate-spin shrink-0" />
-                            {item.job_title.toLocaleLowerCase()}
-                          </span>
-                        ) : (
-                          <>{item.job_title.toLocaleLowerCase()}</>
-                        )}
+                        {item.job_title.toLocaleLowerCase()}
                       </h3>
                       <span>
                         <Button
@@ -348,11 +290,11 @@ const JobCard2 = ({ allJobs, mySavedJobs, popular }: JobCardProps) => {
                   </span>
                 </div>
                 <div
-                  onClick={() => handleViewJob(item.id)}
+                  onClick={() => router.push(`/site/jobs/${item.id}`)}
                   style={{ color: "#4b5563 !important" }}
                   className="sm:text-base text-sm font-normal cursor-pointer line-clamp-2 sm:line-clamp-3"
                 >
-                  {item.summaryDescription} 
+                  {item.summaryDescription}
                 </div>
                 {item.ownPlatformMethod === "here" ? (
                   <TooltipProvider>

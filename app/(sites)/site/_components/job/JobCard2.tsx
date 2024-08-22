@@ -3,34 +3,22 @@ import { Job } from "@prisma/client";
 import { formatDistance } from "date-fns";
 import { Building2, CircleDollarSign, Clock, MapPinIcon } from "lucide-react";
 import Link from "next/link";
-import QuillPreview from "@/components/QuillPreview";
 import { useRouter } from "next/navigation";
-import { trpc } from "@/app/_trpc/client";
 
 interface JobCardProps {
   allJobs: Job[];
 }
 const JobCard2 = ({ allJobs }: JobCardProps) => {
-  const router = useRouter();
-  const { mutate: createJobView } = trpc.createView.useMutation({
-    onSuccess: () => {
-      router.refresh();
-    },
-    onError: () => {
-      router.refresh();
-    },
-  });
   return (
     <section className="max-w-screen-lg mx-auto">
       <ul className="space-y-4 lg:space-y-6">
         {allJobs.map((item) => (
           <li
             key={item.id}
-            className="px-3 pb-3 pt-1.5 bg-white rounded-lg border border-gray-200"
+            className="px-3 pb-3 pt-1.5 bg-white rounded-lg border border-gray-300"
           >
             <Link
               href={`/site/jobs/${item.id}`}
-              onClick={() => createJobView({ jobID: item.id })}
             >
               <div>
                 <div className="w-full mb-2">

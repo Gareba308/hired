@@ -195,25 +195,6 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
       },
     },
     {
-      accessorKey: "viewCounts",
-      header: ({ column }) => {
-        return (
-          <div
-            className="flex justify-center items-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Views
-            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
-          </div>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="font-normal text-sm flex justify-center items-center">
-          {row.getValue("viewCounts")}
-        </div>
-      ),
-    },
-    {
       accessorKey: "applied",
       header: ({ column }) => {
         return (

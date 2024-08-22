@@ -8,7 +8,6 @@ import { signOut } from "next-auth/react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { useRouter } from "next/navigation";
-import { useSocket } from "@/context/Socket-Provider";
 
 interface UserAccountNavProps {
   email: string;
@@ -20,7 +19,6 @@ function classNames(...classes: string[]) {
 }
 const UserAccountNav = ({ email, name }: UserAccountNavProps) => {
   const router = useRouter();
-  const { isConnected } = useSocket();
 
   function getInitials(fullName: string): string {
     const nameParts = fullName.split(" ");
@@ -52,12 +50,6 @@ const UserAccountNav = ({ email, name }: UserAccountNavProps) => {
               className="w-full h-full shrink-0 border-none rounded-full"
               alt={name}
             />
-          )}
-          {isConnected && (
-            <span className="absolute -bottom-1 right-0.5 w-3 h-3 rounded-full border border-white bg-green-500"></span>
-          )}{" "}
-          {!isConnected && (
-            <span className="absolute -bottom-1 right-0.5 w-3 h-3 rounded-full border border-white bg-yellow-500"></span>
           )}
         </Menu.Button>
       </div>

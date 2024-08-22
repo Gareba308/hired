@@ -82,22 +82,18 @@ const sortByOptions = [
   { label: "Posted: Old to New", value: "createdAt_asc" },
   { label: "Deadline: Later to Sooner", value: "deadline_desc" },
   { label: "Deadline: Sooner to Later", value: "deadline_asc" },
-  { label: "Views: Lowest to Highest", value: "viewCounts_asc" },
-  { label: "Views: Highest to Lowest", value: "viewCounts_desc" },
 ];
 
 interface HomeJobsNavBarProps {
   jobs: Job[];
   viewID: string;
   popular: Job[];
-  viewed: JobView[];
 }
 
 const HomeJobsNavBar = ({
   jobs,
   viewID,
   popular,
-  viewed,
 }: HomeJobsNavBarProps) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
@@ -601,10 +597,6 @@ const HomeJobsNavBar = ({
           (b.deadline ? new Date(b.deadline).getTime() : Infinity) -
           (a.deadline ? new Date(a.deadline).getTime() : Infinity)
         );
-      } else if (sortBy === "viewCounts_asc") {
-        return (a.viewCounts || 0) - (b.viewCounts || 0);
-      } else if (sortBy === "viewCounts_desc") {
-        return (b.viewCounts || 0) - (a.viewCounts || 0);
       }
       return 0;
     });
@@ -2027,8 +2019,6 @@ const HomeJobsNavBar = ({
                 <JobCard1
                   allJobs={jobsForCurrentPage}
                   popular={popular}
-                  viewed={viewed}
-                  viewID={viewID as string}
                 />
               ) : (
                 <>

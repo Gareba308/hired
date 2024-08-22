@@ -14,7 +14,7 @@ const Sidebar = () => {
   return (
     <div className="h-full flex flex-col border-r justify-between gap-y-3 border-gray-200 bg-[#ffffff]">
       <div className="flex flex-col">
-        <div className="h-[70px] flex my-auto items-center pl-6">
+        <div className="h-[70px] border-b border-gray-300 flex my-auto items-center pl-4">
           <Link href="/manage">
             <Image
               src={

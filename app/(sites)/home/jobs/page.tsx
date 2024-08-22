@@ -125,19 +125,12 @@ const Page = async () => {
     .filter((job) => job !== undefined) as Job[];
 
   const finalSortedPopularJobs = sortedPopularJobs.slice(0, 4);
-
-  const viewedJobs = await db.jobView.findMany({
-    where: {
-      viewID,
-    },
-  });
   return (
     <div className="mt-5">
       <HomeJobsNavBar
         jobs={jobs}
         viewID={viewID as string}
         popular={finalSortedPopularJobs}
-        viewed={viewedJobs}
       />
     </div>
   );

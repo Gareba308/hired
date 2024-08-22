@@ -283,7 +283,7 @@ const HomePage = () => {
       <header>
         <Navbar />
       </header>
-      <section className="sm:mt-16 mt-6 mx-auto max-w-screen-xl pb-4 px-4 items-center lg:flex md:px-8">
+      <section className="sm:mt-5 mt-4 mx-auto max-w-screen-xl pb-4 px-4 items-center lg:flex md:px-8">
         <div className="space-y-4 flex-1 sm:text-center lg:text-left">
           <div>
             <span className="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20">
@@ -351,7 +351,7 @@ const HomePage = () => {
             <h3 className="text-primary-foreground text-3xl font-semibold sm:text-4xl">
               Our customers are always happy
             </h3>
-            <p className="mt-3 text-primary-foreground">
+            <p className="mt-3 text-primary-foreground text-sm sm:text-[15px]">
               Employers and job seekers are consistently satisfied with reliable
               matches, a seamless user experience, and comprehensive support.
             </p>
@@ -472,7 +472,7 @@ const HomePage = () => {
             <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
               Testimonials from Platform Users
             </h3>
-            <p className="mt-2 text-gray-600">
+            <p className="mt-2 text-gray-600 text-sm sm:text-[15px]">
               Platform users appreciate the seamless experience, professional
               service, and effective results, often recommending it to others
               for its high quality and reliability.
@@ -499,7 +499,7 @@ const HomePage = () => {
                     </svg>
                     <figure className="flex h-full flex-col justify-between pb-4">
                       <blockquote>
-                        <p className="text-gray-800 text-lg font-semibold px-4 pt-1">
+                        <p className="text-gray-700 text-lg font-medium px-4 pt-1">
                           {item.quote}
                         </p>
                       </blockquote>
@@ -514,7 +514,7 @@ const HomePage = () => {
                           className="w-14 h-14 rounded-full border-2 border-gray-400"
                         />
                         <div>
-                          <span className="block text-gray-800 font-semibold">
+                          <span className="block text-gray-700 font-semibold">
                             {item.name}
                           </span>
                           <span className="block text-sky-700 font-medium text-sm mt-0.5">
@@ -554,22 +554,22 @@ const HomePage = () => {
                 className="rounded-sm"
                 priority={true}
               />
-              <p className="leading-relaxed mt-1.5 text-[15px]">
+              <p className="leading-relaxed mt-1.5 text-sm">
                 This is an emerging and rapidly growing employment platform in
                 the country.
               </p>
             </div>
             <form onSubmit={(e) => e.preventDefault()}>
-              <label className="block pt-2 font-medium text-[15px]">
+              <label className="block pt-2 font-medium text-sm">
                 Sign Up for Job Alerts
               </label>
-              <div className="max-w-sm flex items-center border rounded-md">
+              <div className="max-w-sm flex items-center rounded-md">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="w-full h-10 outline-none rounded-sm"
+                  className="w-full h-10 outline-none border placeholder:text-sm placeholder:sm:text-[15px] placeholder:gray-500 border-gray-300 rounded-sm"
                 />
-                <button className="h-10 rounded-sm ml-1.5 text-white bg-primary hover:opacity-90 px-3 outline-none shadow-md focus:shadow-none sm:px-5">
+                <button className="h-10 rounded-sm ml-1.5 text-[15px] text-white bg-primary hover:opacity-90 px-3 outline-none shadow-md focus:shadow-none sm:px-5">
                   Subscribe
                 </button>
               </div>
@@ -578,12 +578,12 @@ const HomePage = () => {
           <div className="flex-1 mt-10 space-y-4 items-start justify-between sm:flex md:space-y-0 md:mt-0">
             {footerNavs.map((item, idx) => (
               <ul className="space-y-2.5" key={idx}>
-                <h4 className="text-gray-600 font-medium">{item.label}</h4>
+                <h4 className="text-gray-700 font-medium">{item.label}</h4>
                 {item.items.map((el, idx) => (
                   <li key={idx}>
                     <a
                       href={el.href}
-                      className="hover:underline text-[15px] hover:text-sky-700"
+                      className="hover:underline text-sm text-[15px] hover:text-sky-700"
                     >
                       {el.name}
                     </a>

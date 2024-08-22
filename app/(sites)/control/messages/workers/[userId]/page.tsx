@@ -108,16 +108,6 @@ const Page = async ({ params }: UserMessageProps) => {
     },
   });
 
-  const isUserActive = await db.active.findFirst({
-    where: {
-      userId: userExists.id,
-    },
-    select: {
-      connected: true,
-    },
-  });
-
-  const isConnected = isUserActive?.connected;
 
   return (
     <div>
@@ -128,7 +118,6 @@ const Page = async ({ params }: UserMessageProps) => {
         userExists={userExists}
         allOneUserMessages={allOneUserMessages}
         users={users}
-        isConnected={isConnected as boolean}
       />
     </div>
   );

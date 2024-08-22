@@ -1,6 +1,6 @@
 export const siteConfig = {
-    name: "Hired",
-    title: "Discover the Latest Job Vacancies in Kenya Today",
+    name: "Hired- Kenya's Latest Jobs",
+    title: "For latest jobs in Kenya. Where top employers meet talented candidates",
     url: "https://www.hired.co.ke",
     ogImage: "https://res.cloudinary.com/dx0i37cyd/image/upload/v1722436181/OGFirst_ultsvj.png",
     ogJobPage: "https://res.cloudinary.com/dx0i37cyd/image/upload/v1722435964/jobcolored_afyhy2.png",

@@ -4,9 +4,9 @@ import React, { useState, useRef } from "react";
 import Link from "next/link";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
+import MobileSidebar from "@/app/(sites)/home/_components/menu/MobileSidebar";
 
 const Navbar = () => {
-  const [state, setState] = useState(false);
   const [hoveredMenu, setHoveredMenu] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -72,50 +72,34 @@ const Navbar = () => {
               priority={true}
             />
           </Link>
-          <button
-            className="text-gray-500 outline-none md:hidden"
-            onClick={() => setState(!state)}
-          >
-            {state ? (
+          <div className="flex items-center">
+            <Link
+              href="/home/jobs"
+              className="text-gray-500 text-[14.3] flex items-center hover:text-sky-700 font-medium md:hidden mr-6"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
                 fill="none"
-                viewBox="0 0 24 24"
                 stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-[18px] w-[18px] mr-1.5 shrink-0"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <path d="M12 12h.01" />
+                <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                <path d="M22 13a18.15 18.15 0 0 1-20 0" />
+                <rect width="20" height="14" x="2" y="6" rx="2" />
               </svg>
-            )}
-          </button>
+              All Jobs
+            </Link>
+            <MobileSidebar />
+          </div>
         </div>
-        <ul
-          className={`flex-1 justify-between z-50 mt-0 text-sm sm:text-[15px] md:font-medium md:flex md:mt-0 ${
-            state
-              ? "absolute inset-x-0 px-4 border-b rounded-b-lg shadow-sm md:shadow-none bg-white md:border-none md:static"
-              : "hidden"
-          }`}
-        >
+        <ul className="hidden flex-1 justify-between z-50 mt-0 w-full text-sm sm:text-[15px] md:font-medium md:flex md:mt-0">
           <div className="items-center space-y-4 md:flex md:space-x-4 md:space-y-0">
             {navigation.map((item, idx) => (
               <li
@@ -168,7 +152,7 @@ const Navbar = () => {
               </li>
             ))}
           </div>
-          <div className="flex flex-col pt-4 md:pt-0 pb-4 md:pb-0 sm:flex-row space-y-4 sm:space-y-0 sm:space-x-3 lg:space-x-4 sm:items-center">
+          <div className="flex flex-col pt-4 w-full md:w-fit md:pt-0 pb-4 md:pb-0 sm:flex-row space-y-4 sm:space-y-0 sm:space-x-3 lg:space-x-4 sm:items-center">
             <li className="order-2 md:py-0">
               <Link
                 href={"/home/login"}

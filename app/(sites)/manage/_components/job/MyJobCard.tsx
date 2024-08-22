@@ -33,7 +33,7 @@ const MyJobCard = ({ allJobs }: MyJobCardProps) => {
           return (
             <li
               key={item.id}
-              className="px-3 sm:px-4 py-3 sm:py-[14px] duration-150 border border-gray-200 rounded-lg"
+              className="px-3 sm:px-4 py-3 sm:py-[14px] duration-150 border border-gray-300 rounded-lg"
             >
               <div>
                 <div className="sm:hidden flex mb-0.5 items-center justify-between w-full gap-x-4">

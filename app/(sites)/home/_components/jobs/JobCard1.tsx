@@ -1,83 +1,24 @@
 "use client";
-import { Job, JobView} from "@prisma/client";
+import { Job } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
-import { Bookmark, Building2, Loader2, MapPinIcon } from "lucide-react";
+import { Bookmark, Building2} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface JobCardProps {
   allJobs: Job[];
   popular: Job[];
-  viewed: JobView[];
-  viewID: string;
 }
-
-const building = (
-  <svg
-    fill="#9ca3af"
-    className="h-[60px] w-[60px] text-gray-400"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-    <g
-      id="SVGRepo_tracerCarrier"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    ></g>
-    <g id="SVGRepo_iconCarrier">
-      <path d="M22,7H17V2a1,1,0,0,0-1-1H8A1,1,0,0,0,7,2V7H2A1,1,0,0,0,1,8V22a1,1,0,0,0,1,1H22a1,1,0,0,0,1-1V8A1,1,0,0,0,22,7ZM3,9H7V21H3ZM9,8V3h6V21H13V19a1,1,0,0,0-2,0v2H9ZM21,21H17V9h4ZM13,7H11V5h2Zm0,4H11V9h2Zm0,4H11V13h2ZM4,10H6v2H4Zm0,4H6v2H4Zm0,4H6v2H4Zm16-6H18V10h2Zm0,4H18V14h2Zm0,4H18V18h2Z"></path>
-    </g>
-  </svg>
-);
-const JobCard1 = ({ allJobs, popular, viewed, viewID }: JobCardProps) => {
+const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
   const router = useRouter();
-  const [currentlyOpeningID, setCurrentlyOpeningID] = useState<string | null>(
-    null
-  );
-  const [isJobViewed, setIsJobViewed] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const { mutate: createJobView } = trpc.createView.useMutation({
-    onMutate: ({ jobID }) => {
-      setCurrentlyOpeningID(jobID);
-      setIsLoading(true);
-    },
-    onSettled: () => {
-      if (currentlyOpeningID) {
-        setIsLoading(true);
-        const navigatePromise = new Promise<void>((resolve, reject) => {
-          router.push(`/home/jobs/${currentlyOpeningID}`);
-          router.refresh();
-        });
-        navigatePromise
-          .then(() => {
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            console.error("Error navigating:", error);
-          });
-      }
-    },
-  });
-
-  const handleViewJob = (jobID: string) => {
-    if (isLoading) {
-      return;
-    } else {
-      setIsJobViewed((prev) => !prev);
-      createJobView({ jobID, viewed: !isJobViewed });
-    }
-  };
 
   function getInitials(fullName: string): string {
     const nameParts = fullName.split(" ");
@@ -96,10 +37,6 @@ const JobCard1 = ({ allJobs, popular, viewed, viewID }: JobCardProps) => {
     <section className="max-w-screen-lg mx-auto">
       <ul className="space-y-4 lg:space-y-6">
         {allJobs.map((item, index) => {
-          const isViewed = viewed.some(
-            (viewedItem) =>
-              viewedItem.jobID === item.id && viewedItem.viewID === viewID
-          );
           const thePopular = popular.some(
             (newPopular) => newPopular.id === item.id
           );
@@ -110,22 +47,13 @@ const JobCard1 = ({ allJobs, popular, viewed, viewID }: JobCardProps) => {
             >
               <div className="">
                 <div className="sm:hidden flex mb-0.5 items-center justify-between w-full gap-x-4">
-                  <h3
-                    onClick={() => handleViewJob(item.id)}
-                    className={cn(
-                      "text-[17px] capitalize line-clamp-1 hover:underline hover:text-[#005580] cursor-pointer sm:text-[18px] font-semibold",
-                      isViewed ? "text-slate-700" : "text-slate-600"
-                    )}
+                  <Link
+                    href={`/home/jobs/${item.id}`}
+                    title="Open job details"
+                    className="text-[17px] capitalize line-clamp-1 text-slate-700 hover:underline hover:text-[#005580] cursor-pointer sm:text-[18px] font-semibold"
                   >
-                    {currentlyOpeningID === item.id && isLoading ? (
-                      <span className="flex items-center">
-                        <Loader2 className="h-4 w-4 mr-1 animate-spin shrink-0" />
-                        {item.job_title.toLocaleLowerCase()}
-                      </span>
-                    ) : (
-                      <>{item.job_title.toLocaleLowerCase()}</>
-                    )}
-                  </h3>
+                    {item.job_title.toLocaleLowerCase()}
+                  </Link>
                   <span>
                     <Button
                       variant="ghost"
@@ -142,8 +70,9 @@ const JobCard1 = ({ allJobs, popular, viewed, viewID }: JobCardProps) => {
                 <div className="flex items-center mb-0.5 sm:gap-x-2">
                   {item.companyLogo ? (
                     <div>
-                      <div
-                        onClick={() => handleViewJob(item.id)}
+                      <Link
+                        href={`/home/jobs/${item.id}`}
+                        title="Open job details"
                         className="hidden w-[60px] cursor-pointer py-1 px-0.5 h-[60px] border shadow-sm border-gray-300 bg-gray-200 shrink-0 rounded-lg sm:flex items-center justify-center"
                       >
                         <Image
@@ -155,38 +84,30 @@ const JobCard1 = ({ allJobs, popular, viewed, viewID }: JobCardProps) => {
                           title="Company logo"
                           className="shrink-0 rounded-lg"
                         />
-                      </div>
+                      </Link>
                     </div>
                   ) : (
-                    <div
-                      onClick={() => handleViewJob(item.id)}
-                      className="hidden w-[60px] cursor-pointer py-1 px-0.5 h-[60px] border shadow-sm border-gray-300 shrink-0  bg-white rounded-sm sm:flex items-center justify-center"
+                    <Link
+                      href={`/home/jobs/${item.id}`}
+                      title="Open job details"
+                      className="hidden w-[60px] cursor-pointer py-1 px-0.5 h-[60px] border shadow-sm border-gray-300 shrink-0 bg-gray-200 rounded-lg sm:flex items-center justify-center"
                     >
                       <div className="flex items-center justify-center shrink-0 w-full h-full">
-                        <div className="text-2xl sm:text-3xl font-medium text-gray-600 shrink-0">
+                        <div className="text-2xl font-semibold text-gray-700 shrink-0">
                           {getInitials(item.company_name as string)}
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   )}
                   <div className="w-full flex items-start flex-col leading-tight">
                     <div className="hidden sm:flex items-center w-full justify-between gap-x-4">
-                      <h3
-                        onClick={() => handleViewJob(item.id)}
-                        className={cn(
-                          "text-[17px] capitalize line-clamp-1 hover:underline hover:text-[#005580] cursor-pointer sm:text-[18px] font-semibold",
-                          isViewed ? "text-slate-700" : "text-slate-600"
-                        )}
+                      <Link
+                        href={`/home/jobs/${item.id}`}
+                        title="Open job details"
+                        className="text-[17px] capitalize line-clamp-1 text-slate-700 hover:underline hover:text-[#005580] cursor-pointer sm:text-[18px] font-semibold"
                       >
-                        {currentlyOpeningID === item.id && isLoading ? (
-                          <span className="flex items-center">
-                            <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 mr-1 animate-spin shrink-0" />
-                            {item.job_title.toLocaleLowerCase()}
-                          </span>
-                        ) : (
-                          <>{item.job_title.toLocaleLowerCase()}</>
-                        )}
-                      </h3>
+                        {item.job_title.toLocaleLowerCase()}
+                      </Link>
                       <span>
                         <Button
                           variant="ghost"
@@ -295,12 +216,13 @@ const JobCard1 = ({ allJobs, popular, viewed, viewID }: JobCardProps) => {
                     })}
                   </span>
                 </div>
-                <div
-                  onClick={() => handleViewJob(item.id)}
+                <Link
+                  href={`/home/jobs/${item.id}`}
+                  title="Open job details"
                   className="sm:text-base text-sm mt-0.5 font-normal text-gray-600 cursor-pointer line-clamp-2"
                 >
                   {item.summaryDescription}
-                </div>
+                </Link>
               </div>
             </li>
           );

@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/tooltip";
 import {
   About,
-  Active,
   Award,
   CertificationLicense,
   Experience,
@@ -21,8 +20,7 @@ import {
   WorkerContact,
   WorkerDesires,
 } from "@prisma/client";
-import { formatDistance } from "date-fns";
-import { MapPinIcon, Pin, ThumbsUp, UserSquare2 } from "lucide-react";
+import { MapPinIcon, Pin,  UserSquare2 } from "lucide-react";
 import Link from "next/link";
 
 interface CombinedDataItem {
@@ -38,7 +36,6 @@ interface CombinedDataItem {
   language: Language[];
   secondary: SecondaryEducation | null;
   tertiary: TertiaryEducation[];
-  active: Active | null;
 }
 
 interface AllCandidatesProps {
@@ -219,51 +216,6 @@ const CandidateCard = ({ combinedData }: AllCandidatesProps) => {
                       </div>
                     </div>
                   )}
-                  <div className="mt-1 flex items-center justify-between">
-                    <div>
-                      {item.active?.connected === true ? (
-                        <>
-                          <span className="font-medium mr-1 text-sm text-gray-600">
-                            Status:
-                          </span>
-                          <div className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
-                            <span className="h-[6px] w-[6px] rounded-full bg-green-700 mr-0.5" />
-                            <span>Online</span>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <span className="font-medium text-sm mr-1 text-gray-600">
-                            Status:
-                          </span>
-                          <div className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-700/10">
-                            <span className="h-[6px] w-[6px] rounded-full bg-yellow-700 mr-0.5" />
-                            <span>Offline</span>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                    {item.active?.connected !== true && (
-                      <div>
-                        {item.active?.disconnectedAt && (
-                          <>
-                            <span className="font-medium text-sm mr-1 text-gray-600">
-                              Last seen:
-                            </span>
-                            <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-700/10">
-                              {formatDistance(
-                                new Date(item.active.disconnectedAt),
-                                Date.now(),
-                                {
-                                  addSuffix: true,
-                                }
-                              )}
-                            </span>
-                          </>
-                        )}
-                      </div>
-                    )}
-                  </div>
                 </Link>
               ))}
             </div>

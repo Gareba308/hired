@@ -34,7 +34,6 @@ interface WorkerMessagesProps {
   userExists: UserItems;
   users: UserItems[];
   allOneUserMessages: EmployerContactWorker[];
-  isConnected: boolean;
 }
 
 const WorkerMessageDetails = ({
@@ -44,7 +43,6 @@ const WorkerMessageDetails = ({
   userExists,
   users,
   allOneUserMessages,
-  isConnected,
 }: WorkerMessagesProps) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -198,9 +196,6 @@ const WorkerMessageDetails = ({
                     priority={true}
                     className="rounded-full shrink-0"
                   />
-                  {isConnected && (
-                    <span className="absolute -bottom-1 right-0.5 w-3 h-3 rounded-full border border-white bg-green-500"></span>
-                  )}
                 </div>
                 <div className="flex flex-col items-start leading-tight">
                   <h3 className="font-bold text-gray-600 line-clamp-1 tracking-tighter text-lg sm:text-xl lg:text-2xl">

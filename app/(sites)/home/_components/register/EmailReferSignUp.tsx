@@ -12,9 +12,7 @@ interface EmailReferSignUpProps {
   referrer: UserReferrals;
 }
 
-const EmailReferSignUp = ({
-  referrer,
-}: EmailReferSignUpProps) => {
+const EmailReferSignUp = ({ referrer }: EmailReferSignUpProps) => {
   const [data, setData] = useState({
     name: "",
     password: "",
@@ -75,38 +73,47 @@ const EmailReferSignUp = ({
 
   return (
     <>
-    <section className="relative z-10 overflow-hidden min-h-[calc(100vh-70px)] pt-2 lg:pt-[30px]">
-      <div>
-        <div className="flex flex-wrap">
-          <div className="w-full">
-            <div className="mx-auto w-full px-4 sm:max-w-[540px] mb-8 rounded-md py-4 sm:border sm:border-gray-200 sm:shadow-md sm:px-[60px]">
-              <h3 className="text-center text-2xl font-bold text-gray-700 sm:text-3xl">
+      <div className="relative z-10 overflow-hidden min-h-[calc(100vh-70px)] pb-5 pt-2 lg:pt-0">
+        <section className="sm:mt-5 mt-4 mx-auto lg:justify-between max-w-screen-xl pb-4 px-4 items-center lg:flex md:px-8">
+          <div className="space-y-4 flex-1 px-4 lg:px-0 lg:max-w-xl sm:text-center lg:text-left">
+            <h1 className="text-gray-700 font-extrabold text-3xl sm:text-4xl xl:text-5xl">
+              Hired <span className="text-sky-700">Referrals:</span> Unmatched
+              Experience
+            </h1>
+            <p className="text-gray-700 text-base sm:text-[15px] max-w-xl leading-relaxed sm:mx-auto lg:ml-0">
+              You are about to join and witness unmatched user experience, the
+              platform where top employers meet highly talented candidates.
+            </p>
+          </div>
+          <div className="flex items-end mt-4 lg:mt-0 lg:ml-3">
+            <div className="mx-auto w-full px-4 sm:max-w-[540px] rounded-md py-4 sm:border sm:border-gray-200 sm:shadow-md sm:px-[60px]">
+              <h3 className="sm:text-center text-2xl font-bold text-gray-700 sm:text-3xl">
                 Sign up to create Hired account
               </h3>
-              <p className="mb-5 text-center text-base font-normal text-gray-700">
-                <span className="text-[#005580]">{referrer.fullName}</span>  you
+              <p className="mb-4 sm:text-center text-base font-normal text-gray-700">
+                <span className="text-[#005580]">{referrer.fullName}</span> you
               </p>
               <form onSubmit={onSubmit}>
-              <div className="mb-5">
-                    <label
-                      htmlFor="name"
-                      className="mb-1 block text-sm font-medium text-gray-700"
-                    >
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      value={data.name}
-                      autoComplete="name"
-                      onChange={onFieldChange}
-                      required
-                      name="name"
-                      placeholder="Enter your full name"
-                      className="w-full h-11 rounded-sm border border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
-                    />
-                  </div>
-                <div className="mb-5">
+                <div className="mb-4">
+                  <label
+                    htmlFor="name"
+                    className="mb-1 block text-sm font-medium text-gray-700"
+                  >
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={data.name}
+                    autoComplete="name"
+                    onChange={onFieldChange}
+                    required
+                    name="name"
+                    placeholder="Enter your full name"
+                    className="w-full h-11 rounded-sm border border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
+                  />
+                </div>
+                <div className="mb-4">
                   <label
                     htmlFor="email"
                     className="mb-1 block text-sm font-medium text-gray-700"
@@ -126,7 +133,7 @@ const EmailReferSignUp = ({
                     className="w-full h-11 rounded-sm border border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
                   />
                 </div>
-                <div className="mb-5">
+                <div className="mb-4">
                   <label
                     htmlFor="password"
                     className="mb-1 block text-sm font-medium text-gray-700 "
@@ -145,7 +152,7 @@ const EmailReferSignUp = ({
                     className="w-full h-11 rounded-sm border border-gray-300 placeholder:text-gray-400 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
                   />
                 </div>
-                <div className="mb-5">
+                <div className="mb-4">
                   <label
                     htmlFor="confirm_password"
                     className="mb-1 block text-sm font-medium text-gray-700 "
@@ -199,7 +206,11 @@ const EmailReferSignUp = ({
               <p className="text-center text-base font-medium text-gray-700">
                 You already have an account?
                 <Link
-                  href={referrer.myRole === "worker" ? "/home/login" : "/home/login/enterprises"}
+                  href={
+                    referrer.myRole === "worker"
+                      ? "/home/login"
+                      : "/home/login/enterprises"
+                  }
                   className="text-[#005580] hover:underline ml-2"
                 >
                   Login here
@@ -207,10 +218,9 @@ const EmailReferSignUp = ({
               </p>
             </div>
           </div>
-        </div>
+        </section>
       </div>
-    </section>
-  </>
+    </>
   );
 };
 

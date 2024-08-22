@@ -209,16 +209,6 @@ model UserReferrals {
   @@index([userId])
 }
 
-model Active {
-  id             String    @id @default(cuid())
-  userId         String?
-  viewId         String?
-  role           String    @default("unique")
-  connected      Boolean   @default(false)
-  connectedAt    DateTime?
-  disconnectedAt DateTime?
-}
-
 model Job {
   id                          String    @id @default(cuid())
   job_id                      Int       @unique
@@ -252,7 +242,6 @@ model Job {
   linkPlatform                String?
   otherPlatform               String?
   ownPlatformMethod           String?
-  viewCounts                  Int       @default(0)
   applied                     Int       @default(0)
   archived                    Boolean   @default(false)
   emailed                     Boolean   @default(false)
@@ -273,7 +262,6 @@ model Job {
   employer    Employers     @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
   Application Application[]
   SavedJobs   SavedJobs[]
-  JobView     JobView[]
 
   @@index([companyId])
   @@index([isEmployerID])
@@ -290,22 +278,6 @@ model stackChats {
   message   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model JobView {
-  id         String   @id @default(cuid())
-  viewID     String
-  jobID      String
-  userId     String?
-  viewed     Boolean  @default(false)
-  views      Int      @default(0)
-  isWorkerID String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  job Job @relation(fields: [jobID], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  @@index([jobID])
 }
 
 model ProfileView {

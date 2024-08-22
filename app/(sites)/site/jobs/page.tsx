@@ -20,34 +20,10 @@ export const metadata: Metadata = {
 
 const Page = async () => {
   const currentDate = new Date();
-  const header = headers();
-
-  const cookiePairs = header.get("cookie");
-  let viewID;
-  for (const pair of cookiePairs ? cookiePairs.split(";") : []) {
-    const [key, value] = pair.split("=").map((item) => item.trim());
-    if (key === "next-auth.csrf-token") {
-      viewID = value;
-      break;
-    }
-  }
   const session = await getServerSession(authOptions);
   if (!session) redirect("/home/login?origin=site/jobs");
   const userId = session.id;
   if (!userId) redirect("/home/login?origin=site/jobs");
-
-  const whereClause: Prisma.JobViewWhereInput = userId
-    ? {
-        viewID,
-        userId: userId,
-      }
-    : {
-        viewID,
-      };
-
-  const viewedJobs = await db.jobView.findMany({
-    where: whereClause,
-  });
 
   const jobs = await db.job.findMany({
     where: {
@@ -148,8 +124,6 @@ const Page = async () => {
         myApplications={myApplications}
         mySavedJobs={mySavedJobs}
         popular={finalSortedPopularJobs}
-        viewed={viewedJobs}
-        viewID={viewID as string}
       />
     </div>
   );
