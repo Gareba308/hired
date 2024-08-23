@@ -67,7 +67,10 @@ const guestRoute = [
   },
 ];
 
-const SidebarRoutes = () => {
+interface SidebarRoutesProps {
+  onClose: () => void;
+}
+const SidebarRoutes = ({ onClose }: SidebarRoutesProps) => {
   const routes = guestRoute;
   return (
     <div className="flex flex-col w-full">
@@ -77,6 +80,7 @@ const SidebarRoutes = () => {
           icon={route.icon}
           label={route.label}
           href={route.href}
+          onClose={onClose}
         />
       ))}
     </div>

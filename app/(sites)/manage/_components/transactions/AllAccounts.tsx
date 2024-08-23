@@ -246,8 +246,9 @@ export function AllAccounts({ purchases }: AllAccountsProps) {
 
   return (
     <div className="w-full">
-      <div className="mt-3">
-        <div className="rounded-lg border mt-2 bg-white">
+      <div className="mt-4">
+      <h2 className="text-xl font-bold text-gray-700">My Plan Purchases</h2>
+        <div className="rounded-lg border mt-1 bg-white">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (

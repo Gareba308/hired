@@ -77,7 +77,7 @@ const JobCard2 = ({ allJobs }: JobCardProps) => {
                     </svg>
                     {item.job_type}
                   </div>
-                  <div className="mt-1 flex items-center text-sm text-gray-500">
+                  <div className="mt-1 hidden sm:flex items-center text-sm text-gray-500">
                     <CircleDollarSign
                       className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                       aria-hidden="true"

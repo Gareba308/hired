@@ -8,16 +8,26 @@ interface SidebarItemProps {
   icon: LucideIcon;
   label: string;
   href: string;
+  onClose: () => void;
 }
 
-const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
+const SidebarItem = ({
+  icon: Icon,
+  label,
+  href,
+  onClose,
+}: SidebarItemProps) => {
+  const handleItemClick = () => {
+    onClose();
+  };
   const pathname = usePathname();
   const router = useRouter();
 
-  const isActive = pathname?.includes(href)
+  const isActive = pathname?.includes(href);
 
   const onClick = () => {
     router.push(href);
+    (() => window.innerWidth < 768 && handleItemClick())();
   };
   return (
     <button

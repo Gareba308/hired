@@ -182,7 +182,7 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
                       addSuffix: true,
                     })}
                   </span>
-                  <span className="flex items-center gap-1">
+                  <span className="hidden sm:flex items-center gap-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"

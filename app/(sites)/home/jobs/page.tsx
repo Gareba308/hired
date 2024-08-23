@@ -126,7 +126,7 @@ const Page = async () => {
 
   const finalSortedPopularJobs = sortedPopularJobs.slice(0, 4);
   return (
-    <div className="mt-5">
+    <div className="mt-5 min-h-[100vh-70px]">
       <HomeJobsNavBar
         jobs={jobs}
         viewID={viewID as string}

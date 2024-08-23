@@ -1,7 +1,7 @@
 "use client";
 import { Job } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
-import { Bookmark, Building2} from "lucide-react";
+import { Bookmark, Building2, Zap } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -223,6 +223,53 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                 >
                   {item.summaryDescription}
                 </Link>
+                {item.ownPlatformMethod === "here" ? (
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <span className="inline-flex items-center mt-0.5 text-[13px] font-medium text-green-700">
+                          <Zap className="h-4 w-4 mr-1.5 shrink-0" /> Quick
+                          Apply
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent className="text-gray-600 text-sm tracking-normal">
+                        <p>
+                          The application process is on this platform and
+                          simplified
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                ) : (
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <span className="inline-flex items-center mt-0.5 text-[13px] font-medium text-indigo-700">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="h-4 w-4 mr-1.5 shrink-0"
+                          >
+                            <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                            <path d="m21 3-9 9" />
+                            <path d="M15 3h6v6" />
+                          </svg>
+                          External Apply
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent className="text-gray-600 text-sm tracking-normal">
+                        <p>
+                          The application process is on an external platform
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                )}
               </div>
             </li>
           );

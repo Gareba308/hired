@@ -270,7 +270,7 @@ export function CompaniesStats({
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
                 <span className="hidden sm:flex">Total Employers</span>
-                <span className="flex sm:hidden">Total</span>
+                <span className="flex sm:hidden">Total Employers</span>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
@@ -296,7 +296,7 @@ export function CompaniesStats({
                   </Tooltip>
                 </TooltipProvider>
               </CardTitle>
-              <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="sm:inline-flex hidden items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 <BarChartBig className="h-6 w-6 font-normal" />
               </span>
             </CardHeader>
@@ -334,7 +334,7 @@ export function CompaniesStats({
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
                 <span className="hidden sm:flex">Week Employers</span>
-                <span className="flex sm:hidden">Week</span>
+                <span className="flex sm:hidden">Week Employers</span>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
@@ -365,7 +365,7 @@ export function CompaniesStats({
                   </Tooltip>
                 </TooltipProvider>
               </CardTitle>
-              <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="hidden sm:inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 <ListTodo className="h-6 w-6 font-normal" />
               </span>
             </CardHeader>
@@ -403,7 +403,7 @@ export function CompaniesStats({
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
                 <span className="hidden sm:flex">Referred</span>
-                <span className="flex sm:hidden">Referred</span>
+                <span className="flex sm:hidden">Referred Workers</span>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
@@ -430,7 +430,7 @@ export function CompaniesStats({
                   </Tooltip>
                 </TooltipProvider>
               </CardTitle>
-              <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="hidden sm:inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 <CheckSquare className="h-6 w-6 font-normal" />
               </span>
             </CardHeader>
@@ -468,7 +468,7 @@ export function CompaniesStats({
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base flex items-center sm:text-sm font-medium text-gray-600">
                 <span className="hidden sm:flex">New Employers</span>
-                <span className="flex sm:hidden">New</span>
+                <span className="flex sm:hidden">New Employers</span>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
@@ -494,7 +494,7 @@ export function CompaniesStats({
                   </Tooltip>
                 </TooltipProvider>
               </CardTitle>
-              <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="hidden sm:inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 <Activity className="h-6 w-6 font-normal" />
               </span>
             </CardHeader>

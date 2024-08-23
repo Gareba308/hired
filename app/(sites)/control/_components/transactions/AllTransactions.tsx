@@ -315,7 +315,7 @@ export function AllTransactions({
               <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
                   <span className="hidden sm:flex">Total Payments</span>
-                  <span className="flex sm:hidden">Total Pays</span>
+                  <span className="flex sm:hidden">Total Payments</span>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
@@ -341,7 +341,7 @@ export function AllTransactions({
                     </Tooltip>
                   </TooltipProvider>
                 </CardTitle>
-                <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                <span className="hidden sm:inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                   <WalletCards className="h-6 w-6 font-normal" />
                 </span>
               </CardHeader>
@@ -379,7 +379,7 @@ export function AllTransactions({
               <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
                   <span className="hidden sm:flex">Week Payment</span>
-                  <span className="flex sm:hidden">Week Pays</span>
+                  <span className="flex sm:hidden">Week Payment</span>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
@@ -409,7 +409,7 @@ export function AllTransactions({
                     </Tooltip>
                   </TooltipProvider>
                 </CardTitle>
-                <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                <span className="hidden sm:inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                   <CreditCard className="h-6 w-6 font-normal" />
                 </span>
               </CardHeader>
@@ -447,7 +447,7 @@ export function AllTransactions({
               <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
                   <span className="hidden sm:flex">+6K Payment</span>
-                  <span className="flex sm:hidden">+6K Pays</span>
+                  <span className="flex sm:hidden">+6K Payment</span>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
@@ -473,7 +473,7 @@ export function AllTransactions({
                     </Tooltip>
                   </TooltipProvider>
                 </CardTitle>
-                <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                <span className="hidden sm:inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                   <CheckSquare className="h-6 w-6 font-normal" />
                 </span>
               </CardHeader>
@@ -511,7 +511,7 @@ export function AllTransactions({
               <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <CardTitle className="text-base flex items-center sm:text-sm font-medium text-gray-600">
                   <span className="hidden sm:flex">New Payments</span>
-                  <span className="flex sm:hidden">New Pays</span>
+                  <span className="flex sm:hidden">New Payments</span>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
@@ -537,7 +537,7 @@ export function AllTransactions({
                     </Tooltip>
                   </TooltipProvider>
                 </CardTitle>
-                <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                <span className="hidden sm:inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                   <Coins className="h-6 w-6 font-normal" />
                 </span>
               </CardHeader>

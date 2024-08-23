@@ -14,7 +14,10 @@ import {
 } from "lucide-react";
 import { Menu, Transition } from "@headlessui/react";
 
-const Sidebar = () => {
+interface SidebarProps {
+  onClose: () => void;
+}
+const Sidebar = ({ onClose }: SidebarProps) => {
   const pathname = usePathname();
   const isActive =
     pathname?.includes("/control/marketing") ||
@@ -27,7 +30,7 @@ const Sidebar = () => {
   return (
     <div className="h-full flex flex-col border-r justify-between gap-y-3 border-gray-200 bg-[#ffffff]">
       <div className="flex flex-col">
-        <div className="h-[70px] border-b border-gray-300 flex my-auto items-center pl-4">
+        <div className="h-[70px] border-b border-gray-200 flex my-auto items-center pl-4">
           <Link href="/control">
             <Image
               src={
@@ -44,7 +47,7 @@ const Sidebar = () => {
           </Link>
         </div>
         <div className="flex flex-col w-full">
-          <SidebarRoutes />
+          <SidebarRoutes onClose={onClose}/>
         </div>
       </div>
 

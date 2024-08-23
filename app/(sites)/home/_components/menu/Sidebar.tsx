@@ -12,7 +12,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
   return (
     <div className="h-full flex flex-col border-r justify-between gap-y-3 border-gray-200 bg-[#ffffff]">
       <div className="flex flex-col">
-        <div className="h-[70px] flex my-auto items-center border-b border-gray-300 pl-4">
+        <div className="h-[70px] flex my-auto items-center border-b border-gray-200 pl-4">
           <Link href="/">
             <Image
               src={

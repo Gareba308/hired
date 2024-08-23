@@ -659,9 +659,9 @@ export function AllApplications({
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
                 <span className="hidden sm:flex">Total Applications</span>
-                <span className="flex sm:hidden">Total</span>
+                <span className="flex sm:hidden">Total Applications</span>
               </CardTitle>
-              <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="hidden sm:inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 <BarChartBig className="h-6 w-6 font-normal" />
               </span>
             </CardHeader>
@@ -699,9 +699,9 @@ export function AllApplications({
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
                 <span className="hidden sm:flex">Week Applications</span>
-                <span className="flex sm:hidden">This Week</span>
+                <span className="flex sm:hidden">Week Applications</span>
               </CardTitle>
-              <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="hidden sm:inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 <ListTodo className="h-6 w-6 font-normal" />
               </span>
             </CardHeader>
@@ -738,9 +738,9 @@ export function AllApplications({
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
                 <span className="hidden sm:flex">Offered Applications</span>
-                <span className="flex sm:hidden">Offered</span>
+                <span className="flex sm:hidden">Offered Applications</span>
               </CardTitle>
-              <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="hidden sm:inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 <CheckSquare className="h-6 w-6 font-normal" />
               </span>
             </CardHeader>
@@ -779,9 +779,9 @@ export function AllApplications({
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base flex items-center sm:text-sm font-medium text-gray-600">
                 <span className="hidden sm:flex">New Applications</span>
-                <span className="flex sm:hidden">New</span>
+                <span className="flex sm:hidden">New Applications</span>
               </CardTitle>
-              <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="hidden sm:inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 <Activity className="h-6 w-6 font-normal" />
               </span>
             </CardHeader>

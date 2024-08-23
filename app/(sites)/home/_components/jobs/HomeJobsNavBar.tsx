@@ -16,7 +16,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { cn } from "@/lib/utils";
 import JobCard1 from "./JobCard1";
-import { Job, JobView } from "@prisma/client";
+import { Job} from "@prisma/client";
 import {
   academics,
   categories,

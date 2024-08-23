@@ -433,7 +433,7 @@ export function AllJobsApplications({
                   </Tooltip>
                 </TooltipProvider>
               </CardTitle>
-              <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="sm:inline-flex hidden items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 <BarChartBig className="h-6 w-6 font-normal" />
               </span>
             </CardHeader>
@@ -492,7 +492,7 @@ export function AllJobsApplications({
                   </Tooltip>
                 </TooltipProvider>
               </CardTitle>
-              <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="sm:inline-flex hidden items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 <ListTodo className="h-6 w-6 font-normal" />
               </span>
             </CardHeader>
@@ -557,7 +557,7 @@ export function AllJobsApplications({
                   </Tooltip>
                 </TooltipProvider>
               </CardTitle>
-              <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="sm:inline-flex hidden items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 <CheckSquare className="h-6 w-6 font-normal" />
               </span>
             </CardHeader>
@@ -617,7 +617,7 @@ export function AllJobsApplications({
                   </Tooltip>
                 </TooltipProvider>
               </CardTitle>
-              <span className="inline-flex items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="sm:inline-flex hidden items-center rounded-sm bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 <Activity className="h-6 w-6 font-normal" />
               </span>
             </CardHeader>

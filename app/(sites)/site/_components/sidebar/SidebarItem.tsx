@@ -8,9 +8,18 @@ interface SidebarItemProps {
   icon: LucideIcon;
   label: string;
   href: string;
+  onClose: () => void;
 }
 
-const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
+const SidebarItem = ({
+  icon: Icon,
+  label,
+  href,
+  onClose,
+}: SidebarItemProps) => {
+  const handleItemClick = () => {
+    onClose();
+  };
   const pathname = usePathname();
   const router = useRouter();
 
@@ -18,6 +27,7 @@ const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
 
   const onClick = () => {
     router.push(href);
+    (() => window.innerWidth < 768 && handleItemClick())();
   };
   return (
     <button
@@ -30,7 +40,7 @@ const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
           "text-sky-700 bg-sky-200/20 hover:bg-sky-200/20 hover:text-sky-700"
       )}
     >
-      <div className="flex items-center gap-x-2.5 py-[10.5px]">
+      <div className="flex md:items-center gap-x-2.5 py-[10.5px]">
         <Icon
           size={20}
           className={cn("text-gray-500", isActive && "text-sky-700")}

@@ -7,14 +7,26 @@ import { ChevronsUp, Newspaper } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const Sidebar = () => {
+interface SidebarProps {
+  onClose: () => void;
+}
+
+const Sidebar = ({ onClose }: SidebarProps) => {
+  const handleItemClick = () => {
+    onClose();
+  };
   const router = useRouter();
   const pathname = usePathname();
   const isActive = pathname?.includes("/manage/help");
+
+  const onClick = () => {
+    router.push("/site/blogs");
+    (() => window.innerWidth < 768 && handleItemClick())();
+  };
   return (
     <div className="h-full flex flex-col border-r justify-between gap-y-3 border-gray-200 bg-[#ffffff]">
       <div className="flex flex-col">
-        <div className="h-[70px] border-b border-gray-300 flex my-auto items-center pl-4">
+        <div className="h-[70px] border-b border-gray-200 flex my-auto items-center pl-4">
           <Link href="/manage">
             <Image
               src={
@@ -31,7 +43,7 @@ const Sidebar = () => {
           </Link>
         </div>
         <div className="flex flex-col w-full">
-          <SidebarRoutes />
+          <SidebarRoutes onClose={onClose} />
         </div>
       </div>
 
@@ -39,7 +51,7 @@ const Sidebar = () => {
         <button
           type="button"
           title="Open Blog Articles"
-          onClick={() => router.push("/manage/blogs")}
+          onClick={onClick}
           className={cn(
             "flex items-center justify-between w-full gap-x-2 border border-gray-200 text-gray-800 text-sm font-normal pl-6 pt-4 pb-4 transition-all hover:text-gray-700 hover:bg-slate-300/20",
             isActive &&
