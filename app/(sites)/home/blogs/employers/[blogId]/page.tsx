@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import React, { cache } from "react";
 import BlogDetails from "../../../_components/employersBlogs/BlogDetails";
 import { Metadata } from "next";
-import { format } from "date-fns";
 import { siteConfig } from "@/lib/config";
 import Footer from "@/components/Footer";
 
@@ -16,7 +15,6 @@ interface BlogIDProps {
 interface CategoryCounts {
   [key: string]: number;
 }
-export const revalidate = 60;
 
 const getBlog = cache(async (blogId: string) => {
   const blogExists = await db.blogs.findFirst({
@@ -27,18 +25,6 @@ const getBlog = cache(async (blogId: string) => {
 
   return blogExists;
 });
-
-export async function generateStaticParams() {
-  const employerBlogs = await db.blogs.findMany({
-    select: {
-      id: true
-    }
-  });
-
-  return employerBlogs.map((blog) => ({
-    blogId: blog.id,
-  }));
-}
 
 export async function generateMetadata({
   params,
