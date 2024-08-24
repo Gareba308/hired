@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 
@@ -23,15 +23,9 @@ const AllWithTags = ({
   blogId,
 }: AllWithTagsProps) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-
-  function cleanHashtags(body: string): string {
-    return body.replace(/#(\w+)/g, "$1");
-  }
 
   const pageBlogs = allBlogsWithThisTag.slice(startIndex, endIndex);
   const totalPages = Math.ceil(allBlogsWithThisTag.length / pageSize);
@@ -45,7 +39,7 @@ const AllWithTags = ({
       <div className="flex items-center justify-between gap-x-6 border-b border-gray-200 pb-1.5">
         <div className="flex items-center gap-x-2 sm:gap-x-2.5">
           <Link
-            href={origin ? `/${origin}` : `/home/blogs/employers/${blogId}`}
+            href={`/home/blogs/employers/${blogId}`}
             className="hover:text-[#005580] text-gray-700"
           >
             <CornerUpLeft className="h-6 w-6 shrink-0" />

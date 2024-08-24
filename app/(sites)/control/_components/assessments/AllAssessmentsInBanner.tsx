@@ -14,10 +14,10 @@ import {
   Search,
   Trash,
 } from "lucide-react";
-import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { trpc } from "@/app/_trpc/client";
 import { DeleteQuestionAlertModal } from "../models/assessments/DeleteQuestion";
@@ -44,7 +44,6 @@ const AllAssessmentsInBanner = ({
   userId,
   assessmentID,
 }: AllAssessmentsInBannerProps) => {
-  const searchParams = useSearchParams();
   const { toast } = useToast();
   const router = useRouter();
   const pageSize = 10;
@@ -54,7 +53,6 @@ const AllAssessmentsInBanner = ({
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const dropdownRef1 = useRef<HTMLDivElement>(null);
-  const origin = searchParams?.get("origin");
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
   }
@@ -239,7 +237,7 @@ const AllAssessmentsInBanner = ({
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink
-                href={origin ? `/${origin}` : "/control/assessments"}
+                href={"/control/assessments"}
               >
                 Tests
               </BreadcrumbLink>

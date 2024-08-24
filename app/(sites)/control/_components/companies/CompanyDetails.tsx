@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 import JobCard3 from "../job/JobCard3";
 import { trpc } from "@/app/_trpc/client";
@@ -60,8 +60,6 @@ const CompanyDetails = ({
   allJobs,
   userSuspended,
 }: CompanyDetailsProps) => {
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
   const router = useRouter();
   const { toast } = useToast();
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
@@ -297,9 +295,7 @@ const CompanyDetails = ({
                   <div className="flex flex-row items-center ">
                     <a
                       className="hover:text-[#005580] cursor-pointer"
-                      onClick={() =>
-                        router.push(origin ? `/${origin}` : "/control/companies")
-                      }
+                      onClick={() => router.push("/control/companies")}
                     >
                       <CornerUpLeft className="h-6 w-6 mr-2 shrink-0" />
                     </a>
@@ -793,11 +789,7 @@ const CompanyDetails = ({
                                     size="lg"
                                     variant="outline"
                                     onClick={() =>
-                                      router.push(
-                                        origin
-                                          ? `/${origin}`
-                                          : "/control/companies"
-                                      )
+                                      router.push("/control/companies")
                                     }
                                     type="button"
                                     className="bg-secondary hover:opacity-90 hover:bg-slate-200 w-full lg:w-48"

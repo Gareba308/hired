@@ -41,7 +41,7 @@ import {
   Undo,
   UserSquare2,
 } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import { useState } from "react";
 
 interface CombinedDataItemProps {
@@ -76,8 +76,6 @@ const CandidateDetails = ({
 }: CombinedDataItemProps) => {
   const router = useRouter();
   const { toast } = useToast();
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
 
   const [isBioChecked, setIsBioChecked] = useState<boolean>(
     workersBio?.checked || false
@@ -140,10 +138,6 @@ const CandidateDetails = ({
             <div className="w-full min-h-[calc(100vh-100px)] lg:mt-2 px-4 pt-2 pb-4 mx-auto print:shadow-none bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
               <div className="flex w-full items-end justify-between print:hidden border-b border-gray-300 pb-1">
                 <div className="flex items-center gap-x-1.5">
-                  <a className="cursor-pointer hover:text-[#005580]"
-                  onClick={()=> router.push(`/${origin}`)}>
-                  <CornerUpLeft className="h-6 w-6 shrink-0" />
-                  </a>
                   <h3 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl lg:text-3xl">
                     Candidate&apos;s Profile
                   </h3>

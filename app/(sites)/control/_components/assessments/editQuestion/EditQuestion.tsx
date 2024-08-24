@@ -1,9 +1,8 @@
 "use client";
 
-import { Assessment} from "@prisma/client";
+import { Assessment } from "@prisma/client";
 import { CornerUpLeft } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import React from "react";
 import AttemptsEdit from "./AttemptsEdit";
 import ScenarioExplanationEdit from "./ScenarioExplanationEdit";
@@ -16,16 +15,12 @@ import FinalAnswerEdit from "./FinalAnswerEdit";
 interface EditQuestionProps {
   question: Assessment;
 }
-const EditQuestion = ({ question}: EditQuestionProps) => {
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
+const EditQuestion = ({ question }: EditQuestionProps) => {
   return (
     <div>
       <div className="flex items-center flex-row mb-2">
         <Link
-          href={
-            origin ? `/${origin}` : `/control/assessments/${question.bannerID}`
-          }
+          href={`/control/assessments/${question.bannerID}`}
           className="hover:text-[#005580]"
         >
           <CornerUpLeft className="h-6 w-6 mr-2.5" />

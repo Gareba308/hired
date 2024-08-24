@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import { Fragment, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { categories } from "../data/create-job/BlogData";
@@ -37,8 +37,6 @@ const AllCategoryBlogs = ({
 }: AllCategoryBlogsProps) => {
   const router = useRouter();
   const { toast } = useToast();
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
   const [currentPage, setCurrentPage] = useState(1);
   const [currentlyPublishingId, setCurrentlyPublishingId] = useState<
     string | null
@@ -177,7 +175,7 @@ const AllCategoryBlogs = ({
       <div className="flex items-center justify-between gap-x-6 border-b border-gray-200 pb-1.5">
         <div className="flex items-center gap-x-2 sm:gap-x-2.5">
           <Link
-            href={origin ? `/${origin}` : `/control/blogs/posts/${blogId}`}
+            href={`/control/blogs/posts/${blogId}`}
             className="hover:text-[#005580] text-gray-700"
           >
             <CornerUpLeft className="h-6 w-6 shrink-0" />

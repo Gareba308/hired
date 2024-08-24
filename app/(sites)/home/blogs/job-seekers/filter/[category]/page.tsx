@@ -31,6 +31,23 @@ const getBlog = cache(async (category: string) => {
   return allBlogsMatchingThisCategory;
 });
 
+export const revalidate = 60;
+export async function generateStaticParams() {
+  const allBlogCategories = await db.blogs.findMany({
+    select: {
+      category: true
+    }
+  });
+
+  const convertToSlug = (text: string): string => {
+    return text.toLowerCase().replace(/\s+/g, "-");
+  };
+
+  return allBlogCategories.map((blog) => ({
+    category: convertToSlug(blog.category),
+  }));
+}
+
 export async function generateMetadata({
   params,
 }: CategoryProps): Promise<Metadata> {

@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import { Fragment, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { categories } from "../../data/create-job/BlogData";
@@ -22,17 +22,11 @@ interface AllCategoryBlogsProps {
 const pageSize = 12;
 const AllCategoryBlogs = ({ blogs, category }: AllCategoryBlogsProps) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
-  }
-
-  function cleanHashtags(body: string): string {
-    return body.replace(/#(\w+)/g, "$1");
   }
 
   const pageBlogs = blogs.slice(startIndex, endIndex);
@@ -50,7 +44,7 @@ const AllCategoryBlogs = ({ blogs, category }: AllCategoryBlogsProps) => {
       <div className="flex items-center justify-between gap-x-6 border-b border-gray-200 pb-1.5">
         <div className="flex items-center gap-x-2 sm:gap-x-2.5">
           <Link
-            href={origin ? `/${origin}` : `/home/blogs/employers`}
+            href={'/home/blogs/employers'}
             className="hover:text-[#005580] text-gray-700"
           >
             <CornerUpLeft className="h-6 w-6 shrink-0" />

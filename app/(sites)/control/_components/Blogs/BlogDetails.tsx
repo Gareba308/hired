@@ -11,7 +11,7 @@ import { Blogs } from "@prisma/client";
 import { ArrowRight, Camera, CornerUpLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import Link from "next/link";
 import { Preview2 } from "@/components/Preview2";
 interface BlogDetailsProps {
@@ -34,8 +34,6 @@ const BlogDetails = ({
   topHashtags1,
 }: BlogDetailsProps) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
 
   function countWords(text: string): number {
     const words = text.trim().split(/\s+/);
@@ -78,7 +76,7 @@ const BlogDetails = ({
               <div>
                 <div className=" flex items-center flex-row">
                   <Link
-                    href={origin ? `/${origin}` : "/control/blogs/posts"}
+                    href={"/control/blogs/posts"}
                     className="hover:text-[#005580]"
                   >
                     <CornerUpLeft className="h-6 w-6 mr-2.5 shrink-0" />

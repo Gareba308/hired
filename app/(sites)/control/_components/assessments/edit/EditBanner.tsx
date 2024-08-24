@@ -3,7 +3,6 @@
 import { AssessmentBanner } from "@prisma/client";
 import { CornerUpLeft } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import React from "react";
 import BannerNameEdit from "./BannerNameEdit";
 import BannerCategoryEdit from "./BannerCategoryEdit";
@@ -17,13 +16,11 @@ interface EditBannerProps {
   banner: AssessmentBanner;
 }
 const EditBanner = ({ banner }: EditBannerProps) => {
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
   return (
     <div>
       <div className="flex items-center flex-row mb-2">
         <Link
-          href={origin ? `/${origin}` : "/control/assessments"}
+          href={"/control/assessments"}
           className="hover:text-[#005580]"
         >
           <CornerUpLeft className="h-6 w-6 mr-2.5" />
