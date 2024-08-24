@@ -21,15 +21,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Company, Job } from "@prisma/client";
 import { format, formatDistance } from "date-fns";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import QuillPreview from "@/components/QuillPreview";
@@ -97,8 +91,6 @@ export default function JobDetails({
 }: JobDetailsProps) {
   const [recentlyViewedJobs, setRecentlyViewedJobs] = useState<Job[]>([]);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
 

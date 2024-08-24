@@ -25,7 +25,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import QuillPreview from "@/components/QuillPreview";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import ReportProblemModal from "../models/assessment/ReportProblem";
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -50,8 +50,6 @@ const InitiatedAssessment = ({
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions] = useState(() => [...firstTest]);
   const [timeLeft, setTimeLeft] = useState("");
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
   const maxQuestions = banner?.numberQuestions as number;
   const [reportOpen, setReportOpen] = useState<boolean>(false);
   const reportClose = () => {
@@ -158,7 +156,7 @@ const InitiatedAssessment = ({
   const { mutate: verdictGenerate, isLoading: verdictLoading } =
     trpc.workerGetVerdict.useMutation({
       onSuccess: () => {
-        router.push(origin ? `/${origin}` : `/site/jobs/apply/${jobId}`);
+        router.push(`/site/jobs/apply/${jobId}`);
         router.refresh();
       },
       onError: (err) => {

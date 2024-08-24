@@ -33,10 +33,6 @@ const AllCategoryBlogs = ({
     return classes.filter(Boolean).join(" ");
   }
 
-  function cleanHashtags(body: string): string {
-    return body.replace(/#(\w+)/g, "$1");
-  }
-
   const pageBlogs = blogs.slice(startIndex, endIndex);
   const totalPages = Math.ceil(blogs.length / pageSize);
 

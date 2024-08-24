@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { DeleteAlertModal } from "../models/job/DeleteAlertModal";
 import { trpc } from "@/app/_trpc/client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -44,9 +44,6 @@ interface EditJobPageProps {
 }
 const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
   const router = useRouter();
-
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
 
   const { toast } = useToast();
 

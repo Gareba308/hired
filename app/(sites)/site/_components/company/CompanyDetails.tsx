@@ -24,7 +24,7 @@ import {
   Rocket,
 } from "lucide-react";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import { useState } from "react";
 import JobCard3 from "../job/JobCard3";
 import { cn } from "@/lib/utils";
@@ -43,8 +43,6 @@ const CompanyDetails = ({
   companyCounts,
   allJobs,
 }: CompanyDetailsProps) => {
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
   const router = useRouter();
   const [isVerified, setIsVerified] = useState<boolean>(
     company.verified || false
@@ -76,7 +74,7 @@ const CompanyDetails = ({
                 <a
                   className="hover:text-[#005580] cursor-pointer"
                   onClick={() =>
-                    router.push(origin ? `/${origin}` : "/site/companies")
+                    router.push("/site/companies")
                   }
                 >
                   <CornerUpLeft className="h-6 w-6 mr-2 shrink-0" />

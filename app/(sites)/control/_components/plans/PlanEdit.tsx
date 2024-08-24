@@ -3,7 +3,6 @@
 import { EmployerPlans } from "@prisma/client";
 import { CornerUpLeft } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -43,8 +42,6 @@ export const formSchema = z.object({
   forJobs: z.boolean().optional(),
 });
 const PlanEdit = ({ plan }: PlanEditProps) => {
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
 
   const router = useRouter();
   const { toast } = useToast();
@@ -95,7 +92,7 @@ const PlanEdit = ({ plan }: PlanEditProps) => {
     <div>
       <div className="flex items-center flex-row mb-2">
         <Link
-          href={origin ? `/${origin}` : "/control/plans"}
+          href={"/control/plans"}
           className="hover:text-[#005580]"
         >
           <CornerUpLeft className="h-6 w-6 mr-2.5" />

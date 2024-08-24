@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -103,8 +103,6 @@ export function AllApplications({
   percentagePending,
 }: AllApplicationsProps) {
   const data = myApplication;
-  const searchParams = useSearchParams();
-  const origin = searchParams?.get("origin");
   const router = useRouter();
   const { toast } = useToast();
 
