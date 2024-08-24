@@ -33,8 +33,7 @@ const BlogDetails = ({
   topTags,
   topHashtags1,
 }: BlogDetailsProps) => {
-  const origin = searchParams?.get("origin");
-
+  const router = useRouter();
   function countWords(text: string): number {
     const words = text.trim().split(/\s+/);
     return words.length;
