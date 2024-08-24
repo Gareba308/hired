@@ -4,7 +4,7 @@ import React, { cache } from "react";
 import BlogDetails from "../../../_components/blogs/BlogDetails";
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
-import { format } from "date-fns";
+import Footer from "@/components/Footer";
 
 interface BlogIDProps {
   params: {
@@ -15,7 +15,7 @@ interface BlogIDProps {
 interface CategoryCounts {
   [key: string]: number;
 }
-// export const revalidate = 60;
+export const revalidate = 60;
 
 const getBlog = cache(async (blogId: string) => {
   const blogExists = await db.blogs.findFirst({
@@ -27,17 +27,17 @@ const getBlog = cache(async (blogId: string) => {
   return blogExists;
 });
 
-// export async function generateStaticParams() {
-//   const workerBlogs = await db.blogs.findMany({
-//     select: {
-//       id: true
-//     }
-//   });
+export async function generateStaticParams() {
+  const workerBlogs = await db.blogs.findMany({
+    select: {
+      id: true
+    }
+  });
 
-//   return workerBlogs.map((blog) => ({
-//     blogId: blog.id,
-//   }));
-// }
+  return workerBlogs.map((blog) => ({
+    blogId: blog.id,
+  }));
+}
 
 export async function generateMetadata({
   params,
@@ -58,14 +58,14 @@ export async function generateMetadata({
     .slice(0, 10);
   return {
     title: `${blog.heading}`,
-    description: `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
+    description: `${blog.blogDescription}`,
     keywords: keywords,
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
       title: `${blog.heading}`,
-      description: `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
+      description: `${blog.blogDescription}`,
       siteName: siteConfig.name,
       images: [
         {
@@ -91,7 +91,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: `${blog.heading}`,
-      description: `${format(blog.createdAt, "PPP")}: ${blog.blogDescription}`,
+      description: `${blog.blogDescription}`,
       images: [
         {
           url: blog.image,
@@ -195,15 +195,18 @@ const Page = async ({ params }: BlogIDProps) => {
   const topHashtags1 = hashtagArray1.slice(0, 4).map((item) => item.hashtag1);
 
   return (
-    <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-70px)] mx-auto bg-white px-4 md:px-6 text-gray-700 sm:shadow-sm sm:rounded-lg">
-      <BlogDetails
-        blog={blogExists}
-        allOtherBlogs={allOtherBlogs}
-        topCategories={topCategoryNames}
-        topTags={topHashtags}
-        topHashtags1={topHashtags1}
-      />
-    </div>
+    <>
+      <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-70px)] mx-auto bg-white px-4 md:px-6 text-gray-700">
+        <BlogDetails
+          blog={blogExists}
+          allOtherBlogs={allOtherBlogs}
+          topCategories={topCategoryNames}
+          topTags={topHashtags}
+          topHashtags1={topHashtags1}
+        />
+      </div>
+      <Footer />
+    </>
   );
 };
 

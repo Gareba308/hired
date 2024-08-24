@@ -5,6 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { trpc } from "@/app/_trpc/client";
+import Footer from "@/components/Footer";
 
 const VerifyForgotPassword = () => {
   const [data, setData] = useState({
@@ -90,7 +91,7 @@ const VerifyForgotPassword = () => {
                   <button
                     disabled={isLoading}
                     type="submit"
-                    className="flex w-full h-12 items-center justify-center hover:opacity-90 rounded-sm bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+                    className="flex w-full h-12 items-center justify-center hover:bg-primary hover:opacity-90 rounded-sm bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
                   >
                     {isLoading ? (
                       <p className="flex items-center justify-center">
@@ -107,6 +108,7 @@ const VerifyForgotPassword = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 };

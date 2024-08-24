@@ -4,6 +4,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { trpc } from "@/app/_trpc/client";
+import Footer from "@/components/Footer";
 
 const ForgotPassword = () => {
   const [data, setData] = useState({
@@ -58,10 +59,10 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <section className="relative z-10 overflow-hidden min-h-[calc(100vh-70px)] pt-2 lg:pt-[40px]">
+      <section className="relative z-10 overflow-hidden min-h-[calc(100vh-70px)] px-4 pt-2 lg:pt-[40px]">
         <div className="flex flex-wrap">
           <div className="w-full">
-            <div className="mx-auto px-4 w-full sm:max-w-[540px] rounded-md py-4 sm:py-8 sm:border sm:border-gray-200 sm:shadow-md sm:px-[60px]">
+            <div className="mx-auto px-4 w-full sm:max-w-[540px] rounded-md py-4 sm:py-8 border border-gray-200 shadow-md sm:px-[60px]">
               <h3 className="text-center text-2xl font-bold text-gray-700 sm:text-3xl">
                 Recover your password
               </h3>
@@ -92,7 +93,7 @@ const ForgotPassword = () => {
                   <button
                     disabled={isLoading}
                     type="submit"
-                    className="flex w-full h-12 items-center justify-center hover:opacity-90 rounded-sm bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+                    className="flex w-full h-12 items-center justify-center hover:opacity-90 hover:bg-primary rounded-sm bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
                   >
                     {isLoading ? (
                       <p className="flex items-center justify-center">
@@ -109,6 +110,7 @@ const ForgotPassword = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 };

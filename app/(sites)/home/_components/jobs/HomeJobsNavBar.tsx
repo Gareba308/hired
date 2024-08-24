@@ -685,7 +685,7 @@ const HomeJobsNavBar = ({
                     </h2>
                     <button
                       type="button"
-                      className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
+                      className="-mr-2 flex h-10 w-10 items-center justify-center rounded-sm bg-white p-2 text-gray-400"
                       onClick={() => setMobileFiltersOpen(false)}
                     >
                       <span className="sr-only">Close menu</span>
@@ -1234,7 +1234,7 @@ const HomeJobsNavBar = ({
                 }
                 onChange={handleSearchChange1}
                 onFocus={handleInputFocus1}
-                className="w-full py-2 md:py-3.5 h-10 md:h-full md:shadow-md bg-white pl-10 sm:pl-12 placeholder:text-base line-clamp-1 placeholder:text-gray-400 placeholder:font-normal pr-4 text-gray-500 font-normal border text-base border-gray-300 rounded-md outline-none focus:bg-white focus:border-primary"
+                className="w-full py-2 md:py-3.5 h-10 md:h-full md:shadow-md bg-white pl-10 sm:pl-12 placeholder:text-base line-clamp-1 placeholder:text-gray-400 placeholder:font-normal pr-4 text-gray-500 font-normal border text-base border-gray-300 rounded-sm outline-none focus:bg-white focus:border-primary"
               />
               {!searchQuery && !showDropdown1 && (
                 <div
@@ -1425,7 +1425,7 @@ const HomeJobsNavBar = ({
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute w-48 right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute w-48 right-0 z-10 mt-2 origin-top-right rounded-sm bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="py-1">
                     {sortByOptions.map((option) => (
                       <Menu.Item key={option.value}>
@@ -1981,7 +1981,7 @@ const HomeJobsNavBar = ({
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="absolute w-48 right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute w-48 right-0 z-10 mt-2 origin-top-right rounded-sm bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                       {sortByOptions.map((option) => (
                         <Menu.Item key={option.value}>

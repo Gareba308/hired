@@ -1,5 +1,6 @@
 import React from "react";
 import { Metadata } from "next";
+import About from "@/components/About";
 
 export const metadata: Metadata = {
   title: "About",
@@ -12,7 +13,9 @@ export const metadata: Metadata = {
 }
 
 const Page = () => {
-  return <div>About us</div>;
+  return <div>
+    <About />
+  </div>;
 };
 
 export default Page;

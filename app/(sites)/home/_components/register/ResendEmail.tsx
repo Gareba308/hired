@@ -4,6 +4,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, RotateCw as Refresh } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Footer from "@/components/Footer";
 
 const ResendEmail = () => {
   const router = useRouter();
@@ -11,6 +12,7 @@ const ResendEmail = () => {
     router.push("/");
   };
   return (
+    <>
     <MaxWidthWrapper className="mt-4">
       <section className="relative z-10 overflow-hidden min-h-[calc(100vh-70px)] pt-2 lg:pt-[40px]">
         <div className="flex flex-wrap">
@@ -61,6 +63,8 @@ const ResendEmail = () => {
         </div>
       </section>
     </MaxWidthWrapper>
+    <Footer />
+    </>
   );
 };
 

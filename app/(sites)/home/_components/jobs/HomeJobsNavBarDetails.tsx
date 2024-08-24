@@ -699,7 +699,7 @@ const HomeJobsNavBarDetails = ({
                     </h2>
                     <button
                       type="button"
-                      className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
+                      className="-mr-2 flex h-10 w-10 items-center justify-center rounded-sm bg-white p-2 text-gray-400"
                       onClick={() => setMobileFiltersOpen(false)}
                     >
                       <span className="sr-only">Close menu</span>
@@ -1248,7 +1248,7 @@ const HomeJobsNavBarDetails = ({
                 }
                 onChange={handleSearchChange1}
                 onFocus={handleInputFocus1}
-                className="w-full py-2 md:py-3.5 h-10 md:h-full md:shadow-md bg-white pl-10 sm:pl-12 placeholder:text-base line-clamp-1 placeholder:text-gray-500 placeholder:font-normal pr-4 text-gray-500 font-normal border text-base border-gray-300 rounded-md outline-none focus:bg-white focus:border-indigo-600"
+                className="w-full py-2 md:py-3.5 h-10 md:h-full md:shadow-md bg-white pl-10 sm:pl-12 placeholder:text-base line-clamp-1 placeholder:text-gray-500 placeholder:font-normal pr-4 text-gray-500 font-normal border text-base border-gray-300 rounded-sm outline-none focus:bg-white focus:border-indigo-600"
               />
               {!searchQuery && !showDropdown1 && (
                 <div
@@ -1439,7 +1439,7 @@ const HomeJobsNavBarDetails = ({
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute w-48 right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute w-48 right-0 z-10 mt-2 origin-top-right rounded-sm bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="py-1">
                     {sortByOptions.map((option) => (
                       <Menu.Item key={option.value}>
@@ -1489,7 +1489,7 @@ const HomeJobsNavBarDetails = ({
                     isAnyPlatformSelected
                       ? "bg-slate-600 text-white"
                       : "bg-zinc-200 text-gray-500"
-                  } font-normal p-[9px] border border-gray-200 hover:rounded-lg rounded-lg justify-center text-sm hover:text-gray-600`}
+                  } font-normal p-[9px] border border-gray-200 hover:rounded-sm rounded-sm justify-center text-sm hover:text-gray-600`}
                   buttonContent={(open) => (
                     <>
                       Platform
@@ -1558,7 +1558,7 @@ const HomeJobsNavBarDetails = ({
                     isAnyJobTypeSelected
                       ? "bg-slate-600 text-white"
                       : "bg-zinc-200 text-gray-500"
-                  } font-normal p-[9px] border border-gray-200 hover:rounded-lg rounded-lg justify-center text-sm hover:text-gray-600`}
+                  } font-normal p-[9px] border border-gray-200 hover:rounded-sm rounded-sm justify-center text-sm hover:text-gray-600`}
                   buttonContent={(open) => (
                     <>
                       Job Type
@@ -1627,7 +1627,7 @@ const HomeJobsNavBarDetails = ({
                     isAnyExperienceSelected
                       ? "bg-slate-600 text-white"
                       : "bg-zinc-200 text-gray-500"
-                  } font-normal p-[9px] border border-gray-200 hover:rounded-lg rounded-lg justify-center text-sm hover:text-gray-600`}
+                  } font-normal p-[9px] border border-gray-200 hover:rounded-sm rounded-sm justify-center text-sm hover:text-gray-600`}
                   buttonContent={(open) => (
                     <>
                       Experience
@@ -1696,7 +1696,7 @@ const HomeJobsNavBarDetails = ({
                     isAnyCountySelected
                       ? "bg-slate-600 text-white"
                       : "bg-zinc-200 text-gray-500"
-                  } font-normal p-[9px] border border-gray-200 hover:rounded-lg rounded-lg justify-center text-sm hover:text-gray-600`}
+                  } font-normal p-[9px] border border-gray-200 hover:rounded-sm rounded-sm justify-center text-sm hover:text-gray-600`}
                   buttonContent={(open) => (
                     <>
                       County
@@ -1767,7 +1767,7 @@ const HomeJobsNavBarDetails = ({
                     isAnyCategorySelected
                       ? "bg-slate-600 text-white"
                       : "bg-zinc-200 text-gray-500"
-                  } font-normal p-[9px] border border-gray-200 hover:rounded-lg rounded-lg justify-center text-sm hover:text-gray-600`}
+                  } font-normal p-[9px] border border-gray-200 hover:rounded-sm rounded-sm justify-center text-sm hover:text-gray-600`}
                   buttonContent={(open) => (
                     <>
                       Category
@@ -1840,7 +1840,7 @@ const HomeJobsNavBarDetails = ({
                     isAnyRemunerationSelected
                       ? "bg-slate-600 text-white"
                       : "bg-zinc-200 text-gray-500"
-                  } font-normal p-[9px] border border-gray-200 hover:rounded-lg rounded-lg justify-center text-sm hover:text-gray-600`}
+                  } font-normal p-[9px] border border-gray-200 hover:rounded-sm rounded-sm justify-center text-sm hover:text-gray-600`}
                   buttonContent={(open) => (
                     <>
                       Remuneration
@@ -1911,7 +1911,7 @@ const HomeJobsNavBarDetails = ({
                     isAnyAcademicSelected
                       ? "bg-slate-600 text-white"
                       : "bg-zinc-200 text-gray-500"
-                  } font-normal p-[9px] border border-gray-200 hover:rounded-lg rounded-lg justify-center text-sm hover:text-gray-600`}
+                  } font-normal p-[9px] border border-gray-200 hover:rounded-sm rounded-sm justify-center text-sm hover:text-gray-600`}
                   buttonContent={(open) => (
                     <>
                       Academics
@@ -1976,7 +1976,7 @@ const HomeJobsNavBarDetails = ({
 
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="group inline-flex hover:bg-zinc-300 font-normal p-[9px] border bg-zinc-200 border-gray-200 hover:rounded-lg rounded-lg justify-center text-sm text-gray-500 hover:text-gray-600">
+                  <Menu.Button className="group inline-flex hover:bg-zinc-300 font-normal p-[9px] border bg-zinc-200 border-gray-200 hover:rounded-sm rounded-sm justify-center text-sm text-gray-500 hover:text-gray-600">
                     <ArrowUpDown className="h-5 w-5 mr-1 text-gray-400 shrink-0" />{" "}
                     Sort
                     <ChevronDownIcon
@@ -1995,7 +1995,7 @@ const HomeJobsNavBarDetails = ({
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="absolute w-48 right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute w-48 right-0 z-10 mt-2 origin-top-right rounded-sm bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                       {sortByOptions.map((option) => (
                         <Menu.Item key={option.value}>

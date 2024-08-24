@@ -6,6 +6,7 @@ import HomeJobsNavBarDetails from "../../_components/jobs/HomeJobsNavBarDetails"
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
+import FooterJobs from "@/components/FooterJobs";
 
 interface JobDetailsProps {
   params: {
@@ -200,15 +201,18 @@ const Page = async ({ params }: JobDetailsProps) => {
 
   const randomElements = getRandomElement(similarJobs, 7);
   return (
-    <div className="mt-5">
-      <HomeJobsNavBarDetails
-        jobs={jobs}
-        viewID={viewID as string}
-        popular={finalSortedPopularJobs}
-        job={jobExists}
-        similarJobs={randomElements}
-      />
-    </div>
+    <>
+      <div className="mt-5 bg-white min-h-[calc(100vh-70px)]">
+        <HomeJobsNavBarDetails
+          jobs={jobs}
+          viewID={viewID as string}
+          popular={finalSortedPopularJobs}
+          job={jobExists}
+          similarJobs={randomElements}
+        />
+      </div>
+      <FooterJobs />
+    </>
   );
 };
 

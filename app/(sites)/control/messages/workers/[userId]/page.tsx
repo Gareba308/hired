@@ -10,10 +10,13 @@ interface UserMessageProps {
   };
 }
 export const revalidate = 60;
+
 export async function generateStaticParams() {
   const workersMessages = await db.contactWorker.findMany();
 
-  return workersMessages.map((message) => ({ userId: message.workerUserId }));
+  return workersMessages.map((message) => ({
+    userId: message.workerUserId,
+  }));
 }
 
 const Page = async ({ params }: UserMessageProps) => {
@@ -107,7 +110,6 @@ const Page = async ({ params }: UserMessageProps) => {
       role: true,
     },
   });
-
 
   return (
     <div>

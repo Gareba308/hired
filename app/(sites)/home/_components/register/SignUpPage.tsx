@@ -7,6 +7,7 @@ import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Footer from "@/components/Footer";
 
 const SignUpPage = () => {
   const [data, setData] = useState({
@@ -62,7 +63,7 @@ const SignUpPage = () => {
     <>
       <div className="relative z-10 overflow-hidden min-h-[calc(100vh-70px)] pb-5 pt-2 lg:pt-0">
         <section className="sm:mt-5 mt-4 mx-auto lg:justify-between max-w-screen-xl pb-4 px-4 items-center lg:flex md:px-8">
-          <div className="space-y-4 flex-1 px-4 lg:px-0 lg:max-w-xl sm:text-center lg:text-left">
+          <div className="space-y-4 flex-1 lg:px-0 lg:max-w-xl sm:text-center lg:text-left">
             <h1 className="text-gray-700 font-extrabold text-3xl sm:text-4xl xl:text-5xl">
               <span className="text-sky-700">Job Seekers:</span> Connect with
               Top Recruiters
@@ -74,7 +75,7 @@ const SignUpPage = () => {
             </p>
           </div>
           <div className="flex items-end mt-4 lg:mt-0 lg:ml-3">
-            <div className="mx-auto w-full px-4 sm:max-w-[540px] rounded-md py-4 sm:border sm:border-gray-200 sm:shadow-md sm:px-[60px]">
+            <div className="mx-auto w-full sm:max-w-[540px] rounded-md px-4 py-4 border border-gray-200 shadow-md sm:px-[60px]">
               <h3 className="sm:text-center text-2xl font-bold text-gray-700 sm:text-3xl">
                 Sign up to create Hired account
               </h3>
@@ -230,7 +231,7 @@ const SignUpPage = () => {
                   <button
                     disabled={isLoading}
                     type="submit"
-                    className="flex w-full h-12 items-center hover:opacity-90 justify-center rounded-sm bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+                    className="flex w-full h-12 items-center hover:opacity-90 justify-center rounded-sm bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-primary hover:shadow-signUp"
                   >
                     {isLoading ? (
                       <p className="flex items-center justify-center">
@@ -257,6 +258,7 @@ const SignUpPage = () => {
           </div>
         </section>
       </div>
+      <Footer />
     </>
   );
 };

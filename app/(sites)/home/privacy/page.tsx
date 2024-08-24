@@ -1,5 +1,6 @@
-import React from 'react';
-import { Metadata } from 'next'
+import React from "react";
+import { Metadata } from "next";
+import Policy from "@/components/Policy";
 
 export const metadata: Metadata = {
   title: "The Privacy Policy",
@@ -9,13 +10,14 @@ export const metadata: Metadata = {
       "en-US": "/en-US",
     },
   },
-}
-
+};
 
 const Page = () => {
   return (
-    <div>Page</div>
-  )
-}
+    <div>
+      <Policy />
+    </div>
+  );
+};
 
-export default Page
+export default Page;

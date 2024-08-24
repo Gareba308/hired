@@ -40,7 +40,7 @@ const WorkerMessages = ({
             <div className="flex items-center gap-x-1.5 sm:gap-x-2">
               <Link
                 prefetch={true}
-                href={"/manage/messages"}
+                href={"/manage/jobs"}
                 className="hover:text-[#005580] text-gray-700"
               >
                 <CornerUpLeft className="h-6 w-6 shrink-0" />

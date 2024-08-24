@@ -4,6 +4,7 @@ import NoAllBlogs from "../../_components/employersBlogs/NoBlogs";
 import AllBlogs from "../../_components/employersBlogs/AllBlogs";
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Employer Blogs",
@@ -62,13 +63,16 @@ const Page = async () => {
     },
   });
   return (
-    <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-70px)] mx-auto bg-white px-4 md:px-6 text-gray-700 sm:shadow-sm sm:rounded-lg">
-      {employerBlogs.length === 0 ? (
-        <NoAllBlogs />
-      ) : (
-        <AllBlogs blogs={employerBlogs} />
-      )}
-    </div>
+    <>
+      <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-70px)] mx-auto bg-white px-4 md:px-6 text-gray-700">
+        {employerBlogs.length === 0 ? (
+          <NoAllBlogs />
+        ) : (
+          <AllBlogs blogs={employerBlogs} />
+        )}
+      </div>
+      <Footer />
+    </>
   );
 };
 

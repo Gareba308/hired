@@ -4,6 +4,7 @@ import NoCategoryBlogs from "../../../../_components/employersBlogs/filter/NoCat
 import { db } from "@/db";
 import { siteConfig } from "@/lib/config";
 import { Metadata } from "next";
+import Footer from "@/components/Footer";
 
 interface CategoryProps {
   params: {
@@ -30,23 +31,23 @@ const getBlog = cache(async (category: string) => {
   return allBlogsMatchingThisCategory;
 });
 
-// export const revalidate = 60;
+export const revalidate = 60;
 
-// export async function generateStaticParams() {
-//   const allBlogCategories = await db.blogs.findMany({
-//     select: {
-//       category: true
-//     }
-//   });
+export async function generateStaticParams() {
+  const allBlogCategories = await db.blogs.findMany({
+    select: {
+      category: true
+    }
+  });
 
-//   const convertToSlug = (text: string): string => {
-//     return text.toLowerCase().replace(/\s+/g, "-");
-//   };
+  const convertToSlug = (text: string): string => {
+    return text.toLowerCase().replace(/\s+/g, "-");
+  };
 
-//   return allBlogCategories.map((blog) => ({
-//     category: convertToSlug(blog.category)
-//   }));
-// }
+  return allBlogCategories.map((blog) => ({
+    category: convertToSlug(blog.category)
+  }));
+}
 
 export async function generateMetadata({
   params,
@@ -126,16 +127,19 @@ const Page = async ({ params }: CategoryProps) => {
 
   const allBlogsMatchingThisCategory = await getBlog(newCategory);
   return (
-    <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-70px)] mx-auto bg-white px-4 md:px-6 text-gray-700 sm:shadow-sm sm:rounded-lg">
-      {allBlogsMatchingThisCategory.length === 0 ? (
-        <NoCategoryBlogs />
-      ) : (
-        <AllCategoryBlogs
-          blogs={allBlogsMatchingThisCategory}
-          category={newCategory}
-        />
-      )}
-    </div>
+    <>
+      <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-70px)] mx-auto bg-white px-4 md:px-6 text-gray-700">
+        {allBlogsMatchingThisCategory.length === 0 ? (
+          <NoCategoryBlogs />
+        ) : (
+          <AllCategoryBlogs
+            blogs={allBlogsMatchingThisCategory}
+            category={newCategory}
+          />
+        )}
+      </div>
+      <Footer />
+    </>
   );
 };
 

@@ -131,7 +131,7 @@ export default function JobDetails({
   return (
     <>
       <div className="flex flex-col h-full">
-        <div className="md:border-b md:border-gray-200 md:pb-3 md:shadow-md md:sticky md:px-4 md:pt-4 md:top-0 md:z-10">
+        <div className="md:border-b md:border-gray-200 md:pb-3 bg-white md:shadow-md md:sticky md:px-4 md:pt-4 md:top-0 md:z-10">
           <div className="flex gap-x-4 w-full justify-between">
             <div>
               <h2 className="text-xl font-bold tracking-tight sm:text-2xl text-gray-600">

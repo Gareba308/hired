@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { Job } from "@prisma/client";
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
+import FooterJobs from "@/components/FooterJobs";
 
 export const metadata: Metadata = {
   title: "Available Jobs",
@@ -126,13 +127,16 @@ const Page = async () => {
 
   const finalSortedPopularJobs = sortedPopularJobs.slice(0, 4);
   return (
-    <div className="mt-5 min-h-[100vh-70px]">
-      <HomeJobsNavBar
-        jobs={jobs}
-        viewID={viewID as string}
-        popular={finalSortedPopularJobs}
-      />
-    </div>
+    <>
+      <div className="mt-5 bg-white min-h-[calc(100vh-70px)]">
+        <HomeJobsNavBar
+          jobs={jobs}
+          viewID={viewID as string}
+          popular={finalSortedPopularJobs}
+        />
+      </div>
+      <FooterJobs />
+    </>
   );
 };
 

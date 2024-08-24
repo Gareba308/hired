@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Footer from "@/components/Footer";
 
 const SigninPageEmployer = () => {
   const [loading, setLoading] = useState(false);
@@ -52,7 +53,7 @@ const SigninPageEmployer = () => {
     <>
       <div className="relative z-10 overflow-hidden min-h-[calc(100vh-70px)] pb-5 lg:pt-0 pt-2">
         <section className="sm:mt-5 mt-4 mx-auto lg:justify-between max-w-screen-xl pb-4 px-4 items-center lg:flex md:px-8">
-          <div className="space-y-4 flex-1 px-4 lg:px-0 lg:max-w-xl sm:text-center lg:text-left">
+          <div className="space-y-4 flex-1 lg:px-0 lg:max-w-xl sm:text-center lg:text-left">
             <h1 className="text-gray-700 font-extrabold text-3xl sm:text-4xl xl:text-5xl">
               Exclusive to <span className="text-sky-700">Employers:</span>{" "}
               Connect with Top Talent
@@ -64,7 +65,7 @@ const SigninPageEmployer = () => {
             </p>
           </div>
           <div className="flex items-end mt-4 lg:mt-0 lg:ml-3">
-            <div className="mx-auto w-full px-4 sm:max-w-[540px] rounded-md py-4 lg:py-8 sm:border sm:border-gray-200 sm:shadow-md sm:px-[60px]">
+            <div className="mx-auto w-full px-4 sm:max-w-[540px] rounded-md py-4 lg:py-8 border border-gray-200 shadow-md sm:px-[60px]">
               <h3 className="sm:text-center text-2xl font-bold text-gray-700 sm:text-3xl">
                 Sign in to your Hired account
               </h3>
@@ -151,6 +152,7 @@ const SigninPageEmployer = () => {
           </div>
         </section>
       </div>
+      <Footer />
     </>
   );
 };

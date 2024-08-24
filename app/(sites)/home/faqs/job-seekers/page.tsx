@@ -1,5 +1,6 @@
 import React from 'react'
 import { Metadata } from "next";
+import FAQsJobSeekers from '@/components/FAQSJobSeekers';
 
 export const metadata: Metadata = {
   title: "Job Seekers FAQs",
@@ -13,7 +14,9 @@ export const metadata: Metadata = {
 
 const Page = () => {
   return (
-    <div>Page</div>
+    <div>
+      <FAQsJobSeekers />
+    </div>
   )
 }
 

@@ -1,5 +1,6 @@
-import React from 'react';
+import React from "react";
 import { Metadata } from "next";
+import Terms from "@/components/Terms";
 
 export const metadata: Metadata = {
   title: "Terms and Conditions",
@@ -13,8 +14,10 @@ export const metadata: Metadata = {
 
 const Page = () => {
   return (
-    <div>Page</div>
-  )
-}
+    <>
+      <Terms />
+    </>
+  );
+};
 
-export default Page
+export default Page;

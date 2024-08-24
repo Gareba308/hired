@@ -6,15 +6,15 @@ import { Reset } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Footer from "@/components/Footer";
 
 interface ResetTokenProps {
-  resetExists: Reset
+  resetExists: Reset;
 }
 const ResetPassword = ({ resetExists }: ResetTokenProps) => {
-
   const router = useRouter();
-  const resetToken= resetExists.resetToken
-  const role= resetExists.role as string
+  const resetToken = resetExists.resetToken;
+  const role = resetExists.role as string;
 
   const { toast } = useToast();
 
@@ -35,7 +35,7 @@ const ResetPassword = ({ resetExists }: ResetTokenProps) => {
         description:
           "Your password has been reset, login to continue using Jobs Radar",
         variant: "default",
-        duration: 3000
+        duration: 3000,
       });
 
       const roleRedirectMap: { [key: string]: string } = {
@@ -51,14 +51,14 @@ const ResetPassword = ({ resetExists }: ResetTokenProps) => {
           title: "Something went wrong",
           description: err.message,
           variant: "destructive",
-          duration: 3000
+          duration: 3000,
         });
       } else {
         toast({
           title: "Something went wrong",
           description: "Please try again later",
           variant: "destructive",
-          duration: 3000
+          duration: 3000,
         });
       }
     },
@@ -70,10 +70,10 @@ const ResetPassword = ({ resetExists }: ResetTokenProps) => {
   };
   return (
     <>
-      <section className="relative z-10 overflow-hidden min-h-[calc(100vh-70px)] pt-2 lg:pt-[40px]">
+      <section className="relative z-10 overflow-hidden px-4 min-h-[calc(100vh-70px)] pt-2 lg:pt-[40px]">
         <div className="flex flex-wrap">
           <div className="w-full">
-            <div className="mx-auto px-4 w-full sm:max-w-[540px] rounded-md py-4 sm:py-8 sm:border sm:border-gray-200 sm:shadow-md sm:px-[60px]">
+            <div className="mx-auto px-4 w-full sm:max-w-[540px] rounded-md py-4 sm:py-8 border border-gray-200 shadow-md sm:px-[60px]">
               <h3 className="text-center text-2xl font-bold text-gray-700 sm:text-3xl">
                 Reset your account&apos;s password
               </h3>
@@ -123,7 +123,7 @@ const ResetPassword = ({ resetExists }: ResetTokenProps) => {
                   <button
                     disabled={isLoading}
                     type="submit"
-                    className="flex w-full h-12 items-center justify-center hover:opacity-90 rounded-sm bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+                    className="flex w-full h-12 items-center justify-center hover:opacity-90 rounded-sm bg-primary py-4 px-9 text-base font-medium text-white transition hover:bg-primary duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
                   >
                     {isLoading ? (
                       <p className="flex items-center justify-center">
@@ -140,6 +140,7 @@ const ResetPassword = ({ resetExists }: ResetTokenProps) => {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 };
