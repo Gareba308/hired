@@ -192,7 +192,7 @@ const LanguageOnlyCreatingModal = ({
                 disabled={isLoading || isSubmitting}
                 size="lg"
                 type="submit"
-                className="rounded-sm"
+                className="rounded-sm bg-primary hover:bg-primary"
               >
                 {isLoading ? (
                   <span className="items-center flex">

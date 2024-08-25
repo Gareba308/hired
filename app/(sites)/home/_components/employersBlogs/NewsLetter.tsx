@@ -2,9 +2,9 @@ import Link from "next/link";
 
 const NewsLetterBox = () => {
   return (
-    <section className="mt-4 max-w-screen-xl mx-auto ">
-      <div className="border-b border-body-color border-opacity-10 px-5 pb-4 text-lg font-semibold text-black">
-        <h3 className="text-xl text-gray-700 font-semibold ">
+    <section className="max-w-screen-xl mx-auto ">
+      <div className="border-b border-body-color border-opacity-10 px-5 py-3 text-lg font-semibold text-primary bg-gray-200">
+        <h3 className="font-semibold ">
           Job Feedback Hub
         </h3>
       </div>

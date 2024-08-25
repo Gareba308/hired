@@ -10,11 +10,16 @@ interface CompanyMessageProps {
   };
 }
 export const revalidate = 60;
-export async function generateStaticParams() {
-  const companies = await db.contactEmployer.findMany();
 
-  return companies.map((message) => ({
-    companyID: message.companyId,
+export async function generateStaticParams() {
+  const companies = await db.company.findMany({
+    select: {
+      id: true
+    }
+  });
+
+  return companies.map((company) => ({
+    companyID: company.id,
   }));
 }
 

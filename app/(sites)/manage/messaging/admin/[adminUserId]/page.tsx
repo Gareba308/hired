@@ -11,11 +11,22 @@ interface CompanyMessageProps {
 }
 
 export const revalidate = 60;
-export async function generateStaticParams() {
-  const admins = await db.contactEmployer.findMany();
 
-  return admins.map((admin) => ({ 
-    adminUserId: (admin.adminUserId).slice(0, 20) }));
+export async function generateStaticParams() {
+  const admins = await db.user.findMany({
+    where: {
+      role: {
+        equals: "admin",
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  return admins.map((admin) => ({
+    adminUserId: admin.id,
+  }));
 }
 
 const Page = async ({ params }: CompanyMessageProps) => {

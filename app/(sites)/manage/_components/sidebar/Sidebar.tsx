@@ -20,7 +20,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
   const isActive = pathname?.includes("/manage/help");
 
   const onClick = () => {
-    router.push("/site/blogs");
+    router.push("/manage/blogs");
     (() => window.innerWidth < 768 && handleItemClick())();
   };
   return (

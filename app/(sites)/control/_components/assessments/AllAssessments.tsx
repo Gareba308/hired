@@ -92,8 +92,8 @@ const AllAssessments = ({ banners }: AllAssessmentsProps) => {
                 key={banner.id}
                 className="flex flex-col border border-gray-200 text-gray-700 rounded-sm w-full items-start"
               >
-                <div className="flex items-center justify-between gap-x-4 px-2 py-1 rounded-t-sm bg-[#005580] w-full text-primary-foreground text-lg">
-                  <div className="text-[17px] line-clamp-1 capitalize font-bold">
+                <div className="flex items-center justify-between gap-x-4 px-2 py-2 rounded-t-sm bg-primary w-full text-primary-foreground text-lg">
+                  <div className="text-lg line-clamp-1 capitalize font-bold">
                     {banner.category}
                   </div>
                   <div>
@@ -110,7 +110,7 @@ const AllAssessments = ({ banners }: AllAssessmentsProps) => {
                     </div>
 
                     <div className="px-2 w-full">
-                      <div className="text-sm font-normal w-full">
+                      <div className="text-base font-normal w-full">
                         <QuillPreview htmlContent={banner.briefSummary} />
                       </div>
                     </div>
@@ -126,16 +126,16 @@ const AllAssessments = ({ banners }: AllAssessmentsProps) => {
                           )
                         }
                         type="button"
-                        className="bg-[#005580] text-normal text-primary-foreground hover:bg-[#005580] hover:opacity-95"
+                        className="bg-primary text-normal text-primary-foreground hover:bg-primary hover:opacity-95"
                       >
                         Check Details <ArrowRight className="h-4 w-4 ml-1.5" />
                       </Button>
-                      <span className="text-sm font-medium">
+                      <span className="text-base font-medium">
                         {banner.numberQuestions} Quiz
                       </span>
                     </div>
 
-                    <div className="px-2 mt-2 mb-1 w-full items-center text-sm font-medium flex flex-row justify-between gap-x-3">
+                    <div className="px-2 mt-2 mb-1 w-full items-center text-base font-medium flex flex-row justify-between gap-x-3">
                       <h3>Available Attempts: {banner.attemptNumbers}</h3>
                       <div>
                         <Menu

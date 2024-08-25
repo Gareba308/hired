@@ -25,10 +25,6 @@ const AllCategoryBlogs = ({ blogs, category }: AllCategoryBlogsProps) => {
     return classes.filter(Boolean).join(" ");
   }
 
-  function cleanHashtags(body: string): string {
-    return body.replace(/#(\w+)/g, "$1");
-  }
-
   const pageBlogs = blogs.slice(startIndex, endIndex);
   const totalPages = Math.ceil(blogs.length / pageSize);
 
@@ -115,7 +111,7 @@ const AllCategoryBlogs = ({ blogs, category }: AllCategoryBlogsProps) => {
                 href={`/site/blogs/${
                   post.id
                 }?origin=site/blogs/filter/${convertToSlug(category)}`}
-                className="h-[200px] sm:h-[180px] w-full bg-sky-100 relative"
+                className="h-[200px] sm:h-[180px] w-full bg-gray-200 relative"
               >
                 <Image
                   src={post.image}

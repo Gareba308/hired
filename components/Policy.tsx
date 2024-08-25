@@ -5,7 +5,7 @@ const Policy = () => {
   return (
     <>
       <div className="px-4 md:px-8 pb-6 pt-4 sm:pt-6 min-h-[calc(100vh-70px)] max-w-screen-xl mx-auto text-sm sm:text-[15px] text-gray-700">
-        <h1 className="text-4xl lg:text-5xl font-bold text-gray-700 mb-2">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-700 mb-2">
           Privacy Policy
         </h1>
 

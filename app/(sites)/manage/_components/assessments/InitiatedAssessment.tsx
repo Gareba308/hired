@@ -262,7 +262,7 @@ const InitiatedAssessment = ({
                   <h2 className="text-base font-medium text-gray-600">
                     {currentQuestion.scenarioExplanation}
                   </h2>
-                  <div className="text-base font-normal text-gray-700">
+                  <div className="text-base font-normal italic text-gray-700">
                     <QuillPreview htmlContent={currentQuestion?.scenario as string} />
                   </div>
 

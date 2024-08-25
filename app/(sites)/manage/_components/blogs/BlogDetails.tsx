@@ -242,8 +242,8 @@ const BlogDetails = ({
               </div>
             </div>
             <div className="w-full xl:pl-4 xl:w-4/12">
-              <div className="shadow-sm border border-gray-200 mb-10 rounded-sm bg-white">
-                <h3 className="border-b border-body-color border-opacity-10 px-5 py-4 text-lg font-semibold text-black">
+              <div className="shadow-sm border border-gray-300 mb-4 xl:mb-10 rounded-sm bg-white">
+                <h3 className="border-b border-body-color border-opacity-10 px-5 py-3 text-lg font-semibold text-primary bg-gray-200">
                   What is on your mind?
                 </h3>
                 <div className="px-5 py-6 leading-relaxed">
@@ -265,8 +265,8 @@ const BlogDetails = ({
                   </div>
                 </div>
               </div>
-              <div className="shadow-sm border border-gray-200 mb-10 rounded-sm bg-white">
-                <h3 className="border-b border-body-color border-opacity-10 px-5 py-4 text-lg font-semibold text-black">
+              <div className="shadow-sm border border-gray-300 mb-4 xl:mb-10 rounded-sm bg-white">
+                <h3 className="border-b border-body-color border-opacity-10 px-5 py-3 text-lg font-semibold text-primary bg-gray-200">
                   Latest Publications
                 </h3>
                 {allOtherBlogs.length !== 0 ? (
@@ -300,8 +300,8 @@ const BlogDetails = ({
                   </div>
                 )}
               </div>
-              <div className="shadow-sm border border-gray-200 mb-10 rounded-sm bg-white">
-                <h3 className="border-b border-body-color border-opacity-10 px-5 py-4 text-lg font-semibold text-black">
+              <div className="shadow-sm border border-gray-300 mb-4 xl:mb-10 rounded-sm bg-white">
+                <h3 className="border-b border-body-color border-opacity-10 px-5 py-3 text-lg font-semibold text-primary bg-gray-200">
                   Popular Category
                 </h3>
                 {topCategories.length !== 0 && (
@@ -333,8 +333,8 @@ const BlogDetails = ({
                   </div>
                 )}
               </div>
-              <div className="shadow-sm border border-gray-200 mb-10 rounded-sm bg-white">
-                <h3 className="border-b border-body-color border-opacity-10 px-5 py-4 text-lg font-semibold text-black">
+              <div className="shadow-sm border border-gray-300 mb-4 xl:mb-10 rounded-sm bg-white">
+                <h3 className="border-b border-body-color border-opacity-10 px-5 py-3 text-lg font-semibold text-primary bg-gray-200">
                   Popular Tags
                 </h3>
                 {topTags.length !== 0 && (
@@ -356,7 +356,7 @@ const BlogDetails = ({
                 )}
               </div>
 
-              <div className="shadow-sm border border-gray-200 mb-10 rounded-sm bg-white">
+              <div className="shadow-sm border border-gray-200 mb-4 xl:mb-10 rounded-sm bg-white">
                 <NewsLetterBox />
               </div>
             </div>

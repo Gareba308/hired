@@ -122,7 +122,7 @@ const AllCategoryBlogs = ({ blogs, category }: AllCategoryBlogsProps) => {
                 href={`/control/blogs/posts/${
                   post.id
                 }?origin=control/blogs/posts/filter/${convertToSlug(category)}`}
-                className="h-[200px] sm:h-[180px] w-full bg-sky-100 relative"
+                className="h-[200px] sm:h-[180px] w-full bg-gray-200 relative"
               >
                 <Image
                   src={post.image}

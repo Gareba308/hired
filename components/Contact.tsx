@@ -160,7 +160,7 @@ export default function Contact() {
     <>
       <div className="px-4 md:px-8 pb-10 pt-4 sm:pt-6 max-w-screen-xl min-h-[calc(100vh-70px)] mx-auto text-sm sm:text-[15px] text-gray-700">
         <div className="flex w-full items-center justify-between">
-          <h3 className="font-bold text-gray-700 hover:cursor-pointer text-3xl sm:text-4xl lg:text-5xl">
+          <h3 className="font-bold text-gray-700 hover:cursor-pointer text-3xl sm:text-4xl">
             Contact Us
           </h3>
         </div>

@@ -115,7 +115,7 @@ const AllBlogs = ({ blogs }: AllBlogsProps) => {
             >
               <Link
                 href={`/manage/blogs/${post.id}?origin=manage/blogs`}
-                className="h-[200px] sm:h-[180px] rounded-tr-lg rounded-tl-lg w-full bg-sky-100 relative"
+                className="h-[200px] sm:h-[180px] rounded-tr-lg rounded-tl-lg w-full bg-gray-200 relative"
               >
                 <Image
                   src={post.image}

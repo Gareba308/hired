@@ -57,8 +57,8 @@ const AllAssessments = ({
                   key={banner.id}
                   className="flex flex-col border-2 border-gray-200 text-gray-700 rounded-lg w-full items-start"
                 >
-                  <div className="flex items-center justify-between gap-x-4 px-2 py-1.5 rounded-t-lg bg-primary w-full text-primary-foreground text-lg">
-                    <div className="text-[16.5px] line-clamp-1 capitalize font-semibold">
+                  <div className="flex items-center justify-between gap-x-4 px-2 py-2 rounded-t-lg bg-primary w-full text-primary-foreground text-lg">
+                    <div className="text-lg line-clamp-1 capitalize font-semibold">
                       {banner.category}
                     </div>
                     <div>
@@ -75,7 +75,7 @@ const AllAssessments = ({
                       </div>
 
                       <div className="px-2 w-full">
-                        <div className="text-sm text-gray-700 font-normal w-full">
+                        <div className="text-base text-gray-700 font-normal w-full">
                           <QuillPreview htmlContent={banner.briefSummary} />
                         </div>
                       </div>

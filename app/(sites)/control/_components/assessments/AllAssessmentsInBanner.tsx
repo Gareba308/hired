@@ -423,8 +423,8 @@ const AllAssessmentsInBanner = ({
                 key={assessment.id}
                 className="flex flex-col border border-gray-200 text-gray-700 tracking-wide rounded-sm w-full items-start"
               >
-                <div className="flex items-center justify-between gap-x-4 px-3 py-1 rounded-t-sm bg-[#005580] w-full text-primary-foreground text-lg">
-                  <div className="text-[17px] line-clamp-1 capitalize font-bold">
+                <div className="flex items-center justify-between gap-x-4 px-3 py-2 rounded-t-sm bg-primary w-full text-primary-foreground text-lg">
+                  <div className="text-lg line-clamp-1 capitalize font-bold">
                     {assessment.category}
                   </div>
                   <div>
@@ -440,13 +440,13 @@ const AllAssessmentsInBanner = ({
                   </div>
                 )}
                 {assessment.scenario && (
-                  <div className="px-3 mt-0.5 w-full text-sm line-clamp-3">
+                  <div className="px-3 mt-0.5 w-full italic text-base line-clamp-3">
                     <QuillPreview htmlContent={assessment.scenario as string} />
                   </div>
                 )}
 
                 {assessment.question && (
-                  <div className="px-3 mt-2.5">
+                  <div className="px-3 mt-3">
                     <h2 className="flex-wrap text-base font-medium">
                       <span className="font-bold">Question: </span>
                       {assessment.question}
@@ -456,7 +456,7 @@ const AllAssessmentsInBanner = ({
 
                 {assessment.answer && (
                   <div className="px-3 mt-2">
-                    <h2 className="flex-wrap text-sm font-normal">
+                    <h2 className="flex-wrap text-base font-normal">
                       <span className="font-bold text-base">Answer: </span>
                       {assessment.answer}
                     </h2>
@@ -466,7 +466,7 @@ const AllAssessmentsInBanner = ({
                 <div className="flex flex-col justify-start items-start w-full">
                   <div className="px-3 mb-1 w-full items-center font-medium flex flex-row justify-between gap-x-3">
                     <h3 className="text-base">
-                      Published: {format(assessment.createdAt, "PPP")}
+                      <span className='font-bold'>Published: </span> {format(assessment.createdAt, "PPP")}
                     </h3>
                     <div>
                       <Menu

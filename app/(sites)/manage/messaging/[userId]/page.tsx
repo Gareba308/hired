@@ -19,6 +19,9 @@ export async function generateStaticParams() {
         gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
+    select: {
+      workerUserId: true
+    }
   });
 
   return workersMessages.map((worker) => ({

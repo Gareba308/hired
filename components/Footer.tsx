@@ -1,5 +1,6 @@
 "use client"
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const footerNavs = [
@@ -65,7 +66,7 @@ const footerNavs = [
 ];
 const Footer = () => {
   return (
-    <div className="border-t mt-4">
+    <div className="border-t border-gray-300 mt-4">
       <footer className="text-gray-500 bg-white px-4 pb-5 pt-2 md:py-5 max-w-screen-xl mx-auto md:px-8">
         <div className="gap-6 justify-between md:flex">
           <div className="flex-1">
@@ -103,29 +104,30 @@ const Footer = () => {
               </div>
             </form>
           </div>
-          <div className="flex-1 mt-10 space-y-4 items-start justify-between sm:flex md:space-y-0 md:mt-0">
+          <div className="flex-1 mt-5 space-y-2.5 items-start justify-between sm:flex md:space-y-0 md:mt-0">
             {footerNavs.map((item, idx) => (
-              <ul className="space-y-2.5" key={idx}>
-                <h4 className="text-gray-700 font-medium">{item.label}</h4>
+              <ul className="space-y-1" key={idx}>
+                <h4 className="text-gray-700 text-[15px] font-medium">{item.label}</h4>
                 {item.items.map((el, idx) => (
                   <li key={idx}>
-                    <a
+                    <Link
                       href={el.href}
+                      title={`Open ${el.name}`}
                       className="hover:underline text-sm text-[15px] hover:text-sky-700"
                     >
                       {el.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
             ))}
           </div>
         </div>
-        <div className="mt-8 py-6 border-t items-center justify-between sm:flex">
+        <div className="mt-5 py-3 border-t items-center justify-between sm:flex">
           <div className="text-base">
             &copy; {new Date().getFullYear()} Hired All rights reserved.
           </div>
-          <div className="mt-6 sm:mt-0">
+          <div className="mt-5 sm:mt-0">
             <ul className="flex items-center space-x-4">
               <li className="w-10 h-10 border rounded-full flex items-center justify-center">
                 <a

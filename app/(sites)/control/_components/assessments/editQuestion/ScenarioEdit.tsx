@@ -208,7 +208,7 @@ const ScenarioEdit = ({ question }: ScenarioEditProps) => {
                       </div>
                     </div>
                     {question.scenario ? (
-                      <div className="font-normal text-gray-800 text-base -mt-0.5 w-full">
+                      <div className="font-normal italic text-gray-800 text-base -mt-0.5 w-full">
                         <Preview value={question.scenario} />
                       </div>
                     ) : (

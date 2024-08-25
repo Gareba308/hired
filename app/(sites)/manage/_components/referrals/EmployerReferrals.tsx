@@ -217,8 +217,8 @@ const EmployerReferrals = ({ user, blog }: EmployerReferralsProps) => {
       <div className="w-full mx-auto">
         <div className="flex flex-wrap">
           <div className="w-full lg:pr-4 lg:w-8/12">
-            <h2 className="text-lg mt-2 font-medium text-gray-700">
-              Refer an employer and get credit
+            <h2 className="text-xl sm:text-2xl mt-3 font-bold text-gray-600">
+              Refer an employer & get credit
             </h2>
             <p className="text-sm leading-normal tracking-normal text-gray-600 font-normal">
               Refer a potential employer, and you&apos;ll both receive{" "}
@@ -244,7 +244,7 @@ const EmployerReferrals = ({ user, blog }: EmployerReferralsProps) => {
                       <h4 className="text-lg text-gray-600 font-medium">
                         {item.title}
                       </h4>
-                      <p className="text-sm font-normal tracking-relaxed">
+                      <p className="text-base font-normal tracking-relaxed">
                         {item.desc}
                       </p>
                     </div>
@@ -362,9 +362,9 @@ const EmployerReferrals = ({ user, blog }: EmployerReferralsProps) => {
             )}
           </div>
           <div className="w-full mt-6 lg:mt-0 lg:pl-4 lg:w-4/12">
-            <div className="shadow-sm border lg:mt-2 border-gray-200 mb-12 rounded-md bg-white">
-              <h3 className="border-b border-body-color border-opacity-10 px-5 py-4 text-lg font-semibold text-black">
-                Make a job listing?
+            <div className="shadow-sm border lg:mt-2 border-gray-300 mb-6 lg:mb-12 rounded-md bg-white">
+              <h3 className="border-b border-body-color border-opacity-10 px-5 py-3 text-lg font-semibold text-primary bg-gray-200">
+                Make a Job Listing?
               </h3>
               <div className="px-5 py-6 leading-relaxed">
                 <p className="text-base font-normal">
@@ -385,8 +385,8 @@ const EmployerReferrals = ({ user, blog }: EmployerReferralsProps) => {
                 </div>
               </div>
             </div>
-            <div className="shadow-sm border border-gray-200 rounded-md bg-white">
-              <h3 className="border-b border-body-color border-opacity-10 px-5 py-4 text-lg font-semibold text-primary">
+            <div className="shadow-sm border border-gray-300 rounded-md bg-white">
+              <h3 className="border-b border-body-color border-opacity-10 px-5 py-3 text-lg bg-gray-200 font-semibold text-primary">
                 Read our latest blog article
               </h3>
               {blog ? (

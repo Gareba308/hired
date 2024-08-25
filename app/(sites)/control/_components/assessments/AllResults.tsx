@@ -294,7 +294,8 @@ export function AllResults({ results }: AllReportsProps) {
 
   return (
     <div className="w-full">
-      <div className="mt-1">
+      <div className="mt-3">
+        <h2 className="font-semibold text-xl">Assessment Results</h2>
         <div className="rounded-lg border mt-1 bg-white">
           <Table>
             <TableHeader>

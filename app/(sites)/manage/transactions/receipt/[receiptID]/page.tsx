@@ -10,20 +10,6 @@ interface ReceiptProps {
   };
 }
 
-export const revalidate = 60;
-export async function generateStaticParams() {
-  const currentDate = new Date();
-  const receipts = await db.payment.findMany({
-    where: {
-      createdAt: {
-        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
-      },
-    },
-  });
-
-  return receipts.map((receipt) => ({ receiptID: receipt.id }));
-}
-
 const Page = async ({ params }: ReceiptProps) => {
   const { receiptID } = params;
   const receiptExists = await db.payment.findFirst({

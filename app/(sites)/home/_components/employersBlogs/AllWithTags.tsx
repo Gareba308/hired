@@ -60,7 +60,7 @@ const AllWithTags = ({
             >
               <Link
                 href={`/home/blogs/employers/${post.id}?origin=home/blogs/employers/${blogId}/${tag}`}
-                className="h-[200px] sm:h-[180px] rounded-tr-lg rounded-tl-lg w-full bg-sky-100 relative"
+                className="h-[200px] sm:h-[180px] rounded-tr-lg rounded-tl-lg w-full bg-gray-200 relative"
               >
                 <Image
                   src={post.image}

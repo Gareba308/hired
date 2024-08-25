@@ -181,7 +181,7 @@ const CareerPointDetails = ({
                         Check how you match a job in seconds
                       </legend>
                       <div>
-                        <h2 className="text-lg sm:text-[17.5px] mt-1 font-medium text-gray-600">
+                        <h2 className="text-lg sm:text-[17.5px] mt-2 font-semibold lg:font-bold text-gray-600">
                           Discover Jobs & Assess Your Qualifications
                         </h2>
                         <p className="text-sm leading-normal tracking-normal text-gray-600 font-normal">
@@ -434,7 +434,7 @@ const CareerPointDetails = ({
 
                   <div>
                     <div className="relative z-10 overflow-hidden rounded-md bg-[#005580] bg-opacity-10 p-2 sm:p-6 md:p-8 lg:p-9">
-                      <p className="sm:text-center text-base font-medium italic text-body-color">
+                      <p className="sm:text-center text-sm sm:text-base font-medium italic text-body-color">
                         Disclaimer! The score obtained in this section is simply
                         a calculation based on your experience, skills and other
                         qualifications. The final match results might not be
@@ -586,12 +586,12 @@ const CareerPointDetails = ({
               </div>
             </div>
             <div className="w-full lg:pl-3 lg:w-1/3">
-              <div className="shadow-sm border border-gray-200 mt-6 lg:mt-12 mb-10 rounded-sm bg-white">
-                <h3 className="border-b border-body-color border-opacity-10 px-5 py-4 text-lg font-semibold text-black">
-                  Value of job matching?
+              <div className="shadow-sm border border-gray-300 mt-6 lg:mt-12 mb-10 rounded-sm bg-white">
+                <h3 className="border-b border-body-color border-opacity-10 px-5 py-3 text-lg bg-gray-200 font-semibold text-primary">
+                  Value Of Job Matching?
                 </h3>
                 <div className="px-5 py-6 leading-relaxed">
-                  <p className="text-base font-normal">
+                  <p className="text-sm sm:text-base font-normal">
                     Calculating job match ensures alignment with skills,
                     experience, and career goals, thereby enhancing your job
                     satisfaction, productivity, and long-term success.
@@ -609,8 +609,8 @@ const CareerPointDetails = ({
                   </div>
                 </div>
               </div>
-              <div className="shadow-sm border border-gray-200 mb-1 rounded-sm bg-white">
-                <h3 className="border-b border-body-color border-opacity-10 px-5 py-4 text-lg font-semibold text-black">
+              <div className="shadow-sm border border-gray-300 mb-1 rounded-sm bg-white">
+                <h3 className="border-b border-body-color bg-gray-200 border-opacity-10 px-5 py-3 text-lg font-semibold text-primary">
                   Latest Job Posts
                 </h3>
                 {jobs.length !== 0 ? (

@@ -112,7 +112,7 @@ const AllBlogs = ({ blogs }: AllBlogsProps) => {
             >
               <Link
                 href={`/home/blogs/job-seekers/${post.id}?origin=home/blogs/job-seekers`}
-                className="h-[200px] sm:h-[180px] rounded-tr-lg rounded-tl-lg w-full bg-sky-100 relative"
+                className="h-[200px] sm:h-[180px] rounded-tr-lg rounded-tl-lg w-full bg-gray-200 relative"
               >
                 <Image
                   src={post.image}

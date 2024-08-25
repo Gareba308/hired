@@ -9,16 +9,6 @@ interface QuestionsProps {
   };
 }
 
-export const revalidate = 60;
-
-export async function generateStaticParams() {
-  const questions = await db.assessment.findMany();
-
-  return questions.map((quiz) => ({
-    questionID: quiz.id,
-  }));
-}
-
 const Page = async ({ params }: QuestionsProps) => {
   const { questionID, assessmentID } = params;
 

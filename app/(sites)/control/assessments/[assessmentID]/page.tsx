@@ -10,16 +10,6 @@ interface AssessmentParamsProps {
   };
 }
 
-export const revalidate = 60;
-
-export async function generateStaticParams() {
-  const assessments = await db.assessmentBanner.findMany();
-
-  return assessments.map((assess) => ({
-    assessmentID: assess.id,
-  }));
-}
-
 const Page = async ({ params }: AssessmentParamsProps) => {
   const { assessmentID } = params;
   const session = await getServerSession(authOptions);
