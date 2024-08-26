@@ -92,16 +92,16 @@ export default function RootLayout({
     <html lang="en" className="light">
       <Providers>
         <ContextProvider>
-            <body
-              className={cn(
-                "min-h-[calc(100vh-120px)] bg-gray-100 font-sans antialiased",
-                roboto.className
-              )}
-            >
-              {children}
-              <Toaster />
-              <ScrollToTop />
-            </body>
+          <body
+            className={cn(
+              "min-h-[calc(100vh-120px)] bg-gray-100 font-sans antialiased",
+              roboto.className
+            )}
+          >
+            {children}
+            <Toaster />
+            <ScrollToTop />
+          </body>
         </ContextProvider>
       </Providers>
     </html>

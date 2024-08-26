@@ -91,7 +91,6 @@ export default function JobDetails({
 }: JobDetailsProps) {
   const [recentlyViewedJobs, setRecentlyViewedJobs] = useState<Job[]>([]);
   const router = useRouter();
-  const { toast } = useToast();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -134,7 +133,7 @@ export default function JobDetails({
         <div className="md:border-b md:border-gray-200 md:pb-3 bg-white md:shadow-md md:sticky md:px-4 md:pt-4 md:top-0 md:z-10">
           <div className="flex gap-x-4 w-full justify-between">
             <div>
-              <h2 className="text-xl font-bold tracking-tight sm:text-2xl text-gray-600">
+              <h2 title="Job title" className="text-xl font-bold tracking-tight sm:text-2xl text-gray-600">
                 {job.job_title}
               </h2>
               <h2
@@ -185,7 +184,7 @@ export default function JobDetails({
             </Button>
             <Button
               variant="outline"
-              onClick={() => {}}
+              onClick={() => router.push(`/home/login?origin=site/jobs/${job.id}`)}
               className="rounded-none text-destructive-foreground hover:bg-destructive hover:text-destructive-foreground"
             >
               <Flag className="w-4 h-4 mr-1.5" />
@@ -197,7 +196,8 @@ export default function JobDetails({
               {job.ownPlatformMethod === "here" && (
                 <button
                   type="button"
-                  onClick={() => router.push(`/home/jobs/apply/${job.id!}`)}
+                  title="Onsite job application"
+                  onClick={() => router.push(`/home/login?origin=site/jobs/apply/${job.id!}`)}
                   className="flex w-full items-center rounded-sm justify-center border border-transparent bg-primary px-8 py-3 text-base font-normal text-white hover:opacity-90 focus:outline-none"
                 >
                   <Edit className="w-4 h-4 mr-1 font-normal" />
@@ -210,15 +210,8 @@ export default function JobDetails({
                 job.emailPlatform && (
                   <button
                     type="button"
-                    onClick={() => {
-                      const emailSubject = encodeURIComponent(
-                        `Application for ${job.job_title}`
-                      );
-
-                      const mailtoLink = `mailto:${job.emailPlatform}?subject=${emailSubject}`;
-
-                      window.location.href = mailtoLink;
-                    }}
+                    title="Job application via email"
+                    onClick={() => router.push(`/home/login?origin=site/jobs/${job.id!}`)}
                     className="flex w-full items-center rounded-sm justify-center border border-transparent bg-primary px-8 py-3 text-base font-normal text-white hover:opacity-90 focus:outline-none"
                   >
                     <Mail className="w-4 h-4 mr-1.5" />
@@ -231,10 +224,8 @@ export default function JobDetails({
                 job.linkPlatform && (
                   <button
                     type="button"
-                    onClick={() => {
-                      const linkUrl = `https://${job.linkPlatform}`;
-                      window.open(linkUrl, "_blank");
-                    }}
+                    title="Job application via link"
+                    onClick={() => router.push(`/home/login?origin=site/jobs/${job.id!}`)}
                     className="flex w-full items-center rounded-sm justify-center border border-transparent bg-primary px-8 py-3 text-base font-normal text-white hover:opacity-90 focus:outline-none"
                   >
                     <ArrowUpRightSquare className="w-4 h-4 mr-1.5" />

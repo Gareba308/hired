@@ -230,7 +230,7 @@ const HomePage = () => {
                 Experience unmatched quality; Kenya&apos;s INDEED.
               </span>
             </div>
-            <h1 className="text-gray-700 font-extrabold text-4xl xl:text-5xl">
+            <h1 className="text-gray-700 font-extrabold text-4xl xl:text-5xl" title="We connect employers and job seekers">
               Where employers and job seekers
               <span className="text-sky-700"> connect</span>
             </h1>
@@ -246,6 +246,7 @@ const HomePage = () => {
               <div className="items-center w-full space-y-5 sm:justify-center sm:space-x-5 sm:space-y-0 sm:flex lg:justify-start">
                 <a
                   href="/home/login"
+                  title="Explore available jobs"
                   className="flex items-center justify-center gap-x-2 py-4 px-5 text-center w-full text-white font-medium bg-primary duration-150 hover:opacity-90 rounded-sm shadow-sm hover:shadow-none"
                 >
                   Find your next job
@@ -264,6 +265,7 @@ const HomePage = () => {
                 </a>
                 <a
                   href="/home/login/enterprises"
+                  title="Hire a job seeker"
                   className="flex items-center w-full justify-center bg-gray-300 gap-x-2 py-4 px-5 text-primary hover:text-sky-700 font-medium duration-150 active:bg-gray-100 border rounded-sm md:inline-flex"
                 >
                   Find your next hire
@@ -300,7 +302,7 @@ const HomePage = () => {
         <section className="py-14 bg-primary">
           <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
             <div className="max-w-2xl mx-auto text-center">
-              <h3 className="text-primary-foreground text-3xl font-semibold sm:text-4xl">
+              <h3 title="Why our customers are happy" className="text-primary-foreground text-3xl font-semibold sm:text-4xl">
                 Our customers are always happy
               </h3>
               <p className="mt-3 text-primary-foreground text-sm sm:text-[15px]">
@@ -332,9 +334,9 @@ const HomePage = () => {
                 <span className="inline-flex items-center rounded-sm bg-gray-200 px-2 py-1 text-base font-medium text-gray-700">
                   Are you talented?
                 </span>
-                <p className="text-gray-700 text-3xl font-bold sm:text-4xl">
+                <h2 title='Why job seekers like us' className="text-gray-700 text-3xl font-bold sm:text-4xl">
                   Why job seekers love us
-                </p>
+                </h2>
               </div>
             </div>
             <div className="mt-6">
@@ -381,9 +383,9 @@ const HomePage = () => {
                 <span className="inline-flex items-center rounded-sm bg-gray-200 px-2 py-1 text-base font-medium text-gray-700 border-gray-100">
                   Do yo need talent?
                 </span>
-                <p className="text-gray-700 text-3xl font-bold sm:text-4xl">
+                <h2 className="text-gray-700 text-3xl font-bold sm:text-4xl" title="Why employers like us">
                   Why recruiters love us
-                </p>
+                </h2>
               </div>
             </div>
             <div className="mt-6">
@@ -426,7 +428,7 @@ const HomePage = () => {
         <section className="relative py-14">
           <div className="relative z-10 max-w-screen-xl mx-auto px-4 md:px-8">
             <div className="max-w-xl sm:text-center md:mx-auto">
-              <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+              <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl" title="Testmonials">
                 Testimonials from Platform Users
               </h3>
               <p className="mt-2 text-gray-600 text-sm sm:text-[15px]">

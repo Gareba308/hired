@@ -11,17 +11,13 @@ interface SidebarProps {
   onClose: () => void;
 }
 
-const Sidebar = ({ onClose }: SidebarProps) => {
-  const handleItemClick = () => {
-    onClose();
-  };
+const Sidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const isActive = pathname?.includes("/manage/help");
 
   const onClick = () => {
     router.push("/manage/blogs");
-    (() => window.innerWidth < 768 && handleItemClick())();
   };
   return (
     <div className="h-full flex flex-col border-r justify-between gap-y-3 border-gray-200 bg-[#ffffff]">
@@ -43,7 +39,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
           </Link>
         </div>
         <div className="flex flex-col w-full">
-          <SidebarRoutes onClose={onClose} />
+          <SidebarRoutes />
         </div>
       </div>
 

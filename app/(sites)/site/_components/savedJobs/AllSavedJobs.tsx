@@ -46,7 +46,7 @@ export default function AllSavedJobs({
     <main className="mx-auto lg:-mt-2 max-w-7xl">
       <section>
         <div className="flex flex-wrap">
-          <div className="w-full min-h-[calc(100vh-100px)] lg:mt-2 px-4 pt-2 pb-4 mx-auto bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
+          <div className="w-full min-h-[calc(100vh-80px)] lg:mt-2 px-4 pt-2 pb-4 mx-auto bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
             <div className="text-2xl w-full sm:text-3xl font-bold tracking-tight text-gray-600">
               <div className="flex items-center gap-x-1.5 sm:gap-x-2">
                 <div className="flex flex-col">

@@ -14,10 +14,7 @@ import {
 } from "lucide-react";
 import { Menu, Transition } from "@headlessui/react";
 
-interface SidebarProps {
-  onClose: () => void;
-}
-const Sidebar = ({ onClose }: SidebarProps) => {
+const Sidebar = () => {
   const pathname = usePathname();
   const isActive =
     pathname?.includes("/control/marketing") ||
@@ -47,7 +44,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
           </Link>
         </div>
         <div className="flex flex-col w-full">
-          <SidebarRoutes onClose={onClose}/>
+          <SidebarRoutes />
         </div>
       </div>
 

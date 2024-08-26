@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
 import Sidebar from "./_components/sidebar/Sidebar";
+import { GoogleAnalytics } from '@next/third-parties/google'
 import DashNavbar from "./_components/dashboard/DashNavbar";
 
 const DashboardLayout = ({ children }: PropsWithChildren) => {
@@ -14,6 +15,7 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
       <main className="md:pl-60 my-0 sm:my-2.5 pt-[70px] min-h-[calc(100vh-120px)] no-scrollbar px-0 w-full sm:px-4 mx-auto">
         {children}
       </main>
+      <GoogleAnalytics gaId="G-D94MPR6B9P" />
     </div>
   );
 };

@@ -30,7 +30,7 @@ const RelatedPost = ({
     }
   }
   return (
-    <div className="flex items-center lg:flex xl:flex">
+    <div className="flex items-center">
       <div className="mr-5 xl:mb-0">
         {image ? (
           <div

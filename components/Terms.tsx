@@ -6,15 +6,15 @@ const Terms = () => {
     <>
     <div className="px-4 md:px-8 pb-6 pt-4 sm:pt-6 max-w-screen-xl mx-auto text-sm sm:text-[15px] text-gray-700">
       <h1 className="text-3xl sm:text-4xl font-bold text-gray-700 mb-2">
-        Terms & Conditions
+        Terms Of Service
       </h1>
 
       <h2 className="text-2xl font-semibold text-gray-700 mt-6 mb-2">
         Introduction
       </h2>
       <p className="text-gray-700 mb-2">
-        Please read these Terms & Conditions carefully before using Hired. Hired
-        reserves the right to modify these Terms & Conditions at any time.
+        Please read these Terms of Service carefully before using Hired. Hired
+        reserves the right to modify these Terms of Service at any time.
       </p>
 
       <h2 className="text-2xl font-semibold text-gray-700 mt-6 mb-2">

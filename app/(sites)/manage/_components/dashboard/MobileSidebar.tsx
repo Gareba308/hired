@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import Sidebar from "../sidebar/Sidebar";
+import Sidebar from "../menu/Sidebar";
 
 const MobileSidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
