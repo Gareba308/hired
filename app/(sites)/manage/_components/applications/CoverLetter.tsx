@@ -13,45 +13,26 @@ interface CoverLetterProps {
 const CoverLetter = ({ application }: CoverLetterProps) => {
   const { toast } = useToast();
 
-  const printDiv = () => {
-    const printableArea = document.getElementById("divToPrint");
-    if (printableArea) {
-      const originalContents = document.body.innerHTML;
-      const printContents = printableArea.innerHTML;
-
-      document.body.innerHTML = printContents;
-      window.print();
-      document.body.innerHTML = originalContents;
-    } else {
-      toast({
-        title: "Something went wrong",
-        description: "Could not find the element to print.",
-        variant: "destructive",
-        duration: 3000,
-      });
-    }
-  };
 
   return (
     <div
-      id="divToPrint"
       className="w-full relative mx-auto scroll-my-12 print:p-12"
     >
-      <section className="mx-auto bg-white tracking-tight print:shadow-none w-full max-w-4xl space-y-4  print:space-y-6">
+      <section className="mx-auto bg-white print:shadow-none w-full max-w-4xl print:space-y-6">
           <div className="flex-1 w-full">
             <div>
-              <div className="-space-y-2">
-                <Section className="items-end -space-y-4 font-mono text-gray-700">
+              <div className="">
+                <Section className="items-end -space-y-2 text-gray-700">
                   <div className="flex flex-col items-start leading-tight">
-                    <p className="font-bold text-[19px] text-gray-600">
+                    <p className="font-bold text-base text-gray-700">
                       {application.applicantName as string}
-                      <span className="font-normal text-sm">,</span>
+                      <span className="font-normal text-base">,</span>
                     </p>
-                    <p>{application.userEmail},</p>
+                    <p className="text-base text-gray-700">{application.userEmail},</p>
                     {application.workerContact.map((contact, index) => (
                       <div key={index}>
                         {JSON.parse(JSON.stringify(contact)).postal && (
-                          <p>
+                          <p className="text-base">
                             P.O Box {JSON.parse(JSON.stringify(contact)).postal}
                             {JSON.parse(JSON.stringify(contact)).zip && (
                               <>-{JSON.parse(JSON.stringify(contact)).zip}</>
@@ -60,7 +41,7 @@ const CoverLetter = ({ application }: CoverLetterProps) => {
                           </p>
                         )}
                         {JSON.parse(JSON.stringify(contact)).town && (
-                          <p>
+                          <p className="text-base">
                             {JSON.parse(JSON.stringify(contact)).town}
                             {JSON.parse(JSON.stringify(contact)).county && (
                               <>,{JSON.parse(JSON.stringify(contact)).county}</>
@@ -70,20 +51,20 @@ const CoverLetter = ({ application }: CoverLetterProps) => {
                         )}
                       </div>
                     ))}
-                    <p className="underline mt-1">
+                    <p className="underline text-base">
                       {format(application.createdAt, "PPP")}.
                     </p>
                   </div>
                 </Section>
-                <Section className="items-start leading-tight -space-y-4 font-mono text-gray-700">
-                  <p className="font-bold text-[19px] text-gray-600">
+                <Section className="items-start -space-y-2 leading-tight text-gray-700">
+                  <p className="font-bold text-base text-gray-700">
                     {application.companyName}
                     <span className="font-normal text-base">,</span>
                   </p>
                   {application.company.map((company, index) => (
-                    <div key={index}>
+                    <div key={index} className="-mt-3">
                       {JSON.parse(JSON.stringify(company)).postal && (
-                        <p>
+                        <p className="text-base">
                           P.O Box {JSON.parse(JSON.stringify(company)).postal}
                           {JSON.parse(JSON.stringify(company)).zip && (
                             <>-{JSON.parse(JSON.stringify(company)).zip}</>
@@ -92,7 +73,7 @@ const CoverLetter = ({ application }: CoverLetterProps) => {
                         </p>
                       )}
                       {JSON.parse(JSON.stringify(company)).town && (
-                        <p>
+                        <p className="text-base">
                           {JSON.parse(JSON.stringify(company)).town}
                           {JSON.parse(JSON.stringify(company)).county && (
                             <>,{JSON.parse(JSON.stringify(company)).county}</>
@@ -104,23 +85,23 @@ const CoverLetter = ({ application }: CoverLetterProps) => {
                   ))}
                 </Section>
               </div>
-              <Section className="text-gray-600 mt-2">
-                <p className="font-mono">Dear Sir/Madam,</p>
-                <h2 className="text-[19px] md:text-xl font-mono -mt-1.5 font-bold text-gray-600 uppercase">
-                  RE:
+              <Section className="text-gray-700 mt-3">
+                <p className="text-base">Dear Sir/Madam,</p>
+                <h2 className="text-lg  -mt-1.5 font-bold text-gray-700 uppercase">
+                  RE:{" "}
                   <span className="underline">
                     {application.jobTitle} Application
                   </span>
                 </h2>
-                <div className="text-pretty -mt-1 font-mono text-sm text-gray-700">
+                <div className="-mt-1  text-base text-gray-700">
                   <QuillPreview
                     htmlContent={application.whyMostQualified as string}
                   />
                 </div>
               </Section>
-              <Section className="items-start mt-4 text-base -space-y-4 font-mono text-gray-700">
+              <Section className="items-start mt-2 text-base  -space-y-4 text-gray-700">
                 <p>Yours faithfully,</p>
-                <p>(Signed)</p>
+                <p className="text-gray-500">(Signed)</p>
                 <p>{application.applicantName}.</p>
               </Section>
             </div>

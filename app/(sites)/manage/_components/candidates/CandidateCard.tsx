@@ -11,7 +11,6 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import {
   About,
-  Active,
   Award,
   CertificationLicense,
   Experience,
@@ -26,6 +25,7 @@ import {
 } from "@prisma/client";
 import { formatDistance } from "date-fns";
 import { MapPinIcon, Pin, ThumbsUp, UserSquare2 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -43,7 +43,6 @@ interface CombinedDataItem {
   language: Language[];
   secondary: SecondaryEducation | null;
   tertiary: TertiaryEducation[];
-  active: Active | null;
   profileViews: ProfileView[];
 }
 
@@ -53,7 +52,11 @@ interface AllCandidatesProps {
   userId: string;
 }
 
-const CandidateCard = ({ combinedData, profileViews, userId }: AllCandidatesProps) => {
+const CandidateCard = ({
+  combinedData,
+  profileViews,
+  userId,
+}: AllCandidatesProps) => {
   const [currentlyViewingID, setCurrentlyViewingID] = useState<string | null>(
     null
   );
@@ -172,24 +175,34 @@ const CandidateCard = ({ combinedData, profileViews, userId }: AllCandidatesProp
                   key={item.userId}
                   className="border border-gray-200 pt-1 pb-2.5 px-2.5 cursor-pointer lg:px-3 rounded-sm"
                 >
-                  <div className="flex w-full items-start gap-4">
-                    <div className="w-24 h-24 shrink-0 items-start">
-                      {item.bio.profilePic ? (
-                        <img
+                  <div className="flex w-full items-end gap-3">
+                    {item.bio.profilePic ? (
+                      <div className="relative cursor-pointer h-[80px] shrink-0 w-[80px] overflow-hidden rounded-sm">
+                        <Image
                           src={item.bio.profilePic as string}
-                          className="w-full h-full border shrink-0 border-gray-100 rounded-md"
-                          alt={item.bio.name}
+                          alt={item.bio.name as string}
+                          title={item.bio.name as string}
+                          quality={100}
+                          fill
+                          sizes="100%"
+                          priority
                         />
-                      ) : (
-                        <img
+                      </div>
+                    ) : (
+                      <div className="relative cursor-pointer shrink-0 h-[80px] w-[80px] overflow-hidden rounded-sm">
+                        <Image
                           src={
                             "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
                           }
-                          className="w-full h-full border shrink-0 border-gray-100 rounded-md"
-                          alt={item.bio.name}
+                          alt="Profile picture"
+                          title="User profile"
+                          quality={100}
+                          fill
+                          sizes="100%"
+                          priority
                         />
-                      )}
-                    </div>
+                      </div>
+                    )}
                     <div className="-space-y-1 w-full">
                       <div className="flex items-center justify-between">
                         {item.bio.name && (
@@ -201,8 +214,8 @@ const CandidateCard = ({ combinedData, profileViews, userId }: AllCandidatesProp
                           <TooltipProvider>
                             <Tooltip>
                               <TooltipTrigger>
-                                <span className="inline-flex rounded-sm bg-sky-50 px-2 py-0.5 font-medium text-sky-700 ring-1 ring-inset ring-sky-600/20">
-                                  <span className="text-[13.5px]">
+                                <span className="inline-flex rounded-sm bg-sky-50 px-2 py-[3px] font-medium text-sky-700 ring-1 ring-inset ring-sky-600/20">
+                                  <span className="text-[12.5px]">
                                     Likes:{" "}
                                     {formatNumber(item.bio.thumbUp as number)}
                                   </span>
@@ -240,12 +253,6 @@ const CandidateCard = ({ combinedData, profileViews, userId }: AllCandidatesProp
                           </span>
                         </p>
                       )}
-                      {item.bio.gender && (
-                        <p className="text-gray-500 text-sm flex items-center">
-                          <UserSquare2 className="h-4 w-4 mr-1 line-clamp-1 text-gray-400" />
-                          {item.bio.gender}
-                        </p>
-                      )}
                     </div>
                   </div>
                   {item.about?.about && (
@@ -253,7 +260,7 @@ const CandidateCard = ({ combinedData, profileViews, userId }: AllCandidatesProp
                       <span className="font-medium text-sm text-gray-600">
                         About:
                       </span>
-                      <div className="text-gray-500 text-sm -mt-1 font-normal line-clamp-2">
+                      <div className="text-gray-500 text-sm leading-tight -mt-1 font-normal line-clamp-2">
                         <QuillPreview
                           htmlContent={item.about?.about as string}
                         />

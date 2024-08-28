@@ -34,7 +34,7 @@ const BetterResume = ({ application, applicationID }: BetterResumeProps) => {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Generated Resume</BreadcrumbPage>
+                <BreadcrumbPage>Generated & Uploaded Resumes</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -54,15 +54,13 @@ const BetterResume = ({ application, applicationID }: BetterResumeProps) => {
                 "border-b-[3px] border-sky-800 font-medium hover:border-[#005580]"
             )}
           >
-            <span className="hidden sm:flex">Generated Resume</span>
-            <span className="sm:hidden">Generated</span>
+            Resume
           </Link>
           <Link
-            href={`/manage/dashboard/applications/${applicationID}/uploaded-resume`}
+            href={`/manage/dashboard/applications/${applicationID}/tests`}
             className="border-b-[3px] border-transparent text-lg pb-0.5 transition-all duration-300"
           >
-            <span className="hidden sm:flex">Uploaded & Tests</span>
-            <span className="sm:hidden">Uploaded & Tests</span>
+            Tests
           </Link>
         </div>
       </div>

@@ -15,16 +15,14 @@ import {
   Briefcase,
   CalendarClock,
   CornerUpLeft,
-  Gem,
+  Lock,
   Globe,
   Info,
   Mail,
   MapPinIcon,
-  Phone,
-  Rocket,
 } from "lucide-react";
 import Image from "next/image";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import JobCard3 from "../job/JobCard3";
 import { cn } from "@/lib/utils";
@@ -73,9 +71,7 @@ const CompanyDetails = ({
               <div className="flex flex-row items-center border-b border-gray-200 pb-1">
                 <a
                   className="hover:text-[#005580] cursor-pointer"
-                  onClick={() =>
-                    router.push("/site/companies")
-                  }
+                  onClick={() => router.push("/site/companies")}
                 >
                   <CornerUpLeft className="h-6 w-6 mr-2 shrink-0" />
                 </a>
@@ -83,7 +79,7 @@ const CompanyDetails = ({
                   Company&apos;s Profile
                 </h2>
               </div>
-              <div className="lg:col-span-3 lg:mt-3 lg:pb-2">
+              <div className="lg:col-span-3 mt-2 lg:mt-3 lg:pb-2">
                 <div>
                   <>
                     <div className="border-b border-gray-200 pb-2">
@@ -236,20 +232,25 @@ const CompanyDetails = ({
                         <div className="flex-shrink-0 flex justify-end">
                           <div>
                             {company.logo ? (
-                              <div className="w-[96px] cursor-pointer py-1 px-0.5 h-[96px] border border-gray-200 bg-white/70 shrink-0 rounded-sm flex items-center justify-center">
+                              <div className="relative cursor-pointer h-[75px] w-[75px] lg:h-[96px] lg:w-[96px] overflow-hidden rounded-md">
                                 <Image
                                   src={company.logo as string}
                                   alt={company.logo as string}
-                                  height={96}
-                                  width={96}
+                                  title={`${company.company_name} logo`}
                                   quality={100}
-                                  className="shrink-0"
+                                  fill
+                                  sizes="100%"
+                                  className="rounded-md"
+                                  priority
                                 />
                               </div>
                             ) : (
-                              <div className="w-[96px] cursor-pointer py-1 px-0.5 h-[96px] border border-gray-200 shrink-0  bg-gray-100 rounded-sm flex items-center justify-center">
+                              <div
+                                title={`${company.company_name}'s made up logo`}
+                                className="h-[75px] w-[75px] lg:h-[96px] lg:w-[96px] cursor-pointer py-1 px-0.5 shrink-0 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-md sm:flex items-center justify-center"
+                              >
                                 <div className="flex items-center justify-center shrink-0 w-full h-full">
-                                  <div className="text-2xl sm:text-3xl font-medium text-gray-600 shrink-0">
+                                  <div className="text-2xl sm:text-2xl font-semibold shrink-0">
                                     {getInitials(
                                       company.company_name as string
                                     )}
@@ -466,17 +467,17 @@ const CompanyDetails = ({
                         <Briefcase className="h-10 w-10" />
                       </h2>
 
-                      <p className="flex items-start gap-2 text-gray-600">
+                      <p className="flex items-start gap-2 text-gray-700">
                         <span className="text-base">
-                          A job will only be visible here as long as it
-                          hasn&apos;t reached the application deadline.
+                          A job posting will remain visible until the
+                          application deadline is reached.
                         </span>
                       </p>
 
-                      <p className="flex items-start mt-3 gap-2 text-gray-600">
+                      <p className="flex items-start mt-3 gap-2 text-gray-700">
                         <span className="text-base">
-                          Submitting application or manually undoing the save
-                          will remove this job from this section.
+                          Submit your application promptly to ensure you
+                          don&apos;t miss the opportunity.
                         </span>
                       </p>
                     </div>
@@ -484,20 +485,21 @@ const CompanyDetails = ({
                     <div className="flex flex-col h-full justify-center">
                       <div className="hidden lg:block rounded-sm lg:pb-4 lg:space-y-2 lg:bg-slate-200 lg:border px-4 border-slate-200 lg:shadow-sm lg:pt-2.5">
                         <h2 className="text-xl text-gray-600 font-semibold flex justify-center">
-                          <Rocket className="h-10 w-10" />
+                          <Lock className="h-10 w-10" />
                         </h2>
 
-                        <p className="flex items-start gap-2 text-gray-600">
+                        <p className="flex items-start gap-2 text-gray-700">
                           <span className="text-base">
-                            A job will only be visible here as long as it
-                            hasn&apos;t reached the application deadline.
+                            To ensure the safety of job seekers on our platform,
+                            we conduct thorough background checks to verify the
+                            credibility of companies.
                           </span>
                         </p>
 
-                        <p className="flex items-start mt-3 gap-2 text-gray-600">
+                        <p className="flex items-start mt-3 gap-2 text-gray-700">
                           <span className="text-base">
-                            Submitting application or manually undoing the save
-                            will remove this job from this section.
+                            Any concerns regarding a company can be discreetly
+                            reported to us via email or direct message.
                           </span>
                         </p>
                       </div>

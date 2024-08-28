@@ -41,7 +41,7 @@ const BetterUploaded = ({
   const pathname = usePathname();
   const isActive =
     pathname ===
-    `/manage/dashboard/applications/${applicationID}/uploaded-resume`;
+    `/manage/dashboard/applications/${applicationID}/tests`;
   return (
     <>
       <div>
@@ -53,7 +53,7 @@ const BetterUploaded = ({
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Uploaded Resume & Tests</BreadcrumbPage>
+                <BreadcrumbPage>Assessment Test Results</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -73,7 +73,7 @@ const BetterUploaded = ({
             <span className="sm:hidden">Generated</span>
           </Link>
           <Link
-            href={`/manage/dashboard/applications/${applicationID}/uploaded-resume`}
+            href={`/manage/dashboard/applications/${applicationID}/tests`}
             className={cn(
               "border-b-[3px] text-lg border-transparent pb-0.5 transition-all duration-300",
               isActive &&

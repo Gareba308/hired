@@ -1,4 +1,5 @@
 import React from "react";
+import { Suspense } from "react";
 import HomeJobsNavBar from "../_components/jobs/HomeJobsNavBar";
 import { db } from "@/db";
 import { headers } from "next/headers";
@@ -6,6 +7,7 @@ import { Job } from "@prisma/client";
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
 import FooterJobs from "@/components/FooterJobs";
+import { Loader2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Available Jobs",
@@ -128,13 +130,21 @@ const Page = async () => {
   const finalSortedPopularJobs = sortedPopularJobs.slice(0, 4);
   return (
     <>
-      <div className="mt-5 bg-white min-h-[calc(100vh-70px)]">
-        <HomeJobsNavBar
-          jobs={jobs}
-          viewID={viewID as string}
-          popular={finalSortedPopularJobs}
-        />
-      </div>
+      <section className="mt-5 bg-white min-h-[calc(100vh-70px)]">
+        <Suspense
+          fallback={
+            <p className="flex items-center justify-center">
+              <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
+            </p>
+          }
+        >
+          <HomeJobsNavBar
+            jobs={jobs}
+            viewID={viewID as string}
+            popular={finalSortedPopularJobs}
+          />
+        </Suspense>
+      </section>
       <FooterJobs />
     </>
   );

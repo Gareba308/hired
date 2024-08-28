@@ -767,7 +767,7 @@ export default function AllCompanies({
 
         <main>
           <div className="flex items-end flex-row justify-between">
-            <div className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-600">
+            <div className="text-2xl text-center sm:text-start sm:text-3xl font-bold tracking-tight text-gray-600">
               <h3>Employer Companies</h3>
             </div>
           </div>

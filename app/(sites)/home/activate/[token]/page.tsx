@@ -16,6 +16,7 @@ interface ActivateProps {
     token: string;
   };
 }
+
 const EmailVerified = async ({ params }: ActivateProps) => {
   const { token } = params;
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Company, Job, SavedJobs } from "@prisma/client";
-import { Briefcase, Rocket } from "lucide-react";
+import { Pin, Import } from "lucide-react";
 import { useRouter } from "next/navigation";
 import ReactPaginate from "react-paginate";
 import JobCard2 from "./JobCard2";
@@ -105,20 +105,22 @@ export default function AllSavedJobs({
                 <div className="flex justify-between gap-y-6 flex-col">
                   <div className="hidden rounded-sm lg:block lg:pb-4 lg:space-y-2 lg:bg-slate-200 lg:border px-4 border-slate-200 lg:shadow-sm lg:pt-2.5">
                     <h2 className="text-xl text-gray-600 font-semibold flex justify-center">
-                      <Briefcase className="h-10 w-10" />
+                      <Pin className="h-10 w-10" />
                     </h2>
 
-                    <p className="flex items-start gap-2 text-gray-600">
+                    <p className="flex items-start gap-2 text-gray-700">
                       <span className="text-base">
-                        A job will only be visible here as long as it
-                        hasn&apos;t reached the application deadline.
+                        A job listing will remain visible until either the
+                        application deadline is reached or for a maximum of 30
+                        days.
                       </span>
                     </p>
 
-                    <p className="flex items-start mt-3 gap-2 text-gray-600">
+                    <p className="flex items-start mt-3 gap-2 text-gray-700">
                       <span className="text-base">
-                        Submitting application or manually undoing the save will
-                        remove this job from this section.
+                        Removing a job from your saved list can be done by
+                        either submitting an application or by unsaving it from
+                        this section.
                       </span>
                     </p>
                   </div>
@@ -126,20 +128,20 @@ export default function AllSavedJobs({
                   <div className="flex flex-col h-full justify-center">
                     <div className="hidden lg:block rounded-sm lg:pb-4 lg:space-y-2 lg:bg-slate-200 lg:border px-4 border-slate-200 lg:shadow-sm lg:pt-2.5">
                       <h2 className="text-xl text-gray-600 font-semibold flex justify-center">
-                        <Rocket className="h-10 w-10" />
+                        <Import className="h-10 w-10" />
                       </h2>
 
-                      <p className="flex items-start gap-2 text-gray-600">
+                      <p className="flex items-start gap-2 text-gray-700">
                         <span className="text-base">
-                          A job will only be visible here as long as it
-                          hasn&apos;t reached the application deadline.
+                          We recommend using the save feature thoughtfully,
+                          rather than saving multiple jobs at once.
                         </span>
                       </p>
 
-                      <p className="flex items-start mt-3 gap-2 text-gray-600">
+                      <p className="flex items-start mt-3 gap-2 text-gray-700">
                         <span className="text-base">
-                          Submitting application or manually undoing the save
-                          will remove this job from this section.
+                          After submitting an application for a job, it will
+                          automatically be removed from your saved list.
                         </span>
                       </p>
                     </div>

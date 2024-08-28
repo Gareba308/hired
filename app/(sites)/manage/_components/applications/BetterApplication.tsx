@@ -61,7 +61,7 @@ const BetterApplication = ({
             <span className="sm:hidden">Generated</span>
           </Link>
           <Link
-            href={`/manage/dashboard/applications/${applicationID}/uploaded-resume`}
+            href={`/manage/dashboard/applications/${applicationID}/tests`}
             className="border-b-[3px] border-transparent text-lg pb-0.5 transition-all duration-300"
           >
             <span className="hidden sm:flex">Uploaded & Tests</span>

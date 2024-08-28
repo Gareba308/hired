@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
@@ -63,36 +63,38 @@ const MessageWorkerModal = ({
 
   const { isSubmitting } = form.formState;
 
-  const { mutate: messageWorker, isLoading } = trpc.employerMessageWorker.useMutation({
-    onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "Thank you. Your message has been delivered to the recipient candidate.",
-        variant: "default",
-        duration: 3000,
-      });
-      router.refresh();
-      onConfirm();
-    },
-    onError: (err) => {
-      if (err.message) {
+  const { mutate: messageWorker, isLoading } =
+    trpc.employerMessageWorker.useMutation({
+      onSuccess: () => {
         toast({
-          title: "Something went wrong",
-          description: err.message,
-          variant: "destructive",
-          duration: 3000,
-        });
-      } else {
-        toast({
-          title: "Something went wrong",
+          title: "Success",
           description:
-            "There was a problem sending this message. Please try again later.",
-          variant: "destructive",
+            "Thank you. Your message has been delivered to the recipient candidate.",
+          variant: "default",
           duration: 3000,
         });
-      }
-    },
-  });
+        router.refresh();
+        onConfirm();
+      },
+      onError: (err) => {
+        if (err.message) {
+          toast({
+            title: "Something went wrong",
+            description: err.message,
+            variant: "destructive",
+            duration: 3000,
+          });
+        } else {
+          toast({
+            title: "Something went wrong",
+            description:
+              "There was a problem sending this message. Please try again later.",
+            variant: "destructive",
+            duration: 3000,
+          });
+        }
+      },
+    });
 
   const onSubmit = async (values: FormSchemaType) => {
     messageWorker({ ...values, applicationID });
@@ -166,6 +168,9 @@ const MessageWorkerModal = ({
                       {...field}
                       required
                       className="resize-none"
+                      rows={4}
+                      maxRows={4}
+                      minRows={4}
                       disabled={isLoading || isSubmitting}
                       placeholder="Write your message here..."
                       maxLength={maxCharacters}
@@ -182,6 +187,15 @@ const MessageWorkerModal = ({
 
             <div className="pt-4 space-x-4 flex items-center justify-start w-full">
               <Button
+                onClick={onClose}
+                type="button"
+                variant="secondary"
+                size="lg"
+                className="border-gray-300 border bg-slate-200 rounded-sm"
+              >
+                Cancel
+              </Button>
+              <Button
                 size="lg"
                 type="submit"
                 disabled={isLoading || isSubmitting || remainingCharacters <= 0}
@@ -192,17 +206,11 @@ const MessageWorkerModal = ({
                     <Loader2 className="w-5 h-5 animate-spin" />
                   </span>
                 ) : (
-                  <><Check className="h-5 w-5 mr-1.5"/>Submit</>
+                  <>
+                    Submit
+                    <ArrowRight className="h-4 w-4 ml-1.5" />
+                  </>
                 )}
-              </Button>
-              <Button
-                onClick={onClose}
-                type="button"
-                variant="secondary"
-                size="lg"
-                className="border-gray-300 border bg-slate-200 rounded-sm"
-              >
-                Cancel
               </Button>
             </div>
           </form>

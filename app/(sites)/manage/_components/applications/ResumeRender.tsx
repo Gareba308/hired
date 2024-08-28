@@ -1,8 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Loader2, Mail, MoveRight, Printer } from "lucide-react";
+import { Loader2, Mail, MoveRight, Printer, Download } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { saveAs } from "file-saver";
 import React, { useState } from "react";
 import { Application } from "@prisma/client";
 import ApplicationDetails from "./ApplicationDetails";
@@ -73,15 +74,44 @@ const ResumeRender = ({ application }: ResumeRenderProps) => {
     });
   };
 
+  function getFirstName(fullName: string): string {
+    return fullName.split(" ")[0];
+  }
+
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(application.uploadedResumeUrl as string);
+      const blob = await response.blob();
+      saveAs(blob, "resume.pdf");
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+    }
+  };
   return (
     <>
       <main className="mx-auto lg:-mt-2 max-w-7xl">
         <section>
           <div className="flex flex-wrap">
             <div className="w-full lg:mt-2 pt-2 pb-4 mx-auto lg:w-2/3">
-              <h2 className="font-bold text-gray-600 tracking-tight text-2xl sm:text-3xl">
-                Generated Resume
-              </h2>
+              <div className="flex items-end justify-between w-full gap-x-3">
+                <h2 className="font-bold text-gray-600 tracking-tight text-2xl md:text-[26px]">
+                  {(application.applicantName as string) && (
+                    <span className="mr-1.5">
+                      {getFirstName(application.applicantName as string)}&apos;s
+                    </span>
+                  )}
+                  Resumes
+                </h2>
+                <Button
+                  type="button"
+                  variant="default"
+                  onClick={handleDownload}
+                  size="sm"
+                  className="hover:bg-primary hover:opacity-90"
+                >
+                  <Download className="shrink-0 mr-1.5 h-4 w-4" /> Uploaded
+                </Button>
+              </div>
               <div className="lg:col-span-3 mt-2 pb-2">
                 <ApplicationDetails application={application} />
               </div>
@@ -111,7 +141,7 @@ const ResumeRender = ({ application }: ResumeRenderProps) => {
                               key={value}
                               viewBox="0 0 1920 1920"
                               xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5 cursor-pointer"
+                              className="h-4 w-4  cursor-pointer"
                               stroke="#005580"
                               onClick={() => handleRatingClick(value)}
                             >

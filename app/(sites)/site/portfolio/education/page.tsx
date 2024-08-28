@@ -36,7 +36,7 @@ const Page = async () => {
     }
   });
   return (
-    <div className="space-y-4 max-w-7xl mx-auto bg-white min-h-[calc(100vh-100px)] sm:rounded-lg prose pt-4 pb-8 mb-4 px-4 md:px-6 text-gray-700 text-base shadow-sm">
+    <div className="space-y-4 max-w-7xl mx-auto bg-white min-h-[calc(100vh-80px)] sm:rounded-lg prose pt-4 pb-8 mb-4 px-4 md:px-6 text-gray-700 text-base shadow-sm">
       <EducationPortfolio
         secondaryEducation={secondaryEducation}
         tertiaryEducation={tertiaryEducation}

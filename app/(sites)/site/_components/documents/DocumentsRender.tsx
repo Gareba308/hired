@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { CornerUpLeft, ExternalLink, Printer } from "lucide-react";
+import { CornerUpLeft, ArrowRight, Printer } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import {
@@ -81,27 +81,32 @@ const DocumentsRender = ({ document: application }: DocumentsRenderProps) => {
         <main className="mx-auto lg:-mt-2 max-w-7xl">
           <section>
             <div className="flex flex-wrap">
-              <div className="w-full min-h-[calc(100vh-90px)] lg:mt-2 px-4 pt-2 pb-4 mx-auto print:shadow-none bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
-                <div className="flex w-full items-end justify-between print:hidden border-b border-gray-300 pb-1">
+              <div className="w-full min-h-[calc(100vh-90px)] lg:mt-2 pt-2 pb-4 mx-auto print:shadow-none bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
+                <div className="flex w-full items-end px-4 justify-between print:hidden border-b border-gray-400 pb-1">
                   <div className="flex items-center gap-x-1.5">
-                      <h3 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl lg:text-3xl">
-                        Generated Resume
-                      </h3>
+                    <h3 className="font-bold text-gray-600 tracking-tight text-2xl lg:text-3xl">
+                      <span className="hidden md:flex">Generated Resume</span>
+                      <span className="md:hidden">Resume</span>
+                    </h3>
                   </div>
                   <Button
                     size="sm"
                     type="button"
+                    title="Open uploaded resume"
                     onClick={() =>
                       functionOpenResume(application.resume?.resume as string)
                     }
                     variant="default"
                     className="rounded-sm font-normal text-base bg-primary hover:bg-primary hover:opacity-90"
                   >
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    Uploaded
+                    Uploaded?
+                    <ArrowRight className="h-4 w-4 ml-2" />
                   </Button>
                 </div>
-                <div id="divToPrint" className="lg:col-span-3 lg:mt-3 lg:pb-2">
+                <div
+                  id="divToPrint"
+                  className="lg:col-span-3 px-4 lg:mt-1.5 lg:pb-2"
+                >
                   <DocumentDetails document={application} />
                 </div>
               </div>
@@ -110,42 +115,35 @@ const DocumentsRender = ({ document: application }: DocumentsRenderProps) => {
                 <div className="flex flex-col w-full h-full">
                   <div className="lg:rounded-lg h-full lg:sticky lg:top-0 z-10 lg:mt-2">
                     <div className="flex justify-between gap-y-6 flex-col">
-                      <div className="lg:block rounded-none py-4 px-4 lg:pb-3 lg:space-y-4 shadow-sm bg-slate-200 border border-slate-200 lg:pt-2.5">
+                      <div className="lg:block rounded-none py-4 px-4 lg:pb-4 lg:space-y-4 shadow-sm bg-slate-200 border border-slate-200 lg:pt-3">
                         <div>
-                          <h2 className="text-[18px] mb-2 flex items-center text-start text-gray-700 font-semibold">
-                            Overall Resume Rating
+                          <h2 className="text-[18px] mb-1 flex items-center text-start text-gray-700 font-semibold">
+                            Resume Evaluation
                           </h2>
                           <p className="text-xs text-gray-700">
-                            Overall rating is part of resume not rated, will be
-                            upto a maximum of 20% of the total score.
+                            Based on the details you provide regarding your
+                            experience, qualifications, and skills, our system
+                            will calculate your job compatibility score.
                           </p>
                         </div>
                         <div>
-                          <p className="font-medium text-sm -mt-1 flex items-center text-gray-600">
-                            <span className="mr-1">Overall:</span>
-                            something
-                          </p>
                           <p className="text-xs text-gray-700 mt-1.5">
-                            <span className="font-semibold">N/B:</span> The
-                            profile resume can only represent upto a maximum of
-                            60% of total score.
-                          </p>
-                          <p className="font-medium text-sm flex mt-1 items-center text-gray-600">
-                            <span className="mr-1">Profile:</span>
-                            something
+                            <span className="font-semibold">Note:</span> If you
+                            upload your own resume, it will be optionally
+                            available to employers for review.
                           </p>
                         </div>
                       </div>
 
                       <div className="flex mt-4 lg:mt-0 flex-col h-full justify-center">
-                        <div className="lg:block py-4 rounded-none px-4 lg:pb-3 lg:space-y-4 shadow-sm bg-slate-200 border border-slate-200 lg:pt-2.5">
+                        <div className="lg:block py-4 rounded-none px-4 lg:pb-4 lg:space-y-4 shadow-sm bg-slate-200 border border-slate-200 lg:pt-3">
                           <h2 className="text-[18px] text-start text-gray-700 font-semibold">
                             Further Actions
                           </h2>
-                          <div className="flex w-full mb-2 justify-between flex-col gap-y-5">
+                          <div className="flex w-full mb-1 justify-between flex-col gap-y-5">
                             <Button
                               variant="default"
-                              size="sm"
+                              size="default"
                               onClick={() => printDivCandidate()}
                               className="rounded-sm bg-slate-800 hover:bg-slate-800 hover:opacity-90 font-normal"
                             >
@@ -155,13 +153,13 @@ const DocumentsRender = ({ document: application }: DocumentsRenderProps) => {
                           </div>
                           <div>
                             <p className="text-xs text-gray-700 w-full">
-                              This resume is generated from candidate&apos;s
-                              profile details.
+                              This resume is generated from your profile and
+                              portfolio details.
                             </p>
                             <p className="text-xs mt-1 text-gray-700 w-full">
                               <span className="font-medium">Optional:</span>{" "}
-                              Send this candidate a message concerning their
-                              generated resume.
+                              Ensure you have an upto date resume any time
+                              before sending your job application..
                             </p>
                           </div>
                         </div>

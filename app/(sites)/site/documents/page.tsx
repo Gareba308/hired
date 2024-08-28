@@ -72,14 +72,6 @@ const Page = async () => {
     },
   });
 
-  if(tertiary.length === 0){
-    return(
-      <>
-        <NoPortfolio />
-      </>
-    )
-  }
-
   const bio = await db.workerBio.findFirst({
     where: {
       userId: dbUser.id,

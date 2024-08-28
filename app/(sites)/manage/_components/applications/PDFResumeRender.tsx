@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Application, AssessmentStatus } from "@prisma/client";
-import UploadedResume from "./UploadedResume";
 import { TestResults } from "./TestResults";
 
 interface BetterUploadItems {
@@ -27,33 +26,29 @@ const PDFResumeRender = ({
   application,
   applicantAssessmentResults,
 }: ResumeRenderProps) => {
+  function getFirstName(fullName: string): string {
+    return fullName.split(" ")[0];
+  }
   return (
     <main>
       <section aria-labelledby="products-heading" className="pb-4">
-        <div className="flex flex-col">
-          <div className="lg:col-span-3 w-full mx-auto h-full">
-            <h3 className="font-bold text-gray-600 tracking-tight text-xl mt-2 sm:text-2xl lg:text-3xl">
-              Uploaded Resume
-            </h3>
-            <div className="pb-3">
-              <UploadedResume application={application} />
-            </div>
+        <h2 className="font-bold text-gray-600 tracking-tight text-2xl md:text-[26px]">
+          {(application.applicantName as string) && (
+            <span className="mr-1.5">
+              {getFirstName(application.applicantName as string)}&apos;s
+            </span>
+          )}
+          Test Results
+        </h2>
+        {applicantAssessmentResults.length !== 0 ? (
+          <div>
             <div>
-              <h3 className="font-bold text-gray-600 tracking-tight text-xl mt-2 sm:text-2xl lg:text-3xl">
-                Skill Tests
-              </h3>
-              {applicantAssessmentResults.length !== 0 ? (
-                <div>
-                  <div>
-                    <TestResults combinedData={applicantAssessmentResults} />
-                  </div>
-                </div>
-              ) : (
-                <div>This job did not have a mandatory assessment</div>
-              )}
+              <TestResults combinedData={applicantAssessmentResults} />
             </div>
           </div>
-        </div>
+        ) : (
+          <div>This job did not have a mandatory assessment</div>
+        )}
       </section>
     </main>
   );

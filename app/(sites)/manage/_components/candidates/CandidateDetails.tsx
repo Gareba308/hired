@@ -24,7 +24,6 @@ import {
   WorkerDesires,
 } from "@prisma/client";
 import {
-  Briefcase,
   CalendarClock,
   CornerUpLeft,
   GraduationCap,
@@ -34,14 +33,16 @@ import {
   MapPinIcon,
   MoveRight,
   Phone,
-  Printer,
-  Rocket,
+  Building2,
   ThumbsUp as Thumb,
   Undo,
   UserSquare2,
 } from "lucide-react";
-import { useRouter} from "next/navigation";
+import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import NewCandidateMessageModal from "../models/candidate/NewMessageModal";
 
 interface CombinedDataItemProps {
   workersBio: WorkerBio | null;
@@ -76,6 +77,16 @@ const CandidateDetails = ({
 }: CombinedDataItemProps) => {
   const router = useRouter();
   const { toast } = useToast();
+  const [messageOpen, setMessageOpen] = useState<boolean>(false);
+  const onClose = () => {
+    setMessageOpen((prev) => !prev);
+  };
+  const onConfirm = () => {
+    setMessageOpen((prev) => !prev);
+  };
+  const toggleOpen = () => {
+    setMessageOpen(true);
+  };
   const [isBioLiked, setIsBioLiked] = useState<boolean>(
     candidateThumbed?.liked || false
   );
@@ -125,21 +136,28 @@ const CandidateDetails = ({
     }
   };
 
+  function getFirstName(fullName: string): string {
+    return fullName.split(" ")[0];
+  }
+
   return (
     <>
       <div>
         <main className="mx-auto lg:-mt-2 max-w-7xl">
           <section>
             <div className="flex flex-wrap">
-              <div className="w-full min-h-[calc(100vh-100px)] lg:mt-2 px-4 pt-2 pb-4 mx-auto print:shadow-none bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
-                <div className="flex w-full items-end justify-between print:hidden border-b border-gray-300 pb-1">
+              <div className="w-full min-h-[calc(100vh-100px)] lg:mt-2 pt-2 pb-4 mx-auto print:shadow-none bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
+                <div className="flex w-full items-end justify-between px-4 print:hidden border-b border-gray-300 pb-0.5">
                   <div className="flex items-center gap-x-1.5">
-                    <h3 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl lg:text-3xl">
+                    <h3 className="font-bold text-gray-600 tracking-tight text-2xl lg:text-3xl">
                       Candidate&apos;s Profile
                     </h3>
                   </div>
                 </div>
-                <div id="divToPrint" className="lg:col-span-3 lg:mt-3 lg:pb-2">
+                <div
+                  id="divToPrint"
+                  className="lg:col-span-3 px-4 mt-2 lg:mt-3 lg:pb-2"
+                >
                   <div>
                     <>
                       <div className="border-b border-gray-200 pb-2 shadow-sm">
@@ -198,23 +216,37 @@ const CandidateDetails = ({
                             )}
                           </div>
                           <div className="flex-shrink-0 flex justify-end">
-                            <div className="w-24 h-24 shrink-0 items-start">
-                              {workersBio?.profilePic ? (
-                                <img
-                                  src={workersBio.profilePic as string}
-                                  className="w-full h-full border shrink-0 border-gray-100 rounded-md"
-                                  alt={workersBio.name}
-                                />
-                              ) : (
-                                <img
-                                  src={
-                                    "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
-                                  }
-                                  className="w-full h-full border shrink-0 border-gray-100 rounded-md"
-                                  alt="Profile Picture"
-                                />
-                              )}
-                            </div>
+                            {workersBio && (
+                              <div>
+                                {workersBio.profilePic ? (
+                                  <div className="relative cursor-pointer shrink-0 h-[84px] w-[84px] md:h-[90px] md:w-[90px] overflow-hidden rounded-sm">
+                                    <Image
+                                      src={workersBio.profilePic as string}
+                                      alt={workersBio.name as string}
+                                      title={workersBio.name as string}
+                                      quality={100}
+                                      fill
+                                      sizes="100%"
+                                      priority
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="relative cursor-pointer shrink-0 h-[84px] w-[84px] md:h-[90px] md:w-[90px] overflow-hidden rounded-sm">
+                                    <Image
+                                      src={
+                                        "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
+                                      }
+                                      alt="Profile picture"
+                                      title="User profile"
+                                      quality={100}
+                                      fill
+                                      sizes="100%"
+                                      priority
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
                         </div>
                         <div className="flex flex-row items-center mt-1.5 w-full justify-between text-base">
@@ -222,8 +254,9 @@ const CandidateDetails = ({
                             <Button
                               variant="secondary"
                               size="sm"
+                              title="Make a call"
                               type="button"
-                              className="rounded-sm font-normal text-sm border text-primary hover:text-primary hover:bg-secondary bg-white border-gray-200 hover:border-gray-200"
+                              className="rounded-sm h-9 w-24 font-normal text-sm border text-primary hover:text-primary hover:bg-secondary bg-white border-gray-200 hover:border-gray-200"
                             >
                               <a
                                 target="_blank"
@@ -239,11 +272,12 @@ const CandidateDetails = ({
                             <Button
                               variant="outline"
                               size="sm"
+                              title="Send an email"
                               onClick={() => {
                                 const mailtoLink = `mailto:${workersContact?.email}`;
                                 window.location.href = mailtoLink;
                               }}
-                              className="rounded-sm text-sm font-normal text-destructive-foreground bg-white border border-red-100 hover:bg-red-50 hover:text-destructive-foreground"
+                              className="rounded-sm h-9 w-24 text-sm font-normal text-destructive-foreground bg-white border border-red-100 hover:bg-red-50 hover:text-destructive-foreground"
                             >
                               <Mail className="w-4 h-4 mr-1.5" />
                               Email
@@ -256,72 +290,94 @@ const CandidateDetails = ({
                       <>
                         {workersAbout?.about && (
                           <div className="w-full">
-                            <div className="flex items-center justify-between border-b border-gray-300 mb-1 pb-1">
-                              <h3 className="text-xl font-medium text-gray-700">
-                                About
+                            <div className="flex items-end justify-between border-b border-gray-200 mb-1 pb-0.5">
+                              <h3 className="text-xl font-medium text-gray-600">
+                                About{" "}
+                                {workersBio && workersBio.name && (
+                                  <span>{getFirstName(workersBio.name)}</span>
+                                )}
                               </h3>
-                              {workersBio && (
+                              {workersBio && !isBioLiked && (
                                 <Button
                                   variant="secondary"
                                   size="sm"
+                                  title="Like button"
                                   type="button"
                                   onClick={handleThumbLike}
-                                  className="rounded-sm h-9 font-medium border hover:bg-secondary bg-white border-gray-200 hover:border-gray-200"
+                                  className="rounded-sm h-8 w-24 font-medium border hover:bg-secondary bg-white border-gray-200 hover:border-gray-200"
                                 >
                                   {isBioLiked ? (
                                     <>
-                                      <Thumb className="h-5 w-5 fill-primary font-normal mr-1" />
+                                      <Thumb className="h-4 w-4 fill-primary font-normal mr-1.5" />
                                       Liked
                                     </>
                                   ) : (
                                     <>
-                                      <Thumb className="h-5 w-5 font-normal mr-1" />
+                                      <Thumb className="h-4 w-4 font-normal mr-1.5" />
                                       Like
                                     </>
                                   )}
                                 </Button>
                               )}
                             </div>
-                            <div className="text-gray-600 text-base">
-                              <QuillPreview htmlContent={workersAbout?.about} />
-                            </div>
+                            {workersAbout && workersAbout?.about && (
+                              <div className="text-gray-600 w-full text-base">
+                                <QuillPreview
+                                  htmlContent={workersAbout?.about}
+                                />
+                              </div>
+                            )}
                           </div>
                         )}
                       </>
                     </div>
-                    <div className="lg:col-span-2 lg:col-start-1 mt-5">
+                    <div className="lg:col-span-2 lg:col-start-1 mt-3">
                       {workersExperience.length !== 0 && (
                         <>
-                          <h3 className="text-xl font-medium text-gray-700 border-b border-gray-300 mb-1 pb-1">
+                          <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
                             Work Experience
                           </h3>
                           {workersExperience.flatMap((experience) => (
-                            <div key={experience.id} className="w-full mb-5">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                  <h3 className="text-lg font-medium mr-1 text-gray-600">
-                                    {experience.nameCompany}
+                            <div key={experience.id} className="w-full mb-3">
+                              <div className="flex items-center gap-x-3 justify-between">
+                                <div className="flex items-center h-4 gap-x-1">
+                                  <h3 className="text-lg line-clamp-1 font-medium text-gray-600">
+                                    {experience.position}
                                   </h3>
-                                  <span className="inline-flex items-center rounded-sm bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                                  {experience.employmentType && (
+                                    <Separator orientation="vertical" />
+                                  )}
+                                  <p className="text-xs line-clamp-1 text-gray-600 font-normal">
                                     {experience.employmentType}
-                                  </span>
+                                  </p>
                                 </div>
-                                <div className="text-sm -mt-0.5 text-gray-600">
+                                <div className="text-sm line-clamp-1 -mt-0.5 text-gray-600">
                                   {experience.startMonth}/{experience.startYear}{" "}
-                                  - {experience.endMonth}/{experience.endYear}
+                                  -{" "}
+                                  {experience.endMonth && experience.endYear ? (
+                                    <>
+                                      {experience.endMonth}/{experience.endYear}
+                                    </>
+                                  ) : experience.stillWorking &&
+                                    !experience.endMonth &&
+                                    !experience.endYear ? (
+                                    "Present"
+                                  ) : (
+                                    ""
+                                  )}
                                 </div>
                               </div>
                               <div className="text-gray-500">
                                 <h3 className="text-sm flex font-medium text-gray-600 items-center">
-                                  <Briefcase className="h-4 w-4 mr-0.5 text-gray-500" />
-                                  {experience.position}
+                                  <Building2 className="h-4 w-4 mr-0.5 text-gray-500" />
+                                  {experience.nameCompany}
                                 </h3>
                                 <p className="text-sm flex items-center">
                                   <MapPinIcon className="h-4 w-4 mr-0.5" />
                                   {experience.location}
                                 </p>
                               </div>
-                              <div className="text-gray-600 text-base">
+                              <div className="text-gray-600 w-full text-base">
                                 <QuillPreview
                                   htmlContent={
                                     experience?.description as string
@@ -334,26 +390,39 @@ const CandidateDetails = ({
                       )}
                     </div>
 
-                    <div className="lg:col-span-2 lg:col-start-1 mt-5">
+                    <div className="lg:col-span-2 lg:col-start-1 mt-3">
                       {workersTertiary.length !== 0 ? (
                         <>
-                          <h3 className="text-xl font-medium text-gray-700 border-b border-gray-300 mb-1 pb-1">
+                          <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
                             Education
                           </h3>
                           {workersTertiary.flatMap((education) => (
-                            <div key={education.id} className="w-full mb-5">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                  <h3 className="text-lg font-medium mr-1 text-gray-600">
+                            <div key={education.id} className="w-full mb-3">
+                              <div className="flex items-center gap-x-3 justify-between">
+                                <div className="flex items-center h-4 gap-x-1">
+                                  <h3 className="text-lg line-clamp-1 font-medium mr-1 text-gray-600">
                                     {education.institution}
                                   </h3>
-                                  <span className="inline-flex items-center rounded-sm bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
+                                  {education.programArea && (
+                                    <Separator orientation="vertical" />
+                                  )}
+                                  <p className="text-xs line-clamp-1 text-gray-600 font-normal">
                                     {education.programArea}
-                                  </span>
+                                  </p>
                                 </div>
-                                <div className="text-sm -mt-0.5 text-gray-600">
+                                <div className="text-sm line-clamp-1 -mt-0.5 text-gray-600">
                                   {education.startMonth}/{education.startYear} -{" "}
-                                  {education.endMonth}/{education.endYear}
+                                  {education.endMonth && education.endYear ? (
+                                    <>
+                                      {education.endMonth}/{education.endYear}
+                                    </>
+                                  ) : education.stillStudying &&
+                                    !education.endMonth &&
+                                    !education.endYear ? (
+                                    "In progress"
+                                  ) : (
+                                    ""
+                                  )}
                                 </div>
                               </div>
                               <div className="text-gray-500">
@@ -366,7 +435,7 @@ const CandidateDetails = ({
                                   {education.county}
                                 </p>
                               </div>
-                              <div className="text-gray-600 text-base">
+                              <div className="text-gray-600 w-full text-base">
                                 <QuillPreview
                                   htmlContent={education?.activities as string}
                                 />
@@ -376,18 +445,19 @@ const CandidateDetails = ({
                         </>
                       ) : (
                         <>
-                          <h3 className="text-xl font-medium text-gray-700 border-b border-gray-300 mb-1 pb-1">
+                          <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
                             Education
                           </h3>
-                          <div className="w-full mb-5">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center">
+                          <div className="w-full mb-3">
+                            <div className="flex items-center gap-x-3 justify-between">
+                              <div className="flex items-center h-4 gap-x-1">
                                 <h3 className="text-lg font-medium mr-1 text-gray-600">
                                   {workersSecondary?.school}
                                 </h3>
-                                <span className="inline-flex items-center rounded-sm bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
+                                <Separator orientation="vertical" />
+                                <p className="text-xs text-gray-600 font-normal">
                                   KCSE
-                                </span>
+                                </p>
                               </div>
                               <div className="text-sm -mt-0.5 text-gray-600">
                                 {workersSecondary?.startMonth}/
@@ -407,10 +477,10 @@ const CandidateDetails = ({
                       )}
                     </div>
 
-                    <div className="lg:col-span-2 lg:col-start-1 mt-5">
+                    <div className="lg:col-span-2 lg:col-start-1 mt-3">
                       {workersSkills?.skills.length !== 0 && (
                         <>
-                          <h3 className="text-xl font-medium text-gray-700 border-b border-gray-300 mb-1 pb-1">
+                          <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
                             Skills
                           </h3>
                           <div className="flex flex-wrap -mx-1">
@@ -427,23 +497,25 @@ const CandidateDetails = ({
                       )}
                     </div>
 
-                    <div className="lg:col-span-2 lg:col-start-1 mt-5">
+                    <div className="lg:col-span-2 lg:col-start-1 mt-3">
                       {workersAward.length !== 0 && (
                         <>
-                          <h3 className="text-xl font-medium text-gray-700 border-b border-gray-300 mb-1 pb-1">
+                          <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
                             Awards & Honors
                           </h3>
                           {workersAward.flatMap((award) => (
-                            <div key={award.id} className="w-full mb-5">
-                              <div className="flex items-center justify-between">
-                                <h3 className="text-lg font-medium mr-1 text-gray-600">
+                            <div key={award.id} className="w-full mb-3">
+                              <div className="flex items-center gap-x-3 justify-between">
+                                <h3 className="text-lg line-clamp-1 font-medium mr-1 text-gray-600">
                                   {award.title}
                                 </h3>
-                                <div className="text-sm text-gray-600">
-                                  {award.awardedMonth}/{award.awardedYear}
-                                </div>
+                                {award.awardedMonth && award.awardedYear && (
+                                  <div className="text-sm line-clamp-1 text-gray-600">
+                                    {award.awardedMonth}/{award.awardedYear}
+                                  </div>
+                                )}
                               </div>
-                              <div className="text-gray-600 text-base">
+                              <div className="text-gray-600 w-full text-base">
                                 <QuillPreview
                                   htmlContent={award.description as string}
                                 />
@@ -454,15 +526,15 @@ const CandidateDetails = ({
                       )}
                     </div>
 
-                    <div className="lg:col-span-2 lg:col-start-1 mt-5">
+                    <div className="lg:col-span-2 lg:col-start-1 mt-3">
                       {workersCertification.length !== 0 && (
                         <>
-                          <h3 className="text-xl font-medium text-gray-700 border-b border-gray-300 mb-1 pb-1">
+                          <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
                             Certification & Licenses
                           </h3>
                           {workersCertification.flatMap((certificate) => (
-                            <div key={certificate.id} className="w-full mb-5">
-                              <div className="flex items-center justify-between">
+                            <div key={certificate.id} className="w-full mb-3">
+                              <div className="flex items-center gap-x-3 justify-between">
                                 <h3 className="text-lg font-medium mr-1 text-gray-600">
                                   {certificate.certificateLicenseName}
                                 </h3>
@@ -486,10 +558,10 @@ const CandidateDetails = ({
                       )}
                     </div>
 
-                    <div className="lg:col-span-2 lg:col-start-1 mt-5">
+                    <div className="lg:col-span-2 lg:col-start-1 mt-3">
                       {workersLanguage.length !== 0 && (
                         <>
-                          <h3 className="text-xl font-medium text-gray-700 border-b border-gray-300 mb-1 pb-1">
+                          <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
                             Languages
                           </h3>
                           {workersLanguage.flatMap((language) => (
@@ -516,58 +588,61 @@ const CandidateDetails = ({
                 <div className="flex flex-col w-full h-full">
                   <div className="lg:rounded-lg h-full lg:sticky lg:top-0 z-10 lg:mt-2">
                     <div className="flex justify-between gap-y-6 flex-col">
-                      <div className="lg:block rounded-none py-4 px-4 lg:pb-3 lg:space-y-4 shadow-sm bg-slate-200 border border-slate-200 lg:pt-2.5">
+                      <div className="lg:block rounded-none py-4 px-4 lg:pb-4 lg:space-y-4 shadow-md bg-slate-200 border border-slate-200 lg:pt-3">
                         <div>
-                          <h2 className="text-[18px] mb-2 flex items-center text-start text-gray-700 font-semibold">
-                            Overall Resume Rating
+                          <h2 className="text-[18px] mb-1 text-start text-gray-600 font-semibold">
+                            Search Candidate
                           </h2>
-                          <p className="text-xs text-gray-700">
-                            Overall rating is part of resume not rated, will be
-                            upto a maximum of 20% of the total score.
+                          <p className="text-xs text-gray-600">
+                            Selecting the ideal candidate for your job has been
+                            simplified. Based on the candidate&apos;s profile
+                            available here, you can easily identify the most
+                            qualified individual for your position.
                           </p>
                         </div>
                         <div>
-                          <p className="font-medium text-sm -mt-1 flex items-center text-gray-600">
-                            <span className="mr-1">Overall:</span>
-                            something
-                          </p>
-                          <p className="text-xs text-gray-700 mt-1.5">
-                            <span className="font-semibold">N/B:</span> The
-                            profile resume can only represent upto a maximum of
-                            60% of total score.
-                          </p>
-                          <p className="font-medium text-sm flex mt-1 items-center text-gray-600">
-                            <span className="mr-1">Profile:</span>
-                            something
+                          <p className="text-xs text-gray-600 mt-1.5">
+                            <span className="font-semibold">Note:</span> Certain
+                            candidate details may be withheld to protect their
+                            privacy.
                           </p>
                         </div>
                       </div>
 
                       <div className="flex mt-4 lg:mt-0 flex-col h-full justify-center">
-                        <div className="lg:block py-4 rounded-none px-4 lg:pb-3 lg:space-y-4 shadow-sm bg-slate-200 border border-slate-200 lg:pt-2.5">
-                          <h2 className="text-[18px] text-start text-gray-700 font-semibold">
+                        <div className="lg:block py-4 rounded-none px-4 lg:pb-4 lg:space-y-4 shadow-md bg-slate-200 border border-slate-200 lg:pt-3">
+                          <h2 className="text-[18px] text-start text-gray-600 font-semibold">
                             Further Actions
                           </h2>
-                          <div className="flex w-full mb-2 justify-between flex-col gap-y-5">
+                          <div className="flex w-full mb-1 justify-between flex-col gap-y-5">
+                            <NewCandidateMessageModal
+                              onClose={onClose}
+                              userName={workersBio?.name as string}
+                              userId={candidateID}
+                              isOpen={messageOpen}
+                              onConfirm={onConfirm}
+                            />
                             <Button
                               variant="default"
-                              size="sm"
-                              onClick={() => printDivCandidate()}
+                              size="default"
+                              title="message candidate"
+                              type="button"
+                              onClick={toggleOpen}
                               className="rounded-sm bg-slate-800 hover:bg-slate-800 hover:opacity-90 font-normal"
                             >
-                              <Printer className="h-4 w-4 mr-2" />
-                              Print
+                              <Mail className="h-4 w-4 mr-1.5" />
+                              Message
                             </Button>
                           </div>
                           <div>
-                            <p className="text-xs text-gray-700 w-full">
-                              This resume is generated from candidate&apos;s
-                              profile details.
+                            <p className="text-xs text-gray-600 w-full">
+                              This profile is automatically generated from the
+                              candidate&apos;s submitted details and portfolio.
                             </p>
-                            <p className="text-xs mt-1 text-gray-700 w-full">
-                              <span className="font-medium">Optional:</span>{" "}
-                              Send this candidate a message concerning their
-                              generated resume.
+                            <p className="text-xs mt-1 text-gray-600 w-full">
+                              <span className="font-medium">Note:</span> Please
+                              maintain a professional tone in all
+                              communications.
                             </p>
                           </div>
                         </div>

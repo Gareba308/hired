@@ -3,16 +3,6 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Section } from "@/components/ui/section";
 import {
-  ArrowBigRight,
-  Loader2,
-  MailIcon,
-  MailPlus,
-  MapPin,
-  PhoneForwardedIcon,
-  PhoneIcon,
-  Printer,
-} from "lucide-react";
-import {
   About,
   Award,
   CertificationLicense,
@@ -26,12 +16,8 @@ import {
   WorkerBio,
   WorkerContact,
 } from "@prisma/client";
-import { Button } from "@/components/ui/button";
-import { Application } from "@prisma/client";
+import { Separator } from "@/components/ui/separator";
 import QuillPreview from "@/components/QuillPreview";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
 
 interface DocumentsRenderItems {
   dbUser: User;
@@ -54,200 +40,112 @@ interface DocumentDetailsProps {
 export default function DocumentDetails({
   document: application,
 }: DocumentDetailsProps) {
-  function getInitials(fullName: string): string {
-    const nameParts = fullName.split(" ");
-    if (nameParts.length >= 2) {
-      const initials =
-        nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
-      return initials.toUpperCase();
-    }
-    return fullName.charAt(0).toUpperCase();
-  }
 
   return (
     <div className="w-full relative mx-auto">
-      <section className="w-full print:space-y-6">
+      <section className="w-full print:space-y-4">
         <div className="flex-1 w-full">
           <div>
-            <div className="flex items-center justify-between gap-x-4">
-              <div className="flex-1 space-y-1.5">
-                <h1 className="text-lg sm:text-xl font-bold text-gray-700">
-                  {application.dbUser.name}
-                </h1>
-                <p className="max-w-2xl text-pretty text-sm text-gray-700">
-                  {application.bio?.currentJobTitle}
-                </p>
-                <div className="max-w-md items-center text-pretty text-xs text-gray-700">
-                  <div className="flex items-center gap-x-1.5 align-baseline hover:underline">
-                    <MapPin className="h-4 w-4" />
-                    {application.bio && <p>{application.bio?.county}</p>}
-                  </div>
-                </div>
-                <div>
-                  <div className="flex gap-x-1 pt-1 text-sm text-gray-700 print:hidden">
-                    {application.contact?.email ? (
-                      <Button className="" variant="outline" size="sm" asChild>
-                        <a href={`mailto:${application.contact.email}`}>
-                          <MailIcon className="w-5 -m-1 h-5" />
-                        </a>
-                      </Button>
-                    ) : null}
-                    {application.contact?.phone ? (
-                      <Button className="" variant="outline" size="sm" asChild>
-                        <a href={`tel:${application.contact.phone}`}>
-                          <PhoneIcon className="w-5 -m-1 h-5" />
-                        </a>
-                      </Button>
-                    ) : null}
-                    {application.contact?.secondaryEmail ? (
-                      <Button className="" variant="outline" size="sm" asChild>
-                        <a
-                          href={`mailto:${application.contact.secondaryEmail}`}
-                        >
-                          <MailPlus className="w-5 -m-1 h-5" />
-                        </a>
-                      </Button>
-                    ) : null}
-                    {application.contact?.secondaryPhone ? (
-                      <Button className="" variant="outline" size="sm" asChild>
-                        <a href={`tel:${application.contact.secondaryPhone}`}>
-                          <PhoneForwardedIcon className="w-5 -m-1 h-5" />
-                        </a>
-                      </Button>
-                    ) : null}
-                  </div>
-                </div>
-                <div className="hidden flex-col gap-x-1 text-sm text-gray-700 print:flex">
-                  {application.contact && (
-                    <div>
-                      {application.contact?.email ? (
-                        <a href={`mailto:${application.contact.email}`}>
-                          <span className="underline">
-                            {application.contact.email}
-                          </span>
-                        </a>
-                      ) : null}
-                      {application.contact?.phone ? (
-                        <a href={`tel:${application.contact.phone}`}>
-                          <span className="underline">
-                            {application.contact.phone}
-                          </span>
-                        </a>
-                      ) : null}
-                    </div>
+            <div className="w-full flex flex-col leading-tight items-center justify-center">
+              <h1 className="text-2xl font-bold text-gray-600">
+                {application.dbUser.name}
+              </h1>
+              <p className="-mt-0.5 text-sm">
+                <span className="text-sm">
+                  P.O Box{" "}
+                  {application.contact?.postal && (
+                    <span>{application.contact?.postal} </span>
                   )}
-                </div>
-              </div>
-
-              <div className="flex-shrink-0 flex justify-end">
-                {application.bio && (
-                  <div>
-                    {application.bio?.profilePic ? (
-                      <div>
-                        <div className="flex-none w-16 h-16 border rounded-sm border-gray-200 md:hidden bg-sky-100 text-indigo-600 flex items-center justify-center">
-                          <Image
-                            src={application.bio?.profilePic as string}
-                            alt={application.bio?.name as string}
-                            width={64}
-                            className="rounded-sm"
-                            height={64}
-                          />
-                        </div>
-                        <div className="hidden flex-none w-20 h-20 border rounded-sm border-gray-200 bg-sky-100 text-indigo-600 md:flex items-center justify-center">
-                          <Image
-                            src={application.bio?.profilePic as string}
-                            alt={application.bio?.name as string}
-                            width={80}
-                            className="rounded-sm"
-                            height={80}
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="flex-none w-16 h-16 border rounded-sm border-gray-200 md:hidden bg-sky-100 text-indigo-600 flex items-center justify-center">
-                          <Image
-                            src={
-                              "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
-                            }
-                            alt="Profile Picture"
-                            width={64}
-                            className="rounded-sm"
-                            height={64}
-                            priority={true}
-                          />
-                        </div>
-                        <div className="hidden flex-none w-20 h-20 border rounded-sm border-gray-200 bg-sky-100 text-indigo-600 md:flex items-center justify-center">
-                          <Image
-                            src={
-                              "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
-                            }
-                            alt="Profile Picture"
-                            width={80}
-                            className="rounded-sm"
-                            height={80}
-                            priority={true}
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                </span>
+                {"-"}
+                <span className="text-sm">
+                  {application.contact?.zip}
+                </span>,{" "}
+                <span className="text-sm">{application.contact?.county}</span>{" "}
+                Kenya
+              </p>
+              <div className="flex gap-x-1 items-center h-4">
+                {application.contact?.email && (
+                  <p className="text-pretty text-sm text-gray-600">
+                    {application.contact?.email}
+                  </p>
+                )}
+                {application.contact?.email && (
+                  <Separator orientation="vertical" />
+                )}
+                {application.contact?.phone && (
+                  <p className="text-pretty text-sm text-gray-600">
+                    {application.contact?.phone}
+                  </p>
                 )}
               </div>
             </div>
-
-            <Section className="mt-4">
+            <Section className="mt-1 w-full">
               <div className="flex items-center justify-between  border-b border-gray-200">
-                <h2 className="text-lg sm:text-xl font-bold text-gray-700">
-                  About
+                <h2 className="text-lg sm:text-xl font-bold text-gray-600">
+                  Summary
                 </h2>
               </div>
-              <div className="text-pretty text-sm text-gray-700">
+              <div className="text-pretty -mt-0.5 text-sm text-gray-600">
                 <QuillPreview
                   htmlContent={application.about?.about as string}
                 />
               </div>
             </Section>
-            <Section className="mt-4">
+            <Section className="mt-2 w-full">
               <div className="flex items-center justify-between  border-b border-gray-200">
-                <h2 className="text-lg sm:text-xl font-bold text-gray-700">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-600">
                   Work Experience
                 </h2>
               </div>
               {application.experiences.length !== 0 &&
                 application.experiences.flatMap((work) => {
                   return (
-                    <Card key={work.id}>
+                    <Card key={work.id} className="-mt-0.5">
                       <CardHeader>
                         <div className="flex items-center justify-between gap-x-2 text-base">
-                          <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold">
-                            <a className="hover:underline text-gray-700">
-                              {work.nameCompany}
-                            </a>
-                            <span className="inline-flex gap-x-1">
-                              <Badge
-                                variant="secondary"
-                                className="align-middle fon rounded-sm text-gray-600 capitalize border border-slate-200 text-xs"
-                              >
-                                {work.employmentType}
-                              </Badge>
+                          <h3 className="flex items-center h-4 gap-x-1 font-semibold">
+                            <span className="hover:underline text-gray-600">
+                              {work.position}
+                            </span>
+                            {work.employmentType && (
+                              <Separator orientation="vertical" />
+                            )}
+                            <span className="text-gray-600 line-clamp-1 text-xs font-normal">
+                              {work.employmentType}
                             </span>
                           </h3>
-                          <div className="text-sm tabular-nums text-gray-600">
+                          <div className="text-sm line-clamp-1 tabular-nums text-gray-600">
                             {work.startMonth as string}/
                             {work.startYear as string} -{" "}
-                            {work.endMonth as string}/{work.endYear as string}
+                            {work.endMonth && work.endYear ? (
+                              <span>
+                                {work.endMonth as string}/
+                                {work.endYear as string}
+                              </span>
+                            ) : (
+                              <>Present</>
+                            )}
                           </div>
                         </div>
 
-                        {work.position && (
-                          <h4 className="text-sm font-semibold text-gray-600">
-                            {work.position}
-                          </h4>
-                        )}
+                        <div className="flex items-center justify-between w-full">
+                          {work.position && (
+                            <h4 className="text-sm font-semibold text-gray-600">
+                              {work.nameCompany}
+                            </h4>
+                          )}
+                          <div>
+                            {work.location && (
+                              <h3 className="text-sm font normal text-gray-600">
+                                {work.location}
+                              </h3>
+                            )}
+                          </div>
+                        </div>
                       </CardHeader>
                       {work.description && (
-                        <CardContent className="text-sm text-gray-700">
+                        <CardContent className="text-sm text-gray-600">
                           <QuillPreview
                             htmlContent={work.description as string}
                           />
@@ -257,19 +155,19 @@ export default function DocumentDetails({
                   );
                 })}
             </Section>
-            <Section className="mt-4">
+            <Section className="mt-2 w-full">
               <div className="flex items-center justify-between  border-b border-gray-200">
-                <h2 className="text-lg sm:text-xl font-bold text-gray-700">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-600">
                   Education
                 </h2>
               </div>
               {application.tertiary.length !== 0 &&
                 application.tertiary?.flatMap((education) => {
                   return (
-                    <Card key={education.id}>
+                    <Card key={education.id} className="-mt-0.5">
                       <CardHeader>
-                        <div className="flex items-center text-gray-700 justify-between gap-x-2 text-base">
-                          <h3 className="font-semibold text-gray-700">
+                        <div className="flex items-center text-gray-600 justify-between gap-x-2 text-base">
+                          <h3 className="font-semibold text-gray-600">
                             {education.institution}
                           </h3>
                           <div className="text-sm tabular-nums text-gray-600">
@@ -280,7 +178,7 @@ export default function DocumentDetails({
                           </div>
                         </div>
                       </CardHeader>
-                      <CardContent className="mt-2 text-sm text-gray-700">
+                      <CardContent className="mt-1 text-sm text-gray-600">
                         <p>{education.programArea}</p>
                         <p>{education.field}</p>
                         <p>{education.grade}</p>
@@ -294,10 +192,10 @@ export default function DocumentDetails({
                   );
                 })}
               {application.secondary && (
-                <Card>
+                <Card className="-mt-0.5">
                   <CardHeader>
-                    <div className="flex items-center text-gray-700 justify-between gap-x-2 text-base">
-                      <h3 className="font-semibold text-gray-700">
+                    <div className="flex items-center text-gray-600 justify-between gap-x-2 text-base">
+                      <h3 className="font-semibold text-gray-600">
                         {application.secondary.school}
                       </h3>
                       <div className="text-sm tabular-nums text-gray-600">
@@ -308,22 +206,22 @@ export default function DocumentDetails({
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="mt-2 text-sm">
+                  <CardContent className="mt-1 text-sm">
                     <p>{application.secondary.county}</p>
                   </CardContent>
                 </Card>
               )}
             </Section>
             {application.skills?.skills.length !== 0 && (
-              <Section className="mt-4">
+              <Section className="mt-2 w-full">
                 <div className="flex items-center justify-between  border-b border-gray-200">
-                  <h2 className="text-lg sm:text-xl font-bold text-gray-700">
-                    Candidate&apos;s Skills
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-600">
+                    Skills Summary
                   </h2>
                 </div>
                 <ul
                   role="list"
-                  className="grid grid-cols-1 pl-4 list-disc sm:grid-cols-2 gap-y-0.5 text-gray-700 text-sm"
+                  className="grid grid-cols-1 -mt-.5 pl-4 list-disc sm:grid-cols-2 gap-y-0.5 text-gray-600 text-sm"
                 >
                   {application.skills?.skills?.map((skill: string) => {
                     return (
@@ -336,20 +234,20 @@ export default function DocumentDetails({
               </Section>
             )}
 
-            <Section className="mt-4">
+            <Section className="mt-2 w-full">
               <div className="flex items-center justify-between  border-b border-gray-200">
-                <h2 className="text-lg sm:text-xl font-bold text-gray-700">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-600">
                   Awards & Honours
                 </h2>
               </div>
               {application.awards.flatMap((award) => {
                 return (
-                  <Card key={award.id}>
+                  <Card key={award.id} className="-mt-0.5">
                     <CardHeader>
-                      <div className="flex items-center text-gray-700 justify-between gap-x-2 text-base">
+                      <div className="flex items-center text-gray-600 justify-between gap-x-2 text-base">
                         <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold">
                           <a
-                            className="hover:underline text-gray-700"
+                            className="hover:underline text-gray-600"
                             href="#!"
                           >
                             {award.title}
@@ -361,7 +259,7 @@ export default function DocumentDetails({
                         </div>
                       </div>
                     </CardHeader>
-                    <CardContent className="text-sm text-gray-700">
+                    <CardContent className="text-sm text-gray-600">
                       <QuillPreview htmlContent={award.description as string} />
                     </CardContent>
                   </Card>
@@ -369,20 +267,20 @@ export default function DocumentDetails({
               })}
             </Section>
 
-            <Section className="mt-4">
+            <Section className="mt-2 w-full">
               <div className="flex items-center justify-between  border-b border-gray-200">
-                <h2 className="text-lg sm:text-xl font-bold text-gray-700">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-600">
                   Certifications
                 </h2>
               </div>
               {application.certification.flatMap((item) => {
                 return (
-                  <Card key={item.id}>
+                  <Card key={item.id} className="-mt-0.5">
                     <CardHeader>
-                      <div className="flex text-gray-700 items-center justify-between gap-x-2 text-base">
+                      <div className="flex text-gray-600 items-center justify-between gap-x-2 text-base">
                         <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold">
                           <a
-                            className="hover:underline text-gray-700"
+                            className="hover:underline text-gray-600"
                             href="#!"
                           >
                             {item.certificateLicenseName}
@@ -396,7 +294,7 @@ export default function DocumentDetails({
                         </div>
                       </div>
                     </CardHeader>
-                    <CardContent className="text-sm text-gray-700">
+                    <CardContent className="text-sm text-gray-600">
                       <QuillPreview htmlContent={item.description as string} />
                     </CardContent>
                   </Card>
@@ -404,17 +302,16 @@ export default function DocumentDetails({
               })}
             </Section>
 
-            <Section className="mt-4">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-700 border-b border-gray-200">
+            <Section className="mt-2 w-full">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-600 border-b border-gray-200">
                 Languages
               </h2>
               {application.languages.flatMap((item) => {
                 return (
-                  <Card key={item.id}>
+                  <Card key={item.id} className="-mt-0.5">
                     <CardContent className="text-sm">
-                      <p className="inline-flex text-gray-700 items-center justify-center gap-x-1 font-normal">
-                        <span>{item.language}</span>
-                        <ArrowBigRight className="h-4 w-4 mx-1" />
+                      <p className="inline-flex text-gray-600 items-center justify-center gap-x-1 font-normal">
+                        <span className="font-medium">{item.language}</span>:{" "}
                         {item.proficiency}
                       </p>
                     </CardContent>

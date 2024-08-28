@@ -71,16 +71,39 @@ const ApplicationsRender = ({ application }: ApplicationsRenderProps) => {
     setRating(newRating);
     rateCoverLetter({ applicationID: application.id, ratingLetter: newRating });
   };
+
+  const printDivCandidate = () => {
+    const printableArea = document.getElementById("divToPrint");
+    if (printableArea) {
+      window.print();
+    } else {
+      toast({
+        title: "Something went wrong",
+        description: "Could not find the element to print.",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+  };
+
+  function getFirstName(fullName: string): string {
+    return fullName.split(" ")[0];
+  }
   return (
     <>
       <main className="mx-auto lg:-mt-2 max-w-7xl">
         <section>
           <div className="flex flex-wrap">
-            <div className="w-full lg:mt-2 pt-2 pb-4 mx-auto lg:w-2/3">
-              <h2 className="font-bold text-gray-600 tracking-tight text-2xl sm:text-3xl">
-                The Cover Letter
+            <div className="w-full lg:mt-2 pt-2 pb-4 lg:pr-2 mx-auto lg:w-2/3">
+              <h2 className="font-bold text-gray-600 tracking-tight text-2xl md:text-[26px]">
+                {(application.applicantName as string) && (
+                  <span className="mr-1.5">
+                    {getFirstName(application.applicantName as string)}&apos;s
+                  </span>
+                )}
+                Cover Letter
               </h2>
-              <div className="lg:col-span-3 mt-2 pb-2">
+              <div id="divToPrint" className="lg:col-span-3 mt-2 pb-2">
                 <CoverLetter application={application} />
               </div>
             </div>
@@ -89,7 +112,7 @@ const ApplicationsRender = ({ application }: ApplicationsRenderProps) => {
               <div className="flex flex-col w-full h-full">
                 <div className="lg:rounded-lg h-full lg:sticky lg:top-0 z-10 lg:mt-2">
                   <div className="flex justify-between gap-y-6 flex-col">
-                    <div className="lg:block py-4 rounded-none px-2.5 lg:pb-3 lg:space-y-4 shadow-sm bg-slate-200 border border-slate-200 lg:pt-2.5">
+                    <div className="lg:block py-4 rounded-none px-2.5 lg:pb-4 lg:space-y-2 shadow-md bg-slate-200 border border-slate-200 lg:pt-3">
                       <h2 className="text-[19px] flex items-center text-start text-gray-700 font-semibold">
                         {isLoading && (
                           <Loader2 className="h-5 w-5 mr-1 shrink-0 animate-spin" />
@@ -103,7 +126,7 @@ const ApplicationsRender = ({ application }: ApplicationsRenderProps) => {
                               key={value}
                               viewBox="0 0 1920 1920"
                               xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5 cursor-pointer"
+                              className="h-4 w-4 cursor-pointer"
                               stroke="#005580"
                               onClick={() => handleRatingClick(value)}
                             >
@@ -150,40 +173,44 @@ const ApplicationsRender = ({ application }: ApplicationsRenderProps) => {
                     </div>
 
                     <div className=" flex  mt-6 lg:mt-0 flex-col h-full justify-center">
-                      <div className="lg:block py-4 rounded-none px-2.5 lg:pb-3 lg:space-y-4 shadow-sm bg-slate-200 border border-slate-200 lg:pt-2.5">
+                      <div className="lg:block py-4 rounded-none px-2.5 lg:pb-5 lg:space-y-2 shadow-md bg-slate-200 border border-slate-200 lg:pt-3">
                         <h2 className="text-[19px] text-start text-gray-700 font-semibold">
                           Further Actions
                         </h2>
-                        <div className="flex w-full mb-2 justify-between flex-col gap-y-5">
+                        <div className="flex w-full mb-2 justify-between flex-col gap-y-3">
                           <MessageWorkerModal
                             isOpen={messageOpen}
                             onClose={messageOnClose}
                             onConfirm={messageOnConfirm}
                             applicationID={application.id}
                           />
+
                           <Button
                             variant="default"
-                            size="sm"
+                            size="default"
+                            type="button"
                             onClick={() => setMessageOpen(true)}
                             className="rounded-sm  hover:bg-primary hover:opacity-90 font-normal"
                           >
                             <Mail className="h-4 w-4 mr-2" />
                             Message
                           </Button>
+                          <p className="text-xs text-gray-600 w-full">
+                            <span className="font-semibold">Optional:</span> You
+                            may contact the candidate regarding their cover
+                            letter or print a copy for your records.
+                          </p>
                           <Button
                             variant="default"
-                            size="sm"
+                            size="default"
+                            type="button"
+                            onClick={() => printDivCandidate()}
                             className="rounded-sm bg-slate-800 hover:bg-slate-800 hover:opacity-90 font-normal"
                           >
                             <Printer className="h-4 w-4 mr-2" />
                             Print
                           </Button>
                         </div>
-                        <p className="text-xs text-gray-600 w-full">
-                          <span className="font-semibold">Optional:</span> Send
-                          this candidate a message concerning their cover
-                          letter.
-                        </p>
                       </div>
                     </div>
                   </div>

@@ -1199,7 +1199,7 @@ export default function AllCandidates({
 
           <main>
             <div className="flex items-end flex-row justify-between">
-              <div className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-600">
+              <div className="text-2xl text-center sm:text-start sm:text-3xl font-bold tracking-tight text-gray-600">
                 <h3>Candidates</h3>
               </div>
             </div>

@@ -17,7 +17,7 @@ const Page = async ({ params }: UploadedResumeProps) => {
   const session = await getServerSession(authOptions);
   if (!session)
     redirect(
-      `/home/login/enterprises?origin=manage/applications/${applicationID}/uploaded-resume`
+      `/home/login/enterprises?origin=manage/applications/${applicationID}/tests`
     );
 
   const userId = session.id;
@@ -32,7 +32,7 @@ const Page = async ({ params }: UploadedResumeProps) => {
 
   if (!dbUser)
     redirect(
-      `/home/login/enterprises?origin=manage/applications/${applicationID}/uploaded-resume`
+      `/home/login/enterprises?origin=manage/applications/${applicationID}/tests`
     );
 
   const application = await db.application.findFirst({
