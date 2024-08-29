@@ -1,11 +1,12 @@
-"use client"
+"use client";
 
 import Link from "next/link";
-import { Combine, Crown, LineChart, LogOut, User } from "lucide-react";
+import { Combine, MessageSquare, LineChart, LogOut, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import Image from "next/image";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -44,13 +45,26 @@ const UserAccountNav = ({ email, name }: UserAccountNavProps) => {
               </span>
             </div>
           ) : (
-            <img
-              src={
-                "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
-              }
-              className="w-full h-full shrink-0 border-none rounded-full"
-              alt={name}
-            />
+            // <img
+            //   src={
+            //     "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
+            //   }
+            //   className="w-full h-full shrink-0 border-none rounded-full"
+            //   alt={name}
+            // />
+            <div className="relative cursor-pointer border border-gray-200 h-full shrink-0 w-full overflow-hidden">
+              <Image
+                src={
+                  "https://res.cloudinary.com/dflvibeo6/image/upload/v1680964479/galagos2/inysw3fyuoifmv4wthhk.jpg"
+                }
+                alt="Admin"
+                title="Admin"
+                quality={100}
+                fill
+                sizes="100%"
+                priority
+              />
+            </div>
           )}
         </Menu.Button>
       </div>
@@ -113,14 +127,14 @@ const UserAccountNav = ({ email, name }: UserAccountNavProps) => {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/control/plans"
+                  href="/control/contact"
                   className={classNames(
                     active ? "bg-secondary text-gray-900" : "text-gray-700",
                     "flex items-center px-4 py-2 text-sm"
                   )}
                 >
-                  <Crown className="h-4 w-4 mr-1.5 shrink-0 text-gray-600" />
-                  The Plans
+                  <MessageSquare className="h-4 w-4 mr-1.5 shrink-0 text-gray-600" />
+                  Home Contact
                 </Link>
               )}
             </Menu.Item>

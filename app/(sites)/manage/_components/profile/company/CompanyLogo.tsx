@@ -22,6 +22,7 @@ import {
   PenLine,
   PictureInPicture2Icon,
 } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -164,7 +165,7 @@ const CompanyLogo = ({ profile }: CompanyLogoProps) => {
                 <>
                   <div className="hidden lg:flex justify-between items-center">
                     <h2 className="font-medium text-gray-700 text-base">
-                      The company&apos;s logo
+                      Our company&apos;s logo
                     </h2>
                     <Button
                       variant="secondary"
@@ -179,15 +180,22 @@ const CompanyLogo = ({ profile }: CompanyLogoProps) => {
                   {profile.logo ? (
                     <>
                       {profile.logo && (
-                        <p className="font-normal text-sm flex items-center text-primary">
-                          <PictureInPicture2Icon className="h-5 w-5 mr-2" />{" "}
-                          Company&apos;s logo
-                        </p>
+                        <div className="relative border border-gray-200 h-[72px] shrink-0 w-[72px] overflow-hidden rounded-sm">
+                          <Image
+                            src={profile.logo as string}
+                            alt={profile.company_name as string}
+                            title={profile.company_name as string}
+                            quality={100}
+                            fill
+                            sizes="100%"
+                            priority
+                          />
+                        </div>
                       )}
                     </>
                   ) : (
                     <span className="italic text-sm text-gray-500">
-                      No record found
+                      No logo record found
                     </span>
                   )}
                 </>

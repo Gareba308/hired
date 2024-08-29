@@ -177,7 +177,7 @@ const CandidateCard = ({
                 >
                   <div className="flex w-full items-end gap-3">
                     {item.bio.profilePic ? (
-                      <div className="relative cursor-pointer h-[80px] shrink-0 w-[80px] overflow-hidden rounded-sm">
+                      <div className="relative cursor-pointer border border-gray-200 h-[80px] shrink-0 w-[80px] overflow-hidden rounded-sm">
                         <Image
                           src={item.bio.profilePic as string}
                           alt={item.bio.name as string}
@@ -189,7 +189,7 @@ const CandidateCard = ({
                         />
                       </div>
                     ) : (
-                      <div className="relative cursor-pointer shrink-0 h-[80px] w-[80px] overflow-hidden rounded-sm">
+                      <div className="relative cursor-pointer border-border-gray-200 shrink-0 h-[80px] w-[80px] overflow-hidden rounded-sm">
                         <Image
                           src={
                             "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"

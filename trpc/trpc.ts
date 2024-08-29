@@ -101,6 +101,37 @@ const isViewAuth = middleware(async (opts) => {
   });
 });
 
+const isContactAuth = middleware(async (opts) => {
+  const header = headers();
+  const cookiePairs = header.get("cookie");
+  let viewID;
+  for (const pair of cookiePairs ? cookiePairs.split(";") : []) {
+    const [key, value] = pair.split("=").map((item) => item.trim());
+    if (key === "__Host-next-auth.csrf-token" || key === "next-auth.csrf-token") {
+      viewID = value;
+      break;
+    }
+  }
+  if (!viewID) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message:
+        "We encourage you to login, to be able to view details about this job",
+    });
+  }
+
+  const ipAddress = header.get("x-forwarded-for") || "Unknown";
+  const location = header.get("x-city") || "Unknown";
+
+  return opts.next({
+    ctx: {
+      viewID,
+      ipAddress,
+      location,
+    },
+  });
+});
+
 const whitelistedIPs = [
   "196.201.214.200",
   "196.201.214.206",
@@ -135,3 +166,4 @@ export const publicProcedure = t.procedure;
 export const privateProcedure = t.procedure.use(isAuth);
 export const viewsProcedure = t.procedure.use(isViewAuth);
 export const externalProcedure = t.procedure.use(isIPWhitelisted);
+export const contactProcedure = t.procedure.use(isContactAuth);

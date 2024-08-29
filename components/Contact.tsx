@@ -26,7 +26,7 @@ type FormSchemaType = z.infer<typeof formSchema>;
 
 export const formSchema = z.object({
   fullName: z.string(),
-  priority: z.string(),
+  email: z.string(),
   subject: z.string(),
   message: z
     .string()
@@ -44,7 +44,7 @@ export default function Contact() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
-      priority: "",
+      email: "",
       subject: "",
       message: "",
     },
@@ -56,16 +56,16 @@ export default function Contact() {
   const remainingCharacters = maxCharacters - text.length;
   const { isSubmitting } = form.formState;
 
-  const { mutate: createHelp, isLoading } = trpc.helpMessage.useMutation({
+  const { mutate: createHelp, isLoading } = trpc.homepageContact.useMutation({
     onSuccess: () => {
       toast({
         title: "Success",
         description:
-          "Your help message has been submitted. We will get back to you as soon as possible.",
+          "Your contact message has been submitted. We will get back to you as soon as possible.",
         variant: "default",
         duration: 3000,
       });
-
+      form.reset();
       router.refresh();
     },
     onError: (err) => {
@@ -80,7 +80,7 @@ export default function Contact() {
         toast({
           title: "Something went wrong",
           description:
-            "There was a problem submitting your help message, please try again later",
+            "There was a problem submitting your contact message, please try again later",
           variant: "destructive",
           duration: 3000,
         });
@@ -222,7 +222,7 @@ export default function Contact() {
                 />
                 <FormField
                   control={form.control}
-                  name="priority"
+                  name="email"
                   render={({ field }) => (
                     <FormItem className="text-gray-700 text-base flex flex-col mt-4 space-y-0">
                       <FormLabel className="text-gray-600 text-base">

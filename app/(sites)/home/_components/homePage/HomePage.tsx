@@ -230,7 +230,10 @@ const HomePage = () => {
                 Experience unmatched quality; Kenya&apos;s INDEED.
               </span>
             </div>
-            <h1 className="text-gray-700 font-extrabold text-4xl xl:text-5xl" title="We connect employers and job seekers">
+            <h1
+              className="text-gray-700 font-extrabold text-4xl xl:text-5xl"
+              title="We connect employers and job seekers"
+            >
               Where employers and job seekers
               <span className="text-sky-700"> connect</span>
             </h1>
@@ -288,7 +291,7 @@ const HomePage = () => {
           <div className="flex-1 text-center mt-4 lg:mt-0 lg:ml-3">
             <Image
               src={
-                "https://res.cloudinary.com/dx0i37cyd/image/upload/v1707821485/Screenshot_49_tmd0k7.png"
+                "https://res.cloudinary.com/dflvibeo6/image/upload/v1724945706/Screenshot_6_ohblsk.png"
               }
               alt="Landing job hero"
               width={1364}
@@ -302,7 +305,10 @@ const HomePage = () => {
         <section className="py-14 bg-primary">
           <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
             <div className="max-w-2xl mx-auto text-center">
-              <h3 title="Why our customers are happy" className="text-primary-foreground text-3xl font-semibold sm:text-4xl">
+              <h3
+                title="Why our customers are happy"
+                className="text-primary-foreground text-3xl font-semibold sm:text-4xl"
+              >
                 Our customers are always happy
               </h3>
               <p className="mt-3 text-primary-foreground text-sm sm:text-[15px]">
@@ -334,7 +340,10 @@ const HomePage = () => {
                 <span className="inline-flex items-center rounded-sm bg-gray-200 px-2 py-1 text-base font-medium text-gray-700">
                   Are you talented?
                 </span>
-                <h2 title='Why job seekers like us' className="text-gray-700 text-3xl font-bold sm:text-4xl">
+                <h2
+                  title="Why job seekers like us"
+                  className="text-gray-700 text-3xl font-bold sm:text-4xl"
+                >
                   Why job seekers love us
                 </h2>
               </div>
@@ -362,7 +371,7 @@ const HomePage = () => {
                   <div className="rounded-xl bg-gray-900/5 p-2 lg:p-4 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl">
                     <Image
                       src={
-                        "https://res.cloudinary.com/dx0i37cyd/image/upload/v1707821485/Screenshot_49_tmd0k7.png"
+                        "https://res.cloudinary.com/dflvibeo6/image/upload/v1724945828/Screenshot_7_zuworf.png"
                       }
                       alt="Product preview"
                       width={1364}
@@ -383,7 +392,10 @@ const HomePage = () => {
                 <span className="inline-flex items-center rounded-sm bg-gray-200 px-2 py-1 text-base font-medium text-gray-700 border-gray-100">
                   Do yo need talent?
                 </span>
-                <h2 className="text-gray-700 text-3xl font-bold sm:text-4xl" title="Why employers like us">
+                <h2
+                  className="text-gray-700 text-3xl font-bold sm:text-4xl"
+                  title="Why employers like us"
+                >
                   Why recruiters love us
                 </h2>
               </div>
@@ -411,7 +423,7 @@ const HomePage = () => {
                   <div className="rounded-xl bg-gray-900/5 ring-1  p-2 lg:p-4 ring-inset ring-gray-900/10 lg:rounded-2xl">
                     <Image
                       src={
-                        "https://res.cloudinary.com/dx0i37cyd/image/upload/v1707821484/Screenshot_52_ep7tfc.png"
+                        "https://res.cloudinary.com/dflvibeo6/image/upload/v1724945766/Screenshot_13_ku7nta.png"
                       }
                       alt="Product preview"
                       width={1364}
@@ -428,7 +440,10 @@ const HomePage = () => {
         <section className="relative py-14">
           <div className="relative z-10 max-w-screen-xl mx-auto px-4 md:px-8">
             <div className="max-w-xl sm:text-center md:mx-auto">
-              <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl" title="Testmonials">
+              <h3
+                className="text-gray-800 text-3xl font-semibold sm:text-4xl"
+                title="Testmonials"
+              >
                 Testimonials from Platform Users
               </h3>
               <p className="mt-2 text-gray-600 text-sm sm:text-[15px]">
@@ -463,15 +478,17 @@ const HomePage = () => {
                           </p>
                         </blockquote>
                         <div className="flex items-center gap-x-4 px-4 pb-2">
-                          <Image
-                            src={item.avatar}
-                            alt="Testimonial user"
-                            width={56}
-                            height={56}
-                            priority={true}
-                            quality={100}
-                            className="w-14 h-14 rounded-full border-2 border-gray-400"
-                          />
+                          <div className="relative cursor-pointer border border-gray-200 h-[56px] w-[56px] overflow-hidden rounded-full">
+                            <Image
+                              src={item.avatar}
+                              alt="Testimonial user"
+                              title="Testmonial user"
+                              quality={100}
+                              fill
+                              sizes="100%"
+                              priority
+                            />
+                          </div>
                           <div>
                             <span className="block text-gray-700 font-semibold">
                               {item.name}

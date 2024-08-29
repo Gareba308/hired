@@ -12,7 +12,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { cn } from "@/lib/utils";
-import { Application,  AssessmentStatus } from "@prisma/client";
+import { Application, AssessmentStatus } from "@prisma/client";
 import PDFResumeRender from "./PDFResumeRender";
 
 interface BetterUploadItems {
@@ -40,8 +40,11 @@ const BetterUploaded = ({
 }: BetterUploadedProps) => {
   const pathname = usePathname();
   const isActive =
-    pathname ===
-    `/manage/dashboard/applications/${applicationID}/tests`;
+    pathname === `/manage/dashboard/applications/${applicationID}/tests`;
+
+  function getFirstName(fullName: string): string {
+    return fullName.split(" ")[0];
+  }
   return (
     <>
       <div>
@@ -49,11 +52,18 @@ const BetterUploaded = ({
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/manage/jobs">Home</BreadcrumbLink>
+                <BreadcrumbLink
+                  href={`/manage/dashboard/jobs/${application.jobId}`}
+                >
+                  Back
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Assessment Test Results</BreadcrumbPage>
+                <BreadcrumbPage>
+                  {getFirstName(application.applicantName as string)}&apos;s
+                  Test Results
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -69,8 +79,7 @@ const BetterUploaded = ({
             href={`/manage/dashboard/applications/${applicationID}/resume`}
             className="border-b-[3px] border-transparent text-lg pb-0.5 transition-all duration-300"
           >
-            <span className="hidden sm:flex">Generated Resume</span>
-            <span className="sm:hidden">Generated</span>
+            Resumes
           </Link>
           <Link
             href={`/manage/dashboard/applications/${applicationID}/tests`}
@@ -80,8 +89,7 @@ const BetterUploaded = ({
                 "border-b-[3px] border-sky-800 font-medium hover:border-[#005580]"
             )}
           >
-            <span className="hidden sm:flex">Uploaded & Tests</span>
-            <span className="sm:hidden">Uploaded & Tests</span>
+            Tests
           </Link>
         </div>
       </div>

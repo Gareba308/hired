@@ -23,6 +23,10 @@ const BetterResume = ({ application, applicationID }: BetterResumeProps) => {
   const pathname = usePathname();
   const isActive =
     pathname === `/manage/dashboard/applications/${applicationID}/resume`;
+
+  function getFirstName(fullName: string): string {
+    return fullName.split(" ")[0];
+  }
   return (
     <>
       <div>
@@ -30,11 +34,18 @@ const BetterResume = ({ application, applicationID }: BetterResumeProps) => {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/manage/jobs">Home</BreadcrumbLink>
+                <BreadcrumbLink
+                  href={`/manage/dashboard/jobs/${application.jobId}`}
+                >
+                  Back
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Generated & Uploaded Resumes</BreadcrumbPage>
+                <BreadcrumbPage>
+                  {getFirstName(application.applicantName as string)}&apos;s
+                  Resumes
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -54,7 +65,7 @@ const BetterResume = ({ application, applicationID }: BetterResumeProps) => {
                 "border-b-[3px] border-sky-800 font-medium hover:border-[#005580]"
             )}
           >
-            Resume
+            Resumes
           </Link>
           <Link
             href={`/manage/dashboard/applications/${applicationID}/tests`}

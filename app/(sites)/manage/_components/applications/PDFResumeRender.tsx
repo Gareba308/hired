@@ -31,7 +31,7 @@ const PDFResumeRender = ({
   }
   return (
     <main>
-      <section aria-labelledby="products-heading" className="pb-4">
+      <section aria-labelledby="products-heading" className="pb-4 mt-3">
         <h2 className="font-bold text-gray-600 tracking-tight text-2xl md:text-[26px]">
           {(application.applicantName as string) && (
             <span className="mr-1.5">

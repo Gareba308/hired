@@ -179,11 +179,14 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
     {
       accessorKey: "job_title",
       header: "Job Title",
-      cell: ({ row }) => (
-        <div className="capitalize text-sm font-normal">
-          {row.getValue("job_title")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const jobTitle = row.getValue("job_title");
+        return (
+          <div className="capitalize text-sm font-normal">
+            {typeof jobTitle === "string" ? jobTitle.toLowerCase() : ""}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "createdAt",
@@ -236,7 +239,7 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
     {
       id: "actions",
       header: () => (
-        <div className=" flex justify-center items-center">View</div>
+        <div className=" flex justify-center items-center">Open</div>
       ),
       enableHiding: false,
       cell: ({ row }) => {
@@ -335,7 +338,7 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
         </h2>
       </div>
       <p className="text-sm text-gray-600 -mt-1">
-        Click on <span className="font-bold">View</span> to open and view each
+        Click on <span className="font-bold">Open</span> to open and view each
         job&apos;s application.
       </p>
       <div className="flex items-center justify-between gap-x-4 py-1">

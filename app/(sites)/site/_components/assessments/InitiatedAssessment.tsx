@@ -186,7 +186,7 @@ const InitiatedAssessment = ({
     <>
       <section className="overflow-hidden pb-2">
         <div className="w-full mx-auto">
-          <div className="flex items-center flex-row mt-1 sm:mt-0 mb-2 lg:w-8/12 justify-between">
+          <div className="flex items-end flex-row mt-1 sm:mt-0 mb-2 lg:w-8/12 justify-between">
             <div>
               <h3 className="font-bold capitalize line-clamp-1 text-gray-600 tracking-tight text-xl sm:text-2xl">
                 {currentQuestionIndex >= maxQuestions ||
@@ -194,7 +194,7 @@ const InitiatedAssessment = ({
                 timeLeft === "Time's up" ? (
                   <span className="hidden">The Assessment</span>
                 ) : (
-                  <span>The Assessment</span>
+                  <span>{banner?.category} Test</span>
                 )}
               </h3>
             </div>

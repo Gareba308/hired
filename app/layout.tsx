@@ -26,16 +26,16 @@ export const metadata: Metadata = {
   keywords: [
     "jobs in Kenya",
     "Kenya job vacancies",
-    "career opportunities Kenya",
-    "Hired job board",
+    "career opportunities in Kenya",
+    "Hired jobs in Kenya",
     "Kenya employment",
-    "find jobs Kenya",
-    "apply for jobs Kenya",
+    "find jobs in Kenya",
+    "apply for jobs in Kenya",
     "Kenya job search",
-    "professional jobs Kenya",
-    "latest jobs Kenya",
+    "professional jobs in Kenya",
+    "latest jobs in Kenya",
     "jobs in Nairobi",
-    "jobs",
+    "Hired",
   ],
   authors: [
     {

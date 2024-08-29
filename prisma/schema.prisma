@@ -1,7 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch"]
-  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+  binaryTargets   = ["native", "rhel-openssl-1.0.x"]
 }
 
 datasource db {
@@ -465,6 +465,29 @@ model HelpWorker {
   worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([isWorkerID])
+}
+
+model HomepageContact {
+  id        String   @id @default(cuid())
+  fullName  String
+  email     String
+  subject   String
+  message   String
+  ipAddress String?
+  location  String?
+  viewID    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model homepageSubscribe {
+  id        String   @id @default(cuid())
+  email     String
+  ipAddress String?
+  location  String?
+  viewID    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model HelpEmployer {

@@ -26,6 +26,10 @@ const BetterApplication = ({
   const pathname = usePathname();
   const isActive =
     pathname === `/manage/dashboard/applications/${applicationID}`;
+
+  function getFirstName(fullName: string): string {
+    return fullName.split(" ")[0];
+  }
   return (
     <>
       <div>
@@ -33,11 +37,18 @@ const BetterApplication = ({
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/manage/jobs">Home</BreadcrumbLink>
+                <BreadcrumbLink
+                  href={`/manage/dashboard/jobs/${application.jobId}`}
+                >
+                  Back
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Cover Letter</BreadcrumbPage>
+                <BreadcrumbPage>
+                  {getFirstName(application.applicantName as string)}&apos;s
+                  Cover Letter
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -57,15 +68,13 @@ const BetterApplication = ({
             href={`/manage/dashboard/applications/${applicationID}/resume`}
             className="border-b-[3px] border-transparent text-lg pb-0.5 transition-all duration-300"
           >
-            <span className="hidden sm:flex">Generated Resume</span>
-            <span className="sm:hidden">Generated</span>
+            Resumes
           </Link>
           <Link
             href={`/manage/dashboard/applications/${applicationID}/tests`}
             className="border-b-[3px] border-transparent text-lg pb-0.5 transition-all duration-300"
           >
-            <span className="hidden sm:flex">Uploaded & Tests</span>
-            <span className="sm:hidden">Uploaded & Tests</span>
+            Tests
           </Link>
         </div>
       </div>

@@ -2,6 +2,7 @@ import {
   externalProcedure,
   privateProcedure,
   publicProcedure,
+  contactProcedure,
   router,
   viewsProcedure,
 } from "./trpc";
@@ -11725,6 +11726,149 @@ export const appRouter = router({
           message,
         },
       });
+    }),
+
+  homepageContact: contactProcedure
+    .input(
+      z.object({
+        fullName: z.string(),
+        email: z.string(),
+        subject: z.string(),
+        message: z.string(),
+      })
+    )
+    .mutation(async ({ctx, input})=> {
+      const {viewID, ipAddress, location}= ctx;
+      const {fullName, email, subject, message}= input;
+
+
+      const transporter = nodemailer.createTransport({
+        port: 587,
+        host: process.env.EMAIL_HOST!,
+        auth: {
+          user: process.env.USER!,
+          pass: process.env.PASSWORD!,
+        },
+        secure: false,
+      });
+
+      const mailOptions = {
+        from: {
+          name: "Hired",
+          address: process.env.USER!,
+        },
+        replyTo: process.env.REPLY!,
+        to: email,
+        subject: "Contact Message Delivered",
+        html: `
+               <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
+                  <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
+                  <hr>
+                  <p>Hello ${fullName},</p>
+                  <p>
+                  Your contact message about ${subject}, has been delivered. Our team will look at it and get back to you as appropriate.
+                  </p>
+                  <p style='margin-top:0.5rem; font-size:12.5px'>Note: You are receiving this message because this email was used in contact details on <a href='${productionBASE_URL}'>Hired</a>.</p>
+                  <hr>
+                  <p style='text-align:center; font-size:12.5px;'>Copyright © Hired. All rights reserved.</p>
+              </div>
+              </div>
+              `,
+        priority: "high" as const,
+      };
+
+      await db.homepageContact.create({
+        data: {
+          fullName,
+          email,
+          subject,
+          message,
+          viewID,
+          ipAddress,
+          location
+        }
+      })
+
+      return new Promise((resolve) => {
+        transporter.sendMail(mailOptions, (err: any) => {
+          const status = err ? 500 : 200;
+          const message = err?.toString() ?? "Contact message delivered";
+          resolve(NextResponse.json({ msg: message }, { status }));
+        });
+      }); 
+    }),
+
+  homePageSubscribe: contactProcedure
+    .input(
+      z.object({
+        email: z.string(),
+      })
+    )
+    .mutation(async ({ctx, input})=> {
+      const {ipAddress, location, viewID}= ctx;
+      const {email}= input;
+
+      const homepageSubscribeAlready= await db.homepageSubscribe.findFirst({
+        where: {
+          email
+        }
+      })
+
+      if(homepageSubscribeAlready) throw new TRPCError({code:"BAD_REQUEST", message:"This email has already subscribed for job alerts."})
+
+        const transporter = nodemailer.createTransport({
+          port: 587,
+          host: process.env.EMAIL_HOST!,
+          auth: {
+            user: process.env.USER!,
+            pass: process.env.PASSWORD!,
+          },
+          secure: false,
+        });
+  
+        const mailOptions = {
+          from: {
+            name: "Hired",
+            address: process.env.USER!,
+          },
+          replyTo: process.env.REPLY!,
+          to: email,
+          subject: "Subscribed to Hired job alerts",
+          html: `
+                 <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+                <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
+                    <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
+                    <hr>
+                    <p>Hello there,</p>
+                    <p>
+                    Your subscription to Hired job alerts is successful. We will update you on available job vacancies..
+                    </p>
+                    <p style='margin-top:0.5rem; font-size:12.5px'>Note: You are receiving this message because this email was used to subscribe for job alerts on <a href='${productionBASE_URL}'>Hired</a>.</p>
+                    <hr>
+                    <p style='text-align:center; font-size:12.5px;'>Copyright © Hired. All rights reserved.</p>
+                </div>
+                </div>
+                `,
+          priority: "high" as const,
+        };
+  
+        await db.homepageSubscribe.create({
+          data: {
+            email,
+            viewID,
+            ipAddress,
+            location
+          }
+        })
+  
+        return new Promise((resolve) => {
+          transporter.sendMail(mailOptions, (err: any) => {
+            const status = err ? 500 : 200;
+            const message = err?.toString() ?? "Subscribe message delivered";
+            resolve(NextResponse.json({ msg: message }, { status }));
+          });
+        });
     }),
 
   adminReplyWorkerHelp: privateProcedure

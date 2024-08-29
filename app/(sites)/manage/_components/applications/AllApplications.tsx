@@ -330,20 +330,16 @@ export function AllApplications({
 
   const columns: ColumnDef<Application>[] = [
     {
-      accessorKey: "job_id",
-      header: "Job ID",
-      cell: ({ row }) => (
-        <div className="font-normal text-sm">{row.getValue("job_id")}</div>
-      ),
-    },
-    {
       accessorKey: "jobTitle",
       header: "Job Title",
-      cell: ({ row }) => (
-        <div className="capitalize text-sm font-normal">
-          {row.getValue("jobTitle")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const jobTitle = row.getValue("jobTitle");
+        return (
+          <div className="capitalize text-sm font-normal">
+            {typeof jobTitle === "string" ? jobTitle.toLowerCase() : ""}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "createdAt",

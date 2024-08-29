@@ -47,7 +47,7 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
                         `/control/jobs/${item.id}?origin=control/jobs`
                       )
                     }
-                    className="relative cursor-pointer h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] overflow-hidden rounded-sm lg:h-[74px] lg:w-[74px]"
+                    className="relative cursor-pointer h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] border border-gray-200 overflow-hidden rounded-sm lg:h-[74px] lg:w-[74px]"
                   >
                     <Image
                       src={item.companyLogo}

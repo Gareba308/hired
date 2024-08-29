@@ -1,7 +1,10 @@
-"use client"
+"use client";
+import { trpc } from "@/app/_trpc/client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { useToast } from "./ui/use-toast";
+import { Loader2 } from "lucide-react";
 
 const footerNavs = [
   {
@@ -65,6 +68,50 @@ const footerNavs = [
   },
 ];
 const Footer = () => {
+  const [data, setData] = useState({
+    email: "",
+  });
+  const { toast } = useToast();
+  const { mutate: subscribe, isLoading } = trpc.homePageSubscribe.useMutation({
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "You have successfully subscribed to Hided's job alert.",
+        variant: "default",
+        duration: 3000,
+      });
+
+      setData({ email: "" });
+    },
+    onError: (err) => {
+      toast({
+        title: "Something went wrong",
+        description:
+          err.message ||
+          "There was a problem subscribing you to job alerts services",
+        variant: "destructive",
+        duration: 3000,
+      });
+    },
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!data.email) {
+      toast({
+        title: "Invalid email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+        duration: 3000,
+      });
+      return;
+    }
+    subscribe({ email: data.email });
+  };
   return (
     <div className="border-t border-gray-300 mt-4">
       <footer className="text-gray-500 bg-white px-4 pb-5 pt-2 md:py-5 max-w-screen-xl mx-auto md:px-8">
@@ -88,18 +135,32 @@ const Footer = () => {
                 the country.
               </p>
             </div>
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={handleSubmit}>
               <label className="block pt-2 font-medium text-sm">
                 Sign Up for Job Alerts
               </label>
               <div className="max-w-sm flex items-center rounded-md">
                 <input
                   type="email"
+                  name="email"
                   placeholder="Enter your email"
+                  value={data.email}
+                  onChange={handleChange}
                   className="w-full h-10 outline-none border placeholder:text-sm placeholder:sm:text-[15px] placeholder:gray-500 border-gray-300 rounded-sm"
                 />
-                <button className="h-10 rounded-sm ml-1.5 text-[15px] text-white bg-primary hover:opacity-90 px-3 outline-none shadow-md focus:shadow-none sm:px-5">
-                  Subscribe
+                <button
+                  type="submit"
+                  className="h-10 rounded-sm items-center ml-1.5 text-sm sm:text-[15px] text-white bg-primary hover:opacity-90 px-3 outline-none shadow-md focus:shadow-none sm:px-5"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 shrink-0 mr-1.5 animate-spin" />{" "}
+                      Wait...
+                    </>
+                  ) : (
+                    "Subscribe"
+                  )}
                 </button>
               </div>
             </form>
@@ -107,7 +168,9 @@ const Footer = () => {
           <div className="flex-1 mt-5 space-y-2.5 items-start justify-between sm:flex md:space-y-0 md:mt-0">
             {footerNavs.map((item, idx) => (
               <ul className="space-y-1" key={idx}>
-                <h4 className="text-gray-700 text-[15px] font-medium">{item.label}</h4>
+                <h4 className="text-gray-700 text-[15px] font-medium">
+                  {item.label}
+                </h4>
                 {item.items.map((el, idx) => (
                   <li key={idx}>
                     <Link

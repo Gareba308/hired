@@ -50,7 +50,7 @@ export default function DocumentDetails({
               <h1 className="text-2xl font-bold text-gray-600">
                 {application.dbUser.name}
               </h1>
-              <p className="-mt-0.5 text-sm">
+              <p className="-mt-0.5 text-gray-600 text-sm">
                 <span className="text-sm">
                   P.O Box{" "}
                   {application.contact?.postal && (
@@ -105,7 +105,7 @@ export default function DocumentDetails({
                       <CardHeader>
                         <div className="flex items-center justify-between gap-x-2 text-base">
                           <h3 className="flex items-center h-4 gap-x-1 font-semibold">
-                            <span className="hover:underline text-gray-600">
+                            <span className="hover:underline text-gray-600 line-clamp-1">
                               {work.position}
                             </span>
                             {work.employmentType && (
@@ -131,13 +131,13 @@ export default function DocumentDetails({
 
                         <div className="flex items-center justify-between w-full">
                           {work.position && (
-                            <h4 className="text-sm font-semibold text-gray-600">
+                            <h4 className="text-sm line-clamp-1 font-medium italic text-gray-600">
                               {work.nameCompany}
                             </h4>
                           )}
                           <div>
                             {work.location && (
-                              <h3 className="text-sm font normal text-gray-600">
+                              <h3 className="text-sm font line-clamp-1 normal italic text-gray-600">
                                 {work.location}
                               </h3>
                             )}
@@ -167,10 +167,10 @@ export default function DocumentDetails({
                     <Card key={education.id} className="-mt-0.5">
                       <CardHeader>
                         <div className="flex items-center text-gray-600 justify-between gap-x-2 text-base">
-                          <h3 className="font-semibold text-gray-600">
+                          <h3 className="font-semibold line-clamp-1 text-gray-600">
                             {education.institution}
                           </h3>
-                          <div className="text-sm tabular-nums text-gray-600">
+                          <div className="text-sm line-clamp-1 tabular-nums text-gray-600">
                             {education.startMonth as string}/
                             {education.startYear as string} -{" "}
                             {education.endMonth as string}/
@@ -179,9 +179,9 @@ export default function DocumentDetails({
                         </div>
                       </CardHeader>
                       <CardContent className="mt-1 text-sm text-gray-600">
-                        <p>{education.programArea}</p>
-                        <p>{education.field}</p>
-                        <p>{education.grade}</p>
+                        <p className='font-medium'>{education.programArea}</p>
+                        <p className='font-medium'>{education.field}</p>
+                        <p className='font-medium'>{education.grade}</p>
                         <div>
                           <QuillPreview
                             htmlContent={education.activities as string}
@@ -195,10 +195,10 @@ export default function DocumentDetails({
                 <Card className="-mt-0.5">
                   <CardHeader>
                     <div className="flex items-center text-gray-600 justify-between gap-x-2 text-base">
-                      <h3 className="font-semibold text-gray-600">
+                      <h3 className="font-semibold line-clamp-1 text-gray-600">
                         {application.secondary.school}
                       </h3>
-                      <div className="text-sm tabular-nums text-gray-600">
+                      <div className="text-sm tabular-nums line-clamp-1 text-gray-600">
                         {application.secondary.startMonth as string}/
                         {application.secondary.startYear as string} -{" "}
                         {application.secondary.endMonth as string}/
@@ -246,14 +246,13 @@ export default function DocumentDetails({
                     <CardHeader>
                       <div className="flex items-center text-gray-600 justify-between gap-x-2 text-base">
                         <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold">
-                          <a
-                            className="hover:underline text-gray-600"
-                            href="#!"
+                          <span
+                            className="hover:underline line-clamp-1 text-gray-600"
                           >
                             {award.title}
-                          </a>
+                          </span>
                         </h3>
-                        <div className="text-sm tabular-nums text-gray-600">
+                        <div className="text-sm line-clamp-1 tabular-nums text-gray-600">
                           {award.awardedMonth as string}/
                           {award.awardedYear as string}
                         </div>
@@ -279,14 +278,13 @@ export default function DocumentDetails({
                     <CardHeader>
                       <div className="flex text-gray-600 items-center justify-between gap-x-2 text-base">
                         <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold">
-                          <a
-                            className="hover:underline text-gray-600"
-                            href="#!"
+                          <span
+                            className="hover:underline line-clamp-1 text-gray-600"
                           >
                             {item.certificateLicenseName}
-                          </a>
+                          </span>
                         </h3>
-                        <div className="text-sm tabular-nums text-gray-600">
+                        <div className="text-sm line-clamp-1 tabular-nums text-gray-600">
                           {item.validStartMonth as string}/
                           {item.validStartYear as string}-
                           {item.validEndMonth as string}/

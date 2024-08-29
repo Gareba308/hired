@@ -37,6 +37,7 @@ const CompanyProfile = ({ profile }: CompanyProfileProps) => {
       <>
         <dl className="divide-y divide-gray-100">
           <CompanyName profile={profile} />
+          <CompanyLogo profile={profile} />
           <CompanyEstablished profile={profile} />
           <EmployerAlternativeEmail profile={profile} />
           <CompanyPhone profile={profile} />
@@ -44,7 +45,6 @@ const CompanyProfile = ({ profile }: CompanyProfileProps) => {
           <CompanyWebsite profile={profile} />
           <CompanyDescription profile={profile} />
           <CompanyPostalAddress profile={profile} />
-          <CompanyLogo profile={profile} />
         </dl>
       </>
     </>
