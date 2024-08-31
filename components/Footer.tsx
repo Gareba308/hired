@@ -75,21 +75,24 @@ const Footer = () => {
   const { mutate: subscribe, isLoading } = trpc.homePageSubscribe.useMutation({
     onSuccess: () => {
       toast({
-        title: "Success",
-        description: "You have successfully subscribed to Hided's job alert.",
-        variant: "default",
+        title: 'Success',
+        description: 'You have successfully subscribed to Hired\'s job alert.',
+        variant: 'default',
         duration: 3000,
       });
-
-      setData({ email: "" });
+      setData({ email: '' });
     },
     onError: (err) => {
+      const errorMessage =
+        err.message || 
+        (err.data?.code === 'BAD_REQUEST' ? 
+           'This email has already subscribed to our job alerts.' : 
+           'There was a problem subscribing you to job alerts services.');
+  
       toast({
-        title: "Something went wrong",
-        description:
-          err.message ||
-          "There was a problem subscribing you to job alerts services",
-        variant: "destructive",
+        title: 'Something went wrong',
+        description: errorMessage,
+        variant: 'destructive',
         duration: 3000,
       });
     },

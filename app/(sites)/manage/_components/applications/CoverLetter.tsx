@@ -99,10 +99,10 @@ const CoverLetter = ({ application }: CoverLetterProps) => {
                   />
                 </div>
               </Section>
-              <Section className="items-start mt-2 text-base  -space-y-4 text-gray-700">
-                <p>Yours faithfully,</p>
-                <p className="text-gray-500">(Signed)</p>
-                <p>{application.applicantName}.</p>
+              <Section className="items-start flex flex-col mt-2 text-base w-full  -space-y-4 text-gray-700">
+                <p className='w-full'>Yours faithfully,</p>
+                <p className="text-gray-500 w-full">(Signed)</p>
+                <p className='w-full'>{application.applicantName}.</p>
               </Section>
             </div>
           </div>

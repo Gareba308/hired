@@ -121,7 +121,7 @@ const isContactAuth = middleware(async (opts) => {
   }
 
   const ipAddress = header.get("x-forwarded-for") || "Unknown";
-  const location = header.get("x-city") || "Unknown";
+  const location = header.get("user-agent") || "Unknown";
 
   return opts.next({
     ctx: {

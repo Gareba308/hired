@@ -133,7 +133,7 @@ export function HomepageContacts({ contact }: HomepageContactProps) {
 
     {
       accessorKey: "location",
-      header: "Location",
+      header: "User Agent",
       cell: ({ row }) => (
         <div className="font-normal text-sm">{row.getValue("location")}</div>
       ),

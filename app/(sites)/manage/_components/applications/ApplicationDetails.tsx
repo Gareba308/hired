@@ -489,9 +489,9 @@ export default function ApplicationDetails({
                     return (
                       <Card key={index} className="-mt-0.5">
                         <CardHeader>
-                          <div className="flex items-center justify-between gap-x-2 text-sm">
+                          <div className="flex items-center w-full justify-between gap-x-2 text-sm">
                             <h3 className="flex items-center h-4 gap-x-1 font-semibold">
-                              <span className="hover:underline text-gray-600">
+                              <span className="hover:underline line-clamp-1 text-gray-600">
                                 {JSON.parse(JSON.stringify(work)).position}
                               </span>
                               {JSON.parse(JSON.stringify(work))
@@ -537,13 +537,13 @@ export default function ApplicationDetails({
 
                           <div className="flex items-center justify-between w-full">
                             {JSON.parse(JSON.stringify(work)).position && (
-                              <h4 className="text-sm font-semibold text-gray-600">
+                              <h4 className="text-sm italic font-semibold line-clamp-1 text-gray-600">
                                 {JSON.parse(JSON.stringify(work)).nameCompany}
                               </h4>
                             )}
                             <div>
                               {JSON.parse(JSON.stringify(work)).location && (
-                                <h3 className="text-sm font normal text-gray-600">
+                                <h3 className="text-sm line-clamp-1 font normal text-gray-600">
                                   {JSON.parse(JSON.stringify(work)).location}
                                 </h3>
                               )}
@@ -619,13 +619,13 @@ export default function ApplicationDetails({
                       <Card key={index} className="-mt-0.5">
                         <CardHeader>
                           <div className="flex items-center text-gray-600 justify-between gap-x-2 text-sm">
-                            <h3 className="font-semibold text-gray-600">
+                            <h3 className="font-semibold line-clamp-1 text-gray-600">
                               {
                                 JSON.parse(JSON.stringify(education))
                                   .institution
                               }
                             </h3>
-                            <div className="text-sm tabular-nums text-gray-600">
+                            <div className="text-sm tabular-nums line-clamp-1 text-gray-600">
                               {
                                 JSON.parse(JSON.stringify(education))
                                   .startMonth as string
@@ -636,15 +636,26 @@ export default function ApplicationDetails({
                                   .startYear as string
                               }{" "}
                               -{" "}
-                              {
-                                JSON.parse(JSON.stringify(education))
-                                  .endMonth as string
-                              }
-                              /
-                              {
-                                JSON.parse(JSON.stringify(education))
-                                  .endYear as string
-                              }
+                              {JSON.parse(JSON.stringify(education)).endMonth &&
+                              JSON.parse(JSON.stringify(education)).endYear ? (
+                                <>
+                                  {" "}
+                                  {
+                                    JSON.parse(JSON.stringify(education))
+                                      .endMonth as string
+                                  }
+                                  /
+                                  {
+                                    JSON.parse(JSON.stringify(education))
+                                      .endYear as string
+                                  }
+                                </>
+                              ) : JSON.parse(JSON.stringify(education))
+                                  .stillStudying ? (
+                                "Present"
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </div>
                         </CardHeader>
@@ -672,13 +683,13 @@ export default function ApplicationDetails({
                       <Card className="-mt-0.5" key={index}>
                         <CardHeader>
                           <div className="flex items-center text-gray-600 justify-between gap-x-2 text-sm">
-                            <h3 className="font-semibold text-gray-600">
+                            <h3 className="font-semibold line-clamp-1 text-gray-600">
                               {
                                 JSON.parse(JSON.stringify(secondaryEducation))
                                   .school
                               }
                             </h3>
-                            <div className="text-sm tabular-nums text-gray-600">
+                            <div className="text-sm line-clamp-1 tabular-nums text-gray-600">
                               {
                                 JSON.parse(JSON.stringify(secondaryEducation))
                                   .startMonth as string
@@ -841,14 +852,11 @@ export default function ApplicationDetails({
                         <CardHeader>
                           <div className="flex items-center text-gray-600 justify-between gap-x-2 text-sm">
                             <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold">
-                              <a
-                                className="hover:underline text-gray-600"
-                                href="#!"
-                              >
+                              <span className="hover:underline line-clamp-1 text-gray-600">
                                 {JSON.parse(JSON.stringify(award)).title}
-                              </a>
+                              </span>
                             </h3>
-                            <div className="text-sm tabular-nums text-gray-600">
+                            <div className="text-sm line-clamp-1 tabular-nums text-gray-600">
                               {
                                 JSON.parse(JSON.stringify(award))
                                   .awardedMonth as string
@@ -933,17 +941,14 @@ export default function ApplicationDetails({
                         <CardHeader>
                           <div className="flex text-gray-600 items-center justify-between gap-x-2 text-sm">
                             <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold">
-                              <a
-                                className="hover:underline text-gray-600"
-                                href="#!"
-                              >
+                              <span className="hover:underline line-clamp-1 text-gray-600">
                                 {
                                   JSON.parse(JSON.stringify(item))
                                     .certificateLicenseName
                                 }
-                              </a>
+                              </span>
                             </h3>
-                            <div className="text-sm tabular-nums text-gray-600">
+                            <div className="text-sm line-clamp-1 tabular-nums text-gray-600">
                               {
                                 JSON.parse(JSON.stringify(item))
                                   .validStartMonth as string

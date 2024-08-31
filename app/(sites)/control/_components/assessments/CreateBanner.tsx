@@ -51,6 +51,7 @@ export const formSchema = z.object({
   completeTime: z.string(),
   instructions: z.string(),
   forDemo: z.boolean().default(false),
+  forPublic: z.boolean().default(false),
 });
 const MAX_SUMMARY_WORDS = 28;
 
@@ -72,6 +73,7 @@ const CreateBanner = () => {
       numberQuestions: "",
       completeTime: "",
       forDemo: false,
+      forPublic: false,
     },
   });
 
@@ -106,6 +108,7 @@ const CreateBanner = () => {
           numberQuestions: "",
           completeTime: "",
           forDemo: false,
+          forPublic: false,
         });
         window.location.reload();
       },
@@ -160,6 +163,46 @@ const CreateBanner = () => {
                       <div>
                         <FormLabel className="text-base font-normal">
                           The banner is for a demo type of assessment?
+                        </FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </dd>
+          </div>
+
+          <div className="py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0">
+            <dt className="font-medium text-base text-gray-700">
+              <div className="flex items-center flex-row">
+                <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                <span className="flex items-center">
+                  Publicly Available?
+                  <span className="text-lg font-normal pl-0.5 text-red-600">
+                    *
+                  </span>
+                </span>
+              </div>
+            </dt>
+            <dd className="mt-1 text-gray-700 lg:col-span-2 lg:mt-0 text-base">
+              <Label className="font-medium text-base text-gray-700">
+                Do you want the assessment publicly available?
+              </Label>
+              <FormField
+                control={form.control}
+                name="forPublic"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <div className="flex items-start justify-between flex-row w-full gap-x-4">
+                      <div>
+                        <FormLabel className="text-base font-normal">
+                          The assessment be publicly visible?
                         </FormLabel>
                       </div>
                       <FormControl>

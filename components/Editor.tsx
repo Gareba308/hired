@@ -44,7 +44,7 @@ export const Editor = forwardRef(
         <QuillEditor
           theme="snow"
           value={value}
-          className="max-h-[26rem] h-[10rem] sm:h-[11rem] text-base mb-10 sm:mb-8 pb-5 lg:pb-3 xl:pb-0 text-gray-700"
+          className="quill-editor max-h-[26rem] h-[10rem] sm:h-[11rem] text-base mb-10 sm:mb-8 pb-5 lg:pb-3 xl:pb-0 text-gray-700"
           onChange={handleQuillChange}
           forwardedRef={(node: ReactQuill | null) => {
             if (node) {

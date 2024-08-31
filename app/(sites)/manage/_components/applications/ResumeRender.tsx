@@ -79,12 +79,40 @@ const ResumeRender = ({ application }: ResumeRenderProps) => {
   }
 
   const handleDownload = async () => {
+    if (!application.uploadedResumeUrl) {
+      toast({
+        title: "Something went wrong",
+        description: "The applicant has not uploaded their resume. We ask you to use the resume we have generated from their profile.",
+        variant: "destructive",
+        duration: 3000,
+      });
+      return;
+    }
+  
     try {
+      toast({
+        title: "Downloading file",
+        description: "The uploaded resume download has begun",
+        variant: "default",
+        duration: 3000,
+      });
+  
       const response = await fetch(application.uploadedResumeUrl as string);
+      if (!response.ok) {
+        throw new Error("Failed to fetch the document");
+      }
+  
       const blob = await response.blob();
       saveAs(blob, "resume.pdf");
     } catch (error) {
       console.error("Error downloading PDF:", error);
+  
+      toast({
+        title: "Download failed",
+        description: "There was an error while downloading the resume.",
+        variant: "destructive",
+        duration: 3000,
+      });
     }
   };
 

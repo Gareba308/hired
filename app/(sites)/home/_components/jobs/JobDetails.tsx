@@ -522,7 +522,7 @@ export default function JobDetails({
                           title={job.job_title}
                           company={job.company_name}
                           image={job.companyLogo as string}
-                          slug={`/site/jobs/${job.id}`}
+                          slug={`/home/jobs/${job.id}`}
                           detailJobID={job.id}
                           jobID={job.id}
                           date={`${format(job.createdAt, "PPP")}`}
@@ -559,7 +559,7 @@ export default function JobDetails({
                           title={job.job_title}
                           company={job.company_name}
                           image={job.companyLogo as string}
-                          slug={`/site/jobs/${job.id}`}
+                          slug={`/home/jobs/${job.id}`}
                           detailJobID={job.id}
                           jobID={job.id}
                           date={`${format(job.createdAt, "PPP")}`}
@@ -603,7 +603,7 @@ export default function JobDetails({
                                 title={job.job_title}
                                 company={job.company_name}
                                 image={job.companyLogo as string}
-                                slug={`/site/jobs/${job.id}`}
+                                slug={`/home/jobs/${job.id}`}
                                 detailJobID={job.id}
                                 jobID={job.id}
                                 date={`${format(job.createdAt, "PPP")}`}

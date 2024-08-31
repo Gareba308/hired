@@ -254,6 +254,7 @@ model Job {
   addAssessment               Boolean   @default(false)
   assessmentOneID             String?
   assessmentTwoID             String?
+  bonusTestID                 String?
   logo2                       String?   @default("https://res.cloudinary.com/dflvibeo6/image/upload/v1684840873/My_project_1_eadinu.png")
   createdAt                   DateTime  @default(now())
   updatedAt                   DateTime  @updatedAt
@@ -742,6 +743,7 @@ model AssessmentBanner {
   instructions    String?      @db.Text
   attemptNumbers  String
   forDemo         Boolean      @default(false)
+  forPublic       Boolean      @default(false)
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
   Assessment      Assessment[]

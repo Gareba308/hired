@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { PickAssessmentAlertModal } from "../models/assessments/PickAssessmentAlertModal";
-import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { AssessmentBanner } from "@prisma/client";
 import { EmployerAcceptAssessmentAlertModal } from "../models/assessments/AcceptAssessment";
@@ -175,9 +174,16 @@ const EmployerAssess = ({ banners, demoBanners }: EmployerAssessProps) => {
           </div>
         </div>
         <div className="flex-1 text-center mt-4 lg:mt-0 lg:ml-3">
-          <img
-            src="https://i.postimg.cc/kgd4WhyS/container.png"
-            className="w-full mx-auto sm:w-10/12  lg:w-full rounded-xl bg-gray-900/5 p-2 lg:p-4 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl"
+          <Image
+            src={
+              "https://res.cloudinary.com/dflvibeo6/image/upload/v1725101412/Screenshot_13_axgg2d.png"
+            }
+            alt="Landing job hero"
+            width={1364}
+            height={840}
+            priority={true}
+            quality={100}
+            className="w-full mx-auto  lg:w-full rounded-xl bg-gray-900/5 p-2 lg:p-4 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl"
           />
         </div>
       </section>
@@ -241,7 +247,8 @@ const EmployerAssess = ({ banners, demoBanners }: EmployerAssessProps) => {
             </h3>
             <p className="text-gray-600 text-base sm:text-[15px] leading-normal mt-2">
               Identify and select candidates who possess the
-              <span className="font-semibold">{" "}
+              <span className="font-semibold">
+                {" "}
                 skills, qualifications, and knowledge
               </span>{" "}
               that align with the core activities and requirements of your

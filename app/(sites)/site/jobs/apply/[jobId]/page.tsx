@@ -436,6 +436,7 @@ const Page = async ({ params }: ApplyJobProps) => {
   const assessmentIds = [
     jobExists?.assessmentOneID,
     jobExists?.assessmentTwoID,
+    jobExists?.bonusTestID,
   ].filter((id): id is string => id !== null && id !== undefined);
 
   const assessmentsPicked = await db.assessmentBanner.findMany({

@@ -22,7 +22,10 @@ const Page = async () => {
     where: {
       forDemo: {
         equals: false
-      }
+      },
+      category: {
+        notIn: ["Language Test", "Reading Test", "Comprehension Test", "Communication Skills"]
+      },
     },
     orderBy: {
       createdAt: "desc"
@@ -33,6 +36,9 @@ const Page = async () => {
       forDemo: {
         equals: true,
       },
+      forPublic: {
+        equals: false
+      }
     },
     orderBy: {
       createdAt: "desc"

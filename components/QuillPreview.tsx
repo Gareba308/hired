@@ -10,11 +10,6 @@ const QuillPreview: React.FC<QuillPreviewProps> = ({ htmlContent }) => {
 
   return (
     <div
-      style={{
-        fontSize: "0.88rem !important",
-        lineHeight: "1.35rem !important",
-        color: "#334155 !important"
-      }}
     >
       {parsedContent}
     </div>

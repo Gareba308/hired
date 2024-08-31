@@ -3516,6 +3516,28 @@ export const appRouter = router({
               "The first assessment you requesting to include in the job does not exist. Could have been deleted.",
           });
 
+        let randomBannerId: string | null = null;
+        const bonusBanners = await db.assessmentBanner.findMany({
+          where: {
+            category: {
+              in: [
+                "Language Test",
+                "Reading Test",
+                "Comprehension Test",
+                "Communication Skills",
+              ],
+            },
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if (bonusBanners.length > 0) {
+          const randomIndex = Math.floor(Math.random() * bonusBanners.length);
+          randomBannerId = bonusBanners[randomIndex].id;
+        }
+
         const checkIfEmployerRequestedID =
           await db.pickAssessCandidate.findFirst({
             where: {
@@ -3619,6 +3641,7 @@ export const appRouter = router({
               academicDesired,
               assessmentOneID: checkIfEmployerRequestedID.testID,
               assessmentTwoID: checkIfHadOrderedSecond.testID,
+              bonusTestID: randomBannerId,
             },
           });
         }
@@ -3657,6 +3680,7 @@ export const appRouter = router({
             addAssessment,
             academicDesired,
             assessmentOneID: checkIfEmployerRequestedID.testID,
+            bonusTestID: randomBannerId,
           },
         });
       }
@@ -4503,6 +4527,27 @@ export const appRouter = router({
             message:
               "The first assessment you requesting to include in the job does not exist. Could have been deleted.",
           });
+        let randomBannerId: string | null = null;
+        const bonusBanners = await db.assessmentBanner.findMany({
+          where: {
+            category: {
+              in: [
+                "Language Test",
+                "Reading Test",
+                "Comprehension Test",
+                "Communication Skills",
+              ],
+            },
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if (bonusBanners.length > 0) {
+          const randomIndex = Math.floor(Math.random() * bonusBanners.length);
+          randomBannerId = bonusBanners[randomIndex].id;
+        }
 
         const checkIfEmployerRequestedID =
           await db.pickAssessCandidate.findFirst({
@@ -4611,6 +4656,7 @@ export const appRouter = router({
               addAssessment,
               assessmentOneID: checkIfEmployerRequestedID.testID,
               assessmentTwoID: checkIfHadOrderedSecond.testID,
+              bonusTestID: randomBannerId,
             },
           });
         }
@@ -4653,6 +4699,7 @@ export const appRouter = router({
             academicDesired,
             addAssessment,
             assessmentOneID: checkIfEmployerRequestedID.testID,
+            bonusTestID: randomBannerId,
           },
         });
       }
@@ -4706,6 +4753,7 @@ export const appRouter = router({
         category: z.string(),
         briefSummary: z.string(),
         forDemo: z.boolean().default(false),
+        forPublic: z.boolean().default(false),
         instructions: z.string(),
         numberQuestions: z.string(),
         completeTime: z.string(),
@@ -4723,6 +4771,7 @@ export const appRouter = router({
         numberQuestions,
         completeTime,
         forDemo,
+        forPublic,
       } = input;
 
       const dbUser = await db.user.findFirst({
@@ -4769,6 +4818,7 @@ export const appRouter = router({
           briefSummary,
           instructions,
           forDemo,
+          forPublic,
           numberQuestions: Number(numberQuestions),
           completeTime: Number(completeTime),
           attemptNumbers,
@@ -4786,6 +4836,7 @@ export const appRouter = router({
         instructions: z.string().optional(),
         attemptNumbers: z.string().optional(),
         forDemo: z.boolean().optional(),
+        forPublic: z.boolean().optional(),
         numberQuestions: z.string().optional(),
         completeTime: z.string().optional(),
       })
@@ -4802,6 +4853,7 @@ export const appRouter = router({
         numberQuestions,
         completeTime,
         forDemo,
+        forPublic,
       } = input;
 
       const dbUser = await db.user.findFirst({
@@ -4847,6 +4899,7 @@ export const appRouter = router({
         ...(briefSummary && { briefSummary }),
         ...(attemptNumbers && { attemptNumbers }),
         ...(forDemo && { forDemo }),
+        ...(forPublic && { forPublic }),
         ...(numberQuestions && { numberQuestions: Number(numberQuestions) }),
         ...(completeTime && { completeTime: Number(completeTime) }),
       };
@@ -5401,7 +5454,7 @@ export const appRouter = router({
           message:
             "There is no test by the selected test ID. It could have been deleted.",
         });
-      const samePickExists= await db.pickAssessCandidate.findFirst({
+      const samePickExists = await db.pickAssessCandidate.findFirst({
         where: {
           companyID: company.id,
           userId,
@@ -5409,10 +5462,15 @@ export const appRouter = router({
           createdAt: {
             gte: thirtyDaysAgo,
           },
-        }
-      })
+        },
+      });
 
-      if(samePickExists) throw new TRPCError({code:"BAD_REQUEST", message:"You have similar unexpired test picked. Kindly just use the same test you currently have."})
+      if (samePickExists)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message:
+            "You have similar unexpired test picked. Kindly just use the same test you currently have.",
+        });
       const accountBalance = await db.accountBalance.findFirst({
         where: {
           userEmail: dbUser.email,
@@ -6811,8 +6869,9 @@ export const appRouter = router({
           throw new TRPCError({
             code: "BAD_REQUEST",
             message:
-              "The identity of the first assessment is same as the second",
+              "The identity of the first assessment is the same as the second",
           });
+
         const pickedAssessmentExists = await db.pickAssessCandidate.findFirst({
           where: {
             testID: assessmentOneID,
@@ -6836,42 +6895,70 @@ export const appRouter = router({
           throw new TRPCError({
             code: "BAD_REQUEST",
             message:
-              "We have no this assessment in our database. It could be missing",
+              "We don't have this assessment in our database. It could be missing",
           });
+
+        let randomBannerId: string | null = null;
+        const bonusBanners = await db.assessmentBanner.findMany({
+          where: {
+            category: {
+              in: [
+                "Language Test",
+                "Reading Test",
+                "Comprehension Test",
+                "Communication Skills",
+              ],
+            },
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if (bonusBanners.length > 0 && !jobExists.bonusTestID) {
+          const randomIndex = Math.floor(Math.random() * bonusBanners.length);
+          randomBannerId = bonusBanners[randomIndex].id;
+        }
+
+        const updatedJobData: Record<string, any> = {
+          job_title,
+          job_description,
+          summaryDescription: newJobSummary,
+          responsibilities,
+          requirement,
+          personal_skills,
+          platform,
+          emailPlatform,
+          linkPlatform,
+          otherPlatform,
+          ownPlatformMethod,
+          experienceDesired,
+          experience,
+          numberOfPositions,
+          possible_pay,
+          job_type,
+          category,
+          county,
+          addAssessment,
+          assessmentOneID: assessmentExists.id,
+          assessmentTwoID,
+          address,
+          academic,
+          benefits,
+          instructions,
+          deadline,
+          academicDesired,
+        };
+        if (!jobExists.bonusTestID) {
+          updatedJobData.bonusTestID = randomBannerId;
+        }
+
         return await db.job.update({
           where: {
             id: jobID,
             userId,
           },
-          data: {
-            job_title,
-            job_description,
-            summaryDescription: newJobSummary,
-            responsibilities,
-            requirement,
-            personal_skills,
-            platform,
-            emailPlatform,
-            linkPlatform,
-            otherPlatform,
-            ownPlatformMethod,
-            experienceDesired,
-            experience,
-            numberOfPositions,
-            possible_pay,
-            job_type,
-            category,
-            county,
-            addAssessment,
-            assessmentOneID: assessmentExists.id,
-            assessmentTwoID,
-            address,
-            academic,
-            benefits,
-            instructions,
-            deadline,
-            academicDesired,
-          },
+          data: updatedJobData,
         });
       }
 
@@ -6880,8 +6967,9 @@ export const appRouter = router({
           throw new TRPCError({
             code: "BAD_REQUEST",
             message:
-              "The identity of the second assessment is same as the first",
+              "The identity of the second assessment is the same as the first",
           });
+
         const pickedAssessmentExists = await db.pickAssessCandidate.findFirst({
           where: {
             testID: assessmentTwoID,
@@ -6905,42 +6993,70 @@ export const appRouter = router({
           throw new TRPCError({
             code: "BAD_REQUEST",
             message:
-              "We have no this assessment in our database. It could be missing",
+              "We don't have this assessment in our database. It could be missing",
           });
+
+        let randomBannerId: string | null = null;
+        const bonusBanners = await db.assessmentBanner.findMany({
+          where: {
+            category: {
+              in: [
+                "Language Test",
+                "Reading Test",
+                "Comprehension Test",
+                "Communication Skills",
+              ],
+            },
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if (bonusBanners.length > 0 && !jobExists.bonusTestID) {
+          const randomIndex = Math.floor(Math.random() * bonusBanners.length);
+          randomBannerId = bonusBanners[randomIndex].id;
+        }
+        const updatedJobData: Record<string, any> = {
+          job_title,
+          job_description,
+          summaryDescription: newJobSummary,
+          responsibilities,
+          requirement,
+          personal_skills,
+          platform,
+          emailPlatform,
+          linkPlatform,
+          otherPlatform,
+          ownPlatformMethod,
+          experienceDesired,
+          experience,
+          numberOfPositions,
+          possible_pay,
+          job_type,
+          category,
+          county,
+          addAssessment,
+          assessmentOneID,
+          assessmentTwoID: assessmentExists.id,
+          address,
+          academic,
+          benefits,
+          instructions,
+          deadline,
+          academicDesired,
+        };
+
+        if (!jobExists.bonusTestID && randomBannerId) {
+          updatedJobData.bonusTestID = randomBannerId;
+        }
+
         return await db.job.update({
           where: {
             id: jobID,
             userId,
           },
-          data: {
-            job_title,
-            job_description,
-            summaryDescription: newJobSummary,
-            responsibilities,
-            requirement,
-            personal_skills,
-            platform,
-            emailPlatform,
-            linkPlatform,
-            otherPlatform,
-            ownPlatformMethod,
-            experienceDesired,
-            experience,
-            numberOfPositions,
-            possible_pay,
-            job_type,
-            category,
-            county,
-            addAssessment,
-            assessmentOneID,
-            assessmentTwoID: assessmentExists.id,
-            address,
-            academic,
-            benefits,
-            instructions,
-            deadline,
-            academicDesired,
-          },
+          data: updatedJobData,
         });
       }
       return await db.job.update({
@@ -7124,24 +7240,27 @@ export const appRouter = router({
       }
 
       if (jobExists.addAssessment === true && assessmentOneID) {
-        if (jobExists.assessmentTwoID === assessmentOneID)
+        if (jobExists.assessmentTwoID === assessmentOneID) {
           throw new TRPCError({
             code: "BAD_REQUEST",
             message:
-              "The identity of the first assessment is same as the second",
+              "The identity of the first assessment is the same as the second",
           });
+        }
+
         const pickedAssessmentExists = await db.pickAssessCandidate.findFirst({
           where: {
             testID: assessmentOneID,
           },
         });
 
-        if (!pickedAssessmentExists)
+        if (!pickedAssessmentExists) {
           throw new TRPCError({
             code: "BAD_REQUEST",
             message:
               "The employer hasn't ordered the assessment you are requesting to add in the job listing",
           });
+        }
 
         const assessmentExists = await db.assessmentBanner.findFirst({
           where: {
@@ -7149,45 +7268,75 @@ export const appRouter = router({
           },
         });
 
-        if (!assessmentExists)
+        if (!assessmentExists) {
           throw new TRPCError({
             code: "BAD_REQUEST",
             message:
-              "We have no this assessment in our database. It could be missing",
+              "We don't have this assessment in our database. It could be missing",
           });
+        }
+
+        let randomBannerId: string | null = null;
+        const bonusBanners = await db.assessmentBanner.findMany({
+          where: {
+            category: {
+              in: [
+                "Language Test",
+                "Reading Test",
+                "Comprehension Test",
+                "Communication Skills",
+              ],
+            },
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if (bonusBanners.length > 0 && !jobExists.bonusTestID) {
+          const randomIndex = Math.floor(Math.random() * bonusBanners.length);
+          randomBannerId = bonusBanners[randomIndex].id;
+        }
+
+        const updatedJobData: Record<string, any> = {
+          job_title,
+          job_description,
+          summaryDescription: newJobSummary,
+          responsibilities,
+          requirement,
+          personal_skills,
+          platform,
+          emailPlatform,
+          linkPlatform,
+          otherPlatform,
+          ownPlatformMethod,
+          experienceDesired,
+          experience,
+          numberOfPositions,
+          possible_pay,
+          job_type,
+          category,
+          county,
+          addAssessment,
+          assessmentOneID: assessmentExists.id,
+          assessmentTwoID,
+          address,
+          academic,
+          benefits,
+          instructions,
+          deadline,
+          academicDesired,
+        };
+
+        if (!jobExists.bonusTestID && randomBannerId) {
+          updatedJobData.bonusTestID = randomBannerId;
+        }
+
         return await db.job.update({
           where: {
             id: jobExists.id,
           },
-          data: {
-            job_title,
-            job_description,
-            summaryDescription: newJobSummary,
-            responsibilities,
-            requirement,
-            personal_skills,
-            platform,
-            emailPlatform,
-            linkPlatform,
-            otherPlatform,
-            ownPlatformMethod,
-            experienceDesired,
-            experience,
-            numberOfPositions,
-            possible_pay,
-            job_type,
-            category,
-            county,
-            addAssessment,
-            assessmentOneID: assessmentExists.id,
-            assessmentTwoID,
-            address,
-            academic,
-            benefits,
-            instructions,
-            deadline,
-            academicDesired,
-          },
+          data: updatedJobData,
         });
       }
 
@@ -7196,8 +7345,9 @@ export const appRouter = router({
           throw new TRPCError({
             code: "BAD_REQUEST",
             message:
-              "The identity of the second assessment is same as the first",
+              "The identity of the second assessment is the same as the first",
           });
+
         const pickedAssessmentExists = await db.pickAssessCandidate.findFirst({
           where: {
             testID: assessmentTwoID,
@@ -7221,41 +7371,66 @@ export const appRouter = router({
           throw new TRPCError({
             code: "BAD_REQUEST",
             message:
-              "We have no this assessment in our database. It could be missing",
+              "We don't have this assessment in our database. It could be missing",
           });
+        let randomBannerId: string | null = null;
+        const bonusBanners = await db.assessmentBanner.findMany({
+          where: {
+            category: {
+              in: [
+                "Language Test",
+                "Reading Test",
+                "Comprehension Test",
+                "Communication Skills",
+              ],
+            },
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if (bonusBanners.length > 0 && !jobExists.bonusTestID) {
+          const randomIndex = Math.floor(Math.random() * bonusBanners.length);
+          randomBannerId = bonusBanners[randomIndex].id;
+        }
+        const updatedJobData: Record<string, any> = {
+          job_title,
+          job_description,
+          summaryDescription: newJobSummary,
+          responsibilities,
+          requirement,
+          personal_skills,
+          platform,
+          emailPlatform,
+          linkPlatform,
+          otherPlatform,
+          ownPlatformMethod,
+          experienceDesired,
+          experience,
+          numberOfPositions,
+          possible_pay,
+          job_type,
+          category,
+          county,
+          addAssessment,
+          assessmentOneID,
+          assessmentTwoID: assessmentExists.id,
+          address,
+          academic,
+          benefits,
+          instructions,
+          deadline,
+          academicDesired,
+        };
+        if (!jobExists.bonusTestID && randomBannerId) {
+          updatedJobData.bonusTestID = randomBannerId;
+        }
         return await db.job.update({
           where: {
             id: jobExists.id,
           },
-          data: {
-            job_title,
-            job_description,
-            summaryDescription: newJobSummary,
-            responsibilities,
-            requirement,
-            personal_skills,
-            platform,
-            emailPlatform,
-            linkPlatform,
-            otherPlatform,
-            ownPlatformMethod,
-            experienceDesired,
-            experience,
-            numberOfPositions,
-            possible_pay,
-            job_type,
-            category,
-            county,
-            addAssessment,
-            assessmentOneID,
-            assessmentTwoID: assessmentExists.id,
-            address,
-            academic,
-            benefits,
-            instructions,
-            deadline,
-            academicDesired,
-          },
+          data: updatedJobData,
         });
       }
       return await db.job.update({
@@ -11737,10 +11912,9 @@ export const appRouter = router({
         message: z.string(),
       })
     )
-    .mutation(async ({ctx, input})=> {
-      const {viewID, ipAddress, location}= ctx;
-      const {fullName, email, subject, message}= input;
-
+    .mutation(async ({ ctx, input }) => {
+      const { viewID, ipAddress, location } = ctx;
+      const { fullName, email, subject, message } = input;
 
       const transporter = nodemailer.createTransport({
         port: 587,
@@ -11786,9 +11960,9 @@ export const appRouter = router({
           message,
           viewID,
           ipAddress,
-          location
-        }
-      })
+          location,
+        },
+      });
 
       return new Promise((resolve) => {
         transporter.sendMail(mailOptions, (err: any) => {
@@ -11796,80 +11970,80 @@ export const appRouter = router({
           const message = err?.toString() ?? "Contact message delivered";
           resolve(NextResponse.json({ msg: message }, { status }));
         });
-      }); 
+      });
     }),
 
   homePageSubscribe: contactProcedure
-    .input(
-      z.object({
-        email: z.string(),
-      })
-    )
-    .mutation(async ({ctx, input})=> {
-      const {ipAddress, location, viewID}= ctx;
-      const {email}= input;
+  .input(
+    z.object({
+      email: z.string(),
+    })
+  )
+  .mutation(async ({ ctx, input }) => {
+    const { ipAddress, location, viewID } = ctx;
+    const { email } = input;
+    const homepageSubscribeAlready = await db.homepageSubscribe.findFirst({
+      where: { email },
+    });
 
-      const homepageSubscribeAlready= await db.homepageSubscribe.findFirst({
-        where: {
-          email
-        }
-      })
+    if (homepageSubscribeAlready) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'This email has already subscribed to our job alerts',
+      });
+    }
+    const transporter = nodemailer.createTransport({
+      port: 587,
+      host: process.env.EMAIL_HOST!,
+      auth: {
+        user: process.env.USER!,
+        pass: process.env.PASSWORD!,
+      },
+      secure: false,
+    });
+    const mailOptions = {
+      from: {
+        name: 'Hired',
+        address: process.env.USER!,
+      },
+      replyTo: process.env.REPLY!,
+      to: email,
+      subject: 'Subscribed to Hired job alerts',
+      html: `
+        <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa;'>
+          <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
+            <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
+            <hr>
+            <p>Hello there,</p>
+            <p>Your subscription to Hired job alerts is successful. We will update you on available job vacancies.</p>
+            <p style='margin-top:0.5rem; font-size:12.5px'>Note: You are receiving this message because this email was used to subscribe for job alerts on <a href='${process.env.PRODUCTION_BASE_URL}'>Hired</a>.</p>
+            <hr>
+            <p style='text-align:center; font-size:12.5px;'>Copyright © Hired. All rights reserved.</p>
+          </div>
+        </div>
+      `,
+      priority: 'high' as const,
+    };
+    await db.homepageSubscribe.create({
+      data: {
+        email,
+        viewID,
+        ipAddress,
+        location,
+      },
+    });
 
-      if(homepageSubscribeAlready) throw new TRPCError({code:"BAD_REQUEST", message:"This email has already subscribed for job alerts."})
-
-        const transporter = nodemailer.createTransport({
-          port: 587,
-          host: process.env.EMAIL_HOST!,
-          auth: {
-            user: process.env.USER!,
-            pass: process.env.PASSWORD!,
-          },
-          secure: false,
-        });
-  
-        const mailOptions = {
-          from: {
-            name: "Hired",
-            address: process.env.USER!,
-          },
-          replyTo: process.env.REPLY!,
-          to: email,
-          subject: "Subscribed to Hired job alerts",
-          html: `
-                 <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-                <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                    <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                    <hr>
-                    <p>Hello there,</p>
-                    <p>
-                    Your subscription to Hired job alerts is successful. We will update you on available job vacancies..
-                    </p>
-                    <p style='margin-top:0.5rem; font-size:12.5px'>Note: You are receiving this message because this email was used to subscribe for job alerts on <a href='${productionBASE_URL}'>Hired</a>.</p>
-                    <hr>
-                    <p style='text-align:center; font-size:12.5px;'>Copyright © Hired. All rights reserved.</p>
-                </div>
-                </div>
-                `,
-          priority: "high" as const,
-        };
-  
-        await db.homepageSubscribe.create({
-          data: {
-            email,
-            viewID,
-            ipAddress,
-            location
-          }
-        })
-  
-        return new Promise((resolve) => {
-          transporter.sendMail(mailOptions, (err: any) => {
-            const status = err ? 500 : 200;
-            const message = err?.toString() ?? "Subscribe message delivered";
-            resolve(NextResponse.json({ msg: message }, { status }));
-          });
-        });
-    }),
+    try {
+      await transporter.sendMail(mailOptions);
+      return NextResponse.json({ msg: 'Subscription successful' }, { status: 200 });
+    } catch (err) {
+      console.error('Email sending error:', err);
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'Failed to send subscription email',
+      });
+    }
+  }),
 
   adminReplyWorkerHelp: privateProcedure
     .input(

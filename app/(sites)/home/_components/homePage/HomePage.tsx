@@ -423,7 +423,7 @@ const HomePage = () => {
                   <div className="rounded-xl bg-gray-900/5 ring-1  p-2 lg:p-4 ring-inset ring-gray-900/10 lg:rounded-2xl">
                     <Image
                       src={
-                        "https://res.cloudinary.com/dflvibeo6/image/upload/v1725090366/Screenshot_13_firpkc.png"
+                        "https://res.cloudinary.com/dflvibeo6/image/upload/v1725101412/Screenshot_13_axgg2d.png"
                       }
                       alt="Product preview"
                       width={1364}
