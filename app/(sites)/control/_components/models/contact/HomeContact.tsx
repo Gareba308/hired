@@ -45,6 +45,10 @@ export const HomeContactAlertModal: React.FC<HomeContactModelProps> = ({
                   <span className="text-muted-foreground text-base">Contact Name</span>
                   <span className="text-base">{contact.fullName}</span>
                 </li>
+                <li className="flex text-base items-center justify-between">
+                  <span className="text-muted-foreground text-base">Contact Email</span>
+                  <span className="text-base">{contact.email}</span>
+                </li>
               </ul>
               <fieldset className="grid rounded-lg border border-gray-300 px-4 pb-6 pt-0">
                 <legend className="-ml-1 px-1 text-lg text-gray-600 font-semibold">

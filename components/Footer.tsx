@@ -146,7 +146,7 @@ const Footer = () => {
                   placeholder="Enter your email"
                   value={data.email}
                   onChange={handleChange}
-                  className="w-full h-10 outline-none border placeholder:text-sm placeholder:sm:text-[15px] placeholder:gray-500 border-gray-300 rounded-sm"
+                  className="w-full h-10 outline-none border placeholder:text-sm placeholder:gray-500 border-gray-300 rounded-sm"
                 />
                 <button
                   type="submit"
@@ -154,10 +154,10 @@ const Footer = () => {
                   disabled={isLoading}
                 >
                   {isLoading ? (
-                    <>
+                    <span className="flex items-center">
                       <Loader2 className="h-4 w-4 shrink-0 mr-1.5 animate-spin" />{" "}
                       Wait...
-                    </>
+                    </span>
                   ) : (
                     "Subscribe"
                   )}

@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 interface JobCardProps {
   allJobs: Job[];
 }
-const JobCard3 = ({ allJobs}: JobCardProps) => {
+const JobCard3 = ({ allJobs }: JobCardProps) => {
   function getInitials(fullName: string): string {
     const nameParts = fullName.split(" ");
 
@@ -35,104 +35,106 @@ const JobCard3 = ({ allJobs}: JobCardProps) => {
         {allJobs.map((item) => {
           return (
             <li
-            key={item.id}
-            className="flex items-end px-2.5 w-full sm:px-4 pb-4 pt-3 sm:py-5 duration-150 border border-gray-300 rounded-lg"
-          >
-            <div className="mr-3 sm:mr-4">
-              {item.companyLogo ? (
-                <div
-                  onClick={() =>
-                    router.push(
-                      `/control/jobs/${item.id}?origin=control/jobs`
-                    )
-                  }
-                  className="relative cursor-pointer h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] border border-gray-200 overflow-hidden rounded-sm lg:h-[74px] lg:w-[74px]"
-                >
-                  <Image
-                    src={item.companyLogo}
-                    alt={`${item.company_name} logo`}
-                    title={`${item.company_name}'s logo`}
-                    quality={100}
-                    fill
-                    sizes="100%"
-                    priority
-                  />
-                </div>
-              ) : (
-                <div
-                  onClick={() =>
-                    router.push(
-                      `/control/jobs/${item.id}?origin=control/jobs`
-                    )
-                  }
-                  title={`${item.company_name}'s made up logo`}
-                  className="lg:w-[74px] lg:h-[74px] h-[60px] w-[60px] sm:h-[68px] sm:w-[68px] cursor-pointer py-1 px-0.5 shrink-0 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
-                >
-                  <div className="flex items-center justify-center shrink-0 w-full h-full">
-                    <div className="text-2xl sm:text-2xl font-semibold shrink-0">
-                      {getInitials(item.company_name)}
+              key={item.id}
+              className="flex items-end px-2.5 w-full sm:px-4 pb-4 pt-3 sm:py-5 duration-150 border border-gray-300 rounded-lg"
+            >
+              <div className="mr-3 sm:mr-4">
+                {item.companyLogo ? (
+                  <div
+                    onClick={() =>
+                      router.push(
+                        `/control/jobs/${item.id}?origin=control/jobs`
+                      )
+                    }
+                    className="relative cursor-pointer h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] border border-gray-200 overflow-hidden rounded-sm lg:h-[74px] lg:w-[74px]"
+                  >
+                    <Image
+                      src={item.companyLogo}
+                      alt={`${item.company_name} logo`}
+                      title={`${item.company_name}'s logo`}
+                      quality={100}
+                      fill
+                      sizes="100%"
+                      priority
+                    />
+                  </div>
+                ) : (
+                  <div
+                    onClick={() =>
+                      router.push(
+                        `/control/jobs/${item.id}?origin=control/jobs`
+                      )
+                    }
+                    title={`${item.company_name}'s made up logo`}
+                    className="lg:w-[74px] lg:h-[74px] h-[60px] w-[60px] sm:h-[68px] sm:w-[68px] cursor-pointer py-1 px-0.5 shrink-0 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
+                  >
+                    <div className="flex items-center justify-center shrink-0 w-full h-full">
+                      <div className="text-2xl sm:text-2xl font-semibold shrink-0">
+                        {getInitials(item.company_name)}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
-            <div className="w-full leading-tighter">
-              <div className="flex w-full items-center justify-between">
-                <div>
-                  {item.ownPlatformMethod === "here" ? (
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <span className="inline-flex items-center text-xs font-medium text-green-700">
-                            Quick Apply
-                          </span>
-                        </TooltipTrigger>
-                        <TooltipContent className="text-gray-600 text-sm tracking-normal">
-                          <p>
-                            The application process is on this platform and
-                            simplified
-                          </p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  ) : (
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <span className="inline-flex items-center text-xs font-medium text-indigo-700">
-                            External Apply
-                          </span>
-                        </TooltipTrigger>
-                        <TooltipContent className="text-gray-600 text-sm tracking-normal">
-                          <p>
-                            The application process is on an external platform
-                          </p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  )}
-                </div>
+                )}
               </div>
-              <Link
-                href={`/control/jobs/${item.id}?origin=control/jobs`}
-                title="Job title"
-                className="text-lg lg:text-[16.3px] w-full -mt-0.5 capitalize block cursor-pointer font-medium text-primary hover:text-[#005580]"
-              >
-                <span className="line-clamp-1 w-full">
-                  {item.job_title.toLowerCase()}
-                </span>
-              </Link>
-              <div className="flex items-center justify-between gap-x-4 w-full">
-                <p className="text-[13px] lg:mb-[1px] font-medium -mt-1 text-gray-600 line-clamp-1">
-                  {item.company_name}
-                </p>
-                <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
-                    {formatDistanceToNowStrict(item.createdAt, {
-                      addSuffix: true,
-                    })}
+              <div className="w-full leading-tighter">
+                <div className="flex w-full items-center justify-between">
+                  <div>
+                    {item.ownPlatformMethod === "here" ? (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <span className="inline-flex items-center text-xs font-medium text-green-700">
+                              Quick Apply
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent className="text-gray-600 text-sm tracking-normal">
+                            <p>
+                              The application process is on this platform and
+                              simplified
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    ) : (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <span className="inline-flex items-center text-xs font-medium text-indigo-700">
+                              External Apply
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent className="text-gray-600 text-sm tracking-normal">
+                            <p>
+                              The application process is on an external platform
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    )}
+                  </div>
+                </div>
+                <Link
+                  href={`/control/jobs/${item.id}?origin=control/jobs`}
+                  title="Job title"
+                  className="text-lg lg:text-[16.3px] w-full -mt-0.5 capitalize block cursor-pointer font-medium text-primary hover:text-[#005580]"
+                >
+                  <span className="line-clamp-1 w-full">
+                    {item.job_title.toLowerCase()}
+                  </span>
+                </Link>
+                <div className="flex items-center justify-between gap-x-4 w-full">
+                  <p className="text-[13px] lg:mb-[1px] font-medium -mt-1 text-gray-600 line-clamp-1">
+                    {item.company_name}
                   </p>
-              </div>
-              <div className="flex h-4 w-full items-center space-x-2.5">
+                  <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
+                    <span className="line-clamp-1">
+                      {formatDistanceToNowStrict(item.createdAt, {
+                        addSuffix: true,
+                      })}
+                    </span>
+                  </p>
+                </div>
+                <div className="flex h-4 w-full items-center space-x-1.5">
                   <div className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -167,8 +169,8 @@ const JobCard3 = ({ allJobs}: JobCardProps) => {
                     {item.possible_pay}
                   </p>
                 </div>
-            </div>
-          </li>
+              </div>
+            </li>
           );
         })}
       </ul>

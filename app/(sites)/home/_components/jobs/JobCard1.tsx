@@ -1,7 +1,7 @@
 "use client";
 import { Job } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
-import { Bookmark, Building2, Zap } from "lucide-react";
+import { Bookmark } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/tooltip";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 
@@ -160,14 +159,16 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                       </TooltipProvider>
                     ) : (
                       <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
-                        {formatDistanceToNowStrict(item.createdAt, {
-                          addSuffix: true,
-                        })}
+                        <span className="line-clamp-1">
+                          {formatDistanceToNowStrict(item.createdAt, {
+                            addSuffix: true,
+                          })}
+                        </span>
                       </p>
                     )}
                   </div>
                 </div>
-                <div className="flex h-4 w-full items-center space-x-2.5">
+                <div className="flex h-4 w-full items-center space-x-1.5">
                   <div className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -199,7 +200,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                     })}
                   </p>
                   <p className="text-xs hidden sm:flex font-normal text-gray-600 line-clamp-1">
-                    {item.possible_pay}
+                    <span className="line-clamp-1">{item.possible_pay}</span>
                   </p>
                 </div>
               </div>

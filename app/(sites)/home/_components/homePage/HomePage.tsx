@@ -291,7 +291,7 @@ const HomePage = () => {
           <div className="flex-1 text-center mt-4 lg:mt-0 lg:ml-3">
             <Image
               src={
-                "https://res.cloudinary.com/dflvibeo6/image/upload/v1724945706/Screenshot_6_ohblsk.png"
+                "https://res.cloudinary.com/dflvibeo6/image/upload/v1725089592/Untitled_design_New2_gvo0cj.png"
               }
               alt="Landing job hero"
               width={1364}
@@ -309,7 +309,7 @@ const HomePage = () => {
                 title="Why our customers are happy"
                 className="text-primary-foreground text-3xl font-semibold sm:text-4xl"
               >
-                Our customers are always happy
+                Platform users are always happy
               </h3>
               <p className="mt-3 text-primary-foreground text-sm sm:text-[15px]">
                 Employers and job seekers are consistently satisfied with
@@ -371,7 +371,7 @@ const HomePage = () => {
                   <div className="rounded-xl bg-gray-900/5 p-2 lg:p-4 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl">
                     <Image
                       src={
-                        "https://res.cloudinary.com/dflvibeo6/image/upload/v1724945828/Screenshot_7_zuworf.png"
+                        "https://res.cloudinary.com/dflvibeo6/image/upload/v1724945971/Screenshot_11_c84nxd.png"
                       }
                       alt="Product preview"
                       width={1364}
@@ -423,7 +423,7 @@ const HomePage = () => {
                   <div className="rounded-xl bg-gray-900/5 ring-1  p-2 lg:p-4 ring-inset ring-gray-900/10 lg:rounded-2xl">
                     <Image
                       src={
-                        "https://res.cloudinary.com/dflvibeo6/image/upload/v1724945766/Screenshot_13_ku7nta.png"
+                        "https://res.cloudinary.com/dflvibeo6/image/upload/v1725090366/Screenshot_13_firpkc.png"
                       }
                       alt="Product preview"
                       width={1364}
@@ -478,7 +478,7 @@ const HomePage = () => {
                           </p>
                         </blockquote>
                         <div className="flex items-center gap-x-4 px-4 pb-2">
-                          <div className="relative cursor-pointer border border-gray-200 h-[56px] w-[56px] overflow-hidden rounded-full">
+                          <div className="relative cursor-pointer border border-gray-300 h-[56px] w-[56px] overflow-hidden rounded-full">
                             <Image
                               src={item.avatar}
                               alt="Testimonial user"

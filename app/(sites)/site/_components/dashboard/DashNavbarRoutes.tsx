@@ -20,8 +20,15 @@ const DashNavbarRoutes = async () => {
 
   if (!user) redirect("/home/login");
 
+  const bio= await db.workerBio.findFirst({
+    where: {
+      userId: user.id
+    }
+  })
+
   const email = user.email;
   const name = user.name;
+  const pic= bio?.profilePic as string
   return (
     <div className="flex gap-x-3 items-center shrink-0 ml-auto">
       <DashButton />
@@ -29,6 +36,7 @@ const DashNavbarRoutes = async () => {
       <UserAccountNav
         email={email}
         name={name as string}
+        pic={pic}
       />
     </div>
   );

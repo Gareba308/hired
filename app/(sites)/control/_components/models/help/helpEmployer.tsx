@@ -26,7 +26,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Send } from "lucide-react";
-import { HelpEmployer} from "@prisma/client";
+import { HelpEmployer } from "@prisma/client";
 type FormSchemaType = z.infer<typeof formSchema>;
 
 const MAX_CHARACTERS = 500;
@@ -39,7 +39,7 @@ interface HelpReplyModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  message: HelpEmployer
+  message: HelpEmployer;
 }
 const HelpEmployerReplyAlertModal = ({
   isOpen,
@@ -118,9 +118,16 @@ const HelpEmployerReplyAlertModal = ({
     >
       <div>
         <div className="mb-2 -mt-2 -space-y-1 leading-tight">
-            <h2 className="font-medium text-gray-600 text-base">Subject: {message.subject}</h2>
-            <h2 className="font-medium text-gray-600 text-base">Sender: {message.fullName}</h2>
-            <p className="text-sm font-normal text-gray-700"><span className="font-bold">Message:</span> {message.message}</p>
+          <h2 className="font-medium text-gray-600 text-base">
+            Subject: {message.subject}
+          </h2>
+          <h2 className="font-medium text-gray-600 text-base">
+            Sender: {message.fullName}
+          </h2>
+          <p className="text-sm font-normal text-gray-700">
+            <span className="font-bold">Message:</span>{" "}
+            <span className="line-clamp-2">{message.message}</span>
+          </p>
         </div>
         <fieldset className="grid rounded-lg border border-slate-300 p-4">
           <legend className="-ml-1 px-1 text-base sm:text-lg text-gray-700 font-medium">

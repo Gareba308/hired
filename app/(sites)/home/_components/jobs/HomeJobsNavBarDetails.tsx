@@ -15,7 +15,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { cn } from "@/lib/utils";
 import JobCard1 from "./JobCard1";
-import { Job} from "@prisma/client";
+import { Job, Company} from "@prisma/client";
 import {
   academics,
   categories,
@@ -89,6 +89,7 @@ interface HomeJobsNavBarDetailsProps {
   popular: Job[];
   job: Job;
   similarJobs: Job[];
+  companyProfile: Company | null;
 }
 
 const HomeJobsNavBarDetails = ({
@@ -97,6 +98,7 @@ const HomeJobsNavBarDetails = ({
   popular,
   job,
   similarJobs,
+  companyProfile,
 }: HomeJobsNavBarDetailsProps) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -2024,10 +2026,10 @@ const HomeJobsNavBarDetails = ({
         </MaxWidthWrapper>
       </div>
 
-      <div className="mt-3 md:mt-6 mb-3 md:mb-6">
+      <div className="mt-3 md:mt-6 w-full mb-3 md:mb-6">
         <MaxWidthWrapper>
-          <div className="grid gap-x-4 sm:gap-x-5 lg:gap-x-6 md:grid-cols-2">
-            <div className="hidden md:flex">
+          <div className="grid gap-x-4 sm:gap-x-5 w-full lg:gap-x-6 md:grid-cols-2">
+            <div className="hidden md:block">
               {sortedAndFilteredJobs.length !== 0 ? (
                 <JobCard1
                   allJobs={jobsForCurrentPage}
@@ -2073,7 +2075,7 @@ const HomeJobsNavBarDetails = ({
                 )}
               </div>
             </div>
-            <div className="md:sticky md:top-2 md:border md:shadow-sm md:border-gray-200 md:rounded-lg  md:max-h-[calc(100vh-2rem)]">
+            <div className="md:sticky md:top-2 w-full md:border md:shadow-sm md:border-gray-200 md:rounded-lg  md:max-h-[calc(100vh-2rem)]">
               {job ? (
                 <JobDetails
                   job={job}
@@ -2081,6 +2083,7 @@ const HomeJobsNavBarDetails = ({
                   similarJobs={similarJobs}
                   popularJobs={popular}
                   allJobs={jobs}
+                  companyProfile={companyProfile}
                 />
               ) : (
                 <NoHomeDetailJob />

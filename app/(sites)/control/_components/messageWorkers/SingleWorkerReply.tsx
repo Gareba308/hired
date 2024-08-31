@@ -237,43 +237,12 @@ const SingleWorkerReply = ({
   };
 
   return (
-    <div
-      className={cn("flex mt-0 items-end", {
-        "justify-end": message.role === "admin",
-      })}
-    >
-      <div
-        className={cn(
-          "flex relative h-5 w-5 sm:h-6 sm:w-6 aspect-square items-center justify-center",
-          {
-            "order-2 bg-cyan-800 rounded-sm": message.role === "admin",
-            "order-1 bg-slate-600 rounded-sm": message.role !== "admin",
-          }
-        )}
-      >
-        {message.role === "admin" ? (
-          <User className="fill-zinc-200 text-zinc-200 sm:h-6 sm:w-6 h-5 w-5" />
-        ) : (
-          <Sparkles className="fill-zinc-200 sm:h-6 sm:w-6 h-5 w-5" />
-        )}
+    <div className="flex mt-0 items-end justify-end">
+      <div className="flex relative h-5 w-5 sm:h-6 sm:w-6 aspect-square items-center justify-center order-2 bg-cyan-800 rounded-sm">
+        <User className="fill-zinc-200 text-zinc-200 sm:h-6 sm:w-6 h-5 w-5" />
       </div>
-      <div
-        className={cn(
-          "flex flex-col space-y-2 text-base max-w-md md:max-w-lg mx-2",
-          {
-            "order-1 items-end": message.role === "admin",
-            "order-1 items-start": message.role !== "admin",
-          }
-        )}
-      >
-        <div
-          className={cn("px-3 py-2 rounded-lg text-sm inline-block", {
-            "bg-cyan-800 text-white/90": message.role === "admin",
-            "bg-slate-200 text-gray-900": message.role !== "admin",
-            "rounded-br-none": message.role === "admin",
-            "rounded-bl-none": message.role !== "admin",
-          })}
-        >
+      <div className="flex flex-col space-y-2 text-base max-w-md md:max-w-lg mx-2 order-1 items-end">
+        <div className="px-3 py-2 rounded-lg text-sm inline-block bg-cyan-800 text-white/90 rounded-br-none">
           <div className="">
             <div className="flex items-center justify-between gap-x-2">
               {deletingID === message.id && (
@@ -284,15 +253,7 @@ const SingleWorkerReply = ({
                   loading={oneDeleteLoading}
                 />
               )}
-              <p
-                className={cn(
-                  "select-none flex shrink-0 items-end line-clamp-1",
-                  {
-                    "text-zinc-500": message.role !== "admin",
-                    "text-white/90": message.role === "admin",
-                  }
-                )}
-              >
+              <p className="select-none flex shrink-0 items-end line-clamp-1 text-white/90">
                 <CornerLeftDown className="h-4 w-4 mr-1.5 shrink-0" /> Replying
                 To:
               </p>
@@ -402,31 +363,14 @@ const SingleWorkerReply = ({
               </Menu>
             </div>
             <div className="border-l-2 px-2 py-1 rounded-sm bg-cyan-900">
-              <div className="mb-1">
-                <p
-                  className={cn("select-none font-medium line-clamp-1", {
-                    "text-zinc-500 opacity-75": message.role !== "admin",
-                    "text-white/90 opacity-75": message.role === "admin",
-                  })}
-                >
-                  Name: {message.workerUserName}
-                </p>
-              </div>
               <div>
-                {message.subject && <p
-                  className={cn("select-none", {
-                    "text-zinc-500 opacity-75": message.role !== "admin",
-                    "text-white/90 opacity-75": message.role === "admin",
-                  })}
-                >
-                  Subject: {message.subject}
-                </p>}
+                {message.subject && (
+                  <p className="select-none text-white/90 opacity-75">
+                    Subject: {message.subject}
+                  </p>
+                )}
                 {typeof message.message ? (
-                  <div
-                    className={cn("prose leading-tight line-clamp-3 whitespace-pre-wrap", {
-                      "text-zinc-50 opacity-75": message.role === "admin",
-                    })}
-                  >
+                  <div className="prose leading-tight line-clamp-3 whitespace-pre-wrap text-zinc-50 opacity-75">
                     {message.message}
                   </div>
                 ) : (
@@ -436,20 +380,10 @@ const SingleWorkerReply = ({
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <div
-              className={cn("text-xs select-none mt-2", {
-                "text-zinc-500": message.role !== "admin",
-                "text-white/90": message.role === "admin",
-              })}
-            >
+            <div className="text-xs select-none mt-2 text-white/90">
               {format(currentDate, "HH:mm")}
             </div>
-            <div
-              className={cn("text-xs select-none mt-2", {
-                "text-zinc-500": message.role !== "admin",
-                "text-white/90": message.role === "admin",
-              })}
-            >
+            <div className="text-xs select-none mt-2 text-white/90">
               <Button
                 variant="ghost"
                 onClick={() => openMessage(message.id)}

@@ -21,7 +21,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Job } from "@prisma/client";
+import { Job, Company } from "@prisma/client";
+import JobsSide from "./JobsSide";
 import { format, formatDistance } from "date-fns";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -31,8 +32,6 @@ import QuillPreview from "@/components/QuillPreview";
 import { Preview } from "@/components/Preview";
 import { useEffect, useState } from "react";
 import RecentlyViewedLoader from "@/components/RecentlyViewedLoader";
-import { trpc } from "@/app/_trpc/client";
-import { useToast } from "@/components/ui/use-toast";
 
 interface JobDetailsProps {
   job: Job;
@@ -40,6 +39,7 @@ interface JobDetailsProps {
   popularJobs: Job[];
   allJobs: Job[];
   viewID: string;
+  companyProfile: Company | null;
 }
 
 interface StoredJob {
@@ -67,7 +67,7 @@ export const addToRecentlyViewed = (userId: string, job: Job): void => {
     job_title,
   });
 
-  const maxItems = 7;
+  const maxItems = 3;
   recentlyViewedJobs = recentlyViewedJobs.slice(0, maxItems);
   localStorage.setItem(storageKey, JSON.stringify(recentlyViewedJobs));
 };
@@ -86,6 +86,7 @@ export default function JobDetails({
   job,
   similarJobs,
   popularJobs,
+  companyProfile,
   allJobs,
   viewID,
 }: JobDetailsProps) {
@@ -119,26 +120,35 @@ export default function JobDetails({
     fetchRecentlyViewedJobs();
   }, [viewID]);
 
-  const filterJobs = (jobsA: Job[], jobsB: Job[]): Job[] => {
-    const idsFromA = new Set(jobsA.map((jobA) => jobA.id));
-    const filteredJobs = jobsB.filter((jobB) => idsFromA.has(jobB.id));
+  const goodRecentlyViewed: Job[] = recentlyViewedJobs
+    .map((recentJob) => allJobs.find((job) => job.id === recentJob.id))
+    .filter((job): job is Job => job !== undefined);
 
-    return filteredJobs;
-  };
-  const goodRecentlyViewed: Job[] = filterJobs(allJobs, recentlyViewedJobs);
+  function getInitials(fullName: string): string {
+    const nameParts = fullName.split(" ");
 
+    if (nameParts.length >= 2) {
+      const initials = nameParts[0].charAt(0) + nameParts[1].charAt(0);
+      return initials.toUpperCase();
+    } else if (nameParts.length === 1) {
+      return nameParts[0].charAt(0).toUpperCase();
+    } else {
+      return "";
+    }
+  }
   return (
     <>
       <div className="flex flex-col h-full">
         <div className="md:border-b md:border-gray-200 md:pb-3 bg-white md:shadow-md md:sticky md:px-4 md:pt-4 md:top-0 md:z-10">
           <div className="flex gap-x-4 w-full justify-between">
             <div>
-              <h2 title="Job title" className="text-xl font-bold tracking-tight sm:text-2xl text-gray-600">
+              <h2
+                title="Job title"
+                className="text-xl font-bold tracking-tight sm:text-2xl text-gray-600"
+              >
                 {job.job_title}
               </h2>
-              <h2
-                className="flex items-center text-gray-600 shrink-0 text-lg font-medium"
-              >
+              <h2 className="flex items-center text-gray-600 shrink-0 text-lg font-medium">
                 <Building2 className="h-5 w-5 mr-1.5" />{" "}
                 <span className="text-primary hover:underline">
                   {job.company_name}
@@ -160,12 +170,30 @@ export default function JobDetails({
               </p>
             </div>
             <div className="flex-shrink-0 flex justify-end">
-              <div className="flex-none w-16 h-16 border border-gray-200 md:hidden bg-gray-200 text-gray-700 flex items-center justify-center">
-                <Image src={job.logo2!} alt="Logo" width={64} height={64} />
-              </div>
-              <div className="hidden flex-none w-20 h-20 border border-gray-200 bg-gray-200 text-gray-700 md:flex items-center justify-center">
-                <Image src={job.logo2!} alt="Logo" width={80} height={80} />
-              </div>
+              {job.companyLogo ? (
+                <div className="relative cursor-pointer border border-gray-200 bg-gray-200 h-[80px] w-[80px] md:h-[96px] md:w-[96px] overflow-hidden rounded-sm">
+                  <Image
+                    src={job.companyLogo}
+                    alt={job.company_name}
+                    title={job.company_name}
+                    quality={100}
+                    fill
+                    sizes="100%"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div
+                  title={`${job.company_name}'s made up logo`}
+                  className=" h-[80px] w-[80px] md:h-[96px] md:w-[96px] cursor-pointer py-1 px-0.5 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
+                >
+                  <div className="flex items-center justify-center w-full h-full">
+                    <div className="text-2xl sm:text-2xl font-semibold">
+                      {getInitials(job.company_name)}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -174,7 +202,9 @@ export default function JobDetails({
               variant="secondary"
               type="button"
               title="Save job"
-              onClick={() => router.push(`/home/login?origin=site/jobs/${job.id}`)}
+              onClick={() =>
+                router.push(`/home/login?origin=site/jobs/${job.id}`)
+              }
               className="rounded-none border hover:text-primary hover:bg-primary/10 border-gray-200 hover:border-gray-200"
             >
               <>
@@ -184,7 +214,9 @@ export default function JobDetails({
             </Button>
             <Button
               variant="outline"
-              onClick={() => router.push(`/home/login?origin=site/jobs/${job.id}`)}
+              onClick={() =>
+                router.push(`/home/login?origin=site/jobs/${job.id}`)
+              }
               className="rounded-none text-destructive-foreground hover:bg-destructive hover:text-destructive-foreground"
             >
               <Flag className="w-4 h-4 mr-1.5" />
@@ -197,7 +229,9 @@ export default function JobDetails({
                 <button
                   type="button"
                   title="Onsite job application"
-                  onClick={() => router.push(`/home/login?origin=site/jobs/apply/${job.id!}`)}
+                  onClick={() =>
+                    router.push(`/home/login?origin=site/jobs/apply/${job.id!}`)
+                  }
                   className="flex w-full items-center rounded-sm justify-center border border-transparent bg-primary px-8 py-3 text-base font-normal text-white hover:opacity-90 focus:outline-none"
                 >
                   <Edit className="w-4 h-4 mr-1 font-normal" />
@@ -211,7 +245,9 @@ export default function JobDetails({
                   <button
                     type="button"
                     title="Job application via email"
-                    onClick={() => router.push(`/home/login?origin=site/jobs/${job.id!}`)}
+                    onClick={() =>
+                      router.push(`/home/login?origin=site/jobs/${job.id!}`)
+                    }
                     className="flex w-full items-center rounded-sm justify-center border border-transparent bg-primary px-8 py-3 text-base font-normal text-white hover:opacity-90 focus:outline-none"
                   >
                     <Mail className="w-4 h-4 mr-1.5" />
@@ -225,7 +261,9 @@ export default function JobDetails({
                   <button
                     type="button"
                     title="Job application via link"
-                    onClick={() => router.push(`/home/login?origin=site/jobs/${job.id!}`)}
+                    onClick={() =>
+                      router.push(`/home/login?origin=site/jobs/${job.id!}`)
+                    }
                     className="flex w-full items-center rounded-sm justify-center border border-transparent bg-primary px-8 py-3 text-base font-normal text-white hover:opacity-90 focus:outline-none"
                   >
                     <ArrowUpRightSquare className="w-4 h-4 mr-1.5" />
@@ -463,38 +501,32 @@ export default function JobDetails({
               </div>
             )}
 
-            <div className="mt-5 border-t border-gray-200 pt-3">
-              <h2 className="text-xl text-gray-700 font-semibold flex items-center">
+            <div className="mt-6 border border-gray-200 rounded-md px-3 pt-3">
+              <h2 className="text-xl mb-2 text-gray-600 font-semibold">
                 Similar Jobs
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Info className="h-4 w-4 ml-0.5 text-gray-500 font-normal" />
-                    </TooltipTrigger>
-                    <TooltipContent className="text-gray-600 tracking-normal">
-                      <p className="font-normal leading-tight">
-                        Maximum of upto 7 jobs in similar category as{" "}
-                        <span className="font-medium">{job.job_title}</span>
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
               </h2>
 
               {similarJobs.length !== 0 ? (
-                <div className="mt-2">
-                  <ul role="list" className="list-disc pl-4 text">
-                    {similarJobs?.map((similarJob) => (
+                <div className="mt-1">
+                  <ul role="list" className="">
+                    {similarJobs?.map((job, index) => (
                       <li
-                        key={similarJob.id}
-                        className="text-gray-600 text-base hover:text-primary"
+                        key={job.id}
+                        className={`mb-4 ${
+                          index !== similarJobs.length - 1
+                            ? "border-b border-body-color pb-4 border-opacity-10"
+                            : ""
+                        }`}
                       >
-                        <Link
-                          href={`/home/jobs/${similarJob.id}`}
-                          className="hover:underline text-base cursor-pointer"
-                        >
-                          {similarJob.job_title}
-                        </Link>
+                        <JobsSide
+                          title={job.job_title}
+                          company={job.company_name}
+                          image={job.companyLogo as string}
+                          slug={`/site/jobs/${job.id}`}
+                          detailJobID={job.id}
+                          jobID={job.id}
+                          date={`${format(job.createdAt, "PPP")}`}
+                        />
                       </li>
                     ))}
                   </ul>
@@ -506,95 +538,83 @@ export default function JobDetails({
               )}
             </div>
 
-            <div className="mt-4">
-              <h2 className="text-xl text-gray-700 font-semibold flex items-center">
+            <div className="mt-6 border border-gray-200 rounded-md px-3 pt-3">
+              <h2 className="text-xl mb-2 text-gray-600 font-semibold ">
                 Popular Jobs
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Info className="h-4 w-4 ml-0.5 text-gray-500 font-normal" />
-                    </TooltipTrigger>
-                    <TooltipContent className="text-gray-600 tracking-normal">
-                      <p className="font-normal leading-tight">
-                        Maximum of upto 7 jobs that are currently receiving high
-                        number of applications.
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
               </h2>
 
               {popularJobs.length !== 0 ? (
-                <div className="mt-2">
-                  <ul role="list" className="pl-4 list-disc">
-                    {popularJobs?.map((popularJob) => (
+                <div className="mt-1">
+                  <ul role="list" className="">
+                    {popularJobs?.map((job, index) => (
                       <li
-                        key={popularJob.id}
-                        className="text-gray-600 hover:text-primary"
+                        key={job.id}
+                        className={`mb-4 ${
+                          index !== popularJobs.length - 1
+                            ? "border-b border-body-color pb-4 border-opacity-10"
+                            : ""
+                        }`}
                       >
-                        <Link
-                          href={`/home/jobs/${popularJob.id}`}
-                          className="hover:underline text-base cursor-pointer"
-                        >
-                          {popularJob.job_title}
-                        </Link>
+                        <JobsSide
+                          title={job.job_title}
+                          company={job.company_name}
+                          image={job.companyLogo as string}
+                          slug={`/site/jobs/${job.id}`}
+                          detailJobID={job.id}
+                          jobID={job.id}
+                          date={`${format(job.createdAt, "PPP")}`}
+                        />
                       </li>
                     ))}
                   </ul>
                 </div>
               ) : (
                 <span className="text-gray-500 italic font-normal text-base">
-                  Popular jobs will appear here.
+                  Popular jobs will appear here
                 </span>
               )}
             </div>
 
             {viewID && (
-              <div className="mt-4">
-                <h2 className="text-xl text-gray-700 font-semibold flex items-center">
+              <div className="mt-6 border border-gray-200 rounded-md px-3 pt-3">
+                <h2 className="text-xl mb-2 text-gray-600 font-semibold">
                   Recently Viewed
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Info className="h-4 w-4 ml-0.5 text-gray-500 font-normal" />
-                      </TooltipTrigger>
-                      <TooltipContent className="text-gray-600 tracking-normal">
-                        <p className="font-normal leading-tight">
-                          A maximum of upto 7 jobs that you have recently opened
-                          to view details.
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
                 </h2>
 
                 {loading ? (
-                  <>
+                  <span className="pb-3">
                     <RecentlyViewedLoader />
-                  </>
+                  </span>
                 ) : (
                   <>
                     {goodRecentlyViewed.length !== 0 ? (
-                      <div className="mt-2">
-                        <ul role="list" className="pl-4 list-disc">
-                          {goodRecentlyViewed?.map((recentlyViewedJob) => (
+                      <div className="mt-1">
+                        <ul role="list" className="">
+                          {goodRecentlyViewed?.map((job, index) => (
                             <li
-                              key={recentlyViewedJob.id}
-                              className="text-gray-600 hover:text-primary"
+                              key={job.id}
+                              className={`mb-4 ${
+                                index !== goodRecentlyViewed.length - 1
+                                  ? "border-b border-body-color pb-4 border-opacity-10"
+                                  : ""
+                              }`}
                             >
-                              <Link
-                                href={`/home/jobs/${recentlyViewedJob.id}`}
-                                className="hover:underline text-base cursor-pointer"
-                              >
-                                {recentlyViewedJob.job_title}
-                              </Link>
+                              <JobsSide
+                                title={job.job_title}
+                                company={job.company_name}
+                                image={job.companyLogo as string}
+                                slug={`/site/jobs/${job.id}`}
+                                detailJobID={job.id}
+                                jobID={job.id}
+                                date={`${format(job.createdAt, "PPP")}`}
+                              />
                             </li>
                           ))}
                         </ul>
                       </div>
                     ) : (
                       <span className="text-gray-500 italic font-normal text-base">
-                        Some of the recently viewed jobs will appear here.
+                        No recently viewed jobs
                       </span>
                     )}
                   </>

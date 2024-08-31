@@ -15,9 +15,10 @@ function classNames(...classes: string[]) {
 interface UserAccountNavProps {
   email: string;
   name: string;
+  pic: string | null;
 }
 
-const UserAccountNav = ({ email, name }: UserAccountNavProps) => {
+const UserAccountNav = ({ email, name, pic }: UserAccountNavProps) => {
   const router = useRouter();
 
   function getInitials(fullName: string): string {
@@ -38,25 +39,10 @@ const UserAccountNav = ({ email, name }: UserAccountNavProps) => {
     <Menu as="div" className="relative inline-block shrink-0 text-left">
       <div>
         <Menu.Button className="inline-flex w-9 h-9 shrink-0 relative justify-center rounded-full bg-transparent font-semibold shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
-          {name ? (
-            <div className="flex items-center justify-center shrink-0 w-full h-full">
-              <span className="text-xl font-medium text-gray-800 shrink-0">
-                {getInitials(name)}
-              </span>
-            </div>
-          ) : (
-            // <img
-            //   src={
-            //     "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
-            //   }
-            //   className="w-full h-full shrink-0 border-none rounded-full"
-            //   alt={name}
-            // />
-            <div className="relative cursor-pointer border border-gray-200 h-full shrink-0 w-full overflow-hidden">
+          {pic ? (
+            <div className="relative cursor-pointer border border-gray-200 h-full shrink-0 w-full rounded-full overflow-hidden">
               <Image
-                src={
-                  "https://res.cloudinary.com/dflvibeo6/image/upload/v1680964479/galagos2/inysw3fyuoifmv4wthhk.jpg"
-                }
+                src={pic}
                 alt="Admin"
                 title="Admin"
                 quality={100}
@@ -64,6 +50,12 @@ const UserAccountNav = ({ email, name }: UserAccountNavProps) => {
                 sizes="100%"
                 priority
               />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center shrink-0 w-full h-full">
+              <span className="text-xl font-medium text-gray-800 shrink-0">
+                {getInitials(name)}
+              </span>
             </div>
           )}
         </Menu.Button>

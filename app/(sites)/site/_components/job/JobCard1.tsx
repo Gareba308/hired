@@ -257,13 +257,15 @@ const JobCard1 = ({
                     </div>
                   ) : (
                     <p className="text-xs hidden sm:flex font-normal text-gray-600 line-clamp-1">
-                      {formatDistanceToNowStrict(item.createdAt, {
-                        addSuffix: true,
-                      })}
+                      <span className="line-clamp-1">
+                        {formatDistanceToNowStrict(item.createdAt, {
+                          addSuffix: true,
+                        })}
+                      </span>
                     </p>
                   )}
                 </div>
-                <div className="flex h-4 w-full items-center space-x-2.5">
+                <div className="flex h-4 w-full items-center space-x-1.5">
                   <div className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

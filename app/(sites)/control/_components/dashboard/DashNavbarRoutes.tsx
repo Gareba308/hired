@@ -20,17 +20,25 @@ const DashNavbarRoutes = async () => {
     select: {
       email: true,
       name: true,
+      id: true,
     },
   });
   if (!user) redirect("/home/login");
 
+  const bio= await db.adminProfile.findFirst({
+    where: {
+      userId: user.id
+    }
+  })
+
   const email = user.email;
   const name = user.name as string;
+  const pic= bio?.photo
 
   return (
     <div className="flex gap-x-3 ml-auto">
       <DashButton />
-      <UserAccountNav email={email} name={name} />
+      <UserAccountNav email={email} name={name} pic={pic as string}/>
     </div>
   );
 };

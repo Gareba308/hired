@@ -199,7 +199,13 @@ const Page = async ({ params }: JobDetailsProps) => {
     return shuffledArray.slice(0, numElement);
   };
 
-  const randomElements = getRandomElement(similarJobs, 7);
+  const randomElements = getRandomElement(similarJobs, 3);
+
+  const companyProfile= await db.company.findFirst({
+    where: {
+      id: jobExists.companyId
+    }
+  })
   return (
     <>
       <div className="mt-5 bg-white min-h-[calc(100vh-70px)]">
@@ -209,6 +215,7 @@ const Page = async ({ params }: JobDetailsProps) => {
           popular={finalSortedPopularJobs}
           job={jobExists}
           similarJobs={randomElements}
+          companyProfile={companyProfile}
         />
       </div>
       <FooterJobs />

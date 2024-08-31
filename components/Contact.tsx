@@ -212,6 +212,7 @@ export default function Contact() {
                           {...field}
                           type="text"
                           required
+                          className='placeholder:text-gray-500 placeholder:text-sm text-sm'
                           disabled={isLoading || isSubmitting}
                           placeholder="E.g. John Doe"
                         />
@@ -233,6 +234,7 @@ export default function Contact() {
                           {...field}
                           type="email"
                           required
+                          className='placeholder:text-gray-500 placeholder:text-sm text-sm'
                           disabled={isLoading || isSubmitting}
                           placeholder="E.g. example@example.com"
                         />
@@ -254,6 +256,7 @@ export default function Contact() {
                           {...field}
                           type="text"
                           required
+                          className='placeholder:text-gray-500 placeholder:text-sm text-sm'
                           disabled={isLoading || isSubmitting}
                           placeholder="E.g. Sign Up Error"
                         />
@@ -279,7 +282,7 @@ export default function Contact() {
                         <Textarea
                           {...field}
                           required
-                          className="resize-none"
+                          className="resize-none text-sm placeholder:text-sm placeholder:text-gray-500"
                           minRows={5}
                           rows={5}
                           disabled={isLoading || isSubmitting}

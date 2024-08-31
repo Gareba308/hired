@@ -13,6 +13,7 @@ import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import Image from "next/image";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -29,7 +30,7 @@ const UserAccountNav = ({ email, companyName, name }: UserAccountNavProps) => {
 
   function getInitials(fullName: string): string {
     const nameParts = fullName.split(" ");
-  
+
     if (nameParts.length >= 2) {
       const initials = nameParts[0].charAt(0) + nameParts[1].charAt(0);
       return initials.toUpperCase();
@@ -39,7 +40,6 @@ const UserAccountNav = ({ email, companyName, name }: UserAccountNavProps) => {
       return "";
     }
   }
-  
 
   return (
     <Menu as="div" className="relative inline-block shrink-0 text-left">
@@ -52,13 +52,19 @@ const UserAccountNav = ({ email, companyName, name }: UserAccountNavProps) => {
               </span>
             </div>
           ) : (
-            <img
-              src={
-                "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
-              }
-              className="w-full h-full shrink-0 border-none rounded-full"
-              alt={name}
-            />
+            <div className="relative cursor-pointer border border-gray-200 h-full shrink-0 w-full rounded-full overflow-hidden">
+              <Image
+                src={
+                  "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
+                }
+                alt="Employer pic"
+                title="Employer pic"
+                quality={100}
+                fill
+                sizes="100%"
+                priority
+              />
+            </div>
           )}
         </Menu.Button>
       </div>

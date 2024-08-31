@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Job } from "@prisma/client";
+import { Job, Company } from "@prisma/client";
 import {
   Briefcase,
   Calendar,
@@ -20,10 +20,23 @@ import { Preview } from "@/components/Preview";
 
 interface MyJobsDetailsProps {
   job: Job;
+  companyProfile: Company | null;
 }
 
-const MyJobsDetails = ({ job }: MyJobsDetailsProps) => {
+const MyJobsDetails = ({ job, companyProfile }: MyJobsDetailsProps) => {
   const router = useRouter();
+  function getInitials(fullName: string): string {
+    const nameParts = fullName.split(" ");
+
+    if (nameParts.length >= 2) {
+      const initials = nameParts[0].charAt(0) + nameParts[1].charAt(0);
+      return initials.toUpperCase();
+    } else if (nameParts.length === 1) {
+      return nameParts[0].charAt(0).toUpperCase();
+    } else {
+      return "";
+    }
+  }
   return (
     <>
       <div className="pt-4 mx-auto max-w-2xl lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-6">
@@ -50,12 +63,30 @@ const MyJobsDetails = ({ job }: MyJobsDetailsProps) => {
               </p>
             </div>
             <div className="flex-shrink-0 flex justify-end">
-              <div className="flex-none w-16 h-16 border border-gray-200 md:hidden bg-sky-100 text-indigo-600 flex items-center justify-center">
-                <Image src={job?.logo2!} alt="Logo" width={64} height={64} />
-              </div>
-              <div className="hidden flex-none w-20 h-20 border border-gray-200 bg-sky-100 text-indigo-600 md:flex items-center justify-center">
-                <Image src={job?.logo2!} alt="Logo" width={80} height={80} />
-              </div>
+              {job.companyLogo ? (
+                <div className="relative cursor-pointer border border-gray-200 bg-gray-200 h-[80px] w-[80px] md:h-[96px] md:w-[96px] overflow-hidden rounded-sm">
+                  <Image
+                    src={job.companyLogo}
+                    alt={job.company_name}
+                    title={job.company_name}
+                    quality={100}
+                    fill
+                    sizes="100%"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div
+                  title={`${job.company_name}'s made up logo`}
+                  className=" h-[80px] w-[80px] md:h-[96px] md:w-[96px] cursor-pointer py-1 px-0.5 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
+                >
+                  <div className="flex items-center justify-center w-full h-full">
+                    <div className="text-2xl sm:text-2xl font-semibold">
+                      {getInitials(job.company_name)}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -82,9 +113,7 @@ const MyJobsDetails = ({ job }: MyJobsDetailsProps) => {
               type="button"
               onClick={() =>
                 router.push(
-                  `/manage/jobs/set/${job?.id!}?origin=manage/my-jobs/${
-                    job.id
-                  }`
+                  `/manage/jobs/set/${job?.id!}?origin=manage/my-jobs/${job.id}`
                 )
               }
               className="flex w-full items-center rounded-sm justify-center border border-transparent bg-primary px-8 py-3 text-base font-medium text-white hover:opacity-90 focus:outline-none"

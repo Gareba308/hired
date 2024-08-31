@@ -232,31 +232,28 @@ const CompanyDetails = ({
                         <div className="flex-shrink-0 flex justify-end">
                           <div>
                             {company.logo ? (
-                              <div className="relative cursor-pointer h-[75px] w-[75px] lg:h-[96px] lg:w-[96px] overflow-hidden rounded-md">
-                                <Image
-                                  src={company.logo as string}
-                                  alt={company.logo as string}
-                                  title={`${company.company_name} logo`}
-                                  quality={100}
-                                  fill
-                                  sizes="100%"
-                                  className="rounded-md"
-                                  priority
-                                />
-                              </div>
-                            ) : (
-                              <div
-                                title={`${company.company_name}'s made up logo`}
-                                className="h-[75px] w-[75px] lg:h-[96px] lg:w-[96px] cursor-pointer py-1 px-0.5 shrink-0 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-md sm:flex items-center justify-center"
-                              >
-                                <div className="flex items-center justify-center shrink-0 w-full h-full">
-                                  <div className="text-2xl sm:text-2xl font-semibold shrink-0">
-                                    {getInitials(
-                                      company.company_name as string
-                                    )}
-                                  </div>
+                              <div className="relative cursor-pointer shrink-0 border border-gray-200 bg-gray-200 h-[96px] w-[96px] overflow-hidden rounded-sm">
+                              <Image
+                                src={company.logo}
+                                alt={company.company_name as string}
+                                title={company.company_name as string}
+                                quality={100}
+                                fill
+                                sizes="100%"
+                                priority
+                              />
+                            </div>
+                          ) : (
+                            <div
+                              title={`${company.company_name as string}'s made up logo`}
+                              className="h-[96px] w-[96px] cursor-pointer py-1 px-0.5 shrink-0 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
+                            >
+                              <div className="flex items-center justify-center shrink-0 w-full h-full">
+                                <div className="text-2xl sm:text-2xl font-semibold shrink-0">
+                                  {getInitials(company.company_name as string)}
                                 </div>
                               </div>
+                            </div>
                             )}
                           </div>
                         </div>

@@ -492,7 +492,7 @@ const CompanyDetails = ({
                 </div>
               </div>
 
-              <div className="lg:col-span-3 lg:mt-3 lg:pb-2">
+              <div className="lg:col-span-3 mt-2 lg:mt-3 lg:pb-2">
                 <div>
                   <>
                     <div className="border-b border-gray-200 pb-2">
@@ -646,26 +646,28 @@ const CompanyDetails = ({
                         <div className="flex-shrink-0 flex justify-end">
                           <div>
                             {company.logo ? (
-                              <div className="w-[96px] cursor-pointer py-1 px-0.5 h-[96px] border border-gray-200 bg-white/70 shrink-0 rounded-sm flex items-center justify-center">
-                                <Image
-                                  src={company.logo as string}
-                                  alt={company.logo as string}
-                                  height={96}
-                                  width={96}
-                                  quality={100}
-                                  className="shrink-0"
-                                />
-                              </div>
-                            ) : (
-                              <div className="w-[96px] cursor-pointer py-1 px-0.5 h-[96px] border border-gray-200 shrink-0  bg-gray-100 rounded-sm flex items-center justify-center">
-                                <div className="flex items-center justify-center shrink-0 w-full h-full">
-                                  <div className="text-2xl sm:text-3xl font-medium text-gray-600 shrink-0">
-                                    {getInitials(
-                                      company.company_name as string
-                                    )}
-                                  </div>
+                              <div className="relative cursor-pointer shrink-0 border border-gray-200 bg-gray-200 h-[96px] w-[96px] overflow-hidden rounded-sm">
+                              <Image
+                                src={company.logo}
+                                alt={company.company_name as string}
+                                title={company.company_name as string}
+                                quality={100}
+                                fill
+                                sizes="100%"
+                                priority
+                              />
+                            </div>
+                          ) : (
+                            <div
+                              title={`${company.company_name as string}'s made up logo`}
+                              className="h-[96px] w-[96px] cursor-pointer py-1 px-0.5 shrink-0 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
+                            >
+                              <div className="flex items-center justify-center shrink-0 w-full h-full">
+                                <div className="text-2xl sm:text-2xl font-semibold shrink-0">
+                                  {getInitials(company.company_name as string)}
                                 </div>
                               </div>
+                            </div>
                             )}
                           </div>
                         </div>

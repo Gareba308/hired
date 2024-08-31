@@ -19,12 +19,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Company, Job } from "@prisma/client";
 import { format, formatDistance } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -153,6 +147,18 @@ export default function JobDetails({
     .map((recentJob) => allJobs.find((job) => job.id === recentJob.id))
     .filter((job): job is Job => job !== undefined);
 
+  function getInitials(fullName: string): string {
+    const nameParts = fullName.split(" ");
+
+    if (nameParts.length >= 2) {
+      const initials = nameParts[0].charAt(0) + nameParts[1].charAt(0);
+      return initials.toUpperCase();
+    } else if (nameParts.length === 1) {
+      return nameParts[0].charAt(0).toUpperCase();
+    } else {
+      return "";
+    }
+  }
   return (
     <>
       <div className="pt-4 mx-auto max-w-2xl lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-6">
@@ -197,12 +203,30 @@ export default function JobDetails({
               </p>
             </div>
             <div className="flex-shrink-0 flex justify-end">
-              <div className="flex-none w-16 h-16 border border-gray-200 md:hidden bg-sky-100 text-indigo-600 flex items-center justify-center">
-                <Image src={job.logo2!} alt="Logo" width={64} height={64} />
-              </div>
-              <div className="hidden flex-none w-20 h-20 border border-gray-200 bg-sky-100 text-indigo-600 md:flex items-center justify-center">
-                <Image src={job.logo2!} alt="Logo" width={80} height={80} />
-              </div>
+              {job.companyLogo ? (
+                <div className="relative cursor-pointer border border-gray-200 bg-gray-200 h-[80px] w-[80px] md:h-[96px] md:w-[96px] overflow-hidden rounded-sm">
+                  <Image
+                    src={job.companyLogo}
+                    alt={job.company_name}
+                    title={job.company_name}
+                    quality={100}
+                    fill
+                    sizes="100%"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div
+                  title={`${job.company_name}'s made up logo`}
+                  className=" h-[80px] w-[80px] md:h-[96px] md:w-[96px] cursor-pointer py-1 px-0.5 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
+                >
+                  <div className="flex items-center justify-center w-full h-full">
+                    <div className="text-2xl sm:text-2xl font-semibold">
+                      {getInitials(job.company_name)}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

@@ -16,7 +16,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { cn } from "@/lib/utils";
 import JobCard1 from "./JobCard1";
-import { Job} from "@prisma/client";
+import { Job, Company } from "@prisma/client";
 import {
   academics,
   categories,
@@ -88,12 +88,14 @@ interface HomeJobsNavBarProps {
   jobs: Job[];
   viewID: string;
   popular: Job[];
+  companyProfiles: Company[];
 }
 
 const HomeJobsNavBar = ({
   jobs,
   viewID,
   popular,
+  companyProfiles,
 }: HomeJobsNavBarProps) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
@@ -645,8 +647,11 @@ const HomeJobsNavBar = ({
   const firstJobCategory = firstJob?.category;
   const resultantSimilarJobs = jobs.filter(
     (job) => job.category === firstJobCategory
-  );
+  ).slice(0, 3);
 
+  const companyProfile =
+    companyProfiles.find((company) => company.id === firstJob.companyId) ||
+    null;
   return (
     <>
       <div className="border-b border-gray-200 pb-3 md:pb-6">
@@ -1558,9 +1563,9 @@ const HomeJobsNavBar = ({
                           <ChevronDownIcon
                             className={`h-5 w-5 ${
                               isAnyJobTypeSelected
-                              ? "text-white"
-                              : "text-gray-600 group-hover:text-gray-800"
-                          }`}
+                                ? "text-white"
+                                : "text-gray-600 group-hover:text-gray-800"
+                            }`}
                             aria-hidden="true"
                           />
                         )}
@@ -1627,9 +1632,9 @@ const HomeJobsNavBar = ({
                           <ChevronDownIcon
                             className={`h-5 w-5 ${
                               isAnyExperienceSelected
-                              ? "text-white"
-                              : "text-gray-600 group-hover:text-gray-800"
-                          }`}
+                                ? "text-white"
+                                : "text-gray-600 group-hover:text-gray-800"
+                            }`}
                             aria-hidden="true"
                           />
                         )}
@@ -1696,9 +1701,9 @@ const HomeJobsNavBar = ({
                           <ChevronDownIcon
                             className={`h-5 w-5 ${
                               isAnyCountySelected
-                              ? "text-white"
-                              : "text-gray-600 group-hover:text-gray-800"
-                          }`}
+                                ? "text-white"
+                                : "text-gray-600 group-hover:text-gray-800"
+                            }`}
                             aria-hidden="true"
                           />
                         )}
@@ -1767,9 +1772,9 @@ const HomeJobsNavBar = ({
                           <ChevronDownIcon
                             className={`h-5 w-5 ${
                               isAnyCategorySelected
-                              ? "text-white"
-                              : "text-gray-600 group-hover:text-gray-800"
-                          }`}
+                                ? "text-white"
+                                : "text-gray-600 group-hover:text-gray-800"
+                            }`}
                             aria-hidden="true"
                           />
                         )}
@@ -1840,9 +1845,9 @@ const HomeJobsNavBar = ({
                           <ChevronDownIcon
                             className={`h-5 w-5 ${
                               isAnyRemunerationSelected
-                              ? "text-white"
-                              : "text-gray-600 group-hover:text-gray-800"
-                          }`}
+                                ? "text-white"
+                                : "text-gray-600 group-hover:text-gray-800"
+                            }`}
                             aria-hidden="true"
                           />
                         )}
@@ -1911,9 +1916,9 @@ const HomeJobsNavBar = ({
                           <ChevronDownIcon
                             className={`h-5 w-5 ${
                               isAnyAcademicSelected
-                              ? "text-white"
-                              : "text-gray-600 group-hover:text-gray-800"
-                          }`}
+                                ? "text-white"
+                                : "text-gray-600 group-hover:text-gray-800"
+                            }`}
                             aria-hidden="true"
                           />
                         )}
@@ -2012,14 +2017,10 @@ const HomeJobsNavBar = ({
 
       <div className="my-3 md:my-6">
         <MaxWidthWrapper>
-          
           <div className="grid gap-x-4 sm:gap-x-5 lg:gap-x-6 md:grid-cols-2">
             <div>
               {sortedAndFilteredJobs.length !== 0 ? (
-                <JobCard1
-                  allJobs={jobsForCurrentPage}
-                  popular={popular}
-                />
+                <JobCard1 allJobs={jobsForCurrentPage} popular={popular} />
               ) : (
                 <>
                   <NoSearchResult />
@@ -2069,6 +2070,7 @@ const HomeJobsNavBar = ({
                     similarJobs={resultantSimilarJobs}
                     popularJobs={popular}
                     allJobs={jobs}
+                    companyProfile={companyProfile}
                   />
                 </div>
               </div>

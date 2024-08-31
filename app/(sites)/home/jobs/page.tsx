@@ -128,6 +128,15 @@ const Page = async () => {
     .filter((job) => job !== undefined) as Job[];
 
   const finalSortedPopularJobs = sortedPopularJobs.slice(0, 4);
+
+  const liveJobsCompanyIDS= jobs.flatMap((job)=> job.companyId)
+  const companyProfiles= await db.company.findMany({
+    where: {
+      id: {
+        in: liveJobsCompanyIDS
+      }
+    }
+  })
   return (
     <>
       <section className="mt-5 bg-white min-h-[calc(100vh-70px)]">
@@ -142,6 +151,7 @@ const Page = async () => {
             jobs={jobs}
             viewID={viewID as string}
             popular={finalSortedPopularJobs}
+            companyProfiles={companyProfiles}
           />
         </Suspense>
       </section>

@@ -16,12 +16,6 @@ import {
   Mail,
   Share2,
 } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Application, Company, Job } from "@prisma/client";
 import { format, formatDistance } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -115,6 +109,19 @@ export default function JobDetails({
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
 
+  function getInitials(fullName: string): string {
+    const nameParts = fullName.split(" ");
+
+    if (nameParts.length >= 2) {
+      const initials = nameParts[0].charAt(0) + nameParts[1].charAt(0);
+      return initials.toUpperCase();
+    } else if (nameParts.length === 1) {
+      return nameParts[0].charAt(0).toUpperCase();
+    } else {
+      return "";
+    }
+  }
+
   const [reportOpen, setReportOpen] = useState<boolean>(false);
   const [isAddingToSaved, setIsAddingToSaved] = useState<boolean>(
     isSaved || false
@@ -188,8 +195,8 @@ export default function JobDetails({
 
   const handleCopyClick = async () => {
     let currentUrl = window.location.href;
-    currentUrl = currentUrl.replace('/site', '/home');
-  
+    currentUrl = currentUrl.replace("/site", "/home");
+
     try {
       await navigator.clipboard.writeText(currentUrl);
       toast({
@@ -262,12 +269,30 @@ export default function JobDetails({
               </p>
             </div>
             <div className="flex-shrink-0 flex justify-end">
-              <div className="flex-none w-16 h-16 border border-gray-200 md:hidden bg-sky-100 text-indigo-600 flex items-center justify-center">
-                <Image src={job.logo2!} alt="Logo" width={64} height={64} />
-              </div>
-              <div className="hidden flex-none w-20 h-20 border border-gray-200 bg-sky-100 text-indigo-600 md:flex items-center justify-center">
-                <Image src={job.logo2!} alt="Logo" width={80} height={80} />
-              </div>
+              {job.companyLogo ? (
+                <div className="relative cursor-pointer border border-gray-200 bg-gray-200 h-[80px] w-[80px] md:h-[96px] md:w-[96px] overflow-hidden rounded-sm">
+                  <Image
+                    src={job.companyLogo}
+                    alt={job.company_name as string}
+                    title={job.company_name as string}
+                    quality={100}
+                    fill
+                    sizes="100%"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div
+                  title={`${job.company_name}'s made up logo`}
+                  className=" h-[80px] w-[80px] md:h-[96px] md:w-[96px] cursor-pointer py-1 px-0.5 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
+                >
+                  <div className="flex items-center justify-center w-full h-full">
+                    <div className="text-2xl sm:text-2xl font-semibold">
+                      {getInitials(job.company_name)}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -411,16 +436,16 @@ export default function JobDetails({
           <div className="lg:pb-3 lg:bg-slate-200 lg:border border-slate-200 lg:rounded-sm lg:-mx-3 lg:pt-3 lg:px-3">
             <h2 className="text-xl text-gray-700 font-bold flex items-center justify-between gap-x-4">
               <span>Job Overview</span>
-            <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="lg:hidden"
-                  onClick={handleCopyClick}
-                >
-                  <Share2 className="h-4 w-4 mr-1.5 shrink-0" />
-                  Share Job
-                </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="lg:hidden"
+                onClick={handleCopyClick}
+              >
+                <Share2 className="h-4 w-4 mr-1.5 shrink-0" />
+                Share Job
+              </Button>
             </h2>
 
             {job.county && (
@@ -873,4 +898,3 @@ export default function JobDetails({
     </>
   );
 }
-
