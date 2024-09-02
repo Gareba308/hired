@@ -29,7 +29,6 @@ import { trpc } from "@/app/_trpc/client";
 import { useRouter} from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ChooseMethodEdit from "./ChooseMethodEdit";
 import NonRegisteredEdit from "./NonRegisteredEdit";
@@ -37,6 +36,7 @@ import CompanyNameEdit from "./CompanyNameEdit";
 import AddAssessmentEdit from "./AddAssessmentEdit";
 import AssessmentOneIDEdit from "./AssessmentOneIDEdit";
 import AssessmentTwoIDEdit from "./AssessmentTwoIDEdit";
+import LogoEdit from "./LogoEdit";
 
 interface EditJobPageProps {
   job: Job | null;
@@ -135,6 +135,7 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
           {job?.jobFormNonRegisteredCompany === true && (
             <CompanyNameEdit job={job} jobId={job?.id as string} />
           )}
+          <LogoEdit  job={job} jobId={job?.id as string}/>
           <CountyEdit job={job} jobId={job?.id as string} />
           <CategoryEdit job={job} jobId={job?.id as string} />
           <EmploymentTypeEdit job={job} jobId={job?.id as string} />

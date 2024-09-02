@@ -4398,6 +4398,8 @@ export const appRouter = router({
         assessmentTwoID: z.string(),
         jobFormNonRegisteredCompany: z.boolean().default(false),
         adminCreatingCompanyName: z.string(),
+
+        adminCreatingAddLogo: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -4432,6 +4434,8 @@ export const appRouter = router({
         adminCreatingCompanyName,
         assessmentOneID,
         assessmentTwoID,
+
+        adminCreatingAddLogo,
       } = input;
 
       if (!userId)
@@ -4482,11 +4486,16 @@ export const appRouter = router({
         userId: employerUserId,
         isEmployerID,
         company_description,
-        logo,
         employerName,
       } = companyExists;
 
-      const company_name = companyExists.company_name as string;
+      const company_name = jobFormNonRegisteredCompany
+        ? adminCreatingCompanyName
+        : (companyExists.company_name as string);
+
+      const logo = jobFormNonRegisteredCompany
+        ? adminCreatingAddLogo
+        : companyExists.logo;
 
       const isEmployerPostingExists = await db.employers.findFirst({
         where: {
@@ -7127,6 +7136,8 @@ export const appRouter = router({
         addAssessment: z.boolean().optional(),
         assessmentOneID: z.string().optional(),
         assessmentTwoID: z.string().optional(),
+        adminCreatingAddLogo: z.string().optional(),
+        companyLogo: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -7160,6 +7171,7 @@ export const appRouter = router({
         addAssessment,
         assessmentOneID,
         assessmentTwoID,
+        companyLogo,
         adminCreatingCompanyName,
       } = input;
       const dbUser = await db.user.findFirst({
@@ -7231,6 +7243,7 @@ export const appRouter = router({
             assessmentTwoID: null,
             address,
             academic,
+            companyLogo,
             benefits,
             instructions,
             deadline,
@@ -7322,6 +7335,7 @@ export const appRouter = router({
           assessmentTwoID,
           address,
           academic,
+          companyLogo,
           benefits,
           instructions,
           deadline,
@@ -7418,6 +7432,7 @@ export const appRouter = router({
           assessmentTwoID: assessmentExists.id,
           address,
           academic,
+          companyLogo,
           benefits,
           instructions,
           deadline,
@@ -7459,6 +7474,7 @@ export const appRouter = router({
           category,
           county,
           address,
+          companyLogo,
           academic,
           addAssessment,
           benefits,
@@ -11974,42 +11990,61 @@ export const appRouter = router({
     }),
 
   homePageSubscribe: contactProcedure
-  .input(
-    z.object({
-      email: z.string(),
-    })
-  )
-  .mutation(async ({ ctx, input }) => {
-    const { ipAddress, location, viewID } = ctx;
-    const { email } = input;
-    const homepageSubscribeAlready = await db.homepageSubscribe.findFirst({
-      where: { email },
-    });
-
-    if (homepageSubscribeAlready) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: 'This email has already subscribed to our job alerts',
+    .input(
+      z.object({
+        email: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { ipAddress, location, viewID } = ctx;
+      const { email } = input;
+      const homepageSubscribeAlready = await db.homepageSubscribe.findFirst({
+        where: { email },
       });
-    }
-    const transporter = nodemailer.createTransport({
-      port: 587,
-      host: process.env.EMAIL_HOST!,
-      auth: {
-        user: process.env.USER!,
-        pass: process.env.PASSWORD!,
-      },
-      secure: false,
-    });
-    const mailOptions = {
-      from: {
-        name: 'Hired',
-        address: process.env.USER!,
-      },
-      replyTo: process.env.REPLY!,
-      to: email,
-      subject: 'Subscribed to Hired job alerts',
-      html: `
+
+      if (homepageSubscribeAlready) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "This email has already subscribed to our job alerts",
+        });
+      }
+      const transporter = nodemailer.createTransport({
+        port: 587,
+        host: process.env.EMAIL_HOST,
+        auth: {
+          user: process.env.USER,
+          pass: process.env.PASSWORD,
+        },
+        secure: false,
+        requireTLS:true,
+        tls: {
+          ciphers: "SSLv3",
+          rejectUnauthorized: false,
+        },
+        debug: true,
+        logger: true,
+      });
+
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+      const mailOptions = {
+        from: {
+          name: "Hired",
+          address: process.env.USER!,
+        },
+        replyTo: process.env.REPLY,
+        to: email,
+        subject: "Subscribed to Hired job alerts",
+        html: `
         <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa;'>
           <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
             <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
@@ -12022,28 +12057,29 @@ export const appRouter = router({
           </div>
         </div>
       `,
-      priority: 'high' as const,
-    };
-    await db.homepageSubscribe.create({
-      data: {
-        email,
-        viewID,
-        ipAddress,
-        location,
-      },
-    });
-
-    try {
-      await transporter.sendMail(mailOptions);
-      return NextResponse.json({ msg: 'Subscription successful' }, { status: 200 });
-    } catch (err) {
-      console.error('Email sending error:', err);
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'Failed to send subscription email',
+        priority: "high" as const,
+      };
+      await db.homepageSubscribe.create({
+        data: {
+          email,
+          viewID,
+          ipAddress,
+          location,
+        },
       });
-    }
-  }),
+
+      return await new Promise((resolve, reject)=> {
+        transporter.sendMail(mailOptions, (err, info)=> {
+          if(err){
+            console.error(err);
+            reject(err);
+          }else{
+            console.log(info)
+            resolve(info)
+          }
+        })
+      })
+    }),
 
   adminReplyWorkerHelp: privateProcedure
     .input(

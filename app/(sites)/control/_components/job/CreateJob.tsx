@@ -74,6 +74,7 @@ import { useCachedSkills } from "../data/create-job/AllSkills";
 import { useBenefits } from "../data/create-job/Benefits";
 import { Company, PickAssessCandidate } from "@prisma/client";
 import Link from "next/link";
+import CloudUpload from "@/components/CloudUpload";
 
 type ReminderFormSchemaType = z.infer<typeof reminderFormSchema>;
 interface AdminCreateJobProps {
@@ -122,6 +123,7 @@ export const reminderFormSchema = z.object({
   assessmentTwoID: z.string(),
   jobFormNonRegisteredCompany: z.boolean().default(false),
   adminCreatingCompanyName: z.string(),
+  adminCreatingAddLogo: z.string(),
 });
 
 const CreateJob = ({
@@ -177,6 +179,7 @@ const CreateJob = ({
       companyID: "",
       jobFormNonRegisteredCompany: false,
       adminCreatingCompanyName: "",
+      adminCreatingAddLogo: "",
     },
   });
   const { control } = form;
@@ -498,6 +501,46 @@ const CreateJob = ({
                                   <>Maximum character limit of 50 reached.</>
                                 )}
                             </FormMessage>
+                          </FormItem>
+                        )}
+                      />
+                    </dd>
+                  </div>
+                )}
+
+                {unregistered && (
+                  <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                    <dt className="text-base font-medium text-gray-600">
+                      <div className="flex items-center flex-row">
+                        <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                        <span className="flex items-center">
+                          Upload Logo
+                          <span className="text-lg font-normal pl-0.5 text-red-600">
+                            *
+                          </span>
+                        </span>
+                      </div>
+                    </dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-base">
+                      <FormField
+                        disabled={isLoading}
+                        control={form.control}
+                        name="adminCreatingAddLogo"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="font-normal text-base text-gray-700">
+                              Upload a company logo for unregistered recruiters.
+                            </FormLabel>
+                            <FormControl>
+                              <CloudUpload
+                                disabled={isLoading}
+                                onChange={(url) => field.onChange(url)}
+                                value={field.value ? field.value : ""}
+                                onRemove={() => field.onChange("")}
+                                accept="image/*"
+                              />
+                            </FormControl>
+                            <FormDescription></FormDescription>
                           </FormItem>
                         )}
                       />
@@ -1825,7 +1868,8 @@ const CreateJob = ({
                                                   <CheckIcon
                                                     className={cn(
                                                       "mr-2 h-4 w-4",
-                                                      test.testID === field.value
+                                                      test.testID ===
+                                                        field.value
                                                         ? "opacity-100"
                                                         : "opacity-0"
                                                     )}

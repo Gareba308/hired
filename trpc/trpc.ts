@@ -2,6 +2,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { TRPCError, initTRPC } from "@trpc/server";
 import { getServerSession } from "next-auth";
 import { headers } from "next/headers";
+import UAParser from 'ua-parser-js';
 
 const t = initTRPC.create();
 const middleware = t.middleware;
@@ -121,13 +122,18 @@ const isContactAuth = middleware(async (opts) => {
   }
 
   const ipAddress = header.get("x-forwarded-for") || "Unknown";
-  const location = header.get("user-agent") || "Unknown";
+  const locationString = header.get("user-agent") || "Unknown";
+  const parser = new UAParser();
+  const parsedUserAgent = parser.setUA(locationString).getResult();
+
+  const { browser} = parsedUserAgent;
+  const browserString: string = `${browser.name || "Unknown Browser"} ${browser.version || ""}`.trim();
 
   return opts.next({
     ctx: {
       viewID,
       ipAddress,
-      location,
+      location:browserString,
     },
   });
 });

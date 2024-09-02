@@ -95,6 +95,7 @@ const Footer = () => {
         variant: 'destructive',
         duration: 3000,
       });
+      setData({ email: '' });
     },
   });
 

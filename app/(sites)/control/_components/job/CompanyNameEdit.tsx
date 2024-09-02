@@ -17,7 +17,7 @@ import { Job } from "@prisma/client";
 import { GripVertical, Loader2, PenLine, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm} from "react-hook-form";
 import { z } from "zod";
 
 type ReminderFormSchemaType = z.infer<typeof reminderFormSchema>;
