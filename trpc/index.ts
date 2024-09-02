@@ -12010,10 +12010,10 @@ export const appRouter = router({
       }
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER,
-          pass: process.env.PASSWORD,
+          user: "arebsy@gmail.com",
+          pass: "omnkrygumotuubmz",
         },
         secure: false,
         requireTLS:true,
@@ -12039,9 +12039,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Hired",
-          address: process.env.USER!,
+          address: "arebsy@gmail.com",
         },
-        replyTo: process.env.REPLY,
+        replyTo: "arebsy@gmail.com",
         to: email,
         subject: "Subscribed to Hired job alerts",
         html: `
