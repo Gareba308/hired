@@ -34,7 +34,7 @@ const generateID = () => {
   return OTP;
 };
 const productionBASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const emailPassword= process.env.PASSWORD
+const emailPassword = process.env.PASSWORD;
 const removeHtmlTags = (htmlString: string): string => {
   const cleanedHtml = sanitizeHtml(htmlString, {
     allowedTags: [],
@@ -269,7 +269,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -277,57 +277,54 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
-          name: "Hired",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Email Address Confirmation",
         html: `
-             <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                <hr>
+             <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'> 
                 <p>Hello ${name},</p>
-                <p>Welcome to Jobs Radar, please verify your email address.</p>
+                <p>Welcome to Hired Jobs, please verify your email address.</p>
                 <p>Use the link button below to confirm your email address. The link's token expires in 1 hour.</p>
-            <div style='cursor: pointer;'><a href='${productionBASE_URL}/home/activate/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#1a96f0; font-size:14.2px; cursor:pointer;'>Confirm Account</button></a></div>
+            <div style='cursor: pointer;'><a href='${productionBASE_URL}/home/activate/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Note: If you did not sign up to Jobs Radar, please ignore this email.</p>
-                <p>Thanks!</p>
+                <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
-                <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
             </div>
             `,
         priority: "high" as const,
       };
 
-      return await new Promise((resolve, reject)=> {
-        transporter.sendMail(mailOptions, (err, info)=> {
-          if(err){
+      return await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
             console.error(err);
             reject(err);
-          }else{
-            console.log(info)
-            resolve(info)
+          } else {
+            console.log(info);
+            resolve(info);
           }
-        })
-      })
+        });
+      });
     }),
 
   registerReferredUser: viewsProcedure
@@ -573,7 +570,7 @@ export const appRouter = router({
 
           const transporter = nodemailer.createTransport({
             port: 587,
-            host: 'smtp.gmail.com',
+            host: "smtp.gmail.com",
             auth: {
               user: "gethiredinkenya@gmail.com",
               pass: emailPassword,
@@ -581,55 +578,52 @@ export const appRouter = router({
             secure: false,
           });
 
-          await new Promise((resolve, reject)=> {
+          await new Promise((resolve, reject) => {
             transporter.verify(function (error, success) {
-              if(error){
+              if (error) {
                 console.log(error);
                 reject(error);
-              }else{
+              } else {
                 console.log("Server is ready to take our message");
                 resolve(success);
               }
-            })
-          })
+            });
+          });
 
           const mailOptions = {
             from: {
-              name: "Hired",
+              name: "Hired Jobs",
               address: "gethiredinkenya@gmail.com",
             },
             replyTo: "gethiredinkenya@gmail.com",
             to: checkUserReferralExists.email,
-            subject: "Suspicious referral activity",
+            subject: "Suspicious Referral Activities",
             html: `
-                 <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-                <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                    <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                    <hr>
+                 <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+                <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                     <p>Hello ${checkUserReferralExists.fullName},</p>
                     <p>Our system has noticed some suspicious user referral and the referral has been marked by our system as "cheat". Reach out to our team for help since more than 3 such markings, will lead to your account being suspended.</p>
                     <p>This is an automated message. Please do NOT reply to this email.</p>
-                    <p>Note: If you did not sign up to Jobs Radar, please ignore this email.</p>
-                    <p>Thanks!</p>
+                    <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                     <hr>
-                    <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                    <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
                 </div>
                 </div>
                 `,
             priority: "high" as const,
           };
 
-           await new Promise((resolve, reject)=> {
-            transporter.sendMail(mailOptions, (err, info)=> {
-              if(err){
+          await new Promise((resolve, reject) => {
+            transporter.sendMail(mailOptions, (err, info) => {
+              if (err) {
                 console.error(err);
                 reject(err);
-              }else{
-                console.log(info)
-                resolve(info)
+              } else {
+                console.log(info);
+                resolve(info);
               }
-            })
-          })
+            });
+          });
         } else {
           await db.userReferrals.update({
             where: {
@@ -702,7 +696,7 @@ export const appRouter = router({
       });
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -710,57 +704,54 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
-          name: "Jobs Radar",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Email Address Confirmation",
         html: `
-             <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                <hr>
+             <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Hello ${name},</p>
-                <p>Welcome to Jobs Radar, please verify your email address.</p>
+                <p>Welcome to Hired Jobs, please verify your email address.</p>
                 <p>Use the link button below to confirm your email address. The link's token expires in 1 hour.</p>
-            <div style='cursor: pointer;'><a href='${productionBASE_URL}/home/activate/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#1a96f0; font-size:14.2px; cursor:pointer;'>Confirm Account</button></a></div>
+            <div style='cursor: pointer;'><a href='${productionBASE_URL}/home/activate/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Note: If you did not sign up to Jobs Radar, please ignore this email.</p>
-                <p>Thanks!</p>
+                <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
-                <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
             </div>
             `,
         priority: "high" as const,
       };
 
-      return await new Promise((resolve, reject)=> {
-        transporter.sendMail(mailOptions, (err, info)=> {
-          if(err){
+      return await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
             console.error(err);
             reject(err);
-          }else{
-            console.log(info)
-            resolve(info)
+          } else {
+            console.log(info);
+            resolve(info);
           }
-        })
-      })
+        });
+      });
     }),
 
   employerReferEmployers: privateProcedure
@@ -845,7 +836,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -853,17 +844,17 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
@@ -874,21 +865,18 @@ export const appRouter = router({
         to: inviteeEmail,
         subject: `${fullName},${email} invites you to Hired`,
         html: `
-               <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                  <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                  <hr>
+               <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                   <p>Hello there,</p>
                   <p>
                   You are receiving this email because <b>${fullName}</b> of address ${email} has invited you to join Hired. 
                   Hired Kenya is a user friendly, affordable platform to source for skilled employees for your company/organization. 
                   Click on the button link below to sign up and automatically redeem your credit of Ksh.500 which you can use to post a job on the platform.
                   </p>
-                  <div style='cursor: pointer;'><a href='${productionBASE_URL}/referrals/mailed/${invitationCode}'><button style='color:white; padding:.3rem 1rem; background:#1a96f0; font-size:14.2px; cursor:pointer;'>Confirm Account</button></a></div>
-                  <p>Thanks!</p><br/>
+                  <div style='cursor: pointer;'><a href='${productionBASE_URL}/referrals/mailed/${invitationCode}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
                   <p style='margin-top:0.5rem; font-size:12.5px'>Note: This is autogenerated email, please do not reply to this email.</p>
                   <hr>
-                  <p style='text-align:center; font-size:12.5px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                  <p style='text-align:center; font-size:12.5px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
               </div>
               </div>
               `,
@@ -907,17 +895,17 @@ export const appRouter = router({
         },
       });
 
-      return await new Promise((resolve, reject)=> {
-        transporter.sendMail(mailOptions, (err, info)=> {
-          if(err){
+      return await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
             console.error(err);
             reject(err);
-          }else{
-            console.log(info)
-            resolve(info)
+          } else {
+            console.log(info);
+            resolve(info);
           }
-        })
-      })
+        });
+      });
     }),
 
   workerReferWorkers: privateProcedure
@@ -1002,7 +990,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -1010,17 +998,17 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
@@ -1031,21 +1019,18 @@ export const appRouter = router({
         to: inviteeEmail,
         subject: `${fullName},${email} invites you to Hired`,
         html: `
-               <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                  <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                  <hr>
+               <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                   <p>Hello there,</p>
                   <p>
                   You are receiving this email because <b>${fullName}</b> of address ${email} has invited you to join Hired. 
                   Hired Kenya is a user friendly, dynamic and very easy to use platform for potential job applicants. 
                   Click on the button link below to sign up and apply for any job that you meet the requirements.
                   </p>
-                  <div style='cursor: pointer;'><a href='${productionBASE_URL}/referrals/mailed/${invitationCode}'><button style='color:white; padding:.3rem 1rem; background:#1a96f0; font-size:14.2px; cursor:pointer;'>Sign Up Now</button></a></div>
-                  <p>Thanks!</p><br/>
+                  <div style='cursor: pointer;'><a href='${productionBASE_URL}/referrals/mailed/${invitationCode}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Sign Up Now</button></a></div>
                   <p style='margin-top:0.5rem; font-size:12.5px'>Note: This is autogenerated email, please do not reply to this email.</p>
                   <hr>
-                  <p style='text-align:center; font-size:12.5px;'>Copyright © Hired. All rights reserved.</p>
+                  <p style='text-align:center; font-size:12.5px; line-height:22.22px;'>Copyright © Hired. All rights reserved.</p>
               </div>
               </div>
               `,
@@ -1064,17 +1049,17 @@ export const appRouter = router({
         },
       });
 
-      return await new Promise((resolve, reject)=> {
-        transporter.sendMail(mailOptions, (err, info)=> {
-          if(err){
+      return await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
             console.error(err);
             reject(err);
-          }else{
-            console.log(info)
-            resolve(info)
+          } else {
+            console.log(info);
+            resolve(info);
           }
-        })
-      })
+        });
+      });
     }),
 
   workerRequestRedeem: privateProcedure
@@ -1131,7 +1116,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -1196,17 +1181,17 @@ export const appRouter = router({
         },
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
@@ -1217,33 +1202,30 @@ export const appRouter = router({
         to: email,
         subject: "Redeem credit points requested",
         html: `
-          <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-              <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-              <hr>
+          <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
               <p>Hello ${dbUser.name as string},</p>
               <p>We have received a request to have your <b>${availablePoints}</b> credit points redeemed to an equivalent of <b>Ksh.${totalPayable}</b>. Payments will be channeled to your mPesa <b>${
           contactDetails?.phone as string
         }</b> on <b>${format(paymentDate, "PPP")}</b>.</p>
-              <p>Thanks!</p>
               <hr>
-              <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+              <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
           </div>
         `,
         priority: "high" as const,
       };
-       await new Promise((resolve, reject)=> {
-        transporter.sendMail(mailOptions, (err, info)=> {
-          if(err){
+      await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
             console.error(err);
             reject(err);
-          }else{
-            console.log(info)
-            resolve(info)
+          } else {
+            console.log(info);
+            resolve(info);
           }
-        })
-      })
+        });
+      });
 
       return await db.workerCreditPoints.update({
         where: {
@@ -1420,7 +1402,7 @@ export const appRouter = router({
         PartyB: shortCode2,
         PhoneNumber: `254${formattedPhone}`,
         CallBackURL: "https://www.hired.co.ke/api/trpc/callBackDetails",
-        AccountReference: "Jobs Radar",
+        AccountReference: "Hired Jobs",
         TransactionDesc: "For everyone",
       };
 
@@ -2018,7 +2000,7 @@ export const appRouter = router({
 
         const transporter = nodemailer.createTransport({
           port: 587,
-          host: 'smtp.gmail.com',
+          host: "smtp.gmail.com",
           auth: {
             user: "gethiredinkenya@gmail.com",
             pass: emailPassword,
@@ -2026,17 +2008,17 @@ export const appRouter = router({
           secure: false,
         });
 
-        await new Promise((resolve, reject)=> {
+        await new Promise((resolve, reject) => {
           transporter.verify(function (error, success) {
-            if(error){
+            if (error) {
               console.log(error);
               reject(error);
-            }else{
+            } else {
               console.log("Server is ready to take our message");
               resolve(success);
             }
-          })
-        })
+          });
+        });
 
         const mailOptions = {
           from: {
@@ -2047,34 +2029,32 @@ export const appRouter = router({
           to: referralDetailsExists.email,
           subject: "Referral credit deducted.",
           html: `
-             <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                <hr>
+             <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Hello ${referralDetailsExists.fullName},</p>
                 <p>Our system detected that there was a problem with the referred candidate and the system marked the candidate as "cheat". </p>
                 <p>Therefore, kindly note that we will not add you credit points for this referral. Thank you.</p>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Note: If you did not sign up to Jobs Radar, please ignore this email.</p>
+                <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
-                <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
             </div>
             `,
           priority: "high" as const,
         };
 
-        return await new Promise((resolve, reject)=> {
-          transporter.sendMail(mailOptions, (err, info)=> {
-            if(err){
+        return await new Promise((resolve, reject) => {
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
               console.error(err);
               reject(err);
-            }else{
-              console.log(info)
-              resolve(info)
+            } else {
+              console.log(info);
+              resolve(info);
             }
-          })
-        })
+          });
+        });
       }
 
       await db.workerCreditPoints.update({
@@ -2176,7 +2156,7 @@ export const appRouter = router({
 
         const transporter = nodemailer.createTransport({
           port: 587,
-          host: 'smtp.gmail.com',
+          host: "smtp.gmail.com",
           auth: {
             user: "gethiredinkenya@gmail.com",
             pass: emailPassword,
@@ -2184,17 +2164,17 @@ export const appRouter = router({
           secure: false,
         });
 
-        await new Promise((resolve, reject)=> {
+        await new Promise((resolve, reject) => {
           transporter.verify(function (error, success) {
-            if(error){
+            if (error) {
               console.log(error);
               reject(error);
-            }else{
+            } else {
               console.log("Server is ready to take our message");
               resolve(success);
             }
-          })
-        })
+          });
+        });
 
         const mailOptions = {
           from: {
@@ -2205,34 +2185,32 @@ export const appRouter = router({
           to: referralDetailsExists.email,
           subject: "Referral credit deducted.",
           html: `
-               <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                  <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                  <hr>
+               <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                   <p>Hello ${referralDetailsExists.fullName},</p>
                   <p>Our system detected that there was a problem with a referred candidate ${referralDetailsExists.inviteeName} and the system marked the candidate as "cheat". </p>
                   <p>Therefore, kindly note that we will not add you credit points for this referral. Thank you.</p>
                   <p>This is an automated message. Please do NOT reply to this email.</p>
-                  <p>Note: If you did not sign up to Jobs Radar, please ignore this email.</p>
+                  <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                   <hr>
-                  <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                  <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
               </div>
               </div>
               `,
           priority: "high" as const,
         };
 
-        return await new Promise((resolve, reject)=> {
-          transporter.sendMail(mailOptions, (err, info)=> {
-            if(err){
+        return await new Promise((resolve, reject) => {
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
               console.error(err);
               reject(err);
-            }else{
-              console.log(info)
-              resolve(info)
+            } else {
+              console.log(info);
+              resolve(info);
             }
-          })
-        })
+          });
+        });
       }
 
       await db.accountBalance.update({
@@ -2545,7 +2523,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -2553,57 +2531,54 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
-          name: "Jobs Radar",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Email Address Confirmation",
         html: `
-             <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                <hr>
+             <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Hello ${name},</p>
-                <p>Welcome to Jobs Radar, please verify your email address.</p>
+                <p>Welcome to Hired Jobs, please verify your email address.</p>
                 <p>Use the link button below to confirm your email address. The link's token expires in 1 hour.</p>
-            <div style='cursor: pointer;'><a href='${productionBASE_URL}/home/activate/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#1a96f0; font-size:14.2px; cursor:pointer;'>Confirm Account</button></a></div>
+            <div style='cursor: pointer;'><a href='${productionBASE_URL}/home/activate/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Note: If you did not sign up to Jobs Radar, please ignore this email.</p>
-                <p>Thanks!</p>
+                <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
-                <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
             </div>
             `,
         priority: "high" as const,
       };
 
-      return await new Promise((resolve, reject)=> {
-        transporter.sendMail(mailOptions, (err, info)=> {
-          if(err){
+      return await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
             console.error(err);
             reject(err);
-          }else{
-            console.log(info)
-            resolve(info)
+          } else {
+            console.log(info);
+            resolve(info);
           }
-        })
-      })
+        });
+      });
     }),
 
   forgotPassword: publicProcedure
@@ -2678,7 +2653,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 465,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -2686,57 +2661,54 @@ export const appRouter = router({
         secure: true,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
-          name: "Jobs Radar",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Password Reset Confirmation",
         html: `
-             <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                <hr>
+             <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Hello ${name},</p>
-                <p>Following your request to have your Jobs Radar account password changed, we would like you to verify the request.</p>
+                <p>Following your request to have your Hired Jobs account password changed, we would like you to verify the request.</p>
                 <p>Use the link button below to change your password. The link's token expires in 30 minutes.</p>
-            <div style='cursor: pointer;'><a href='${productionBASE_URL}/home/reset/${resetToken}'><button style='color:white; padding:.3rem 1rem; background:#1a96f0; font-size:14.2px; cursor:pointer;'>Confirm Account</button></a></div>
+            <div style='cursor: pointer;'><a href='${productionBASE_URL}/home/reset/${resetToken}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Note: If you did not sign up to Jobs Radar, please ignore this email.</p>
-                <p>Thanks!</p>
+                <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
-                <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
             </div>
             `,
         priority: "high" as const,
       };
 
-      return await new Promise((resolve, reject)=> {
-        transporter.sendMail(mailOptions, (err, info)=> {
-          if(err){
+      return await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
             console.error(err);
             reject(err);
-          }else{
-            console.log(info)
-            resolve(info)
+          } else {
+            console.log(info);
+            resolve(info);
           }
-        })
-      })
+        });
+      });
     }),
 
   resetPassword: publicProcedure
@@ -2924,7 +2896,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -2932,40 +2904,37 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions1 = {
         from: {
-          name: "Jobs Radar",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Email Address Changes",
         html: `
-             <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                <hr>
+             <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Hello ${name},</p>
                 <p>Please note that we have received a request (from we hope that it's you?) to have your email changed.</p>
                 <p>Use the link button below to confirm that you would like to implement the said changes. The link's token expires in 1 hour.</p>
-            <div style='cursor: pointer;'><a href='${productionBASE_URL}/new_changes/email/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#1a96f0; font-size:14.2px; cursor:pointer;'>Confirm Account</button></a></div>
+            <div style='cursor: pointer;'><a href='${productionBASE_URL}/new_changes/email/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Note: If you did not sign up to Jobs Radar, please ignore this email.</p>
-                <p>Thanks!</p>
+                <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
-                <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
             </div>
             `,
@@ -2973,25 +2942,22 @@ export const appRouter = router({
       };
       const mailOptions2 = {
         from: {
-          name: "Jobs Radar",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: oldEmail,
         subject: "Email Address Changes",
         html: `
-             <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                <hr>
+             <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Hello ${name},</p>
                 <p>Please note that we have received a request (from we hope that it's you?) to have your email changed.</p>
                 <p>If you did NOT request to have your email changed, talk to our team or change your password. The email changes have not been made and will most likely be effected within an hour.</p>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Note: If you did not sign up to Jobs Radar, please ignore this email.</p>
-                <p>Thanks!</p>
+                <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
-                <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
             </div>
             `,
@@ -2999,16 +2965,16 @@ export const appRouter = router({
       };
       return (await Promise.all([mailOptions1, mailOptions2])).map(
         (mailOption) =>
-          new Promise((resolve, reject)=> {
-            transporter.sendMail(mailOption, (err, info)=> {
-              if(err){
+          new Promise((resolve, reject) => {
+            transporter.sendMail(mailOption, (err, info) => {
+              if (err) {
                 console.error(err);
                 reject(err);
-              }else{
-                console.log(info)
-                resolve(info)
+              } else {
+                console.log(info);
+                resolve(info);
               }
-            })
+            });
           })
       );
     }),
@@ -3091,7 +3057,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -3099,57 +3065,54 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
-          name: "Jobs Radar",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: newEmail,
         subject: "Email Changes Successful",
         html: `
-             <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                <hr>
+             <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Hello ${name},</p>
                 <p>Following your request to have your email address changes, we have successfully implemented the changes.</p>
                 <p>You will be using the new email address <b>${newEmail}</b> with your current password to login to your account.</p>
                 <p>If you did not request to have your email changed, please talk to our team for assistance or change your password.</p>
                 <p>This is an automated message. Please do NOT reply to this email.</p><br/>
-                <p>Note: If you did not sign up to Jobs Radar, please ignore this email.</p>
-                <p>Thanks!</p>
+                <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
-                <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
             </div>
             `,
         priority: "high" as const,
       };
 
-      return await new Promise((resolve, reject)=> {
-        transporter.sendMail(mailOptions, (err, info)=> {
-          if(err){
+      return await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
             console.error(err);
             reject(err);
-          }else{
-            console.log(info)
-            resolve(info)
+          } else {
+            console.log(info);
+            resolve(info);
           }
-        })
-      })
+        });
+      });
     }),
 
   userUpdatePassword: privateProcedure
@@ -3270,7 +3233,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -3278,59 +3241,56 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
-          name: "Jobs Radar",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Password Change Confirmation",
         html: `
-             <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                <hr>
+             <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Hello ${name},</p>
                 <p>Please note that we have received a request(we hope it's from you?) to have your password changed.</p>
                 <p>Due to sensitivity of the request, we ask you to verify the request by clicking on the link below.</p>
                 <p>The link's token expires in 1 hour.</p>
-            <div style='cursor: pointer;'><a href='${productionBASE_URL}/new_changes/password/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#1a96f0; font-size:14.2px; cursor:pointer;'>Confirm Account</button></a></div>
+            <div style='cursor: pointer;'><a href='${productionBASE_URL}/new_changes/password/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
                 <p>If you did not request to have your password changed, please talk to our team for assistance or change your password.</p>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Note: If you did not sign up to Jobs Radar, please ignore this email.</p>
-                <p>Thanks!</p>
+                <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
-                <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
             </div>
             `,
         priority: "high" as const,
       };
 
-      return await new Promise((resolve, reject)=> {
-        transporter.sendMail(mailOptions, (err, info)=> {
-          if(err){
+      return await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
             console.error(err);
             reject(err);
-          }else{
-            console.log(info)
-            resolve(info)
+          } else {
+            console.log(info);
+            resolve(info);
           }
-        })
-      })
+        });
+      });
     }),
 
   acceptUserPasswordChange: publicProcedure
@@ -3404,7 +3364,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -3412,57 +3372,54 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
-          name: "Jobs Radar",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Password Changes Successful",
         html: `
-             <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                <hr>
+             <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Hello ${name},</p>
                 <p>Following your request to have your password changed, we have successfully implemented the changes.</p>
                 <p>You will be using the <b>NEW PASSWORD</b> with your current email to login to your account.</p>
                 <p>If you did not request to have your password changed, please talk to our team for assistance or change your password to a much stronger password.</p>
                 <p>This is an automated message. Please do NOT reply to this email.</p><br/>
-                <p>Note: If you did not sign up to Jobs Radar, please ignore this email.</p>
-                <p>Thanks!</p>
+                <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
-                <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
             </div>
             `,
         priority: "high" as const,
       };
 
-      return await new Promise((resolve, reject)=> {
-        transporter.sendMail(mailOptions, (err, info)=> {
-          if(err){
+      return await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
             console.error(err);
             reject(err);
-          }else{
-            console.log(info)
-            resolve(info)
+          } else {
+            console.log(info);
+            resolve(info);
           }
-        })
-      })
+        });
+      });
     }),
 
   updateUserRole: privateProcedure
@@ -4172,7 +4129,7 @@ export const appRouter = router({
       const messageBody = removeHtmlTags(message);
       const transporter = nodemailer.createTransport({
         port: 465,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -4207,16 +4164,13 @@ export const appRouter = router({
           to: email,
           subject,
           html: `
-            <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                <hr>
+            <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Dear ${name},</p>
                 <div>${messageBody}</div>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Thanks!</p>
                 <hr>
-                <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
               </div>
             </div>
           `,
@@ -4301,7 +4255,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 465,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -4368,16 +4322,13 @@ export const appRouter = router({
             to: userEmail,
             subject,
             html: `
-                <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-                    <div style='justify-content:center; margin:1rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                        <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                        <hr>
+                <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+                    <div style='justify-content:center; margin:1rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                         <p>Hello ${name},</p>
                         <div>${emailContent}</div>
                         <p>This is an automated message. Please do NOT reply to this email.</p>
-                        <p>Thanks!</p>
                         <hr>
-                        <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                        <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
                     </div>
                 </div>
             `,
@@ -4483,7 +4434,7 @@ export const appRouter = router({
       const messageBody = removeHtmlTags(emailBody);
       const transporter = nodemailer.createTransport({
         port: 465,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -4518,16 +4469,13 @@ export const appRouter = router({
           to: email,
           subject,
           html: `
-            <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                <hr>
+            <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Dear ${name},</p>
                 <div>${messageBody}</div>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Thanks!</p>
                 <hr>
-                <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
               </div>
             </div>
           `,
@@ -12148,7 +12096,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -12156,17 +12104,17 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
@@ -12177,17 +12125,15 @@ export const appRouter = router({
         to: email,
         subject: "Contact Message Delivered",
         html: `
-               <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                  <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                  <hr>
+               <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                   <p>Hello ${fullName},</p>
                   <p>
                   Your contact message about ${subject}, has been delivered. Our team will look at it and get back to you as appropriate.
                   </p>
                   <p style='margin-top:0.5rem; font-size:12.5px'>Note: You are receiving this message because this email was used in contact details on <a href='${productionBASE_URL}'>Hired</a>.</p>
                   <hr>
-                  <p style='text-align:center; font-size:12.5px;'>Copyright © Hired. All rights reserved.</p>
+                  <p style='text-align:center; font-size:12.5px; line-height:22.22px;'>Copyright © Hired. All rights reserved.</p>
               </div>
               </div>
               `,
@@ -12206,17 +12152,17 @@ export const appRouter = router({
         },
       });
 
-      return await new Promise((resolve, reject)=> {
-        transporter.sendMail(mailOptions, (err, info)=> {
-          if(err){
+      return await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
             console.error(err);
             reject(err);
-          }else{
-            console.log(info)
-            resolve(info)
+          } else {
+            console.log(info);
+            resolve(info);
           }
-        })
-      })
+        });
+      });
     }),
 
   homePageSubscribe: contactProcedure
@@ -12240,13 +12186,13 @@ export const appRouter = router({
       }
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
         },
         secure: false,
-        requireTLS:true,
+        requireTLS: true,
         tls: {
           ciphers: "SSLv3",
           rejectUnauthorized: false,
@@ -12255,17 +12201,17 @@ export const appRouter = router({
         logger: true,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
       const mailOptions = {
         from: {
           name: "Hired Jobs",
@@ -12275,15 +12221,13 @@ export const appRouter = router({
         to: email,
         subject: "Subscribed to Hired job alerts",
         html: `
-        <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa;'>
-          <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-            <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-            <hr>
+        <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa;'>
+          <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
             <p>Hello there,</p>
             <p>Your subscription to Hired job alerts is successful. We will update you on available job vacancies.</p>
             <p style='margin-top:0.5rem; font-size:12.5px'>Note: You are receiving this message because this email was used to subscribe for job alerts on <a href='${process.env.PRODUCTION_BASE_URL}'>Hired</a>.</p>
             <hr>
-            <p style='text-align:center; font-size:12.5px;'>Copyright © Hired. All rights reserved.</p>
+            <p style='text-align:center; font-size:12.5px; line-height:22.22px;'>Copyright © Hired. All rights reserved.</p>
           </div>
         </div>
       `,
@@ -12298,17 +12242,17 @@ export const appRouter = router({
         },
       });
 
-      return await new Promise((resolve, reject)=> {
-        transporter.sendMail(mailOptions, (err, info)=> {
-          if(err){
+      return await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
             console.error(err);
             reject(err);
-          }else{
-            console.log(info)
-            resolve(info)
+          } else {
+            console.log(info);
+            resolve(info);
           }
-        })
-      })
+        });
+      });
     }),
 
   adminReplyWorkerHelp: privateProcedure
@@ -14169,7 +14113,7 @@ export const appRouter = router({
         });
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -14177,38 +14121,36 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
-          name: "Jobs Radar",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: userEmail!,
         subject: "Update on Your Job Application",
         html: `
-                 <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-                <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                    <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                    <hr>
+                 <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+                <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                     <p>Hello ${name},</p>
                     <p>We regret to inform you that your recent job application for the <b>${jobTitle}</b> role at ${companyName} has been declined. We appreciate your effort and interest in joining <b>${companyName}</b> team and wish you the best in your future endeavors</p>
                     <p>Thank you for using Hired. Feel free to submit an application for any other open job meeting your qualification.</p>
                     <p>Please do NOT reply to this email.</p><br/>
                     <p>Note: If you did not apply for a job on <b>Hired</b>- www.hired.co.ke, please ignore this email.</p>
                     <hr>
-                    <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                    <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
                 </div>
                 </div>
                 `,
@@ -14324,7 +14266,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -14332,38 +14274,35 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
-          name: "Jobs Radar",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: userEmail!,
         subject: "Successful Job Application",
         html: `
-                 <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-                <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                    <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                    <hr>
+                 <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+                <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                     <p>Hello ${name},</p>
                     <p>We are pleased to inform you that your recent job application for the <b>${jobTitle}</b> role at ${companyName} has been marked as offered. We appreciate your effort and interest in joining <b>${companyName}</b> team. We wish you the best, you will receive further communication on way forward.</p>
                     <p>Thank you for using Hired. Feel free to recommend Hired.</p>
-                    <p>Please do NOT reply to this email.</p><br/>
                     <p>Note: If you did not apply for a job on <b>Hired</b>- www.hired.co.ke, please ignore this email.</p>
                     <hr>
-                    <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                    <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
                 </div>
                 </div>
                 `,
@@ -14486,7 +14425,7 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -14494,38 +14433,35 @@ export const appRouter = router({
         secure: false,
       });
 
-      await new Promise((resolve, reject)=> {
+      await new Promise((resolve, reject) => {
         transporter.verify(function (error, success) {
-          if(error){
+          if (error) {
             console.log(error);
             reject(error);
-          }else{
+          } else {
             console.log("Server is ready to take our message");
             resolve(success);
           }
-        })
-      })
+        });
+      });
 
       const mailOptions = {
         from: {
-          name: "Jobs Radar",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: userEmail!,
         subject: "Interview Update",
         html: `
-                   <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-                  <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-                      <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-                      <hr>
+                   <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+                  <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                       <p>Hello ${name},</p>
                       <p>We are glad to inform you that your recent job application for the <b>${jobTitle}</b> role at ${companyName} has been marked as on interview stage. We appreciate your effort and interest in joining <b>${companyName}</b> team. We wish you the best, you will receive further communication on way forward.</p>
                       <p>Thank you for using Hired. Feel free to recommend Hired.</p>
-                      <p>Please do NOT reply to this email.</p><br/>
                       <p>Note: If you did not apply for a job on <b>Hired</b>- www.hired.co.ke, please ignore this email.</p>
                       <hr>
-                      <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+                      <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
                   </div>
                   </div>
                   `,

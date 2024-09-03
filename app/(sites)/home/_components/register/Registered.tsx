@@ -64,6 +64,7 @@ const Registered = () => {
                     variant="secondary"
                     size="lg"
                     type="button"
+                    onClick={()=> router.push('/home/contact')}
                     className="w-full border border-gray-200"
                   >
                     Support <ArrowRight className="w-4 h-4 ml-1.5" />

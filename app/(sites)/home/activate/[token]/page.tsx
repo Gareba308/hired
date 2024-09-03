@@ -146,25 +146,22 @@ const EmailVerified = async ({ params }: ActivateProps) => {
 
       const referrerMailOptions = {
         from: {
-          name: "Hired",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: referrerEmail,
         subject: "Referral Confirmation",
         html: `
-          <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-              <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-              <hr>
+          <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
               <p>Hello ${referrerName},</p>
               <p>Congratulations! Your referral (${obfuscateEmail(
                 email
-              )}) has signed up successfully. You have been credited with <b>Ksh.1000</b> to use to post a job.</p>
+              )}) has signed up successfully. You have been credited with <b>Ksh.500</b> to use to post a job.</p>
               <p><a href='https://www.hired.co.ke/manage/referrals/my-referrals'>Visit Hired to view your credit and use your credit to post a job</a></p>
-              <p>Thanks!</p>
               <hr>
-              <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+              <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
           </div>
         `,
@@ -173,23 +170,20 @@ const EmailVerified = async ({ params }: ActivateProps) => {
 
       const referredMailOptions = {
         from: {
-          name: "Hired",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Sign up success, you got credit",
         html: `
-          <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-              <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-              <hr>
+          <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
               <p>Hello ${name},</p>
               <p>Your email has been verified successfully and you have received a <b>Ksh.500</b> credit, top up and post a job on the platform.</p>
               <p><a href='https://www.hired.co.ke/manage/transaction'>Visit Hired to view your credit and use your credit to post a job</a></p>
-              <p>Thanks!</p>
               <hr>
-              <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+              <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
           </div>
         `,
@@ -252,25 +246,22 @@ const EmailVerified = async ({ params }: ActivateProps) => {
 
       const referrerMailOptions = {
         from: {
-          name: "Hired",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: referrerEmail,
         subject: "Referral Confirmation",
         html: `
-          <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-              <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-              <hr>
+          <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
               <p>Hello ${referrerName},</p>
               <p>Congratulations! Your referral (${obfuscateEmail(
                 email
               )}) has signed up successfully. You have been credited with <b>10 credit points</b>. From a minimum of 200 approved credit point, you can redeem the points. <b>1 point</b> is equivalent to <b>Ksh.1</b>.</p>
               <p><a href='https://www.hired.co.ke/site/referrals/my-referrals'>Visit Hired to view your credit and use your credit to post a job</a></p>
-              <p>Thanks!</p>
               <hr>
-              <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+              <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
           </div>
         `,
@@ -279,23 +270,20 @@ const EmailVerified = async ({ params }: ActivateProps) => {
 
       const referredMailOptions = {
         from: {
-          name: "Hired",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Sign up success.",
         html: `
-          <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-              <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-              <hr>
+          <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
               <p>Hello ${name},</p>
               <p>Your email has been verified successfully and you are all set to start using the platform to submit job applications.</p>
               <p><a href='https://www.hired.co.ke/site/jobs'>Visit Hired to view all available jobs</a></p>
-              <p>Thanks!</p>
               <hr>
-              <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+              <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
           </div>
         `,
@@ -364,23 +352,20 @@ const EmailVerified = async ({ params }: ActivateProps) => {
 
       const mailOptions = {
         from: {
-          name: "Hired",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Sign up success, you got credit",
         html: `
-          <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-              <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-              <hr>
+          <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
               <p>Hello ${name},</p>
               <p>Your email has been verified successfully and you have received a <b>Ksh.500</b> credit, top up and post a job on the platform.</p>
               <p><a href='https://www.hired.co.ke/manage/transaction'>Visit Hired to view your credit and use your credit to post a job</a></p>
-              <p>Thanks!</p>
               <hr>
-              <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+              <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
           </div>
         `,
@@ -435,23 +420,20 @@ const EmailVerified = async ({ params }: ActivateProps) => {
 
       const mailOptions = {
         from: {
-          name: "Hired",
+          name: "Hired Jobs",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Sign up success",
         html: `
-          <div style='font-size: 14px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; background:#fff;'>
-              <img src='https://res.cloudinary.com/dflvibeo6/image/upload/v1684702678/My_project-1_4_zwzqjm.png' alt='logo' width='140px' style='display:block; margin-top:-.5rem;'>
-              <hr>
+          <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
               <p>Hello ${name},</p>
               <p>Your email has been verified successfully and you are all set to start using the platform to submit job applications.</p>
               <p><a href='https://www.hired.co.ke/site/jobs'>Visit Hired to view all available jobs</a></p>
-              <p>Thanks!</p>
               <hr>
-              <p style='text-align:center; font-size:14px;'>Copyright © Jobs Radar Kenya. All rights reserved.</p>
+              <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
           </div>
         `,
@@ -459,7 +441,6 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       };
 
       try {
-        // await transporter.sendMail(mailOptions);
         await new Promise((resolve, reject)=> {
           transporter.sendMail(mailOptions, (err, info)=> {
             if(err){
