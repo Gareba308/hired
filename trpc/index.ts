@@ -268,10 +268,10 @@ export const appRouter = router({
       });
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -291,9 +291,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Jobs Radar",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Email Address Confirmation",
         html: `
@@ -572,10 +572,10 @@ export const appRouter = router({
 
           const transporter = nodemailer.createTransport({
             port: 587,
-            host: process.env.EMAIL_HOST!,
+            host: 'smtp.gmail.com',
             auth: {
-              user: process.env.USER!,
-              pass: process.env.PASSWORD!,
+              user: "gethiredinkenya@gmail.com",
+              pass: password,
             },
             secure: false,
           });
@@ -595,9 +595,9 @@ export const appRouter = router({
           const mailOptions = {
             from: {
               name: "Hired",
-              address: process.env.USER!,
+              address: "gethiredinkenya@gmail.com",
             },
-            replyTo: process.env.REPLY!,
+            replyTo: "gethiredinkenya@gmail.com",
             to: checkUserReferralExists.email,
             subject: "Suspicious referral activity",
             html: `
@@ -701,10 +701,10 @@ export const appRouter = router({
       });
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -724,9 +724,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Jobs Radar",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Email Address Confirmation",
         html: `
@@ -844,10 +844,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -867,9 +867,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Hired",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: inviteeEmail,
         subject: `${fullName},${email} invites you to Hired`,
         html: `
@@ -1001,10 +1001,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -1024,9 +1024,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Hired",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: inviteeEmail,
         subject: `${fullName},${email} invites you to Hired`,
         html: `
@@ -1130,10 +1130,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -1210,9 +1210,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Hired",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Redeem credit points requested",
         html: `
@@ -2017,10 +2017,10 @@ export const appRouter = router({
 
         const transporter = nodemailer.createTransport({
           port: 587,
-          host: process.env.EMAIL_HOST!,
+          host: 'smtp.gmail.com',
           auth: {
-            user: process.env.USER!,
-            pass: process.env.PASSWORD!,
+            user: "gethiredinkenya@gmail.com",
+            pass: password,
           },
           secure: false,
         });
@@ -2040,9 +2040,9 @@ export const appRouter = router({
         const mailOptions = {
           from: {
             name: "Hired",
-            address: process.env.USER!,
+            address: "gethiredinkenya@gmail.com",
           },
-          replyTo: process.env.REPLY!,
+          replyTo: "gethiredinkenya@gmail.com",
           to: referralDetailsExists.email,
           subject: "Referral credit deducted.",
           html: `
@@ -2175,10 +2175,10 @@ export const appRouter = router({
 
         const transporter = nodemailer.createTransport({
           port: 587,
-          host: process.env.EMAIL_HOST!,
+          host: 'smtp.gmail.com',
           auth: {
-            user: process.env.USER!,
-            pass: process.env.PASSWORD!,
+            user: "gethiredinkenya@gmail.com",
+            pass: password,
           },
           secure: false,
         });
@@ -2198,9 +2198,9 @@ export const appRouter = router({
         const mailOptions = {
           from: {
             name: "Hired",
-            address: process.env.USER!,
+            address: "gethiredinkenya@gmail.com",
           },
-          replyTo: process.env.REPLY!,
+          replyTo: "gethiredinkenya@gmail.com",
           to: referralDetailsExists.email,
           subject: "Referral credit deducted.",
           html: `
@@ -2544,10 +2544,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -2567,9 +2567,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Jobs Radar",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Email Address Confirmation",
         html: `
@@ -2677,10 +2677,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 465,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: true,
       });
@@ -2700,9 +2700,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Jobs Radar",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Password Reset Confirmation",
         html: `
@@ -2923,10 +2923,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -2946,9 +2946,9 @@ export const appRouter = router({
       const mailOptions1 = {
         from: {
           name: "Jobs Radar",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Email Address Changes",
         html: `
@@ -2973,9 +2973,9 @@ export const appRouter = router({
       const mailOptions2 = {
         from: {
           name: "Jobs Radar",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: oldEmail,
         subject: "Email Address Changes",
         html: `
@@ -3090,10 +3090,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -3113,9 +3113,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Jobs Radar",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: newEmail,
         subject: "Email Changes Successful",
         html: `
@@ -3269,10 +3269,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -3292,9 +3292,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Jobs Radar",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Password Change Confirmation",
         html: `
@@ -3403,10 +3403,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -3426,9 +3426,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Jobs Radar",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Password Changes Successful",
         html: `
@@ -4171,10 +4171,10 @@ export const appRouter = router({
       const messageBody = removeHtmlTags(message);
       const transporter = nodemailer.createTransport({
         port: 465,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: true,
       });
@@ -4200,9 +4200,9 @@ export const appRouter = router({
         const mailOptions = {
           from: {
             name: "Hired",
-            address: process.env.USER!,
+            address: "gethiredinkenya@gmail.com",
           },
-          replyTo: process.env.REPLY!,
+          replyTo: "gethiredinkenya@gmail.com",
           to: email,
           subject,
           html: `
@@ -4300,10 +4300,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 465,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: true,
       });
@@ -4361,9 +4361,9 @@ export const appRouter = router({
           const mailOptions = {
             from: {
               name: "Hired",
-              address: process.env.USER!,
+              address: "gethiredinkenya@gmail.com",
             },
-            replyTo: process.env.REPLY!,
+            replyTo: "gethiredinkenya@gmail.com",
             to: userEmail,
             subject,
             html: `
@@ -4482,10 +4482,10 @@ export const appRouter = router({
       const messageBody = removeHtmlTags(emailBody);
       const transporter = nodemailer.createTransport({
         port: 465,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: true,
       });
@@ -4511,9 +4511,9 @@ export const appRouter = router({
         const mailOptions = {
           from: {
             name: "Hired",
-            address: process.env.USER!,
+            address: "gethiredinkenya@gmail.com",
           },
-          replyTo: process.env.REPLY!,
+          replyTo: "gethiredinkenya@gmail.com",
           to: email,
           subject,
           html: `
@@ -12147,10 +12147,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -12170,9 +12170,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Hired",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Contact Message Delivered",
         html: `
@@ -14168,10 +14168,10 @@ export const appRouter = router({
         });
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -14191,9 +14191,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Jobs Radar",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: userEmail!,
         subject: "Update on Your Job Application",
         html: `
@@ -14323,10 +14323,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -14346,9 +14346,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Jobs Radar",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: userEmail!,
         subject: "Successful Job Application",
         html: `
@@ -14485,10 +14485,10 @@ export const appRouter = router({
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.USER!,
-          pass: process.env.PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -14508,9 +14508,9 @@ export const appRouter = router({
       const mailOptions = {
         from: {
           name: "Jobs Radar",
-          address: process.env.USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: userEmail!,
         subject: "Interview Update",
         html: `

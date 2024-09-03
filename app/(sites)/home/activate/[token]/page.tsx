@@ -21,7 +21,7 @@ const EmailVerified = async ({ params }: ActivateProps) => {
   const { token } = params;
 
   const currentDate = new Date();
-
+  const password= process.env.NEXT_PUBLIC_PASSWORD
   const user = await db.verification.findFirst({
     where: {
       verifyToken: token,
@@ -136,10 +136,10 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       }
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.NEXT_PUBLIC_EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.NEXT_PUBLIC_USER!,
-          pass: process.env.NEXT_PUBLIC_PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -147,9 +147,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       const referrerMailOptions = {
         from: {
           name: "Hired",
-          address: process.env.NEXT_PUBLIC_USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.NEXT_PUBLIC_REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: referrerEmail,
         subject: "Referral Confirmation",
         html: `
@@ -174,9 +174,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       const referredMailOptions = {
         from: {
           name: "Hired",
-          address: process.env.NEXT_PUBLIC_USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.NEXT_PUBLIC_REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Sign up success, you got credit",
         html: `
@@ -242,10 +242,10 @@ const EmailVerified = async ({ params }: ActivateProps) => {
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.NEXT_PUBLIC_EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.NEXT_PUBLIC_USER!,
-          pass: process.env.NEXT_PUBLIC_PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -253,9 +253,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       const referrerMailOptions = {
         from: {
           name: "Hired",
-          address: process.env.NEXT_PUBLIC_USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.NEXT_PUBLIC_REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: referrerEmail,
         subject: "Referral Confirmation",
         html: `
@@ -280,9 +280,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       const referredMailOptions = {
         from: {
           name: "Hired",
-          address: process.env.NEXT_PUBLIC_USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.NEXT_PUBLIC_REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Sign up success.",
         html: `
@@ -354,10 +354,10 @@ const EmailVerified = async ({ params }: ActivateProps) => {
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.NEXT_PUBLIC_EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.NEXT_PUBLIC_USER!,
-          pass: process.env.NEXT_PUBLIC_PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -365,9 +365,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       const mailOptions = {
         from: {
           name: "Hired",
-          address: process.env.NEXT_PUBLIC_USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.NEXT_PUBLIC_REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Sign up success, you got credit",
         html: `
@@ -425,10 +425,10 @@ const EmailVerified = async ({ params }: ActivateProps) => {
     if (dbRole === "worker") {
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: process.env.NEXT_PUBLIC_EMAIL_HOST!,
+        host: 'smtp.gmail.com',
         auth: {
-          user: process.env.NEXT_PUBLIC_USER!,
-          pass: process.env.NEXT_PUBLIC_PASSWORD!,
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
       });
@@ -436,9 +436,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       const mailOptions = {
         from: {
           name: "Hired",
-          address: process.env.NEXT_PUBLIC_USER!,
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: process.env.NEXT_PUBLIC_REPLY!,
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Sign up success",
         html: `
