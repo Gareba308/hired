@@ -388,7 +388,17 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       };
 
       try {
-        await transporter.sendMail(mailOptions);
+        await new Promise((resolve, reject)=> {
+          transporter.sendMail(mailOptions, (err, info)=> {
+            if(err){
+              console.error(err);
+              reject(err);
+            }else{
+              console.log(info)
+              resolve(info)
+            }
+          })
+        })
 
         await db.user.update({
           where: {
@@ -449,7 +459,18 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       };
 
       try {
-        await transporter.sendMail(mailOptions);
+        // await transporter.sendMail(mailOptions);
+        await new Promise((resolve, reject)=> {
+          transporter.sendMail(mailOptions, (err, info)=> {
+            if(err){
+              console.error(err);
+              reject(err);
+            }else{
+              console.log(info)
+              resolve(info)
+            }
+          })
+        })
 
         await db.user.update({
           where: {

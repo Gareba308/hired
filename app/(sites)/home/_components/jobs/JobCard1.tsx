@@ -51,7 +51,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                     onClick={() =>
                       router.push(`/home/jobs/${item.id}?origin=home/jobs`)
                     }
-                    className="relative cursor-pointer h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] border border-gray-200 overflow-hidden rounded-sm"
+                    className="relative cursor-pointer h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] border border-gray-300 overflow-hidden rounded-sm"
                   >
                     <Image
                       src={item.companyLogo}
@@ -69,7 +69,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                       router.push(`/home/jobs/${item.id}?origin=home/jobs`)
                     }
                     title={`${item.company_name}'s made up logo`}
-                    className="h-[60px] w-[60px] sm:h-[68px] sm:w-[68px] cursor-pointer py-1 px-0.5 shrink-0 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
+                    className="h-[60px] w-[60px] sm:h-[68px] sm:w-[68px] cursor-pointer py-1 px-0.5 shrink-0 text-gray-600 border border-gray-300  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
                   >
                     <div className="flex items-center justify-center shrink-0 w-full h-full">
                       <div className="text-2xl sm:text-2xl font-semibold shrink-0">

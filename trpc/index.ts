@@ -34,6 +34,7 @@ const generateID = () => {
   return OTP;
 };
 const productionBASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const password= process.env.PASSWORD
 const removeHtmlTags = (htmlString: string): string => {
   const cleanedHtml = sanitizeHtml(htmlString, {
     allowedTags: [],
@@ -275,6 +276,18 @@ export const appRouter = router({
         secure: false,
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions = {
         from: {
           name: "Jobs Radar",
@@ -303,15 +316,17 @@ export const appRouter = router({
         priority: "high" as const,
       };
 
-      return new Promise((resolve) => {
-        transporter.sendMail(mailOptions, (err: any) => {
-          const status = err ? 500 : 200;
-          const message =
-            err?.toString() ??
-            "Check your email to be able to verify your email!";
-          resolve(NextResponse.json({ msg: message }, { status }));
-        });
-      });
+      return await new Promise((resolve, reject)=> {
+        transporter.sendMail(mailOptions, (err, info)=> {
+          if(err){
+            console.error(err);
+            reject(err);
+          }else{
+            console.log(info)
+            resolve(info)
+          }
+        })
+      })
     }),
 
   registerReferredUser: viewsProcedure
@@ -565,6 +580,18 @@ export const appRouter = router({
             secure: false,
           });
 
+          await new Promise((resolve, reject)=> {
+            transporter.verify(function (error, success) {
+              if(error){
+                console.log(error);
+                reject(error);
+              }else{
+                console.log("Server is ready to take our message");
+                resolve(success);
+              }
+            })
+          })
+
           const mailOptions = {
             from: {
               name: "Hired",
@@ -591,11 +618,17 @@ export const appRouter = router({
             priority: "high" as const,
           };
 
-          try {
-            await transporter.sendMail(mailOptions);
-          } catch (error) {
-            console.error("Error sending email:", error);
-          }
+           await new Promise((resolve, reject)=> {
+            transporter.sendMail(mailOptions, (err, info)=> {
+              if(err){
+                console.error(err);
+                reject(err);
+              }else{
+                console.log(info)
+                resolve(info)
+              }
+            })
+          })
         } else {
           await db.userReferrals.update({
             where: {
@@ -676,6 +709,18 @@ export const appRouter = router({
         secure: false,
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions = {
         from: {
           name: "Jobs Radar",
@@ -704,15 +749,17 @@ export const appRouter = router({
         priority: "high" as const,
       };
 
-      return new Promise((resolve) => {
-        transporter.sendMail(mailOptions, (err: any) => {
-          const status = err ? 500 : 200;
-          const message =
-            err?.toString() ??
-            "Check your email to be able to verify your email!";
-          resolve(NextResponse.json({ msg: message }, { status }));
-        });
-      });
+      return await new Promise((resolve, reject)=> {
+        transporter.sendMail(mailOptions, (err, info)=> {
+          if(err){
+            console.error(err);
+            reject(err);
+          }else{
+            console.log(info)
+            resolve(info)
+          }
+        })
+      })
     }),
 
   employerReferEmployers: privateProcedure
@@ -805,6 +852,18 @@ export const appRouter = router({
         secure: false,
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions = {
         from: {
           name: "Hired",
@@ -847,13 +906,17 @@ export const appRouter = router({
         },
       });
 
-      return new Promise((resolve) => {
-        transporter.sendMail(mailOptions, (err: any) => {
-          const status = err ? 500 : 200;
-          const message = err?.toString() ?? "Referral message delivered";
-          resolve(NextResponse.json({ msg: message }, { status }));
-        });
-      });
+      return await new Promise((resolve, reject)=> {
+        transporter.sendMail(mailOptions, (err, info)=> {
+          if(err){
+            console.error(err);
+            reject(err);
+          }else{
+            console.log(info)
+            resolve(info)
+          }
+        })
+      })
     }),
 
   workerReferWorkers: privateProcedure
@@ -946,6 +1009,18 @@ export const appRouter = router({
         secure: false,
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions = {
         from: {
           name: "Hired",
@@ -988,13 +1063,17 @@ export const appRouter = router({
         },
       });
 
-      return new Promise((resolve) => {
-        transporter.sendMail(mailOptions, (err: any) => {
-          const status = err ? 500 : 200;
-          const message = err?.toString() ?? "Referral message delivered";
-          resolve(NextResponse.json({ msg: message }, { status }));
-        });
-      });
+      return await new Promise((resolve, reject)=> {
+        transporter.sendMail(mailOptions, (err, info)=> {
+          if(err){
+            console.error(err);
+            reject(err);
+          }else{
+            console.log(info)
+            resolve(info)
+          }
+        })
+      })
     }),
 
   workerRequestRedeem: privateProcedure
@@ -1116,6 +1195,18 @@ export const appRouter = router({
         },
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions = {
         from: {
           name: "Hired",
@@ -1141,11 +1232,17 @@ export const appRouter = router({
         `,
         priority: "high" as const,
       };
-      try {
-        await transporter.sendMail(mailOptions);
-      } catch (error) {
-        console.error("Error sending email:", error);
-      }
+       await new Promise((resolve, reject)=> {
+        transporter.sendMail(mailOptions, (err, info)=> {
+          if(err){
+            console.error(err);
+            reject(err);
+          }else{
+            console.log(info)
+            resolve(info)
+          }
+        })
+      })
 
       return await db.workerCreditPoints.update({
         where: {
@@ -1928,6 +2025,18 @@ export const appRouter = router({
           secure: false,
         });
 
+        await new Promise((resolve, reject)=> {
+          transporter.verify(function (error, success) {
+            if(error){
+              console.log(error);
+              reject(error);
+            }else{
+              console.log("Server is ready to take our message");
+              resolve(success);
+            }
+          })
+        })
+
         const mailOptions = {
           from: {
             name: "Hired",
@@ -1954,15 +2063,17 @@ export const appRouter = router({
           priority: "high" as const,
         };
 
-        return new Promise((resolve) => {
-          transporter.sendMail(mailOptions, (err: any) => {
-            const status = err ? 500 : 200;
-            const message =
-              err?.toString() ??
-              "Check your email to be able to verify your email!";
-            resolve(NextResponse.json({ msg: message }, { status }));
-          });
-        });
+        return await new Promise((resolve, reject)=> {
+          transporter.sendMail(mailOptions, (err, info)=> {
+            if(err){
+              console.error(err);
+              reject(err);
+            }else{
+              console.log(info)
+              resolve(info)
+            }
+          })
+        })
       }
 
       await db.workerCreditPoints.update({
@@ -2072,6 +2183,18 @@ export const appRouter = router({
           secure: false,
         });
 
+        await new Promise((resolve, reject)=> {
+          transporter.verify(function (error, success) {
+            if(error){
+              console.log(error);
+              reject(error);
+            }else{
+              console.log("Server is ready to take our message");
+              resolve(success);
+            }
+          })
+        })
+
         const mailOptions = {
           from: {
             name: "Hired",
@@ -2098,15 +2221,17 @@ export const appRouter = router({
           priority: "high" as const,
         };
 
-        return new Promise((resolve) => {
-          transporter.sendMail(mailOptions, (err: any) => {
-            const status = err ? 500 : 200;
-            const message =
-              err?.toString() ??
-              "Check your email for a notification email has been delivered!";
-            resolve(NextResponse.json({ msg: message }, { status }));
-          });
-        });
+        return await new Promise((resolve, reject)=> {
+          transporter.sendMail(mailOptions, (err, info)=> {
+            if(err){
+              console.error(err);
+              reject(err);
+            }else{
+              console.log(info)
+              resolve(info)
+            }
+          })
+        })
       }
 
       await db.accountBalance.update({
@@ -2427,6 +2552,18 @@ export const appRouter = router({
         secure: false,
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions = {
         from: {
           name: "Jobs Radar",
@@ -2455,15 +2592,17 @@ export const appRouter = router({
         priority: "high" as const,
       };
 
-      return new Promise((resolve) => {
-        transporter.sendMail(mailOptions, (err: any) => {
-          const status = err ? 500 : 200;
-          const message =
-            err?.toString() ??
-            "Check your email to be able to verify your email!";
-          resolve(NextResponse.json({ msg: message }, { status }));
-        });
-      });
+      return await new Promise((resolve, reject)=> {
+        transporter.sendMail(mailOptions, (err, info)=> {
+          if(err){
+            console.error(err);
+            reject(err);
+          }else{
+            console.log(info)
+            resolve(info)
+          }
+        })
+      })
     }),
 
   forgotPassword: publicProcedure
@@ -2546,6 +2685,18 @@ export const appRouter = router({
         secure: true,
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions = {
         from: {
           name: "Jobs Radar",
@@ -2574,15 +2725,17 @@ export const appRouter = router({
         priority: "high" as const,
       };
 
-      return new Promise((resolve) => {
-        transporter.sendMail(mailOptions, (err) => {
-          const status = err ? 500 : 200;
-          const message =
-            err?.toString() ??
-            "Check your email for latest email from us to reset your password!";
-          resolve(NextResponse.json({ msg: message }, { status }));
-        });
-      });
+      return await new Promise((resolve, reject)=> {
+        transporter.sendMail(mailOptions, (err, info)=> {
+          if(err){
+            console.error(err);
+            reject(err);
+          }else{
+            console.log(info)
+            resolve(info)
+          }
+        })
+      })
     }),
 
   resetPassword: publicProcedure
@@ -2778,6 +2931,18 @@ export const appRouter = router({
         secure: false,
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions1 = {
         from: {
           name: "Jobs Radar",
@@ -2833,14 +2998,16 @@ export const appRouter = router({
       };
       return (await Promise.all([mailOptions1, mailOptions2])).map(
         (mailOption) =>
-          new Promise((resolve) => {
-            transporter.sendMail(mailOption, (err: any) => {
-              const status = err ? 500 : 200;
-              const message =
-                err?.toString() ??
-                "Check your email to be able to verify the requested changes";
-              resolve(NextResponse.json({ msg: message }, { status }));
-            });
+          new Promise((resolve, reject)=> {
+            transporter.sendMail(mailOption, (err, info)=> {
+              if(err){
+                console.error(err);
+                reject(err);
+              }else{
+                console.log(info)
+                resolve(info)
+              }
+            })
           })
       );
     }),
@@ -2931,6 +3098,18 @@ export const appRouter = router({
         secure: false,
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions = {
         from: {
           name: "Jobs Radar",
@@ -2959,13 +3138,17 @@ export const appRouter = router({
         priority: "high" as const,
       };
 
-      return new Promise((resolve) => {
-        transporter.sendMail(mailOptions, (err: any) => {
-          const status = err ? 500 : 200;
-          const message = err?.toString() ?? "Email change accepted";
-          resolve(NextResponse.json({ msg: message }, { status }));
-        });
-      });
+      return await new Promise((resolve, reject)=> {
+        transporter.sendMail(mailOptions, (err, info)=> {
+          if(err){
+            console.error(err);
+            reject(err);
+          }else{
+            console.log(info)
+            resolve(info)
+          }
+        })
+      })
     }),
 
   userUpdatePassword: privateProcedure
@@ -3094,6 +3277,18 @@ export const appRouter = router({
         secure: false,
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions = {
         from: {
           name: "Jobs Radar",
@@ -3124,15 +3319,17 @@ export const appRouter = router({
         priority: "high" as const,
       };
 
-      return new Promise((resolve) => {
-        transporter.sendMail(mailOptions, (err: any) => {
-          const status = err ? 500 : 200;
-          const message =
-            err?.toString() ??
-            "Check your email to be able to verify the request to change your password!";
-          resolve(NextResponse.json({ msg: message }, { status }));
-        });
-      });
+      return await new Promise((resolve, reject)=> {
+        transporter.sendMail(mailOptions, (err, info)=> {
+          if(err){
+            console.error(err);
+            reject(err);
+          }else{
+            console.log(info)
+            resolve(info)
+          }
+        })
+      })
     }),
 
   acceptUserPasswordChange: publicProcedure
@@ -3214,6 +3411,18 @@ export const appRouter = router({
         secure: false,
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions = {
         from: {
           name: "Jobs Radar",
@@ -3242,13 +3451,17 @@ export const appRouter = router({
         priority: "high" as const,
       };
 
-      return new Promise((resolve) => {
-        transporter.sendMail(mailOptions, (err: any) => {
-          const status = err ? 500 : 200;
-          const message = err?.toString() ?? "Password change accepted";
-          resolve(NextResponse.json({ msg: message }, { status }));
-        });
-      });
+      return await new Promise((resolve, reject)=> {
+        transporter.sendMail(mailOptions, (err, info)=> {
+          if(err){
+            console.error(err);
+            reject(err);
+          }else{
+            console.log(info)
+            resolve(info)
+          }
+        })
+      })
     }),
 
   updateUserRole: privateProcedure
@@ -11942,6 +12155,18 @@ export const appRouter = router({
         secure: false,
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions = {
         from: {
           name: "Hired",
@@ -11980,13 +12205,17 @@ export const appRouter = router({
         },
       });
 
-      return new Promise((resolve) => {
-        transporter.sendMail(mailOptions, (err: any) => {
-          const status = err ? 500 : 200;
-          const message = err?.toString() ?? "Contact message delivered";
-          resolve(NextResponse.json({ msg: message }, { status }));
-        });
-      });
+      return await new Promise((resolve, reject)=> {
+        transporter.sendMail(mailOptions, (err, info)=> {
+          if(err){
+            console.error(err);
+            reject(err);
+          }else{
+            console.log(info)
+            resolve(info)
+          }
+        })
+      })
     }),
 
   homePageSubscribe: contactProcedure
@@ -12012,8 +12241,8 @@ export const appRouter = router({
         port: 587,
         host: 'smtp.gmail.com',
         auth: {
-          user: "arebsy@gmail.com",
-          pass: "omnkrygumotuubmz",
+          user: "gethiredinkenya@gmail.com",
+          pass: password,
         },
         secure: false,
         requireTLS:true,
@@ -12038,10 +12267,10 @@ export const appRouter = router({
       })
       const mailOptions = {
         from: {
-          name: "Hired",
-          address: "arebsy@gmail.com",
+          name: "Hired Jobs",
+          address: "gethiredinkenya@gmail.com",
         },
-        replyTo: "arebsy@gmail.com",
+        replyTo: "gethiredinkenya@gmail.com",
         to: email,
         subject: "Subscribed to Hired job alerts",
         html: `
@@ -13947,6 +14176,18 @@ export const appRouter = router({
         secure: false,
       });
 
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
+
       const mailOptions = {
         from: {
           name: "Jobs Radar",
@@ -14089,6 +14330,18 @@ export const appRouter = router({
         },
         secure: false,
       });
+
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
 
       const mailOptions = {
         from: {
@@ -14239,6 +14492,18 @@ export const appRouter = router({
         },
         secure: false,
       });
+
+      await new Promise((resolve, reject)=> {
+        transporter.verify(function (error, success) {
+          if(error){
+            console.log(error);
+            reject(error);
+          }else{
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
+        })
+      })
 
       const mailOptions = {
         from: {
