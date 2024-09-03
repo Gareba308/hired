@@ -12192,13 +12192,6 @@ export const appRouter = router({
           pass: emailPassword,
         },
         secure: false,
-        requireTLS: true,
-        tls: {
-          ciphers: "SSLv3",
-          rejectUnauthorized: false,
-        },
-        debug: true,
-        logger: true,
       });
 
       await new Promise((resolve, reject) => {
