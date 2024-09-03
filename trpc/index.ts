@@ -34,7 +34,7 @@ const generateID = () => {
   return OTP;
 };
 const productionBASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const password= process.env.PASSWORD
+const emailPassword= process.env.PASSWORD
 const removeHtmlTags = (htmlString: string): string => {
   const cleanedHtml = sanitizeHtml(htmlString, {
     allowedTags: [],
@@ -266,12 +266,13 @@ export const appRouter = router({
           role: newRole,
         },
       });
+
       const transporter = nodemailer.createTransport({
         port: 587,
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -290,7 +291,7 @@ export const appRouter = router({
 
       const mailOptions = {
         from: {
-          name: "Jobs Radar",
+          name: "Hired",
           address: "gethiredinkenya@gmail.com",
         },
         replyTo: "gethiredinkenya@gmail.com",
@@ -575,7 +576,7 @@ export const appRouter = router({
             host: 'smtp.gmail.com',
             auth: {
               user: "gethiredinkenya@gmail.com",
-              pass: password,
+              pass: emailPassword,
             },
             secure: false,
           });
@@ -704,7 +705,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -847,7 +848,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -1004,7 +1005,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -1133,7 +1134,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -2020,7 +2021,7 @@ export const appRouter = router({
           host: 'smtp.gmail.com',
           auth: {
             user: "gethiredinkenya@gmail.com",
-            pass: password,
+            pass: emailPassword,
           },
           secure: false,
         });
@@ -2178,7 +2179,7 @@ export const appRouter = router({
           host: 'smtp.gmail.com',
           auth: {
             user: "gethiredinkenya@gmail.com",
-            pass: password,
+            pass: emailPassword,
           },
           secure: false,
         });
@@ -2547,7 +2548,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -2680,7 +2681,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: true,
       });
@@ -2926,7 +2927,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -3093,7 +3094,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -3272,7 +3273,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -3406,7 +3407,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -4174,7 +4175,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: true,
       });
@@ -4303,7 +4304,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: true,
       });
@@ -4485,7 +4486,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: true,
       });
@@ -12150,7 +12151,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -12242,7 +12243,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
         requireTLS:true,
@@ -14171,7 +14172,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -14326,7 +14327,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -14488,7 +14489,7 @@ export const appRouter = router({
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });

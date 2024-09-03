@@ -21,7 +21,7 @@ const EmailVerified = async ({ params }: ActivateProps) => {
   const { token } = params;
 
   const currentDate = new Date();
-  const password= process.env.NEXT_PUBLIC_PASSWORD
+  const emailPassword= process.env.NEXT_PUBLIC_PASSWORD
   const user = await db.verification.findFirst({
     where: {
       verifyToken: token,
@@ -139,7 +139,7 @@ const EmailVerified = async ({ params }: ActivateProps) => {
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -245,7 +245,7 @@ const EmailVerified = async ({ params }: ActivateProps) => {
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -357,7 +357,7 @@ const EmailVerified = async ({ params }: ActivateProps) => {
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
@@ -428,7 +428,7 @@ const EmailVerified = async ({ params }: ActivateProps) => {
         host: 'smtp.gmail.com',
         auth: {
           user: "gethiredinkenya@gmail.com",
-          pass: password,
+          pass: emailPassword,
         },
         secure: false,
       });
