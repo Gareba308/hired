@@ -15,7 +15,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { cn } from "@/lib/utils";
 import JobCard1 from "./JobCard1";
-import { Job, Company} from "@prisma/client";
+import { Job, Company } from "@prisma/client";
 import {
   academics,
   categories,
@@ -243,7 +243,6 @@ const HomeJobsNavBarDetails = ({
       JSON.stringify(searchHistory)
     );
   }, [searchHistory, viewID]);
-
 
   const handleSuggestionClick1 = (suggestion: string) => {
     const matchedJob = jobs.find(
@@ -1224,264 +1223,266 @@ const HomeJobsNavBarDetails = ({
           </Dialog>
         </Transition.Root>
         <MaxWidthWrapper>
-          <div className="flex flex-row items-center w-full justify-center gap-x-2 sm:gap-x-3 mb-1.5 md:mb-3">
-            {!isSmallScreen && <div className="relative w-full max-w-3xl">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          {!isSmallScreen && (
+            <div className="flex flex-row items-center w-full justify-center gap-x-2 sm:gap-x-3 mb-1.5 md:mb-3">
+              <div className="relative w-full max-w-3xl">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  placeholder={
+                    isSmallScreen
+                      ? "Search by job title or skill"
+                      : "Search for a job by job title or skill"
+                  }
+                  onChange={handleSearchChange1}
+                  onFocus={handleInputFocus1}
+                  className="w-full py-2 md:py-3.5 h-10 md:h-full md:shadow-md bg-white pl-10 sm:pl-12 placeholder:text-base line-clamp-1 placeholder:text-gray-500 placeholder:font-normal pr-4 text-gray-500 font-normal border text-base border-gray-300 rounded-sm outline-none focus:bg-white focus:border-indigo-600"
                 />
-              </svg>
-              <input
-                type="text"
-                value={searchQuery}
-                placeholder={
-                  isSmallScreen
-                    ? "Search by job title or skill"
-                    : "Search for a job by job title or skill"
-                }
-                onChange={handleSearchChange1}
-                onFocus={handleInputFocus1}
-                className="w-full py-2 md:py-3.5 h-10 md:h-full md:shadow-md bg-white pl-10 sm:pl-12 placeholder:text-base line-clamp-1 placeholder:text-gray-500 placeholder:font-normal pr-4 text-gray-500 font-normal border text-base border-gray-300 rounded-sm outline-none focus:bg-white focus:border-indigo-600"
-              />
-              {!searchQuery && !showDropdown1 && (
-                <div
-                  className="absolute top-3 md:top-4 right-3 my-auto cursor-pointer"
-                  onClick={handleToggleDropdown1}
-                >
-                  <ChevronDownIcon className="h-4 w-4 ml-1 text-gray-400" />
-                </div>
-              )}
-              {showDropdown1 && !searchQuery && (
-                <div
-                  className="absolute top-3 md:top-4 right-3 my-auto cursor-pointer"
-                  onClick={handleToggleDropdown1}
-                >
-                  <ChevronUpIcon className="h-4 w-4 ml-1 text-gray-400" />
-                </div>
-              )}
-              {searchQuery && (
-                <div
-                  className="absolute top-3 bottom-0 right-3 my-auto cursor-pointer"
-                  onClick={() => setSearchQuery("")}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+                {!searchQuery && !showDropdown1 && (
+                  <div
+                    className="absolute top-3 md:top-4 right-3 my-auto cursor-pointer"
+                    onClick={handleToggleDropdown1}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </div>
-              )}
-              {showDropdown1 && (
-                <div
-                  ref={dropdownRef1}
-                  className="absolute top-full left-1/2 transform -translate-x-1/2 z-10 mt-1 w-full max-w-4xl bg-white border border-gray-200 rounded-b-md shadow-lg"
-                >
-                  {searchQuery && (
-                    <ul>
-                      <li className="px-4 py-0 mt-2 text-xs text-primary uppercase font-semibold">
-                        Search Suggestions
-                      </li>
-                      {filteredSuggestions.length !== 0 ? (
-                        <>
-                          {filteredJobTitles.length > 0 && (
-                            <>
-                              <li className="px-4 py-0 mt-2 text-xs text-gray-700 uppercase font-semibold">
-                                Job Titles
-                              </li>
-                              {filteredJobTitles.map((suggestion, index) => (
-                                <li
-                                  key={index}
-                                  className="px-4 py-2 hover:bg-secondary text-gray-500 text-sm flex items-center shrink-0 cursor-pointer"
-                                  onClick={() =>
-                                    handleSuggestionClick1(suggestion)
-                                  }
-                                >
-                                  <Search className="h-4 w-4 text-gray-400 mr-1" />
-                                  <span className="line-clamp-1">
-                                    {suggestion}
-                                  </span>
-                                </li>
-                              ))}
-                            </>
-                          )}
-                          {filteredSkills.length > 0 && (
-                            <>
-                              <li className="px-4 py-0 mt-2 text-xs text-gray-700 uppercase font-semibold">
-                                Skills
-                              </li>
-                              {filteredSkills.map((suggestion, index) => (
-                                <li
-                                  key={index}
-                                  className="px-4 py-2 hover:bg-secondary text-gray-500 text-sm flex items-center shrink-0 cursor-pointer"
-                                  onClick={() =>
-                                    handleSuggestionClick1(suggestion)
-                                  }
-                                >
-                                  <Search className="h-4 w-4 text-gray-400 mr-1" />
-                                  <span className="line-clamp-1">
-                                    {suggestion}
-                                  </span>
-                                </li>
-                              ))}
-                            </>
-                          )}
-                        </>
-                      ) : (
-                        <p className="px-4 py-2 text-sm text-gray-500">
-                          No results found
-                        </p>
-                      )}
-                    </ul>
-                  )}
-                  {!searchQuery && (
-                    <div>
+                    <ChevronDownIcon className="h-4 w-4 ml-1 text-gray-400" />
+                  </div>
+                )}
+                {showDropdown1 && !searchQuery && (
+                  <div
+                    className="absolute top-3 md:top-4 right-3 my-auto cursor-pointer"
+                    onClick={handleToggleDropdown1}
+                  >
+                    <ChevronUpIcon className="h-4 w-4 ml-1 text-gray-400" />
+                  </div>
+                )}
+                {searchQuery && (
+                  <div
+                    className="absolute top-3 bottom-0 right-3 my-auto cursor-pointer"
+                    onClick={() => setSearchQuery("")}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </div>
+                )}
+                {showDropdown1 && (
+                  <div
+                    ref={dropdownRef1}
+                    className="absolute top-full left-1/2 transform -translate-x-1/2 z-10 mt-1 w-full max-w-4xl bg-white border border-gray-200 rounded-b-md shadow-lg"
+                  >
+                    {searchQuery && (
                       <ul>
                         <li className="px-4 py-0 mt-2 text-xs text-primary uppercase font-semibold">
-                          Search History
+                          Search Suggestions
                         </li>
-                      </ul>
-                      {searchHistory.length > 0 ? (
-                        <>
-                          {filteredJobTitlesFromHistory.length > 0 && (
-                            <ul>
-                              <li className="px-4 py-0 mt-2 text-xs text-gray-700 uppercase font-semibold">
-                                Job Titles
-                              </li>
-                              {filteredJobTitlesFromHistory.map(
-                                (suggestion, index) => (
+                        {filteredSuggestions.length !== 0 ? (
+                          <>
+                            {filteredJobTitles.length > 0 && (
+                              <>
+                                <li className="px-4 py-0 mt-2 text-xs text-gray-700 uppercase font-semibold">
+                                  Job Titles
+                                </li>
+                                {filteredJobTitles.map((suggestion, index) => (
                                   <li
                                     key={index}
-                                    className="px-4 py-2 hover:bg-secondary text-sm flex items-center shrink-0 cursor-pointer"
+                                    className="px-4 py-2 hover:bg-secondary text-gray-500 text-sm flex items-center shrink-0 cursor-pointer"
                                     onClick={() =>
                                       handleSuggestionClick1(suggestion)
                                     }
                                   >
-                                    <Clock className="h-4 w-4 text-gray-400 mr-1" />
+                                    <Search className="h-4 w-4 text-gray-400 mr-1" />
                                     <span className="line-clamp-1">
                                       {suggestion}
                                     </span>
                                   </li>
-                                )
-                              )}
-                            </ul>
-                          )}
-                          {filteredSkillsFromHistory.length > 0 && (
-                            <ul>
-                              <li className="px-4 py-0 mt-2 text-xs text-gray-700 uppercase font-semibold">
-                                Skills
-                              </li>
-                              {filteredSkillsFromHistory.map(
-                                (suggestion, index) => (
-                                  <li
-                                    key={index}
-                                    className="px-4 py-2 hover:bg-secondary text-sm flex items-center shrink-0 cursor-pointer"
-                                    onClick={() =>
-                                      handleSuggestionClick1(suggestion)
-                                    }
-                                  >
-                                    <Clock className="h-4 w-4 text-gray-400 mr-1" />
-                                    <span className="line-clamp-1">
-                                      {suggestion}
-                                    </span>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          )}
-                        </>
-                      ) : (
-                        <p className="px-4 py-2 text-sm text-gray-500">
-                          No history found
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>}
-            <Menu
-              as="div"
-              className="md:hidden relative inline-block text-left"
-            >
-              <div>
-                <Menu.Button className="group h-10 inline-flex hover:bg-secondary font-normal p-2 border border-gray-300 hover:rounded-sm rounded-sm justify-center text-sm text-gray-600 hover:text-gray-700">
-                  <ArrowUpDown className="h-5 w-5 sm:mr-1 text-gray-400 shrink-0" />{" "}
-                  <span className="hidden sm:flex">Sort</span>
-                  <ChevronDownIcon
-                    className="-mr-1 ml-1 h-5 w-5 hidden sm:flex flex-shrink-0 text-gray-500 group-hover:text-gray-700"
-                    aria-hidden="true"
-                  />
-                </Menu.Button>
-              </div>
-
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="absolute w-48 right-0 z-10 mt-2 origin-top-right rounded-sm bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <div className="py-1">
-                    {sortByOptions.map((option) => (
-                      <Menu.Item key={option.value}>
-                        {({ active }) => (
-                          <button
-                            onClick={() => handleSortChange(option.value)}
-                            className={cn(
-                              "block w-full text-start px-2.5 py-2 text-sm",
-                              sortBy === option.value
-                                ? "font-medium text-gray-700"
-                                : "text-gray-500",
-                              active ? "bg-gray-100" : ""
+                                ))}
+                              </>
                             )}
-                          >
-                            {option.label}
-                          </button>
+                            {filteredSkills.length > 0 && (
+                              <>
+                                <li className="px-4 py-0 mt-2 text-xs text-gray-700 uppercase font-semibold">
+                                  Skills
+                                </li>
+                                {filteredSkills.map((suggestion, index) => (
+                                  <li
+                                    key={index}
+                                    className="px-4 py-2 hover:bg-secondary text-gray-500 text-sm flex items-center shrink-0 cursor-pointer"
+                                    onClick={() =>
+                                      handleSuggestionClick1(suggestion)
+                                    }
+                                  >
+                                    <Search className="h-4 w-4 text-gray-400 mr-1" />
+                                    <span className="line-clamp-1">
+                                      {suggestion}
+                                    </span>
+                                  </li>
+                                ))}
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          <p className="px-4 py-2 text-sm text-gray-500">
+                            No results found
+                          </p>
                         )}
-                      </Menu.Item>
-                    ))}
+                      </ul>
+                    )}
+                    {!searchQuery && (
+                      <div>
+                        <ul>
+                          <li className="px-4 py-0 mt-2 text-xs text-primary uppercase font-semibold">
+                            Search History
+                          </li>
+                        </ul>
+                        {searchHistory.length > 0 ? (
+                          <>
+                            {filteredJobTitlesFromHistory.length > 0 && (
+                              <ul>
+                                <li className="px-4 py-0 mt-2 text-xs text-gray-700 uppercase font-semibold">
+                                  Job Titles
+                                </li>
+                                {filteredJobTitlesFromHistory.map(
+                                  (suggestion, index) => (
+                                    <li
+                                      key={index}
+                                      className="px-4 py-2 hover:bg-secondary text-sm flex items-center shrink-0 cursor-pointer"
+                                      onClick={() =>
+                                        handleSuggestionClick1(suggestion)
+                                      }
+                                    >
+                                      <Clock className="h-4 w-4 text-gray-400 mr-1" />
+                                      <span className="line-clamp-1">
+                                        {suggestion}
+                                      </span>
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            )}
+                            {filteredSkillsFromHistory.length > 0 && (
+                              <ul>
+                                <li className="px-4 py-0 mt-2 text-xs text-gray-700 uppercase font-semibold">
+                                  Skills
+                                </li>
+                                {filteredSkillsFromHistory.map(
+                                  (suggestion, index) => (
+                                    <li
+                                      key={index}
+                                      className="px-4 py-2 hover:bg-secondary text-sm flex items-center shrink-0 cursor-pointer"
+                                      onClick={() =>
+                                        handleSuggestionClick1(suggestion)
+                                      }
+                                    >
+                                      <Clock className="h-4 w-4 text-gray-400 mr-1" />
+                                      <span className="line-clamp-1">
+                                        {suggestion}
+                                      </span>
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            )}
+                          </>
+                        ) : (
+                          <p className="px-4 py-2 text-sm text-gray-500">
+                            No history found
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </div>
-                </Menu.Items>
-              </Transition>
-            </Menu>
-            <button
-              type="button"
-              onClick={() => setMobileFiltersOpen(true)}
-              className="p-2 h-10 md:hidden group rounded-sm border font-normal text-sm text-gray-600 inline-flex items-center shrink-0 border-gray-300 hover:bg-secondary"
-            >
-              <span className="sr-only">Filters</span>
-              <SlidersHorizontalIcon
-                className="h-4 w-4 text-gray-500 shrink-0 sm:mr-1"
-                aria-hidden="true"
-              />
-              <span className="hidden sm:flex">Filter</span>
-              <ChevronDownIcon
-                className="-mr-1 ml-1 hidden sm:flex h-5 w-5 flex-shrink-0 text-gray-500 group-hover:text-gray-700"
-                aria-hidden="true"
-              />
-            </button>
-          </div>
+                )}
+              </div>
+              <Menu
+                as="div"
+                className="md:hidden relative inline-block text-left"
+              >
+                <div>
+                  <Menu.Button className="group h-10 inline-flex hover:bg-secondary font-normal p-2 border border-gray-300 hover:rounded-sm rounded-sm justify-center text-sm text-gray-600 hover:text-gray-700">
+                    <ArrowUpDown className="h-5 w-5 sm:mr-1 text-gray-400 shrink-0" />{" "}
+                    <span className="hidden sm:flex">Sort</span>
+                    <ChevronDownIcon
+                      className="-mr-1 ml-1 h-5 w-5 hidden sm:flex flex-shrink-0 text-gray-500 group-hover:text-gray-700"
+                      aria-hidden="true"
+                    />
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="absolute w-48 right-0 z-10 mt-2 origin-top-right rounded-sm bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1">
+                      {sortByOptions.map((option) => (
+                        <Menu.Item key={option.value}>
+                          {({ active }) => (
+                            <button
+                              onClick={() => handleSortChange(option.value)}
+                              className={cn(
+                                "block w-full text-start px-2.5 py-2 text-sm",
+                                sortBy === option.value
+                                  ? "font-medium text-gray-700"
+                                  : "text-gray-500",
+                                active ? "bg-gray-100" : ""
+                              )}
+                            >
+                              {option.label}
+                            </button>
+                          )}
+                        </Menu.Item>
+                      ))}
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+              <button
+                type="button"
+                onClick={() => setMobileFiltersOpen(true)}
+                className="p-2 h-10 md:hidden group rounded-sm border font-normal text-sm text-gray-600 inline-flex items-center shrink-0 border-gray-300 hover:bg-secondary"
+              >
+                <span className="sr-only">Filters</span>
+                <SlidersHorizontalIcon
+                  className="h-4 w-4 text-gray-500 shrink-0 sm:mr-1"
+                  aria-hidden="true"
+                />
+                <span className="hidden sm:flex">Filter</span>
+                <ChevronDownIcon
+                  className="-mr-1 ml-1 hidden sm:flex h-5 w-5 flex-shrink-0 text-gray-500 group-hover:text-gray-700"
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+          )}
 
           <div className="md:flex justify-center hidden">
             <div className="flex flex-row flex-wrap gap-x-2 md:gap-x-4 gap-y-2">
@@ -2031,10 +2032,7 @@ const HomeJobsNavBarDetails = ({
           <div className="grid gap-x-4 sm:gap-x-5 w-full lg:gap-x-6 md:grid-cols-2">
             <div className="hidden md:block">
               {sortedAndFilteredJobs.length !== 0 ? (
-                <JobCard1
-                  allJobs={jobsForCurrentPage}
-                  popular={popular}
-                />
+                <JobCard1 allJobs={jobsForCurrentPage} popular={popular} />
               ) : (
                 <>
                   <NoSearchResult />
