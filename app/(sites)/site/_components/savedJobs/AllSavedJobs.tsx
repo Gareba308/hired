@@ -26,11 +26,6 @@ export default function AllSavedJobs({
   allPopular,
 }: AllJobsProps) {
   const router = useRouter();
-  const [selectedSavedId, setSelectedSavedId] = useState<string | null>(null);
-
-  const companyPopular = allPopular.filter(
-    (popular) => popular.companyId === selectedSavedId
-  );
 
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * pageSize;
@@ -62,7 +57,7 @@ export default function AllSavedJobs({
                 mySavedJobs={mySavedJobs}
                 popular={allPopular}
               />
-              <div className="mt-6">
+              <div className="mt-6 pb-4">
                 {totalPages > 1 && (
                   <ReactPaginate
                     pageCount={totalPages}

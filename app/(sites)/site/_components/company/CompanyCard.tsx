@@ -253,7 +253,7 @@ const CompanyCard = ({ combinedData }: CompanyCardProps) => {
                       </div>
                       <Link
                         href={`/site/companies/${item.companyDetails.id}?origin=site/companies`}
-                        className="text-gray-700 text-sm -mt-1 font-normal line-clamp-2"
+                        className="text-gray-600 text-base leading-tight -mt-1 font-normal line-clamp-2"
                       >
                         <QuillPreview
                           htmlContent={

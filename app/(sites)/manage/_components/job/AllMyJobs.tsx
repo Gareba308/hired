@@ -31,7 +31,7 @@ export default function AllMyJobs({ myJobs }: AllMyJobsProps) {
             </h2>
             <div className="lg:col-span-3 mt-2 pb-2">
               <MyJobCard allJobs={jobsForCurrentPage} />
-              <div className="mt-6">
+              <div className="mt-6 pb-4">
                 {totalPages > 1 && (
                   <ReactPaginate
                     pageCount={totalPages}

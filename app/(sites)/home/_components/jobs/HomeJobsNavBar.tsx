@@ -76,7 +76,7 @@ const useScreenSize2 = () => {
   return isSmallScreen;
 };
 
-const pageSize = 10;
+const pageSize = 20;
 const sortByOptions = [
   { label: "Posted: New to Old", value: "createdAt_desc" },
   { label: "Posted: Old to New", value: "createdAt_asc" },
@@ -2026,7 +2026,7 @@ const HomeJobsNavBar = ({
                   <NoSearchResult />
                 </>
               )}
-              <div className="mt-6">
+              <div className="mt-6 pb-4">
                 {totalPages > 1 && (
                   <ReactPaginate
                     pageCount={totalPages}

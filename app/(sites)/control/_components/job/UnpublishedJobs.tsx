@@ -16,7 +16,7 @@ import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import Link from "next/link";
 
-const pageSize = 10;
+const pageSize = 20;
 interface AllMyJobsProps {
   myJobs: Job[];
 }
@@ -42,7 +42,7 @@ export default function UnpublishedJobs({ myJobs }: AllMyJobsProps) {
             </h2>
             <div className="lg:col-span-3 mt-2 pb-2">
               <UnpublishedJobCard allJobs={jobsForCurrentPage} />
-              <div className="mt-6">
+              <div className="mt-6 pb-4">
                 {totalPages > 1 && (
                   <ReactPaginate
                     pageCount={totalPages}

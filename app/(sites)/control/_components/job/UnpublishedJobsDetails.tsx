@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Company, Job } from "@prisma/client";
 import { format, formatDistance } from "date-fns";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import QuillPreview from "@/components/QuillPreview";
@@ -34,6 +34,7 @@ import { useEffect, useState } from "react";
 import RecentlyViewedLoader from "@/components/RecentlyViewedLoader";
 import { useToast } from "@/components/ui/use-toast";
 import { trpc } from "@/app/_trpc/client";
+import Link from "next/link";
 interface JobDetailsProps {
   job: Job;
   companyProfile: Company | null;
@@ -231,7 +232,7 @@ export default function JobDetails({
               <p className="flex items-center text-gray-600 shrink-0 text-lg font-medium">
                 <Building2 className="h-5 w-5 mr-1.5" />{" "}
                 <span className="text-primary hover:underline">
-                  {companyProfile?.company_name}
+                  {job.company_name}
                 </span>
               </p>
               <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
@@ -250,7 +251,7 @@ export default function JobDetails({
               </p>
             </div>
             <div className="flex-shrink-0 flex justify-end">
-            {job.companyLogo ? (
+              {job.companyLogo ? (
                 <div className="relative cursor-pointer border border-gray-200 bg-gray-200 h-[80px] w-[80px] md:h-[96px] md:w-[96px] overflow-hidden rounded-sm">
                   <Image
                     src={job.companyLogo}
@@ -639,11 +640,13 @@ export default function JobDetails({
           {job.ownPlatformMethod === "own" && (
             <div className="mt-5 text-gray-700" id="instructionsSection">
               <h3 className="text-xl font-medium">How to apply</h3>
-              <div className="mt-1 text-gray-700 text-base">
+              <div className="mt-1 text-gray-700 text-base break-words">
                 {job.platform === "email" && (
                   <p>
                     <span className="font-medium">Email application to:</span>{" "}
-                    <span className="text-primary">{job.emailPlatform}</span>
+                    <span className="text-blue-700 font-medium break-words">
+                      {job.emailPlatform}
+                    </span>
                   </p>
                 )}
                 {job.platform === "link" && (
@@ -651,11 +654,14 @@ export default function JobDetails({
                     <span className="font-medium">
                       Open the URL link to apply:
                     </span>{" "}
-                    <a
-                      className="text-primary"
+                    <Link
+                      className="text-blue-700 font-medium text-lg"
+                      title="Apply for a job"
                       target="_blank"
                       href={`https://${job.linkPlatform}`}
-                    >{`https://${job.linkPlatform}`}</a>
+                    >
+                      Apply Now
+                    </Link>
                   </p>
                 )}
                 {job.platform === "office" && (

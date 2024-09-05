@@ -256,13 +256,13 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    if (inputValue.length <= 50) {
+    if (inputValue.length <= 70) {
       form.setValue("job_title", inputValue);
     }
   };
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     const pastedText = e.clipboardData.getData("text");
-    const trimmedText = pastedText.slice(0, 50);
+    const trimmedText = pastedText.slice(0, 70);
     form.setValue("job_title", trimmedText);
     e.preventDefault();
   };
@@ -341,8 +341,8 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
                           <FormDescription></FormDescription>
                           <FormMessage className="text-red-500 font-normal text-sm">
                             {watchedJobTitle &&
-                              watchedJobTitle.length === 50 && (
-                                <>Maximum character limit of 50 reached.</>
+                              watchedJobTitle.length === 70 && (
+                                <>Maximum character limit of 70 reached.</>
                               )}
                           </FormMessage>
                         </FormItem>

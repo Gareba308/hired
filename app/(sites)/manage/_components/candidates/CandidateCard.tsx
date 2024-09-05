@@ -260,7 +260,7 @@ const CandidateCard = ({
                       <span className="font-medium text-sm text-gray-600">
                         About:
                       </span>
-                      <div className="text-gray-500 text-sm leading-tight -mt-1 font-normal line-clamp-2">
+                      <div className="text-gray-500 text-base leading-tight -mt-1 font-normal line-clamp-2">
                         <QuillPreview
                           htmlContent={item.about?.about as string}
                         />

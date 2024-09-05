@@ -75,7 +75,7 @@ const useScreenSize2 = () => {
   return isSmallScreen;
 };
 
-const pageSize = 10;
+const pageSize = 20;
 const sortByOptions = [
   { label: "Posted: New to Old", value: "createdAt_desc" },
   { label: "Posted: Old to New", value: "createdAt_asc" },
@@ -1225,7 +1225,7 @@ const HomeJobsNavBarDetails = ({
         </Transition.Root>
         <MaxWidthWrapper>
           <div className="flex flex-row items-center w-full justify-center gap-x-2 sm:gap-x-3 mb-1.5 md:mb-3">
-            <div className="relative w-full max-w-3xl">
+            {!isSmallScreen && <div className="relative w-full max-w-3xl">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3"
@@ -1416,7 +1416,7 @@ const HomeJobsNavBarDetails = ({
                   )}
                 </div>
               )}
-            </div>
+            </div>}
             <Menu
               as="div"
               className="md:hidden relative inline-block text-left"
@@ -2040,7 +2040,7 @@ const HomeJobsNavBarDetails = ({
                   <NoSearchResult />
                 </>
               )}
-              <div className="mt-6">
+              <div className="mt-6 pb-4">
                 {totalPages > 1 && (
                   <ReactPaginate
                     pageCount={totalPages}

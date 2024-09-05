@@ -70,7 +70,7 @@ const useScreenSize2 = () => {
   return isSmallScreen;
 };
 
-const pageSize = 10;
+const pageSize = 20;
 interface AllJobsProps {
   jobs: Job[];
   userId: string;
@@ -1627,7 +1627,7 @@ export default function AllJobs({
                         <NoSearchResult />
                       </>
                     )}
-                    <div className="mt-6">
+                    <div className="mt-6 pb-4">
                       {totalPages > 1 && (
                         <ReactPaginate
                           pageCount={totalPages}

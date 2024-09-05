@@ -118,9 +118,13 @@ const MyJobCard = ({ allJobs }: MyJobCardProps) => {
                   </span>
                 </Link>
                 <div className="flex items-center justify-between gap-x-4 w-full">
-                  <p className="text-[13px] lg:mb-[1px] font-medium -mt-1 text-gray-600 line-clamp-1">
+                  <Link
+                    href={`/manage/jobs/${item.id}?origin=manage/jobs`}
+                    title={item.company_name}
+                    className="text-[13px] lg:mb-[1px] font-medium -mt-1 text-gray-600 line-clamp-1"
+                  >
                     {item.company_name}
-                  </p>
+                  </Link>
                   <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
                     <span className="line-clamp-1">
                       {formatDistanceToNowStrict(item.createdAt, {
@@ -129,7 +133,11 @@ const MyJobCard = ({ allJobs }: MyJobCardProps) => {
                     </span>
                   </p>
                 </div>
-                <div className="flex h-4 w-full items-center space-x-1.5">
+                <Link
+                  href={`/manage/jobs/${item.id}?origin=manage/jobs`}
+                  title="Job details"
+                  className="flex h-4 w-full items-center space-x-1.5"
+                >
                   <div className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +171,7 @@ const MyJobCard = ({ allJobs }: MyJobCardProps) => {
                   <p className="text-xs hidden sm:flex font-normal text-gray-600 line-clamp-1">
                     {item.possible_pay}
                   </p>
-                </div>
+                </Link>
               </div>
             </li>
           );

@@ -17,6 +17,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import QuillPreview from "@/components/QuillPreview";
 import { Preview } from "@/components/Preview";
+import Link from "next/link";
 
 interface MyJobsDetailsProps {
   job: Job;
@@ -327,21 +328,26 @@ const MyJobsDetails = ({ job, companyProfile }: MyJobsDetailsProps) => {
           {job?.ownPlatformMethod === "own" && (
             <div className="mt-5 text-gray-800">
               <h3 className="text-xl font-medium">How to apply</h3>
-              <div className="mt-1 text-gray-800 text-base">
+              <div className="mt-1 text-gray-800 text-base break-words">
                 {job.platform === "email" && (
                   <p>
                     Email application to:{" "}
-                    <span className="text-primary">{job.emailPlatform}</span>
+                    <span className="text-blue-700 font-medium break-words">
+                      {job.emailPlatform}
+                    </span>
                   </p>
                 )}
                 {job.platform === "link" && (
                   <p>
                     Open the URL link to apply:{" "}
-                    <a
-                      className="text-primary"
+                    <Link
+                      className="text-blue-700 font-medium text-lg"
+                      title="Apply for a job"
                       target="_blank"
                       href={`https://${job.linkPlatform}`}
-                    >{`https://${job.linkPlatform}`}</a>
+                    >
+                      Apply Now
+                    </Link>
                   </p>
                 )}
                 {job.platform === "office" && (
@@ -351,7 +357,7 @@ const MyJobsDetails = ({ job, companyProfile }: MyJobsDetailsProps) => {
                 {job.instructions && (
                   <div className="mt-1.5">
                     <h3 className="text-lg font-medium">Instructions</h3>
-                    <div className="text-base text-gray-800 -mt-2 -mb-2">
+                    <div className="text-base text-gray-700 -mt-2 -mb-2">
                       <Preview value={job?.instructions} />
                     </div>
                   </div>

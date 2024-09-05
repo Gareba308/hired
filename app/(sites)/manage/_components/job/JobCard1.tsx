@@ -120,15 +120,19 @@ const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
                   </span>
                 </Link>
                 <div className="flex items-center justify-between gap-x-4 w-full">
-                  <p className="text-[13px] lg:mb-[1px] font-medium -mt-1 text-gray-600 line-clamp-1">
+                  <Link
+                    title={item.company_name}
+                    href={`/manage/jobs/${item.id}?origin=manage/jobs`}
+                    className="text-[13px] lg:mb-[1px] font-medium -mt-1 text-gray-600 line-clamp-1"
+                  >
                     {item.company_name}
-                  </p>
+                  </Link>
                   <div>
                     {isMine ? (
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="inline-flex items-center rounded-sm bg-blue-100 px-1.5 sm:px-2 py-[3px] text-xs font-normal text-blue-900">
+                            <span className="inline-flex items-center rounded-sm px-1.5 sm:px-2 text-xs font-normal text-blue-900">
                               Mine
                             </span>
                           </TooltipTrigger>
@@ -148,7 +152,11 @@ const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
                     )}
                   </div>
                 </div>
-                <div className="flex h-4 w-full items-center space-x-1.5">
+                <Link
+                  href={`/manage/jobs/${item.id}?origin=manage/jobs`}
+                  title="Job details"
+                  className="flex h-4 w-full items-center space-x-1.5"
+                >
                   <div className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -182,7 +190,7 @@ const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
                   <p className="text-xs hidden sm:flex font-normal text-gray-600 line-clamp-1">
                     {item.possible_pay}
                   </p>
-                </div>
+                </Link>
               </div>
             </li>
           );

@@ -461,11 +461,13 @@ export default function JobDetails({
             {job.ownPlatformMethod === "own" && (
               <div className="mt-5 text-gray-700" id="instructionsSection">
                 <h3 className="text-xl font-medium">How to apply</h3>
-                <div className="mt-1 text-gray-700 text-base">
+                <div className="mt-1 text-gray-700 text-base break-words">
                   {job.platform === "email" && (
                     <p>
                       <span className="font-medium">Email application to:</span>{" "}
-                      <span className="text-primary">{job.emailPlatform}</span>
+                      <span className="text-blue-700 font-medium break-words">
+                        {job.emailPlatform}
+                      </span>
                     </p>
                   )}
                   {job.platform === "link" && (
@@ -473,11 +475,14 @@ export default function JobDetails({
                       <span className="font-medium">
                         Open the URL link to apply:
                       </span>{" "}
-                      <a
-                        className="text-primary"
+                      <Link
+                        className="text-blue-700 font-medium text-lg"
+                        title="Apply for a job"
                         target="_blank"
                         href={`https://${job.linkPlatform}`}
-                      >{`https://${job.linkPlatform}`}</a>
+                      >
+                        Apply Now
+                      </Link>
                     </p>
                   )}
                   {job.platform === "office" && (
