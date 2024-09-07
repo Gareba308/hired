@@ -113,19 +113,18 @@ const JobCard3 = ({ allJobs }: JobCardProps) => {
                     )}
                   </div>
                 </div>
-                <Link
-                  href={`/control/jobs/${item.id}?origin=control/jobs`}
-                  title="Job title"
+                <Link href={`/control/jobs/${item.id}?origin=control/jobs`} title={item.job_title}>
+                <div
                   className="text-lg lg:text-[16.3px] w-full -mt-0.5 capitalize block cursor-pointer font-medium text-primary hover:text-[#005580]"
                 >
                   <span className="line-clamp-1 w-full">
                     {item.job_title.toLowerCase()}
                   </span>
-                </Link>
+                </div>
                 <div className="flex items-center justify-between gap-x-4 w-full">
-                  <Link href={`/control/jobs/${item.id}?origin=control/jobs`} title={item.company_name} className="text-[13px] lg:mb-[1px] font-medium -mt-1 text-gray-600 line-clamp-1">
+                  <div className="text-[13px] lg:mb-[1px] font-medium -mt-1 text-gray-600 line-clamp-1">
                     {item.company_name}
-                  </Link>
+                  </div>
                   <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
                     <span className="line-clamp-1">
                       {formatDistanceToNowStrict(item.createdAt, {
@@ -134,7 +133,7 @@ const JobCard3 = ({ allJobs }: JobCardProps) => {
                     </span>
                   </p>
                 </div>
-                <Link href={`/control/jobs/${item.id}?origin=control/jobs`} title="Job details" className="flex h-4 w-full items-center space-x-1.5">
+                <div className="flex h-4 w-full items-center space-x-1.5">
                   <div className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -168,6 +167,7 @@ const JobCard3 = ({ allJobs }: JobCardProps) => {
                   <p className="text-xs hidden sm:flex font-normal text-gray-600 line-clamp-1">
                     {item.possible_pay}
                   </p>
+                </div>
                 </Link>
               </div>
             </li>

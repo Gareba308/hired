@@ -1,8 +1,8 @@
 export const academics = [
   { label: "High School Education", value: "High School Education" },
-  { label: "Vocational or Trade School", value: "Vocational or Trade School" },
-  { label: "Associate's Degree", value: "Associate's Degree" },
+  { label: "Vocational or Diploma", value: "Vocational or Diploma" },
   { label: "Bachelor's Degree", value: "Bachelor's Degree" },
+  { label: "Postgraduate Degree", value: "Postgraduate Degree" },
   { label: "Master's Degree", value: "Master's Degree" },
   { label: "Doctorate (Ph.D.)", value: "Doctorate (Ph.D.)" },
   {

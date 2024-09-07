@@ -24,6 +24,7 @@ import {
   differenceInMinutes,
   subDays,
 } from "date-fns";
+import googleIndexAPI from "@/lib/indexing";
 
 const generateID = () => {
   let digits = "0123456789";
@@ -35,6 +36,8 @@ const generateID = () => {
 };
 const productionBASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const emailPassword = process.env.PASSWORD;
+const ourAdmins= process.env.ADMIN_EMAILS?.split(',') || [];
+const hiredEmployers= process.env.HIRED_EMPLOYERS?.split(',') || [];
 const removeHtmlTags = (htmlString: string): string => {
   const cleanedHtml = sanitizeHtml(htmlString, {
     allowedTags: [],
@@ -4560,12 +4563,13 @@ export const appRouter = router({
         assessmentTwoID: z.string(),
         jobFormNonRegisteredCompany: z.boolean().default(false),
         adminCreatingCompanyName: z.string(),
-
         adminCreatingAddLogo: z.string(),
+        unregisteredKnown: z.boolean().default(false),
+        unregisteredID: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { userId, email } = ctx;
+      const { userId } = ctx;
       const {
         job_type,
         job_title,
@@ -4596,8 +4600,9 @@ export const appRouter = router({
         adminCreatingCompanyName,
         assessmentOneID,
         assessmentTwoID,
-
+        unregisteredKnown,
         adminCreatingAddLogo,
+        unregisteredID,
       } = input;
 
       if (!userId)
@@ -4623,9 +4628,38 @@ export const appRouter = router({
           message: "Unauthenticated, login to create a job",
         });
 
+      const hiredEmployerAccounts= await db.user.findMany({
+        where: {
+          email: {
+            in: hiredEmployers
+          },
+          role: {
+            equals: "employer"
+          }
+        },
+        select: {
+          id: true
+        }
+      })
+
+      const hiredIDs= hiredEmployerAccounts.flatMap((hired)=> hired.id)
+
+      const companyForUnregistered= await db.company.findFirst({
+        where: {
+          userId: {
+            in: hiredIDs
+          }
+        },
+        select: {
+          id: true,
+        }
+      })
+
+      const assignCompanyID= jobFormNonRegisteredCompany ? companyForUnregistered?.id : companyID
+
       const companyExists = await db.company.findFirst({
         where: {
-          id: companyID,
+          id: assignCompanyID,
         },
         select: {
           userId: true,
@@ -4633,6 +4667,7 @@ export const appRouter = router({
           company_name: true,
           company_description: true,
           logo: true,
+          id: true,
           employerName: true,
         },
       });
@@ -4651,13 +4686,42 @@ export const appRouter = router({
         employerName,
       } = companyExists;
 
-      const company_name = jobFormNonRegisteredCompany
-        ? adminCreatingCompanyName
-        : (companyExists.company_name as string);
+      const unregisteredKnownExists = await db.unregisteredCompany.findFirst({
+        where: {
+          id: unregisteredID,
+        },
+      });
 
-      const logo = jobFormNonRegisteredCompany
-        ? adminCreatingAddLogo
-        : companyExists.logo;
+      const company_name =
+        jobFormNonRegisteredCompany &&
+        !unregisteredKnownExists &&
+        unregisteredKnown === false
+          ? adminCreatingCompanyName
+          : jobFormNonRegisteredCompany &&
+            unregisteredKnownExists &&
+            unregisteredKnown === true
+          ? unregisteredKnownExists.companyName
+          : (companyExists.company_name as string);
+
+      const logo =
+        jobFormNonRegisteredCompany &&
+        !unregisteredKnownExists &&
+        unregisteredKnown === false
+          ? adminCreatingAddLogo
+          : jobFormNonRegisteredCompany &&
+            unregisteredKnownExists &&
+            unregisteredKnown === true
+          ? unregisteredKnownExists.logo
+          : companyExists.logo;
+
+          if (unregisteredKnown === false && jobFormNonRegisteredCompany === true) {
+            await db.unregisteredCompany.create({
+              data: {
+                companyName: company_name,
+                logo: logo,
+              },
+            });
+          }
 
       const isEmployerPostingExists = await db.employers.findFirst({
         where: {
@@ -4793,7 +4857,7 @@ export const appRouter = router({
               isEmployerID,
               job_id,
               createdByName: employerName,
-              companyId: companyID,
+              companyId: companyExists.id,
               company_name,
               company_description,
               companyLogo: logo,
@@ -4837,7 +4901,7 @@ export const appRouter = router({
             isEmployerID,
             job_id,
             createdByName: employerName,
-            companyId: companyID,
+            companyId: companyExists.id,
             company_name,
             company_description,
             companyLogo: logo,
@@ -4881,7 +4945,7 @@ export const appRouter = router({
           isEmployerID,
           job_id,
           createdByName: employerName,
-          companyId: companyID,
+          companyId: companyExists.id,
           company_name,
           company_description,
           companyLogo: logo,
@@ -4915,6 +4979,30 @@ export const appRouter = router({
           academicDesired,
         },
       });
+    }),
+ 
+  adminTriggerIndexing: privateProcedure
+    .mutation(async ({ctx})=>{
+      const {userId, email}= ctx;
+
+      const dbUser= await db.user.findFirst({
+        where: {
+          id: userId,
+          email
+        }
+      });
+
+      if(!dbUser) throw new TRPCError({code:"UNAUTHORIZED", message:"You are unauthorized, you have to login to continue."})
+
+      const isAdmin= await db.admin.findFirst({
+        where: {
+          adminEmail: email
+        }
+      })
+
+      if(!isAdmin) throw new TRPCError({code: "BAD_REQUEST", message: "This is an admin's only section."})
+
+      return await googleIndexAPI()
     }),
 
   adminCreateAssessmentBanner: privateProcedure

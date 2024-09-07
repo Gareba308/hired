@@ -664,7 +664,7 @@ const HomeJobsNavBarDetails = ({
     .reverse();
   return (
     <>
-      <div className="border-b border-gray-200 pb-3 md:pb-6">
+      <div className="md:border-b border-gray-200 md:pb-6">
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -2029,7 +2029,7 @@ const HomeJobsNavBarDetails = ({
 
       <div className="mt-3 md:mt-6 w-full mb-3 md:mb-6">
         <MaxWidthWrapper>
-          <div className="grid gap-x-4 sm:gap-x-5 w-full lg:gap-x-6 md:grid-cols-2">
+          <div className="grid gap-x-4 sm:gap-x-5 w-full h-full lg:gap-x-6 md:grid-cols-2">
             <div className="hidden md:block">
               {sortedAndFilteredJobs.length !== 0 ? (
                 <JobCard1 allJobs={jobsForCurrentPage} popular={popular} />

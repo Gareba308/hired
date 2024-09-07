@@ -232,7 +232,7 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
           variant: "default",
           duration: 3000,
         });
-        router.push("/manage/my-jobs");
+        form.reset()
       },
       onError: (err) => {
         if (err.message) {

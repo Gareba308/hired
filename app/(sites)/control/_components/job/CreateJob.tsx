@@ -72,14 +72,18 @@ import {
 } from "@mui/material";
 import { useCachedSkills } from "../data/create-job/AllSkills";
 import { useBenefits } from "../data/create-job/Benefits";
-import { Company, PickAssessCandidate } from "@prisma/client";
-import Link from "next/link";
+import {
+  Company,
+  PickAssessCandidate,
+  UnregisteredCompany,
+} from "@prisma/client";
 import CloudUpload from "@/components/CloudUpload";
 
 type ReminderFormSchemaType = z.infer<typeof reminderFormSchema>;
 interface AdminCreateJobProps {
   companies: Company[];
   allOrderedAssessments: PickAssessCandidate[];
+  unregisteredCompanies: UnregisteredCompany[];
 }
 
 const minSkills = 4;
@@ -124,10 +128,14 @@ export const reminderFormSchema = z.object({
   jobFormNonRegisteredCompany: z.boolean().default(false),
   adminCreatingCompanyName: z.string(),
   adminCreatingAddLogo: z.string(),
+
+  unregisteredKnown: z.boolean().default(false),
+  unregisteredID: z.string(),
 });
 
 const CreateJob = ({
   companies,
+  unregisteredCompanies,
   allOrderedAssessments,
 }: AdminCreateJobProps) => {
   const currentDate = new Date();
@@ -180,6 +188,8 @@ const CreateJob = ({
       jobFormNonRegisteredCompany: false,
       adminCreatingCompanyName: "",
       adminCreatingAddLogo: "",
+      unregisteredKnown: false,
+      unregisteredID: "",
     },
   });
   const { control } = form;
@@ -187,6 +197,10 @@ const CreateJob = ({
   const registration =
     useWatch({ control, name: "jobFormNonRegisteredCompany" }) || false;
   const unregistered = registration === true;
+
+  const knownUnregistered =
+    useWatch({ control, name: "unregisteredKnown" }) || false;
+  const known = knownUnregistered === true;
 
   const watchedJobTitle = useWatch({ control, name: "job_title" }) || "";
 
@@ -214,6 +228,7 @@ const CreateJob = ({
   );
 
   const [popoverOpen1, setPopoverOpen1] = useState<boolean>(false);
+  const [popoverOpen1B, setPopoverOpen1B] = useState<boolean>(false);
   const [popoverOpenA, setPopoverOpenA] = useState<boolean>(false);
   const [popoverOpenB, setPopoverOpenB] = useState<boolean>(false);
   const [popoverOpen2, setPopoverOpen2] = useState<boolean>(false);
@@ -258,7 +273,7 @@ const CreateJob = ({
           variant: "default",
           duration: 3000,
         });
-        router.push("/control/publication");
+        form.reset();
       },
       onError: (err) => {
         if (err.message) {
@@ -328,100 +343,6 @@ const CreateJob = ({
           <div className="border-t border-gray-200 mt-1">
             <div>
               <dl className="divide-y divide-gray-100">
-                <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
-                  <dt className="text-base font-medium text-gray-600">
-                    <div className="flex items-center flex-row">
-                      <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
-                      <span className="flex items-center">
-                        Company Details
-                        <span className="text-lg font-normal pl-0.5 text-red-600">
-                          *
-                        </span>
-                      </span>
-                    </div>
-                  </dt>
-                  <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    <FormField
-                      disabled={isLoading}
-                      control={form.control}
-                      name="companyID"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                          <FormLabel className="font-normal text-base text-gray-700">
-                            Select the company you are posting the job for?
-                            <span className="text-xs text-gray-600">
-                              (e.g., Talanta Mtaani Company)
-                            </span>
-                          </FormLabel>
-                          <Popover
-                            open={popoverOpen1}
-                            onOpenChange={setPopoverOpen1}
-                          >
-                            <PopoverTrigger asChild>
-                              <FormControl>
-                                <Button
-                                  variant="outline"
-                                  role="combobox"
-                                  disabled={isLoading}
-                                  className={cn(
-                                    "w-full justify-between",
-                                    !field.value && "text-muted-foreground"
-                                  )}
-                                >
-                                  {field.value
-                                    ? companies.find(
-                                        (company) => company.id === field.value
-                                      )?.company_name
-                                    : "---Select the company---"}
-                                  <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                </Button>
-                              </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent className="p-0 max-h-[400px] overflow-y-scroll">
-                              <Command>
-                                <CommandInput placeholder="Search company..." />
-                                <CommandEmpty>No company found.</CommandEmpty>
-                                <CommandGroup>
-                                  {companies
-                                    .sort((a, b) =>
-                                      a.company_name!.localeCompare(
-                                        b.company_name!
-                                      )
-                                    )
-                                    .map((company) => (
-                                      <CommandItem
-                                        value={company.id}
-                                        key={company.id}
-                                        onSelect={() => {
-                                          form.setValue(
-                                            "companyID",
-                                            company.id
-                                          );
-                                          setPopoverOpen1(false);
-                                        }}
-                                      >
-                                        <CheckIcon
-                                          className={cn(
-                                            "mr-2 h-4 w-4",
-                                            company.id === field.value
-                                              ? "opacity-100"
-                                              : "opacity-0"
-                                          )}
-                                        />
-                                        {company.company_name}
-                                      </CommandItem>
-                                    ))}
-                                </CommandGroup>
-                              </Command>
-                            </PopoverContent>
-                          </Popover>
-                          <FormDescription></FormDescription>
-                          <FormMessage className="text-red-500 font-normal text-sm" />
-                        </FormItem>
-                      )}
-                    />
-                  </dd>
-                </div>
                 <div className="py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0">
                   <dt className="font-medium text-base text-gray-700">
                     <div className="flex items-center flex-row">
@@ -461,8 +382,245 @@ const CreateJob = ({
                     />
                   </dd>
                 </div>
-
                 {unregistered && (
+                  <div className="py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0">
+                    <dt className="font-medium text-base text-gray-700">
+                      <div className="flex items-center flex-row">
+                        <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                        <span className="flex items-center">
+                          Unregistered Known?
+                          <span className="text-lg font-normal pl-0.5 text-red-600">
+                            *
+                          </span>
+                        </span>
+                      </div>
+                    </dt>
+                    <dd className="mt-1 text-gray-700 lg:col-span-2 lg:mt-0 text-base">
+                      <Label className="font-medium text-base text-gray-700">
+                        For unregistered companies known.
+                      </Label>
+                      <FormField
+                        control={form.control}
+                        name="unregisteredKnown"
+                        render={({ field }) => (
+                          <FormItem className="w-full">
+                            <div className="flex items-start justify-between flex-row w-full gap-x-4">
+                              <div>
+                                <FormLabel className="text-base font-normal">
+                                  Is the unregistered company known to you?
+                                </FormLabel>
+                              </div>
+                              <FormControl>
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                    </dd>
+                  </div>
+                )}
+                {!unregistered && (
+                  <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                    <dt className="text-base font-medium text-gray-600">
+                      <div className="flex items-center flex-row">
+                        <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                        <span className="flex items-center">
+                          Company Details
+                          <span className="text-lg font-normal pl-0.5 text-red-600">
+                            *
+                          </span>
+                        </span>
+                      </div>
+                    </dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      <FormField
+                        disabled={isLoading}
+                        control={form.control}
+                        name="companyID"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col">
+                            <FormLabel className="font-normal text-base text-gray-700">
+                              Select the company you are posting the job for?
+                              <span className="text-xs text-gray-600">
+                                (e.g., Talanta Mtaani Company)
+                              </span>
+                            </FormLabel>
+                            <Popover
+                              open={popoverOpen1}
+                              onOpenChange={setPopoverOpen1}
+                            >
+                              <PopoverTrigger asChild>
+                                <FormControl>
+                                  <Button
+                                    variant="outline"
+                                    role="combobox"
+                                    disabled={isLoading}
+                                    className={cn(
+                                      "w-full justify-between",
+                                      !field.value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    {field.value
+                                      ? companies.find(
+                                          (company) =>
+                                            company.id === field.value
+                                        )?.company_name
+                                      : "---Select the company---"}
+                                    <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                  </Button>
+                                </FormControl>
+                              </PopoverTrigger>
+                              <PopoverContent className="p-0 max-h-[400px] overflow-y-scroll">
+                                <Command>
+                                  <CommandInput placeholder="Search company..." />
+                                  <CommandEmpty>No company found.</CommandEmpty>
+                                  <CommandGroup>
+                                    {companies
+                                      .sort((a, b) =>
+                                        a.company_name!.localeCompare(
+                                          b.company_name!
+                                        )
+                                      )
+                                      .map((company) => (
+                                        <CommandItem
+                                          value={company.id}
+                                          key={company.id}
+                                          onSelect={() => {
+                                            form.setValue(
+                                              "companyID",
+                                              company.id
+                                            );
+                                            setPopoverOpen1(false);
+                                          }}
+                                        >
+                                          <CheckIcon
+                                            className={cn(
+                                              "mr-2 h-4 w-4",
+                                              company.id === field.value
+                                                ? "opacity-100"
+                                                : "opacity-0"
+                                            )}
+                                          />
+                                          {company.company_name}
+                                        </CommandItem>
+                                      ))}
+                                  </CommandGroup>
+                                </Command>
+                              </PopoverContent>
+                            </Popover>
+                            <FormDescription></FormDescription>
+                            <FormMessage className="text-red-500 font-normal text-sm" />
+                          </FormItem>
+                        )}
+                      />
+                    </dd>
+                  </div>
+                )}
+
+                {known && unregistered && (
+                  <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                    <dt className="text-base font-medium text-gray-600">
+                      <div className="flex items-center flex-row">
+                        <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                        <span className="flex items-center">
+                          Details Unregistered
+                          <span className="text-lg font-normal pl-0.5 text-red-600">
+                            *
+                          </span>
+                        </span>
+                      </div>
+                    </dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      <FormField
+                        disabled={isLoading}
+                        control={form.control}
+                        name="unregisteredID"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col">
+                            <FormLabel className="font-normal text-base text-gray-700">
+                              Select the unregistered company you are posting
+                              the job for?
+                              <span className="text-xs text-gray-600">
+                                (e.g., Talanta Company)
+                              </span>
+                            </FormLabel>
+                            <Popover
+                              open={popoverOpen1B}
+                              onOpenChange={setPopoverOpen1B}
+                            >
+                              <PopoverTrigger asChild>
+                                <FormControl>
+                                  <Button
+                                    variant="outline"
+                                    role="combobox"
+                                    disabled={isLoading}
+                                    className={cn(
+                                      "w-full justify-between",
+                                      !field.value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    {field.value
+                                      ? unregisteredCompanies.find(
+                                          (company) =>
+                                            company.id === field.value
+                                        )?.companyName
+                                      : "---Select the unregistered company---"}
+                                    <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                  </Button>
+                                </FormControl>
+                              </PopoverTrigger>
+                              <PopoverContent className="p-0 max-h-[400px] overflow-y-scroll">
+                                <Command>
+                                  <CommandInput placeholder="Search unregistered company..." />
+                                  <CommandEmpty>No company found.</CommandEmpty>
+                                  <CommandGroup>
+                                    {unregisteredCompanies
+                                      .sort((a, b) =>
+                                        a.companyName!.localeCompare(
+                                          b.companyName!
+                                        )
+                                      )
+                                      .map((company) => (
+                                        <CommandItem
+                                          value={company.id}
+                                          key={company.id}
+                                          onSelect={() => {
+                                            form.setValue(
+                                              "unregisteredID",
+                                              company.id
+                                            );
+                                            setPopoverOpen1B(false);
+                                          }}
+                                        >
+                                          <CheckIcon
+                                            className={cn(
+                                              "mr-2 h-4 w-4",
+                                              company.id === field.value
+                                                ? "opacity-100"
+                                                : "opacity-0"
+                                            )}
+                                          />
+                                          {company.companyName}
+                                        </CommandItem>
+                                      ))}
+                                  </CommandGroup>
+                                </Command>
+                              </PopoverContent>
+                            </Popover>
+                            <FormDescription></FormDescription>
+                            <FormMessage className="text-red-500 font-normal text-sm" />
+                          </FormItem>
+                        )}
+                      />
+                    </dd>
+                  </div>
+                )}
+
+                {unregistered && !known && (
                   <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
                     <dt className="text-base font-medium text-gray-600">
                       <div className="flex items-center flex-row">
@@ -503,7 +661,7 @@ const CreateJob = ({
                   </div>
                 )}
 
-                {unregistered && (
+                {unregistered && !known && (
                   <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
                     <dt className="text-base font-medium text-gray-600">
                       <div className="flex items-center flex-row">

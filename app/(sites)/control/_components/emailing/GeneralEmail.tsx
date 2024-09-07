@@ -148,7 +148,7 @@ const GeneralEmail = ({
     if (reasonWatch.length === 0) {
       form.setValue("subject", "");
     }
-  }, [reasonWatch.length]);
+  }, [reasonWatch.length, form]);
 
   const { mutate: sendEmail, isLoading } =
     trpc.adminEmailWorkerOnGeneral.useMutation({

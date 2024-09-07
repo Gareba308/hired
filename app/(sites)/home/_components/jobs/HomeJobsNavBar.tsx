@@ -2017,7 +2017,7 @@ const HomeJobsNavBar = ({
 
       <div className="my-3 md:my-6">
         <MaxWidthWrapper>
-          <div className="grid gap-x-4 sm:gap-x-5 lg:gap-x-6 md:grid-cols-2">
+          <div className="grid gap-x-4 sm:gap-x-5 h-full lg:gap-x-6 md:grid-cols-2">
             <div>
               {sortedAndFilteredJobs.length !== 0 ? (
                 <JobCard1 allJobs={jobsForCurrentPage} popular={popular} />

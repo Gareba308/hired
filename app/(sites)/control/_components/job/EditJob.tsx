@@ -50,7 +50,7 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const { mutate: confirmDelete, isLoading } =
-    trpc.employerDeleteJob.useMutation({
+    trpc.adminDeleteJob.useMutation({
       onSuccess: () => {
         toast({
           title: "Successfully deleted",

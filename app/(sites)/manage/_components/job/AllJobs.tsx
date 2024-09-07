@@ -1605,7 +1605,7 @@ export default function AllJobs({ jobs, userId }: AllJobsProps) {
                       </button>
                     </div>
                   </div>
-                  <div className="lg:mt-3">
+                  <div className="lg:mt-3 h-full">
                     {sortedAndFilteredJobs.length !== 0 ? (
                       <JobCard1 allJobs={jobsForCurrentPage} userId={userId} />
                     ) : (

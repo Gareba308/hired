@@ -11,7 +11,7 @@ import { Blogs } from "@prisma/client";
 import { ArrowRight, Camera, CornerUpLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Preview2 } from "@/components/Preview2";
 interface BlogDetailsProps {
@@ -67,6 +67,7 @@ const BlogDetails = ({
   const profileImage = blog.publisherProfile
     ? blog.publisherProfile
     : "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png";
+
   return (
     <>
       <section className="overflow-hidden pb-5">
@@ -140,26 +141,6 @@ const BlogDetails = ({
                         {format(blog.createdAt, "PPP")}
                       </p>
                       <p className="flex mr-5 items-center text-sm font-normal text-body-color">
-                        <span className="mr-1">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="text-gray-600 h-5 w-5"
-                          >
-                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                            <circle cx="12" cy="12" r="3" />
-                          </svg>
-                        </span>
-                        35
-                      </p>
-                      <p className="flex items-center text-sm font-normal text-body-color">
                         <span className="mr-1">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

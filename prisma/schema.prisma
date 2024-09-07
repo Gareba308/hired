@@ -216,6 +216,7 @@ model Job {
   isEmployerID                String
   createdByName               String?
   jobFormNonRegisteredCompany Boolean   @default(false)
+  unregisteredKnown           Boolean   @default(false)
   adminCreatingCompanyName    String?
   companyId                   String
   company_name                String
@@ -266,6 +267,14 @@ model Job {
 
   @@index([companyId])
   @@index([isEmployerID])
+}
+
+model UnregisteredCompany {
+  id          String   @id @default(cuid())
+  companyName String
+  logo        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model stackChats {

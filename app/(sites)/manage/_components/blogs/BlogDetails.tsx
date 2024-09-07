@@ -160,7 +160,7 @@ const BlogDetails = ({
                         </span>
                         {format(blog.createdAt, "PPP")}
                       </p>
-                      <p className="flex items-center text-sm font-normal text-body-color">
+                      <p className="flex mr-5 items-center text-sm font-normal text-body-color">
                         <span className="mr-1">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

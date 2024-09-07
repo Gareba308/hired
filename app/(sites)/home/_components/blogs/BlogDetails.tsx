@@ -11,7 +11,7 @@ import { Blogs } from "@prisma/client";
 import { ArrowRight, Camera, CornerUpLeft, Share2, Undo } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Preview2 } from "@/components/Preview2";
 import { useToast } from "@/components/ui/use-toast";
@@ -35,7 +35,7 @@ const BlogDetails = ({
   topHashtags1,
 }: BlogDetailsProps) => {
   const router = useRouter();
-  const {toast}= useToast()
+  const { toast } = useToast();
   function countWords(text: string): number {
     const words = text.trim().split(/\s+/);
     return words.length;
@@ -69,26 +69,26 @@ const BlogDetails = ({
     ? blog.publisherProfile
     : "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png";
 
-    const handleCopyClick = async () => {
-      const currentUrl = window.location.href;
-      try {
-        await navigator.clipboard.writeText(currentUrl);
-        toast({
-          title: "Blog link copied",
-          description:
-            "The blog's URL link has been copied to clipboard. You may share around the article.",
-          variant: "default",
-          duration: 4000,
-        });
-      } catch (error) {
-        toast({
-          title: "Something went wrong",
-          description: "Was unable to copy the blog's URL link",
-          variant: "destructive",
-          duration: 4000,
-        });
-      }
-    };
+  const handleCopyClick = async () => {
+    const currentUrl = window.location.href;
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      toast({
+        title: "Blog link copied",
+        description:
+          "The blog's URL link has been copied to clipboard. You may share around the article.",
+        variant: "default",
+        duration: 4000,
+      });
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Was unable to copy the blog's URL link",
+        variant: "destructive",
+        duration: 4000,
+      });
+    }
+  };
   return (
     <>
       <section className="overflow-hidden pb-5">
@@ -161,7 +161,7 @@ const BlogDetails = ({
                         </span>
                         {format(blog.createdAt, "PPP")}
                       </p>
-                      <p className="flex items-center text-sm font-normal text-body-color">
+                      <p className="flex mr-5 items-center text-sm font-normal text-body-color">
                         <span className="mr-1">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -243,7 +243,7 @@ const BlogDetails = ({
                         Share this blog post:
                       </h5>
                       <div className="flex items-center lg:justify-end">
-                        <SharePost blog={blog}/>
+                        <SharePost blog={blog} />
                       </div>
                     </div>
                   </div>
