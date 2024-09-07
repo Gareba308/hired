@@ -38,8 +38,14 @@ const SEOTrigger = () => {
         size="lg"
         className="bg-primary hover:bg-primary hover:opacity-90"
       >
-        <Loader2 className="h-4 w-4 mr-1.5 shrink-0 animate-spin" /> Request
-        Indexing
+        {isLoading ? (
+          <>
+            <Loader2 className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />{" "}
+            Indexing pages{" "}
+          </>
+        ) : (
+          "Request Indexing"
+        )}
       </Button>
     </div>
   );

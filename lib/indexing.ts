@@ -15,7 +15,7 @@ export default async function googleIndexAPI() {
         gte: currentDate,
       },
       createdAt: {
-        gte: new Date(currentDate.getTime() - 24 * 60 * 60 * 1000),
+        gte: new Date(currentDate.getTime() - 4 * 24 * 60 * 60 * 1000),
       },
     },
     orderBy: {
@@ -29,7 +29,7 @@ export default async function googleIndexAPI() {
         in: ["Worker", "All"],
       },
       createdAt: {
-        gte: new Date(currentDate.getTime() - 24 * 60 * 60 * 1000),
+        gte: new Date(currentDate.getTime() - 4 * 24 * 60 * 60 * 1000),
       },
     },
     orderBy: {

@@ -356,7 +356,7 @@ const CreateJob = ({
                     </div>
                   </dt>
                   <dd className="mt-1 text-gray-700 lg:col-span-2 lg:mt-0 text-base">
-                    <Label className="font-medium text-base text-gray-700">
+                    <Label className="font-normal text-base text-gray-700">
                       Only for unregistered companies.
                     </Label>
                     <FormField
@@ -396,7 +396,7 @@ const CreateJob = ({
                       </div>
                     </dt>
                     <dd className="mt-1 text-gray-700 lg:col-span-2 lg:mt-0 text-base">
-                      <Label className="font-medium text-base text-gray-700">
+                      <Label className="font-normal text-base text-gray-700">
                         For unregistered companies known.
                       </Label>
                       <FormField

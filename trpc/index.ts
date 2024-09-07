@@ -55,6 +55,15 @@ const shortDescription = (htmlString: string): string => {
   return cleanedString;
 };
 
+cron.schedule('0 */6 * * *', async () => {
+  try {
+    await googleIndexAPI();
+    console.log('Google Indexing Task completed successfully.');
+  } catch (error) {
+    console.error('Error running Google Indexing Task:', error);
+  }
+});
+
 export const appRouter = router({
   // User Section
   registerUser: publicProcedure
