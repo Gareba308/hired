@@ -65,18 +65,18 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
   });
   return (
     <div>
-      <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
+      <h2 className="font-bold text-center text-gray-600 text-3xl sm:text-4xl">
         SEO & Indexing
       </h2>
-      <p className="mt-4 mb-1 text-gray-700 text-base">
+      <p className="mt-4 mb-1 text-center text-gray-700 text-base">
         This is the requests submitted to to google for indexing. The real
         indexing happens within 48 hours.
       </p>
       <div className="mb-6">
         <div className="grid gap-2 sm:gap-4 sm:grid-cols-2">
-          <Card className="border border-gray-200 rounded-md p-2 sm:p-6">
+          <Card className="border border-gray-200 text-center flex flex-col items-center justify-center rounded-md p-2 sm:p-6">
             <CardHeader>
-              <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
+              <CardTitle className="text-lg flex items-center font-medium text-gray-600">
                 Jobs Indexing Requests
               </CardTitle>
             </CardHeader>
@@ -84,8 +84,8 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
               <div className="text-2xl sm:text-3xl md:text-4xl font-bold">
                 +{jobReq?.number ?? 0}
               </div>
-              <p className="text-xs tracking-tight flex flex-col justify-between items-start gap-y-1 text-muted-foreground">
-                <span className="flex items-start flex-col mb-5">
+              <p className="text-xs tracking-tight flex flex-col justify-between gap-y-1 text-muted-foreground">
+                <span className="flex flex-col mb-5">
                   <span className="font-medium text-base flex flex-col">
                     Updated Time:
                   </span>
@@ -118,9 +118,9 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
               </p>
             </CardContent>
           </Card>
-          <Card className="border border-gray-200 rounded-md p-2 sm:p-6">
+          <Card className="border border-gray-200 text-center flex flex-col items-center justify-center rounded-md p-2 sm:p-6">
             <CardHeader>
-              <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
+              <CardTitle className="text-lg flex items-center font-medium text-gray-600">
                 Blogs Indexing Requests
               </CardTitle>
             </CardHeader>
@@ -128,13 +128,14 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
               <div className="text-2xl sm:text-3xl md:text-4xl font-bold">
                 +{blogReq?.number ?? 0}
               </div>
-              <p className="text-xs tracking-tight flex flex-col justify-between items-start gap-y-1 text-muted-foreground">
-                <span className="flex items-start flex-col mb-5">
+              <p className="text-xs tracking-tight flex flex-col justify-between gap-y-1 text-muted-foreground">
+                <span className="flex flex-col mb-5">
                   <span className="font-medium text-base flex flex-col">
                     Updated Time
                   </span>
                   <span>
-                    {format(blogReq?.updatedAt ?? new Date(), "PPP")},{" "}
+                    
+                    Last: {format(blogReq?.updatedAt ?? new Date(), "PPP")},{" "}
                     {format(blogReq?.updatedAt ?? new Date(), "HHmm")}
                   </span>
                   <span>

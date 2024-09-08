@@ -1093,7 +1093,7 @@ export default function AllJobs({
         </Transition.Root>
 
         <main className="mx-auto max-w-7xl px-4 md:px-5">
-          <div className="text-2xl text-center sm:text-start sm:text-3xl font-bold tracking-tight pt-2 text-gray-600">
+          <div className="text-3xl text-center sm:text-start sm:text-4xl font-bold pt-2 tracking-tight text-gray-600">
             <h3>Explore All Jobs</h3>
           </div>
           <section

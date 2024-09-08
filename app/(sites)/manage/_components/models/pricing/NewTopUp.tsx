@@ -165,10 +165,6 @@ const NewTopUpAlertModal = ({
                                   ))}
                                 </SelectContent>
                               </Select>
-                              <FormDescription className="text-xs pt-0.5 text-gray-500">
-                                Pick amount from the currently given amount in
-                                the select dropdown
-                              </FormDescription>
                               <FormMessage className="text-red-500 font-normal text-sm" />
                             </FormItem>
                           )}
@@ -197,10 +193,6 @@ const NewTopUpAlertModal = ({
                                   />
                                 </FormControl>
                               </div>
-                              <FormDescription className="text-xs pt-0.5 text-gray-500">
-                                The phone number to make the payment. We have
-                                already entered +254
-                              </FormDescription>
                               <FormMessage className="text-red-500 font-normal text-sm" />
                             </FormItem>
                           )}
@@ -212,7 +204,7 @@ const NewTopUpAlertModal = ({
                     <dl className="grid 1.5">
                       <div className="flex items-center justify-between">
                         <dt className="text-muted-foreground">Account Name</dt>
-                        <dd className="font-bold text-base">Job Radar</dd>
+                        <dd className="font-bold text-base">Jobs Radar</dd>
                       </div>
                       <div className="flex items-center justify-between">
                         <dt className="text-muted-foreground">Email Address</dt>
