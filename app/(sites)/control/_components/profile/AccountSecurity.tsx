@@ -41,7 +41,7 @@ const AccountSecurity = ({ user, profile }: AccountSecurityProps) => {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   const toggleDelete = () => setIsDeleting((current) => !current);
-
+  const ourAdmins = process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(",") || [];
   const router = useRouter();
 
   const handleSignOut = () => {
@@ -94,13 +94,7 @@ const AccountSecurity = ({ user, profile }: AccountSecurityProps) => {
     toggleDelete();
   };
 
-  const mainAdmin =
-  user.name?.includes("Areba") ||
-  (profile?.role.includes("Founder") ||
-    profile?.role.includes("CEO") ||
-    profile?.role === "Main Admin" ||
-    profile?.role === "Anonymous" ||
-    profile?.role === "Chairman");
+  const mainAdmin = ourAdmins.includes(user.email);
   return (
     <>
       <dl className="divide-y divide-gray-100">
@@ -109,8 +103,12 @@ const AccountSecurity = ({ user, profile }: AccountSecurityProps) => {
         <AccountPassword user={user} />
 
         <div className="pt-4">
-          <dl className={cn("border border-red-200 rounded-lg px-2.5 lg:px-3",
-          mainAdmin && "border-gray-200")}>
+          <dl
+            className={cn(
+              "border border-red-200 rounded-lg px-2.5 lg:px-3",
+              mainAdmin && "border-gray-200"
+            )}
+          >
             <div className="pt-2 pb-4 pl-0.5 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-800">
               <DeleteProfileAlertModal
                 isOpen={deleteOpen}

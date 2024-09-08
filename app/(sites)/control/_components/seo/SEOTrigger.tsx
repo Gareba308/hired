@@ -3,17 +3,24 @@
 import { trpc } from "@/app/_trpc/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { LastRequestBlogsIndex, LastRequestJobsIndex } from "@prisma/client";
 import { Loader2 } from "lucide-react";
+import { format, add } from "date-fns";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 
-const SEOTrigger = () => {
+interface SEOTriggerProps {
+  blogReq: LastRequestBlogsIndex | null;
+  jobReq: LastRequestJobsIndex | null;
+}
+const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
   const { toast } = useToast();
   const { mutate: triggerIndexing, isLoading } =
     trpc.adminTriggerIndexing.useMutation({
       onSuccess: () => {
         toast({
           title: "Success indexing",
-          description: "The indexing has been done successfully",
+          description: "Request to have jobs indexed has been done successfully",
           variant: "default",
           duration: 3000,
         });
@@ -29,24 +36,134 @@ const SEOTrigger = () => {
         });
       },
     });
+
+  const { mutate: triggerIndexingBlogs, isLoading: loadingBlogs } =
+    trpc.adminTriggerIndexingBlogs.useMutation({
+      onSuccess: () => {
+        toast({
+          title: "Success indexing",
+          description: "Request to have blogs indexed has been done successfully",
+          variant: "default",
+          duration: 3000,
+        });
+      },
+      onError: (err) => {
+        toast({
+          title: "Something went wrong",
+          description:
+            err.message ||
+            "There was a problem trying to request indexing of your pages",
+          variant: "destructive",
+          duration: 3000,
+        });
+      },
+    });
+
+  const nextIndexJobsDate = add(jobReq?.updatedAt ?? new Date(), { hours: 6 });
+  const nextIndexBlogsDate = add(blogReq?.updatedAt ?? new Date(), {
+    hours: 6,
+  });
   return (
-    <div className="flex flex-col items-center justify-center">
-      <Button
-        type="button"
-        onClick={() => triggerIndexing()}
-        variant="default"
-        size="lg"
-        className="bg-primary hover:bg-primary hover:opacity-90"
-      >
-        {isLoading ? (
-          <>
-            <Loader2 className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />{" "}
-            Indexing pages{" "}
-          </>
-        ) : (
-          "Request Indexing"
-        )}
-      </Button>
+    <div>
+      <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
+        SEO & Indexing
+      </h2>
+      <p className="mt-4 mb-1 text-gray-700 text-base">
+        This is the requests submitted to to google for indexing. The real
+        indexing happens within 48 hours.
+      </p>
+      <div className="mb-6">
+        <div className="grid gap-2 sm:gap-4 sm:grid-cols-2">
+          <Card className="border border-gray-200 rounded-md p-2 sm:p-6">
+            <CardHeader>
+              <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
+                Jobs Indexing Requests
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold">
+                +{jobReq?.number ?? 0}
+              </div>
+              <p className="text-xs tracking-tight flex flex-col justify-between items-start gap-y-1 text-muted-foreground">
+                <span className="flex items-start flex-col mb-5">
+                  <span className="font-medium text-base flex flex-col">
+                    Updated Time:
+                  </span>
+                  <span>
+                    Last: {format(jobReq?.updatedAt ?? new Date(), "PPP")},{" "}
+                    {format(jobReq?.updatedAt ?? new Date(), "HHmm")}
+                  </span>
+                  <span>
+                    Next: {format(nextIndexJobsDate, "PPP")},{" "}
+                    {format(nextIndexJobsDate, "HHmm")}
+                  </span>
+                </span>
+                <Button
+                  type="button"
+                  onClick={() => triggerIndexing()}
+                  disabled={loadingBlogs || isLoading}
+                  variant="default"
+                  size="lg"
+                  className="bg-primary hover:bg-primary hover:opacity-90"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />{" "}
+                      Indexing pages{" "}
+                    </>
+                  ) : (
+                    "Request Jobs Indexing"
+                  )}
+                </Button>
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="border border-gray-200 rounded-md p-2 sm:p-6">
+            <CardHeader>
+              <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
+                Blogs Indexing Requests
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold">
+                +{blogReq?.number ?? 0}
+              </div>
+              <p className="text-xs tracking-tight flex flex-col justify-between items-start gap-y-1 text-muted-foreground">
+                <span className="flex items-start flex-col mb-5">
+                  <span className="font-medium text-base flex flex-col">
+                    Updated Time
+                  </span>
+                  <span>
+                    {format(blogReq?.updatedAt ?? new Date(), "PPP")},{" "}
+                    {format(blogReq?.updatedAt ?? new Date(), "HHmm")}
+                  </span>
+                  <span>
+                    Next: {format(nextIndexBlogsDate, "PPP")},{" "}
+                    {format(nextIndexBlogsDate, "HHmm")}
+                  </span>
+                </span>
+                <Button
+                  type="button"
+                  onClick={() => triggerIndexingBlogs()}
+                  variant="default"
+                  disabled={loadingBlogs || isLoading}
+                  size="lg"
+                  className="bg-gray-200 hover:bg-gray-200 text-primary hover:opacity-90"
+                >
+                  {loadingBlogs ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />{" "}
+                      Indexing pages{" "}
+                    </>
+                  ) : (
+                    "Request Blogs Indexing"
+                  )}
+                </Button>
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 };

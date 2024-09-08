@@ -211,7 +211,7 @@ const NewTopUpAlertModal = ({
                     <div className="font-semibold">Recipient Organization</div>
                     <dl className="grid 1.5">
                       <div className="flex items-center justify-between">
-                        <dt className="text-muted-foreground">MPesa Name</dt>
+                        <dt className="text-muted-foreground">Account Name</dt>
                         <dd className="font-bold text-base">Job Radar</dd>
                       </div>
                       <div className="flex items-center justify-between">

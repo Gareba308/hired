@@ -9,6 +9,7 @@ import {
   AlignEndHorizontal,
   ChevronsUp,
   Edit,
+  Cable,
   FolderEdit,
   ScrollText,
 } from "lucide-react";
@@ -151,7 +152,7 @@ const Sidebar = () => {
                         "flex items-center cursor-pointer px-4 py-2.5 text-sm"
                       )}
                     >
-                      <FolderEdit className="h-4 w-4 mr-1.5 shrink-0 text-gray-500" />
+                      <Cable className="h-4 w-4 mr-1.5 shrink-0 text-gray-500" />
                       Search Optimization
                     </Link>
                   )}

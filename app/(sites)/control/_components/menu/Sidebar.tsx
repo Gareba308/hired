@@ -9,6 +9,7 @@ import {
   AlignEndHorizontal,
   ChevronsUp,
   Edit,
+  Cable,
   FolderEdit,
   ScrollText,
 } from "lucide-react";
@@ -22,7 +23,8 @@ const Sidebar = ({ onClose }: SidebarProps) => {
   const isActive =
     pathname?.includes("/control/marketing") ||
     pathname?.includes("control/blogs") ||
-    pathname?.includes("/control/email");
+    pathname?.includes("/control/email") || 
+    pathname?.includes("/control/seo");
 
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
@@ -149,6 +151,24 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                     >
                       <FolderEdit className="h-4 w-4 mr-1.5 shrink-0 text-gray-500" />
                       Email Marketing
+                    </Link>
+                  )}
+                </Menu.Item>
+              </div>
+              <div className="">
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link
+                      href="/control/seo"
+                      onClick={handleItemClick}
+                      title="Open SEO"
+                      className={classNames(
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                        "flex items-center cursor-pointer px-4 py-2.5 text-sm"
+                      )}
+                    >
+                      <Cable className="h-4 w-4 mr-1.5 shrink-0 text-gray-500" />
+                      Search Optimization
                     </Link>
                   )}
                 </Menu.Item>

@@ -25,6 +25,8 @@ import {
   subDays,
 } from "date-fns";
 import googleIndexAPI from "@/lib/indexing";
+import googleIndexBlogAPI from "@/lib/indexingBlogs";
+import { authorize } from "@/lib/indexAuth";
 
 const generateID = () => {
   let digits = "0123456789";
@@ -36,8 +38,8 @@ const generateID = () => {
 };
 const productionBASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const emailPassword = process.env.PASSWORD;
-const ourAdmins= process.env.ADMIN_EMAILS?.split(',') || [];
-const hiredEmployers= process.env.HIRED_EMPLOYERS?.split(',') || [];
+const ourAdmins = process.env.ADMIN_EMAILS?.split(",") || [];
+const hiredEmployers = process.env.HIRED_EMPLOYERS?.split(",") || [];
 const removeHtmlTags = (htmlString: string): string => {
   const cleanedHtml = sanitizeHtml(htmlString, {
     allowedTags: [],
@@ -55,12 +57,20 @@ const shortDescription = (htmlString: string): string => {
   return cleanedString;
 };
 
-cron.schedule('0 */6 * * *', async () => {
+cron.schedule("0 */3 * * *", async () => {
   try {
     await googleIndexAPI();
-    console.log('Google Indexing Task completed successfully.');
+    console.log("Google Indexing Task completed successfully.");
   } catch (error) {
-    console.error('Error running Google Indexing Task:', error);
+    console.error("Error running Google Indexing Task:", error);
+  }
+});
+cron.schedule("0 */6 * * *", async () => {
+  try {
+    await googleIndexBlogAPI();
+    console.log("Google Indexing Task completed successfully.");
+  } catch (error) {
+    console.error("Error running Google Indexing Task:", error);
   }
 });
 
@@ -156,10 +166,7 @@ export const appRouter = router({
       const verifyTokenExpiry = new Date();
 
       verifyTokenExpiry.setHours(verifyTokenExpiry.getHours() + 1);
-      const mainAdmin =
-        email.includes("hired.co.ke") ||
-        email === "geozagareba@gmail.com" ||
-        email === "arebsy@gmail.com";
+      const mainAdmin = ourAdmins.includes(email);
 
       const referralCode = cryptoRandomString({
         length: 8,
@@ -453,10 +460,7 @@ export const appRouter = router({
       const verifyTokenExpiry = new Date();
 
       verifyTokenExpiry.setHours(verifyTokenExpiry.getHours() + 1);
-      const mainAdmin =
-        email.includes("hired.co.ke") ||
-        email === "geozagareba@gmail.com" ||
-        email === "arebsy@gmail.com";
+      const mainAdmin = ourAdmins.includes(email);
 
       const referralCode = cryptoRandomString({
         length: 8,
@@ -1349,8 +1353,8 @@ export const appRouter = router({
       }
       const oauthEndpoint =
         "https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
-      const consumer_key = process.env.SANDBOX_CONSUMER_KEY;
-      const consumer_secret = process.env.SANDBOX_CONSUMER_SECRET;
+      const consumer_key = process.env.CONSUMER_KEY;
+      const consumer_secret = process.env.CONSUMER_SECRET;
 
       if (!consumer_key || !consumer_secret) {
         throw new TRPCError({
@@ -1385,11 +1389,9 @@ export const appRouter = router({
       const date = new Date();
       const timeStamp = format(date, "yyyyMMddHHmmss");
 
-      const shortCode = process.env.SANDBOX_SHORT_CODE;
-      const shortCode2 = process.env.SANDBOX_SHORT_CODE2;
-      const passkey = process.env.SANDBOX_MPESA_PASSKEY;
-
-      // const callbackURL = process.env.SANDBOX_CALLBACK_URL;
+      const shortCode = process.env.SHORT_CODE;
+      const shortCode2 = process.env.SHORT_CODE2;
+      const passkey = process.env.MPESA_PASSKEY;
 
       if (!shortCode || !shortCode2 || !passkey) {
         throw new TRPCError({
@@ -4637,34 +4639,36 @@ export const appRouter = router({
           message: "Unauthenticated, login to create a job",
         });
 
-      const hiredEmployerAccounts= await db.user.findMany({
+      const hiredEmployerAccounts = await db.user.findMany({
         where: {
           email: {
-            in: hiredEmployers
+            in: hiredEmployers,
           },
           role: {
-            equals: "employer"
-          }
-        },
-        select: {
-          id: true
-        }
-      })
-
-      const hiredIDs= hiredEmployerAccounts.flatMap((hired)=> hired.id)
-
-      const companyForUnregistered= await db.company.findFirst({
-        where: {
-          userId: {
-            in: hiredIDs
-          }
+            equals: "employer",
+          },
         },
         select: {
           id: true,
-        }
-      })
+        },
+      });
 
-      const assignCompanyID= jobFormNonRegisteredCompany ? companyForUnregistered?.id : companyID
+      const hiredIDs = hiredEmployerAccounts.flatMap((hired) => hired.id);
+
+      const companyForUnregistered = await db.company.findFirst({
+        where: {
+          userId: {
+            in: hiredIDs,
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      const assignCompanyID = jobFormNonRegisteredCompany
+        ? companyForUnregistered?.id
+        : companyID;
 
       const companyExists = await db.company.findFirst({
         where: {
@@ -4723,14 +4727,14 @@ export const appRouter = router({
           ? unregisteredKnownExists.logo
           : companyExists.logo;
 
-          if (unregisteredKnown === false && jobFormNonRegisteredCompany === true) {
-            await db.unregisteredCompany.create({
-              data: {
-                companyName: company_name,
-                logo: logo,
-              },
-            });
-          }
+      if (unregisteredKnown === false && jobFormNonRegisteredCompany === true) {
+        await db.unregisteredCompany.create({
+          data: {
+            companyName: company_name,
+            logo: logo,
+          },
+        });
+      }
 
       const isEmployerPostingExists = await db.employers.findFirst({
         where: {
@@ -4989,30 +4993,265 @@ export const appRouter = router({
         },
       });
     }),
- 
-  adminTriggerIndexing: privateProcedure
-    .mutation(async ({ctx})=>{
-      const {userId, email}= ctx;
 
-      const dbUser= await db.user.findFirst({
-        where: {
-          id: userId,
-          email
-        }
+  adminTriggerIndexing: privateProcedure.mutation(async ({ ctx }) => {
+    const { userId, email } = ctx;
+    const currentDate = new Date();
+    const baseUrl = "https://www.hired.co.ke";
+    const dbUser = await db.user.findFirst({
+      where: {
+        id: userId,
+        email,
+      },
+    });
+
+    if (!dbUser)
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "You are unauthorized, you have to login to continue.",
       });
 
-      if(!dbUser) throw new TRPCError({code:"UNAUTHORIZED", message:"You are unauthorized, you have to login to continue."})
+    const isAdmin = await db.admin.findFirst({
+      where: {
+        adminEmail: email,
+      },
+    });
 
-      const isAdmin= await db.admin.findFirst({
-        where: {
-          adminEmail: email
+    if (!isAdmin)
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "This is an admin's only section.",
+      });
+
+    const jobs = await db.job.findMany({
+      where: {
+        deadline: {
+          gte: currentDate,
+        },
+        createdAt: {
+          gte: new Date(currentDate.getTime() - 12 * 60 * 60 * 1000),
+        },
+      },
+    });
+
+    const urlsToIndex = [
+      ...jobs.map((job) => `${baseUrl}/home/jobs/${job.id}`),
+    ];
+
+    const lastIndexExists = await db.lastRequestJobsIndex.findFirst({
+      select: {
+        id: true,
+      },
+    });
+
+    let indexId;
+    if (!lastIndexExists){
+      const createIndexRecord= await db.lastRequestJobsIndex.create({
+        data: {
+          number: urlsToIndex.length
+        }
+      })
+      
+      indexId= createIndexRecord.id
+    }
+
+    const updateIndexId= lastIndexExists ? lastIndexExists.id : indexId
+    await db.lastRequestJobsIndex.update({
+      where: {
+        id: updateIndexId,
+      },
+      data: {
+        number: urlsToIndex.length,
+      },
+    });
+    const token = await authorize();
+
+    for await (const url of urlsToIndex) {
+      await fetch(
+        "https://indexing.googleapis.com/v3/urlNotifications:publish",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            url,
+            type: "URL_UPDATED",
+          }),
+        }
+      )
+        .then((response) => response.json())
+        .then((response) => {
+          console.log({ response }, "indexed url");
+        })
+        .catch((err) => {
+          console.log({ err }, "failed to index");
+        });
+    }
+
+    return { message: "Indexing completed successfully." };
+  }),
+
+  adminTriggerIndexingBlogs: privateProcedure.mutation(async ({ ctx }) => {
+    const { userId, email } = ctx;
+    const currentDate = new Date();
+    const convertToSlug = (text: string): string => {
+      return text.toLowerCase().replace(/\s+/g, "-");
+    };
+    const baseUrl = "https://www.hired.co.ke";
+
+    const dbUser = await db.user.findFirst({
+      where: {
+        id: userId,
+        email,
+      },
+    });
+
+    if (!dbUser) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "You are unauthorized, you have to log in to continue.",
+      });
+    }
+
+    const isAdmin = await db.admin.findFirst({
+      where: {
+        adminEmail: email,
+      },
+    });
+
+    if (!isAdmin) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "This is an admin's only section.",
+      });
+    }
+
+    const workerBlogs = await db.blogs.findMany({
+      where: {
+        target: { in: ["Worker", "All"] },
+        createdAt: {
+          gte: new Date(currentDate.getTime() - 12 * 60 * 60 * 1000),
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    const employerBlogs = await db.blogs.findMany({
+      where: {
+        target: { in: ["Employer", "All"] },
+        createdAt: {
+          gte: new Date(currentDate.getTime() - 12 * 60 * 60 * 1000),
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    const workerCategories = Array.from(
+      new Set(workerBlogs.map((blog) => blog.category))
+    );
+    const employerCategories = Array.from(
+      new Set(employerBlogs.map((blog) => blog.category))
+    );
+
+    const urlsToIndex = [
+      ...workerBlogs.map(
+        (blog) => `${baseUrl}/home/blogs/job-seekers/${blog.id}`
+      ),
+      ...workerBlogs.flatMap((blog) =>
+        workerCategories.map(
+          (category) =>
+            `${baseUrl}/home/blogs/job-seekers/${
+              blog.id
+            }/categories/${convertToSlug(category)}`
+        )
+      ),
+      ...employerBlogs.map(
+        (blog) => `${baseUrl}/home/blogs/employers/${blog.id}`
+      ),
+      ...employerBlogs.flatMap((blog) =>
+        employerCategories.map(
+          (category) =>
+            `${baseUrl}/home/blogs/employers/${
+              blog.id
+            }/categories/${convertToSlug(category)}`
+        )
+      ),
+      ...workerBlogs.flatMap((blog) => {
+        const tags = blog.body.match(/#\w+/g);
+        return tags
+          ? tags.map(
+              (tag) =>
+                `${baseUrl}/home/blogs/job-seekers/${blog.id}/${convertToSlug(
+                  tag.replace("#", "")
+                )}`
+            )
+          : [];
+      }),
+      ...employerBlogs.flatMap((blog) => {
+        const tags = blog.body.match(/#\w+/g);
+        return tags
+          ? tags.map(
+              (tag) =>
+                `${baseUrl}/home/blogs/employers/${blog.id}/${convertToSlug(
+                  tag.replace("#", "")
+                )}`
+            )
+          : [];
+      }),
+    ];
+
+    const lastIndexExists = await db.lastRequestBlogsIndex.findFirst({
+      select: { id: true },
+    });
+
+    let indexId;
+    if(!lastIndexExists){
+      const createIndex= await db.lastRequestBlogsIndex.create({
+        data: {
+          number: urlsToIndex.length
         }
       })
 
-      if(!isAdmin) throw new TRPCError({code: "BAD_REQUEST", message: "This is an admin's only section."})
+      indexId= createIndex.id
+    }
 
-      return await googleIndexAPI()
-    }),
+    const updateIndexId= lastIndexExists ? lastIndexExists.id : indexId
+
+    await db.lastRequestBlogsIndex.update({
+      where: { id: updateIndexId },
+      data: { number: urlsToIndex.length },
+    });
+
+    const token = await authorize();
+
+    for await (const url of urlsToIndex) {
+      await fetch(
+        "https://indexing.googleapis.com/v3/urlNotifications:publish",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            url,
+            type: "URL_UPDATED",
+          }),
+        }
+      )
+        .then((response) => response.json())
+        .then((response) => {
+          console.log({ response }, "indexed url");
+        })
+        .catch((err) => {
+          console.log({ err }, "failed to index");
+        });
+    }
+
+    return { message: "Indexing completed successfully." };
+  }),
 
   adminCreateAssessmentBanner: privateProcedure
     .input(
