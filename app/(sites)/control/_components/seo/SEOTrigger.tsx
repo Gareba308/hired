@@ -74,7 +74,7 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
       </p>
       <div className="mb-6">
         <div className="grid gap-2 sm:gap-4 sm:grid-cols-2">
-          <Card className="border border-gray-200 text-center flex flex-col items-center justify-center rounded-md p-2 sm:p-6">
+          <Card className="border border-gray-200 text-center flex flex-col items-center justify-center rounded-md p-4 sm:p-6">
             <CardHeader>
               <CardTitle className="text-lg flex items-center font-medium text-gray-600">
                 Jobs Indexing Requests
@@ -104,7 +104,7 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
                   disabled={loadingBlogs || isLoading}
                   variant="default"
                   size="lg"
-                  className="bg-primary hover:bg-primary hover:opacity-90"
+                  className="bg-primary w-full sm:w-fit hover:bg-primary hover:opacity-90"
                 >
                   {isLoading ? (
                     <>
@@ -118,7 +118,7 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
               </p>
             </CardContent>
           </Card>
-          <Card className="border border-gray-200 text-center flex flex-col items-center justify-center rounded-md p-2 sm:p-6">
+          <Card className="border border-gray-200 text-center flex flex-col items-center justify-center rounded-md p-4 sm:p-6">
             <CardHeader>
               <CardTitle className="text-lg flex items-center font-medium text-gray-600">
                 Blogs Indexing Requests
@@ -149,7 +149,7 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
                   variant="default"
                   disabled={loadingBlogs || isLoading}
                   size="lg"
-                  className="bg-gray-200 hover:bg-gray-200 text-primary hover:opacity-90"
+                  className="bg-gray-200 w-full sm:w-fit hover:bg-gray-200 text-primary hover:opacity-90"
                 >
                   {loadingBlogs ? (
                     <>

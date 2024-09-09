@@ -1098,7 +1098,7 @@ export default function AllJobs({
           </div>
           <section
             aria-labelledby="products-heading"
-            className="mb-2.5 mt-2 lg:mt-0"
+            className="mb-2.5 pt-2 sm:pt-0 lg:mt-0"
           >
             <div className="flex flex-wrap">
               <div className="w-full lg:w-2/3">
