@@ -4749,13 +4749,6 @@ export const appRouter = router({
             "Looks like the employer you are posting for, does not exist.",
         });
 
-      if (jobFormNonRegisteredCompany === true && !adminCreatingCompanyName)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message:
-            "You indicated the job is from unregistered company. Company name must not be blank.",
-        });
-
       if (assessmentOneID) {
         if (assessmentTwoID === assessmentOneID)
           throw new TRPCError({

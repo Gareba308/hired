@@ -116,9 +116,9 @@ const JobCard3 = ({ allJobs }: JobCardProps) => {
                   href={`/site/jobs/${item.id}?origin=site/jobs`}
                   title={item.job_title}
                 >
-                  <div className="text-lg lg:text-[16.3px] w-full -mt-0.5 capitalize block cursor-pointer font-medium text-primary hover:text-[#005580]">
+                  <div className="text-lg lg:text-[16.3px] w-full -mt-0.5 block cursor-pointer font-medium text-primary hover:text-[#005580]">
                     <span className="line-clamp-1 w-full">
-                      {item.job_title.toLowerCase()}
+                      {item.job_title}
                     </span>
                   </div>
                   <div className="flex items-center justify-between gap-x-4 w-full">

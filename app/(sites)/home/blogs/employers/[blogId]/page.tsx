@@ -26,21 +26,6 @@ const getBlog = cache(async (blogId: string) => {
   return blogExists;
 });
 
-export const revalidate = 60;
-export const dynamicParams= true;
-
-export async function generateStaticParams() {
-  const employerBlogs = await db.blogs.findMany({
-    select: {
-      id: true
-    }
-  });
-
-  return employerBlogs.map((blog) => ({
-    blogId: blog.id,
-  }));
-}
-
 export async function generateMetadata({
   params,
 }: BlogIDProps): Promise<Metadata> {
