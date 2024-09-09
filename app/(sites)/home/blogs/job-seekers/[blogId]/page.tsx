@@ -27,6 +27,8 @@ const getBlog = cache(async (blogId: string) => {
 });
 
 export const revalidate = 60;
+export const dynamicParams= true;
+
 export async function generateStaticParams() {
   const workerBlogs = await db.blogs.findMany({
     select: {

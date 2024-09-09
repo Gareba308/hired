@@ -33,6 +33,7 @@ const getBlogs = cache(async (category: string) => {
 });
 
 export const revalidate = 60;
+export const dynamicParams= true;
 
 export async function generateStaticParams() {
   const allBlogCategories = await db.blogs.findMany({
