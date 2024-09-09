@@ -84,7 +84,7 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
               <div className="text-2xl sm:text-3xl md:text-4xl font-bold">
                 +{jobReq?.number ?? 0}
               </div>
-              <p className="text-xs tracking-tight flex flex-col justify-between gap-y-1 text-muted-foreground">
+              <p className="text-sm tracking-tight flex flex-col justify-between gap-y-1 text-gray-600">
                 <span className="flex flex-col mb-5">
                   <span className="font-medium text-base flex flex-col">
                     Updated Time:
@@ -128,7 +128,7 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
               <div className="text-2xl sm:text-3xl md:text-4xl font-bold">
                 +{blogReq?.number ?? 0}
               </div>
-              <p className="text-xs tracking-tight flex flex-col justify-between gap-y-1 text-muted-foreground">
+              <p className="text-sm tracking-tight flex flex-col justify-between gap-y-1 text-gray-600">
                 <span className="flex flex-col mb-5">
                   <span className="font-medium text-base flex flex-col">
                     Updated Time

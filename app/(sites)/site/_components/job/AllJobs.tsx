@@ -1097,7 +1097,7 @@ export default function AllJobs({
             <h3>Explore All Jobs</h3>
           </div>
           <section
-            aria-labelledby="products-heading"
+            aria-labelledby="job-heading"
             className="mb-2.5 pt-2 sm:pt-0 lg:mt-0"
           >
             <div className="flex flex-wrap">
