@@ -74,7 +74,7 @@ const SignUpPage1 = () => {
             </p>
           </div>
           <div className="flex items-end mt-4 lg:mt-0 lg:ml-3">
-            <div className="mx-auto w-full sm:max-w-[540px] rounded-md px-4 py-4 border border-gray-200 shadow-md sm:px-[60px]">
+            <div className="mx-auto w-full sm:max-w-[540px] rounded-md px-4 py-4 border border-gray-300 shadow-md sm:px-[60px]">
               <h3 className="sm:text-center text-2xl font-bold text-gray-700 sm:text-3xl">
                 Sign up to create Hired account
               </h3>
@@ -112,7 +112,7 @@ const SignUpPage1 = () => {
                     type="email"
                     id="email"
                     value={data.email}
-                    autoComplete="username"
+                    autoComplete="email"
                     onChange={onFieldChange}
                     required
                     name="email"

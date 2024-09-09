@@ -273,7 +273,7 @@ const CreateJob = ({
           variant: "default",
           duration: 3000,
         });
-        form.reset();
+        window.location.reload()
       },
       onError: (err) => {
         if (err.message) {

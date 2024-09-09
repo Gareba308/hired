@@ -206,7 +206,7 @@ const LinkPlatformEdit = ({ job, jobId }: LinkPlatformEditProps) => {
                         </div>
                       </div>
                       {job?.linkPlatform ? (
-                        <div className="font-normal text-gray-800 text-base -mt-0.5 w-full">
+                        <div className="font-normal text-blue-700 break-words text-base -mt-0.5 w-full">
                           {job?.linkPlatform}
                           <div className="flex items-start text-sm mt-4 -mb-3">
                             <Info className="mr-1 h-5 font-light w-5 text-red-500 align-middle" />{" "}

@@ -65,7 +65,7 @@ const SigninPageJobSeeker = () => {
             </p>
           </div>
           <div className="flex items-end mt-4 lg:mt-0 lg:ml-3">
-            <div className="mx-auto w-full px-4 sm:max-w-[540px] rounded-md py-4 lg:py-8 border :border-gray-200 shadow-md sm:px-[60px]">
+            <div className="mx-auto w-full px-4 sm:max-w-[540px] rounded-md py-4 lg:py-8 border border-gray-300 shadow-md sm:px-[60px]">
               <h3 className="sm:text-center text-2xl font-bold text-gray-700 sm:text-3xl">
                 Sign in to your Hired account
               </h3>
@@ -129,7 +129,7 @@ const SigninPageJobSeeker = () => {
                     id="email"
                     type="email"
                     name="email"
-                    autoComplete="username"
+                    autoComplete="email"
                     value={data.email}
                     onChange={onFieldChange}
                     required
@@ -149,7 +149,7 @@ const SigninPageJobSeeker = () => {
                     id="password"
                     type="password"
                     name="password"
-                    autoComplete="new-password"
+                    autoComplete="current-password"
                     value={data.password}
                     onChange={onFieldChange}
                     required

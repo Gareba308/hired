@@ -45,7 +45,7 @@ export default function AllSavedJobs({
             <div className="text-2xl w-full sm:text-3xl font-bold tracking-tight text-gray-600">
               <div className="flex items-center gap-x-1.5 sm:gap-x-2">
                 <div className="flex flex-col">
-                  <h3 className="font-bold text-gray-600 text-center sm:text-start tracking-tight text-3xl sm:text-4xl">
+                  <h3 className="font-bold text-gray-600 text-center sm:text-start tracking-tight text-2xl sm:text-3xl">
                     My Saved Jobs
                   </h3>
                 </div>

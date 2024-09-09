@@ -81,7 +81,7 @@ const ForgotPassword = () => {
                     id="email"
                     type="email"
                     name="email"
-                    autoComplete="username"
+                    autoComplete="email"
                     value={data.email}
                     onChange={onFieldChange}
                     required

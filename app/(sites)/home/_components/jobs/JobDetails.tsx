@@ -14,6 +14,7 @@ import {
   Info,
   Link as Links,
   Mail,
+  Share2,
 } from "lucide-react";
 import {
   Tooltip,
@@ -32,6 +33,7 @@ import QuillPreview from "@/components/QuillPreview";
 import { Preview } from "@/components/Preview";
 import { useEffect, useState } from "react";
 import RecentlyViewedLoader from "@/components/RecentlyViewedLoader";
+import { useToast } from "@/components/ui/use-toast";
 
 interface JobDetailsProps {
   job: Job;
@@ -92,6 +94,7 @@ export default function JobDetails({
 }: JobDetailsProps) {
   const [recentlyViewedJobs, setRecentlyViewedJobs] = useState<Job[]>([]);
   const router = useRouter();
+  const {toast}= useToast()
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -136,6 +139,27 @@ export default function JobDetails({
       return "";
     }
   }
+
+  const handleCopyClick = async () => {
+    let currentUrl = window.location.href;
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      toast({
+        title: "Job link copied",
+        description:
+          "The job's URL link has been copied to clipboard. You may share around the job.",
+        variant: "default",
+        duration: 3000,
+      });
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Was unable to copy the job's URL link",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+  };
   return (
     <>
       <div className="flex flex-col h-full">
@@ -304,7 +328,19 @@ export default function JobDetails({
         <div className="md:overflow-y-auto md:px-4">
           <div className="mt-4">
             <div className="border-slate-100">
-              <h2 className="text-xl text-gray-700 font-bold">Job Overview</h2>
+              <h2 className="text-xl text-gray-700 font-bold flex items-center justify-between gap-x-3">
+                <span>Job Overview</span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="lg:hidden"
+                onClick={handleCopyClick}
+              >
+                <Share2 className="h-4 w-4 mr-1.5 shrink-0" />
+                Share
+              </Button>
+              </h2>
 
               {job.county && (
                 <p className="flex flex-1 text-gray-700 mt-1 text-base font-medium">

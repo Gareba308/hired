@@ -1,6 +1,6 @@
 export const siteConfig = {
-    name: "Hired- Kenya's Latest Jobs",
-    title: "For latest jobs in Kenya. Where top employers meet talented candidates",
+    name: "Hired - Your Career Starts Here",
+    title: "Explore the Latest Jobs in Kenya. Connecting Top Employers with Talented Candidates",
     url: "https://www.hired.co.ke",
     ogImage: "https://res.cloudinary.com/dflvibeo6/image/upload/v1725088248/Apply_Now_6_umcn7a.png",
     ogJobPage: "https://res.cloudinary.com/dflvibeo6/image/upload/v1725088246/Apply_Now_3_lntt1z.png",
@@ -10,7 +10,7 @@ export const siteConfig = {
     ogEmployerFAQs: "https://res.cloudinary.com/dflvibeo6/image/upload/v1725088248/Apply_Now_6_umcn7a.png",
     ogWorkerFAQs: "https://res.cloudinary.com/dflvibeo6/image/upload/v1725088248/Apply_Now_6_umcn7a.png",
     description:
-      "Discover top job opportunities in Kenya with Hired. Find your perfect job, apply easily, and advance your career. Start your job search today with Hired!",
+      "Find the latest job vacancies and opportunities in Kenya with Hired! Explore personalized jobs listing from top companies, startups, and more. Get expert tips and connect with employers across Nairobi and Kenya.",
     links: {
       twitter: "https://www.x.com/hiredke",
       facebook: "https://www.facebook.com/profile.php?id=61560450684416",

@@ -11,13 +11,13 @@ import { Loader2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Available Jobs",
-  description: `Find top job opportunities in Kenya for ${new Date().getFullYear()}. Discover, apply, and advance your career with the latest openings on Hired.`,
+  description: `Find Top Job Opportunities in Kenya for ${new Date().getFullYear()}. Discover and Apply to the Latest Openings to Advance Your Career.`,
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
     title: "Available Jobs",
-    description: `Find top job opportunities in Kenya for ${new Date().getFullYear()}. Discover, apply, and advance your career with the latest openings on Hired.`,
+    description: `Find Top Job Opportunities in Kenya for ${new Date().getFullYear()}. Discover and Apply to the Latest Openings to Advance Your Career.`,
     siteName: siteConfig.name,
     images: [
       {
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Available Jobs",
-    description: `Find top job opportunities in Kenya for ${new Date().getFullYear()}. Discover, apply, and advance your career with the latest openings on Hired.`,
+    description: `Find Top Job Opportunities in Kenya for ${new Date().getFullYear()}. Discover and Apply to the Latest Openings to Advance Your Career.`,
     images: [
       {
         url: siteConfig.ogJobPage,

@@ -26,7 +26,7 @@ export default function AllMyJobs({ myJobs }: AllMyJobsProps) {
       <section>
         <div className="flex flex-wrap">
           <div className="w-full min-h-[calc(100vh-100px)] lg:mt-2 px-4 pt-2 pb-4 mx-auto bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
-            <h2 className="font-bold text-center sm:text-start text-gray-600 tracking-tight text-3xl sm:text-4xl">
+            <h2 className="font-bold text-center sm:text-start text-gray-600 tracking-tight text-2xl sm:text-3xl">
               My Job Postings
             </h2>
             <div className="lg:col-span-3 h-full mt-2 pb-2">

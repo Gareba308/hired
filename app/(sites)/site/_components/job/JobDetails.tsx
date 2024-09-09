@@ -444,7 +444,7 @@ export default function JobDetails({
                 onClick={handleCopyClick}
               >
                 <Share2 className="h-4 w-4 mr-1.5 shrink-0" />
-                Share Job
+                Share
               </Button>
             </h2>
 
