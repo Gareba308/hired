@@ -34,40 +34,6 @@ const getTagBlog = cache(async (tag: string) => {
   return allBlogsWithThisTag;
 });
 
-export const revalidate = 60;
-export const dynamicParams= true;
-
-export async function generateStaticParams() {
-  const sixtyDaysAgo = subDays(new Date(), 60);
-
-  const allBlogsForTags = await db.blogs.findMany({
-    where: {
-      createdAt: {
-        gte: sixtyDaysAgo,
-      },
-    },
-    select: {
-      body: true
-    }
-  });
-
-  const hashtagsSet = new Set<string>();
-
-  allBlogsForTags.forEach((blog) => {
-    const hashtags = blog.body.match(/#\w+/g);
-    if (hashtags) {
-      hashtags.forEach((hashtag) => {
-        const cleanedHashtag = hashtag.substring(1).toLowerCase();
-        hashtagsSet.add(cleanedHashtag);
-      });
-    }
-  });
-
-  const tagArrays = Array.from(hashtagsSet);
-
-  return tagArrays.map((tag) => ({ tag }));
-}
-
 export async function generateMetadata({
   params,
 }: TagProps): Promise<Metadata> {
