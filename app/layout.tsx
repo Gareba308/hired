@@ -17,25 +17,25 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: {
-    default: "Find Top Job Vacancies & Opportunities in Kenya | Hired - Your Career Starts Here",
+    default: "Latest Jobs in Kenya, Vacancies, Career Opportunities | Hired",
     template: `%s | ${siteConfig.name}`,
   },
   description:
-    "Find the latest job vacancies and opportunities in Kenya with Hired! Explore personalized jobs listing from top companies, startups, and more. Get expert tips and connect with employers across Nairobi and Kenya.",
+    "Find the latest jobs in Kenya. Apply for vacancies, career opportunities & recruitment listings. Sign up free, explore top companies, and secure your future today.",
   metadataBase: new URL(siteConfig.url),
   keywords: [
     "jobs in Kenya",
     "Kenya job vacancies",
     "career opportunities in Kenya",
     "Hired jobs in Kenya",
-    "Kenya employment",
+    "Kenya employment opportunities",
     "find jobs in Kenya",
     "apply for jobs in Kenya",
     "Kenya job search",
     "professional jobs in Kenya",
     "latest jobs in Kenya",
     "jobs in Nairobi",
-    "Hired",
+    "top companies hiring",
   ],
   authors: [
     {

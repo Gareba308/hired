@@ -4,6 +4,7 @@ import About from "@/components/About";
 
 export const metadata: Metadata = {
   title: "About Us",
+  description: "Post and find jobs on Kenya's leading job board. Discover top talent, advertise vacancies, and find your dream job all in one place.",
   keywords: [
     "creative jobs Kenya",
     "agriculture jobs Kenya",

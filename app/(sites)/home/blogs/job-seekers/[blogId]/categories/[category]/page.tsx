@@ -48,21 +48,26 @@ export async function generateMetadata({
 
   const categoryUpper = capitalizeFirstLetter(newCategory);
   const allBlogsMatchingThisCategory = await getBlogs(newCategory);
-  if (allBlogsMatchingThisCategory.length === 0) {
+  const blog= await db.blogs.findFirst({
+    where: {
+      id: blogId
+    }
+  })
+  if (allBlogsMatchingThisCategory.length === 0 || !blog) {
     return {
       title: "No blogs matching this category found",
       description: "There are no blogs matching this category.",
     };
   }
   return {
-    title: `${categoryUpper} blogs`,
+    title: `${categoryUpper} as seen in ${blog.heading}`,
     description:
       "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
-      title: `${categoryUpper} blogs`,
+      title: `${categoryUpper} as seen in ${blog.heading}`,
       description:
         "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
       siteName: siteConfig.name,
@@ -83,7 +88,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${categoryUpper} blogs`,
+      title: `${categoryUpper} as seen in ${blog.heading}`,
       description:
         "Dive into expert insights on hiring strategies and workforce management. Enhance your recruitment process with practical tips and industry advice.",
       images: [

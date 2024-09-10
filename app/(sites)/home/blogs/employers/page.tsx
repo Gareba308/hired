@@ -10,6 +10,18 @@ export const metadata: Metadata = {
   title: "Employer Blogs",
   description:
     "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
+  keywords: [
+    "recruitment in Kenya",
+    "hiring in Kenya",
+    "job board Kenya",
+    "post jobs Kenya",
+    "find talent Kenya",
+    "recruitment solutions Kenya",
+    "Kenya employment opportunities",
+    "advertise vacancies Kenya",
+    "talent pool Kenya",
+    "recruitment platform Kenya",
+  ],
   openGraph: {
     type: "website",
     locale: "en_US",

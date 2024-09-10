@@ -3,7 +3,8 @@ import { Metadata } from "next";
 import SigninPageEmployer from "../../_components/login/SigninPageEmployer";
 
 export const metadata: Metadata = {
-  title: "Employers Login",
+  title: "Login Post Jobs & Find Top Talent in Kenya",
+  description: "Advertise your job openings and recruit smarter with Hired - Kenya’s leading job board. Post positions and access a diverse talent pool in Kenya.",
   keywords: [
     "Kenya recruitment services",
     "Kenya job board for employers",

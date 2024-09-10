@@ -47,6 +47,7 @@ export async function generateMetadata({
 
   const categoryUpper = capitalizeFirstLetter(newCategory);
   const allBlogsMatchingThisCategory = await getBlog(newCategory);
+
   if (allBlogsMatchingThisCategory.length === 0) {
     return {
       title: "No blogs found",
@@ -54,14 +55,14 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `${categoryUpper} blogs`,
+    title: `${categoryUpper} based discussion`,
     description:
       "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
-      title: `${categoryUpper} blogs`,
+      title: `${categoryUpper} based discussion`,
       description:
         "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
       siteName: siteConfig.name,
@@ -70,7 +71,7 @@ export async function generateMetadata({
           url: siteConfig.ogEmployerBlogs,
           width: 1200,
           height: 630,
-          alt: `${categoryUpper} blogs`,
+          alt: `${categoryUpper} based discussion`,
         },
       ],
     },
@@ -82,7 +83,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${categoryUpper} blogs`,
+      title: `${categoryUpper} based discussion`,
       description:
         "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
       images: [
@@ -90,7 +91,7 @@ export async function generateMetadata({
           url: siteConfig.ogEmployerBlogs,
           width: 1200,
           height: 630,
-          alt: `${categoryUpper} blogs`,
+          alt: `${categoryUpper} based discussion`,
         },
       ],
       creator: "@hiredke",

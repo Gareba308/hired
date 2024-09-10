@@ -3,7 +3,8 @@ import SignUpPage1 from "../../_components/register/SignUpPage1";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Employer Registration",
+  title: "Register, Advertise Jobs & Recruit in Kenya",
+  description: "Post job openings and find top talent on Hired - Kenya's premier job board. Advertise your vacancies and streamline your hiring process in Kenya today!",
   keywords: [
     "Kenya hiring platform",
     "Kenya staffing services",

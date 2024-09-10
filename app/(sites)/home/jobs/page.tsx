@@ -10,14 +10,14 @@ import FooterJobs from "@/components/FooterJobs";
 import { Loader2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Available Jobs",
-  description: `Find Top Job Opportunities in Kenya for ${new Date().getFullYear()}. Discover and Apply to the Latest Openings to Advance Your Career.`,
+  title: "Apply for Vacancies & Career Listings Today",
+  description: "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
-    title: "Available Jobs",
-    description: `Find Top Job Opportunities in Kenya for ${new Date().getFullYear()}. Discover and Apply to the Latest Openings to Advance Your Career.`,
+    title: "Apply for Vacancies & Career Listings Today",
+    description: "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
     siteName: siteConfig.name,
     images: [
       {
@@ -48,8 +48,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Available Jobs",
-    description: `Find Top Job Opportunities in Kenya for ${new Date().getFullYear()}. Discover and Apply to the Latest Openings to Advance Your Career.`,
+    title: "Apply for Vacancies & Career Listings Today",
+    description: "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
     images: [
       {
         url: siteConfig.ogJobPage,

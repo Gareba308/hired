@@ -3,7 +3,8 @@ import SignUpPage from "../_components/register/SignUpPage";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Job Seeker Registration",
+  title: "Register & Find Your Dream Job in Kenya",
+  description: "Find top job listings in Kenya. Apply for the latest vacancies, career growth opportunities & recruitment openings. Sign up free and start your career journey.",
   keywords: [
     "jobs in Kenya",
     "Kenya job vacancies",

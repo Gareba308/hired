@@ -8,6 +8,18 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Job Search Blogs",
+  keywords: [
+    "hiring now in Kenya",
+    "career portal in Kenya",
+    "job openings in Kenya",
+    "job seekers in Kenya",
+    "recruit talent in Kenya",
+    "apply for jobs in Kenya",
+    "job postings in Kenya",
+    "job market in Kenya",
+    "talent acquisition in Kenya",
+    "job opportunities Kenya",
+  ],
   description:
     "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
   openGraph: {

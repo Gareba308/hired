@@ -54,14 +54,14 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `${categoryUpper} blogs`,
+    title: `${categoryUpper} based discussion`,
     description:
       "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
-      title: `${categoryUpper} blogs`,
+      title: `${categoryUpper} based discussion`,
       description:
         "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
       siteName: siteConfig.name,
@@ -70,7 +70,7 @@ export async function generateMetadata({
           url: siteConfig.ogWorkerBlogs,
           width: 1200,
           height: 630,
-          alt: `${categoryUpper} blogs`,
+          alt: `${categoryUpper} based discussion`,
         },
       ],
     },
@@ -82,7 +82,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${categoryUpper} blogs`,
+      title: `${categoryUpper} based discussion`,
       description:
         "Dive into expert insights on hiring strategies and workforce management. Enhance your recruitment process with practical tips and industry advice.",
       images: [
@@ -90,7 +90,7 @@ export async function generateMetadata({
           url: siteConfig.ogWorkerBlogs,
           width: 1200,
           height: 630,
-          alt: `${categoryUpper} blogs`,
+          alt: `${categoryUpper} based discussion`,
         },
       ],
       creator: "@hiredke",
