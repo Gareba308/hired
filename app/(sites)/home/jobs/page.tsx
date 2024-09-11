@@ -10,13 +10,13 @@ import FooterJobs from "@/components/FooterJobs";
 import { Loader2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Apply for Vacancies & Career Listings Today",
+  title: "Apply for Vacancies & Career Listings",
   description: "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
-    title: "Apply for Vacancies & Career Listings Today",
+    title: "Apply for Vacancies & Career Listings",
     description: "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
     siteName: siteConfig.name,
     images: [
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Apply for Vacancies & Career Listings Today",
+    title: "Apply for Vacancies & Career Listings",
     description: "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
     images: [
       {

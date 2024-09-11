@@ -3,7 +3,7 @@ import SigninPageJobSeeker from "../_components/login/SigninPageJobSeeker";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Login for Top Jobs & Career Opportunities",
+  title: "Login for Jobs & Opportunities in Kenya",
   description: "Discover the latest job vacancies in Kenya. Apply for career opportunities & recruitment listings. Sign up free, explore companies, and grow your career.",
   keywords: [
     "jobs in Kenya",

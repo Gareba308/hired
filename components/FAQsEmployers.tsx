@@ -135,11 +135,11 @@ const FAQsEmployers: React.FC = () => {
   return (
     <>
       <section className="leading-relaxed max-w-screen-xl min-h-[calc(100vh-70px)] pb-10 mt-6 mx-auto px-4 md:px-8">
-        <div className="space-y-3 text-center">
-          <h1 className="text-3xl text-gray-700 font-semibold">
+        <div className="space-y-2">
+          <h1 className="text-3xl text-gray-700 text-center font-semibold">
             Frequently Asked Questions
           </h1>
-          <p className="text-gray-600 max-w-lg mx-auto text-lg">
+          <p className="text-gray-600 max-w-lg mx-auto text-start sm:text-center text-base sm:text-lg">
             Here are some of the{" "}
             <b className="text-[#005580]">Employer&apos;s</b> frequently asked
             questions. Still confused? Feel free to contact us.

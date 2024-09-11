@@ -73,10 +73,10 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
         indexing happens within 48 hours.
       </p>
       <div className="mb-6">
-        <div className="grid gap-2 sm:gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
           <Card className="border border-gray-200 text-center flex flex-col items-center justify-center rounded-md p-4 sm:p-6">
             <CardHeader>
-              <CardTitle className="text-lg flex items-center font-medium text-gray-600">
+              <CardTitle className="text-xl flex items-center font-semibold text-gray-600">
                 Jobs Indexing Requests
               </CardTitle>
             </CardHeader>
@@ -120,7 +120,7 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
           </Card>
           <Card className="border border-gray-200 text-center flex flex-col items-center justify-center rounded-md p-4 sm:p-6">
             <CardHeader>
-              <CardTitle className="text-lg flex items-center font-medium text-gray-600">
+              <CardTitle className="text-xl flex items-center font-semibold text-gray-600">
                 Blogs Indexing Requests
               </CardTitle>
             </CardHeader>

@@ -3,6 +3,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const HomePage = () => {
@@ -247,7 +248,7 @@ const HomePage = () => {
                 Would you like to see how we can help you?
               </p>
               <div className="items-center w-full space-y-5 sm:justify-center sm:space-x-5 sm:space-y-0 sm:flex lg:justify-start">
-                <a
+                <Link
                   href="/home/login"
                   title="Explore available jobs"
                   className="flex items-center justify-center gap-x-2 py-4 px-5 text-center w-full text-white font-medium bg-primary duration-150 hover:opacity-90 rounded-sm shadow-sm hover:shadow-none"
@@ -255,18 +256,21 @@ const HomePage = () => {
                   Find your next job
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="w-5 h-5"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-5 w-5"
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z"
-                      clipRule="evenodd"
-                    />
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
                   </svg>
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/home/login/enterprises"
                   title="Hire a job seeker"
                   className="flex items-center w-full justify-center bg-gray-300 gap-x-2 py-4 px-5 text-primary hover:text-sky-700 font-medium duration-150 active:bg-gray-100 border rounded-sm md:inline-flex"
@@ -274,17 +278,21 @@ const HomePage = () => {
                   Find your next hire
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="w-5 h-5"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-5 w-5"
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z"
-                      clipRule="evenodd"
-                    />
+                    <path d="M17 12H3" />
+                    <path d="m11 18 6-6-6-6" />
+                    <path d="M21 5v14" />
                   </svg>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -293,7 +301,8 @@ const HomePage = () => {
               src={
                 "https://res.cloudinary.com/dflvibeo6/image/upload/v1725089592/Untitled_design_New2_gvo0cj.png"
               }
-              alt="Landing job hero"
+              alt="Hero Image"
+              title="Hero Image"
               width={1364}
               height={840}
               priority={true}
@@ -373,7 +382,8 @@ const HomePage = () => {
                       src={
                         "https://res.cloudinary.com/dflvibeo6/image/upload/v1724945971/Screenshot_11_c84nxd.png"
                       }
-                      alt="Product preview"
+                      alt="Product Preview"
+                      title="Candidates Product Preview"
                       width={1364}
                       height={840}
                       priority={true}
@@ -425,7 +435,8 @@ const HomePage = () => {
                       src={
                         "https://res.cloudinary.com/dflvibeo6/image/upload/v1725101412/Screenshot_13_axgg2d.png"
                       }
-                      alt="Product preview"
+                      alt="Product Preview"
+                      title="Employer Product Preview"
                       width={1364}
                       height={840}
                       priority={true}
