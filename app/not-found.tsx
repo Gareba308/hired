@@ -18,7 +18,7 @@ export default function NotFound() {
           <Link
             href="/"
             title="To homepage"
-            className="inline-flex text-white bg-slate-600 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-4"
+            className="inline-flex text-white bg-slate-800 hover:bg-slate-800 hover:opacity-90 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-sm text-sm px-5 py-2.5 text-center my-4"
           >
             Back to Homepage
           </Link>

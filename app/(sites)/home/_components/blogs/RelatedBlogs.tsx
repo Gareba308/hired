@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ReactNode } from "react";
 
 const RelatedPost = ({
   image,
@@ -13,7 +14,7 @@ const RelatedPost = ({
   image: string;
   slug: string;
   title: string;
-  date: string;
+  date: ReactNode;
   blogId: string;
 }) => {
   const router = useRouter();

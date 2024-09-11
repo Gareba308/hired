@@ -58,7 +58,7 @@ const shortDescription = (htmlString: string): string => {
 };
 
 CronJob.from({
-  cronTime: '0 */3 * * *',
+  cronTime: '0 */6 * * *',
   onTick: async function () {
     try {
       await googleIndexAPI();
@@ -71,7 +71,7 @@ CronJob.from({
   timeZone: 'America/Los_Angeles'
 });
 CronJob.from({
-  cronTime: '0 */6 * * *',
+  cronTime: '0 13 * * *',
   onTick: async function () {
     try {
       await googleIndexBlogAPI();

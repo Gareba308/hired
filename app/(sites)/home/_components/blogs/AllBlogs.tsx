@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { Fragment, useState} from "react";
 import ReactPaginate from "react-paginate";
 import { categories } from "../data/create-job/BlogData";
+import { DateDisplay } from "@/lib/DateDisplay";
 
 interface AllBlogsProps {
   blogs: Blogs[];
@@ -127,8 +128,8 @@ const AllBlogs = ({ blogs }: AllBlogsProps) => {
               <div className="px-2.5 pb-3 pt-1 w-full  border-t border-gray-200">
                 <div className="flex items-center gap-x-4 text-xs">
                   <p className="text-gray-500 line-clamp-1">
-                    {format(post.createdAt, "PPP")},{" "}
-                    {format(post.createdAt, "HH:mm")}h
+                  <DateDisplay date={post.createdAt} format="PPP" />,{" "}
+                    <DateDisplay date={post.createdAt} format="HH:mm" />h
                   </p>
                   <div className="relative rounded-sm bg-gray-100 border-gray-200 px-2 py-[5px] font-medium text-gray-600 hover:bg-gray-100">
                     <span className="line-clamp-1">{post.category}</span>
