@@ -26,6 +26,21 @@ const getBlog = cache(async (blogId: string) => {
   return blogExists;
 });
 
+export const revalidate = 60;
+export async function generateStaticParams() {
+  const posts = await db.blogs.findMany({
+    where: {
+      target: {
+        in: ["Worker", "All"],
+      },
+    }
+  })
+ 
+  return posts.map((post) => ({
+    blogId: post.id,
+  }))
+}
+
 export async function generateMetadata({
   params,
 }: BlogIDProps): Promise<Metadata> {
@@ -98,8 +113,7 @@ const Page = async ({ params }: BlogIDProps) => {
 
   const blogExists = await getBlog(blogId);
 
-  if (!blogExists)
-    redirect(`/home/blogs/job-seekers?origin=home/blogs/job-seekers/${blogId}`);
+  if (!blogExists) redirect(`/home/blogs/job-seekers?origin=home/blogs/job-seekers/${blogId}`);
 
   const allOtherBlogs = await db.blogs.findMany({
     where: {
@@ -116,7 +130,6 @@ const Page = async ({ params }: BlogIDProps) => {
     take: 3,
   });
 
-  //Popular blogs category
   const theBlogs = await db.blogs.findMany({
     where: {
       target: {
@@ -139,7 +152,6 @@ const Page = async ({ params }: BlogIDProps) => {
   const topCategories = categoryArray.slice(0, 5);
   const topCategoryNames = topCategories.map((category) => category.category);
 
-  // Find Popular Tag
   const allBlogsForTags = await db.blogs.findMany({
     where: {
       target: {
