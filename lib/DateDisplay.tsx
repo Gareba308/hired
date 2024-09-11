@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { formatInTimeZone } from "date-fns-tz";
 
 interface DateDisplayProps {
-  date: string;
+  date: string | Date;
   format: string;
 }
 
@@ -11,7 +11,8 @@ export const DateDisplay = ({ date, format }: DateDisplayProps) => {
 
   useEffect(() => {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const formatted = formatInTimeZone(new Date(date), userTimeZone, format);
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    const formatted = formatInTimeZone(dateObj, userTimeZone, format);
     setFormattedDate(formatted);
   }, [date, format]);
 
