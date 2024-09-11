@@ -1,27 +1,27 @@
-import { useEffect, useState } from "react";
-import { formatInTimeZone } from "date-fns-tz";
+"use client";
 
-interface DateDisplayProps {
-  date: string | Date;
-  format: string;
-}
+import { useSyncExternalStore } from "react";
+import { format } from "date-fns";
 
-export const DateDisplay = ({ date, format }: DateDisplayProps) => {
-  const [formattedDate, setFormattedDate] = useState<string | null>(null);
+type DateDisplayProps = {
+  date: Date;
+  formatString: string;
+};
 
-  useEffect(() => {
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const dateObj = typeof date === 'string' ? new Date(date) : date;
-    const formatted = formatInTimeZone(dateObj, userTimeZone, format);
-    setFormattedDate(formatted);
-  }, [date, format]);
+const dummyStore = () => () => {};
 
-  if (!formattedDate) return null;
+export function DateDisplay({ date, formatString }: DateDisplayProps) {
+  const display = useSyncExternalStore(
+    dummyStore,
+    () => format(new Date(date), formatString),
+    () => new Date(date).toISOString() 
+  );
 
   return (
-    <time dateTime={new Date(date).toISOString()}>{formattedDate}</time>
+    <time dateTime={new Date(date).toISOString()}>{display}</time>
   );
-};
+}
+
 
 
 

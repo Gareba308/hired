@@ -153,7 +153,7 @@ const BlogDetails = ({
                             <path d="M16 18h.01" />
                           </svg>
                         </span>
-                        <DateDisplay date={blog.createdAt} format="PPP" />
+                        <DateDisplay date={blog.createdAt} formatString="PPP" />
                       </p>
                       <p className="flex mr-5 items-center text-sm font-normal text-body-color">
                         <span className="mr-1">
@@ -286,8 +286,8 @@ const BlogDetails = ({
                           slug={`/home/blogs/job-seekers/${post.id}`}
                           date={
                             <>
-                              <DateDisplay date={blog.createdAt} format="PPP" />,{" "}
-                              <DateDisplay date={blog.createdAt} format="HH:mm" />h
+                              <DateDisplay date={blog.createdAt} formatString="PPP" />,{" "}
+                              <DateDisplay date={blog.createdAt} formatString="HH:mm" />h
                             </>
                           }
                         />
