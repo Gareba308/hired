@@ -13,8 +13,8 @@ import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import { NextResponse } from "next/server";
 import cryptoRandomString from "crypto-random-string";
-import cron from "node-cron";
 import axios from "axios";
+import {CronJob} from 'cron'
 import sanitizeHtml from "sanitize-html";
 import {
   format,
@@ -57,21 +57,31 @@ const shortDescription = (htmlString: string): string => {
   return cleanedString;
 };
 
-cron.schedule("0 */3 * * *", async () => {
-  try {
-    await googleIndexAPI();
-    console.log("Google Indexing Task completed successfully.");
-  } catch (error) {
-    console.error("Error running Google Indexing Task:", error);
-  }
+CronJob.from({
+  cronTime: '0 */3 * * *',
+  onTick: async function () {
+    try {
+      await googleIndexAPI();
+      console.log('Google Indexing Task completed successfully.');
+    } catch (error) {
+      console.error('Error running Google Indexing Task:', error);
+    }
+  },
+  start: true,
+  timeZone: 'America/Los_Angeles'
 });
-cron.schedule("0 */6 * * *", async () => {
-  try {
-    await googleIndexBlogAPI();
-    console.log("Google Indexing Task completed successfully.");
-  } catch (error) {
-    console.error("Error running Google Indexing Task:", error);
-  }
+CronJob.from({
+  cronTime: '0 */6 * * *',
+  onTick: async function () {
+    try {
+      await googleIndexBlogAPI();
+      console.log('Google Indexing Blog Task completed successfully.');
+    } catch (error) {
+      console.error('Error running Google Indexing Blog Task:', error);
+    }
+  },
+  start: true,
+  timeZone: 'America/Los_Angeles'
 });
 
 export const appRouter = router({

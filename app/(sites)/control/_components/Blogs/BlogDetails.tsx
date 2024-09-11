@@ -5,8 +5,6 @@ import SharePost from "./SharePost";
 import TagButton from "./TagButton";
 import NewsLetterBox from "./NewsLetter";
 import Image from "next/image";
-
-import { Metadata } from "next";
 import { Blogs } from "@prisma/client";
 import { ArrowRight, Camera, CornerUpLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,10 +19,6 @@ interface BlogDetailsProps {
   topTags: string[];
   topHashtags1: string[];
 }
-export const metadata: Metadata = {
-  title: "Blog Details Page | The content of individual blog post",
-  description: "The detailed content of an individual blog published",
-};
 
 const BlogDetails = ({
   blog,
@@ -193,7 +187,7 @@ const BlogDetails = ({
                         Mentioned Tags:
                       </h4>
                       {topHashtags1.length !== 0 && (
-                        <div className="flex items-center">
+                        <div className="flex flex-wrap gap-y-1.5 items-center">
                           {topHashtags1.flatMap((tag, index) => (
                             <TagButton
                               key={index}
