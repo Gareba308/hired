@@ -7,7 +7,9 @@ import { siteConfig } from "@/lib/config";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Employer Blogs",
+  title: {
+    absolute: "Employing in Kenya, Expert Recruitment Insights",
+  },
   description:
     "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
   keywords: [
@@ -26,7 +28,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
-    title: "Employer Blogs",
+    title: {
+      absolute: "Employing in Kenya, Expert Recruitment Insights",
+    },
     description:
       "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
     siteName: siteConfig.name,
@@ -47,7 +51,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Employer Blogs",
+    title: {
+      absolute: "Employing in Kenya, Expert Recruitment Insights",
+    },
     description:
       "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
     images: [

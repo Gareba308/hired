@@ -47,11 +47,11 @@ export async function generateMetadata({
   const goodTag = reverseSlug(tag);
   const allBlogsWithThisTag = await getTagBlog(tag);
 
-  const blog= await db.blogs.findFirst({
+  const blog = await db.blogs.findFirst({
     where: {
-      id: blogId
-    }
-  })
+      id: blogId,
+    },
+  });
   if (allBlogsWithThisTag.length === 0 || !blog) {
     return {
       title: "No blogs not found",
@@ -59,14 +59,18 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `${goodTag} as seen in ${blog.heading}`,
+    title: {
+      absolute: `${goodTag}: Career Tips from ${blog.heading}`,
+    },
     description:
       "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
-      title: `${goodTag} as seen in ${blog.heading}`,
+      title: {
+        absolute: `${goodTag}: Career Tips from ${blog.heading}`,
+      },
       description:
         "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
       siteName: siteConfig.name,
@@ -87,7 +91,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${goodTag} as seen in ${blog.heading}`,
+      title: {
+        absolute: `${goodTag}: Career Tips from ${blog.heading}`,
+      },
       description:
         "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
       images: [

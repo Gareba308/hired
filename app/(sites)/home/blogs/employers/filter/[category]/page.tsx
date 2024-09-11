@@ -55,14 +55,18 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `${categoryUpper} based discussion`,
+    title: {
+      absolute: `${categoryUpper}: Key Takeaways for Effective Talent Acquisition`,
+    },
     description:
       "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
-      title: `${categoryUpper} based discussion`,
+      title: {
+        absolute: `${categoryUpper}: Key Takeaways for Effective Talent Acquisition`,
+      },
       description:
         "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
       siteName: siteConfig.name,
@@ -83,7 +87,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${categoryUpper} based discussion`,
+      title: {
+        absolute: `${categoryUpper}: Key Takeaways for Effective Talent Acquisition`,
+      },
       description:
         "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
       images: [

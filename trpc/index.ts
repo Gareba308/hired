@@ -5124,9 +5124,9 @@ export const appRouter = router({
     const workerBlogs = await db.blogs.findMany({
       where: {
         target: { in: ["Worker", "All"] },
-        createdAt: {
-          gte: new Date(currentDate.getTime() - 12 * 60 * 60 * 1000),
-        },
+        // createdAt: {
+        //   gte: new Date(currentDate.getTime() - 12 * 60 * 60 * 1000),
+        // },
       },
       orderBy: { createdAt: "desc" },
     });
@@ -5134,9 +5134,9 @@ export const appRouter = router({
     const employerBlogs = await db.blogs.findMany({
       where: {
         target: { in: ["Employer", "All"] },
-        createdAt: {
-          gte: new Date(currentDate.getTime() - 12 * 60 * 60 * 1000),
-        },
+        // createdAt: {
+        //   gte: new Date(currentDate.getTime() - 12 * 60 * 60 * 1000),
+        // },
       },
       orderBy: { createdAt: "desc" },
     });

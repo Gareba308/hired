@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Hired - Kenya Job Listings",
+  name: "Hired",
   title:
     "Jobs in Kenya, for Latest Vacancies, Career Opportunities & Listings",
   url: "https://www.hired.co.ke",

@@ -7,7 +7,9 @@ import { siteConfig } from "@/lib/config";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Job Search Blogs",
+  title: {
+    absolute: "Finding Jobs in Kenya, Essential Career Insights",
+  },
   keywords: [
     "hiring now in Kenya",
     "career portal in Kenya",
@@ -26,7 +28,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
-    title: "Job Search Blogs",
+    title: {
+      absolute: "Finding Jobs in Kenya, Essential Career Insights",
+    },
     description:
       "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
     siteName: siteConfig.name,
@@ -47,7 +51,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Job Search Blogs",
+    title: {
+      absolute: "Finding Jobs in Kenya, Essential Career Insights",
+    },
     description:
       "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
     images: [

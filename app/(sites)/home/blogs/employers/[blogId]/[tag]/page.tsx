@@ -46,27 +46,31 @@ export async function generateMetadata({
   const goodTag = reverseSlug(tag);
   const allBlogsWithThisTag = await getTagBlog(tag);
 
-  const blog= await db.blogs.findFirst({
+  const blog = await db.blogs.findFirst({
     where: {
-      id: blogId
-    }
-  })
+      id: blogId,
+    },
+  });
 
   if (allBlogsWithThisTag.length === 0 || !blog) {
     return {
-      title: "No blogs not found",
+      title: "No blogs found",
       description: "The blogs you are looking for does not exist.",
     };
   }
   return {
-    title: `${goodTag} as seen in ${blog.heading}`,
+    title: {
+      absolute: `${goodTag}: Hiring Strategies from ${blog.heading}`,
+    },
     description:
       "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
-      title: `${goodTag} as seen in ${blog.heading}`,
+      title: {
+        absolute: `${goodTag}: Hiring Strategies from ${blog.heading}`,
+      },
       description:
         "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
       siteName: siteConfig.name,
@@ -87,7 +91,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${goodTag} as seen in ${blog.heading}`,
+      title: {
+        absolute: `${goodTag}: Hiring Strategies from ${blog.heading}`,
+      },
       description:
         "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
       images: [
