@@ -153,7 +153,11 @@ const BlogDetails = ({
                             <path d="M16 18h.01" />
                           </svg>
                         </span>
-                        <DateDisplay date={blog.createdAt} formatString="MMMM d, yyyy" />
+                        <DateDisplay
+                          date={blog.createdAt}
+                          formatString="PPP"
+                          useLocalTimeZone={true}
+                        />
                       </p>
                       <p className="flex mr-5 items-center text-sm font-normal text-body-color">
                         <span className="mr-1">
@@ -286,11 +290,16 @@ const BlogDetails = ({
                           slug={`/home/blogs/job-seekers/${post.id}`}
                           date={
                             <>
-                              <DateDisplay date={blog.createdAt} formatString="MMMM d, yyyy" />
+                              <DateDisplay
+                                date={blog.createdAt}
+                                formatString="PPP"
+                                useLocalTimeZone={true}
+                              />
                               ,{" "}
                               <DateDisplay
                                 date={blog.createdAt}
                                 formatString="HH:mm"
+                                useLocalTimeZone={true}
                               />
                               h
                             </>

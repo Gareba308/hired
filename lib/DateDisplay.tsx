@@ -1,17 +1,23 @@
-import { DateTime } from 'luxon';
-import { FC } from 'react';
+import { formatInTimeZone } from "date-fns-tz";
+import { FC } from "react";
 
 type DateDisplayProps = {
   date: Date;
   formatString: string;
+  useLocalTimeZone?: boolean;
 };
 
-const DateDisplay: FC<DateDisplayProps> = ({ date, formatString }) => {
-  const dt = DateTime.fromJSDate(date).setZone('local');
-  const formattedDate = dt.toFormat(formatString);
-  const isoString = dt.toISO() ?? undefined;
+const DateDisplay: FC<DateDisplayProps> = ({
+  date,
+  formatString,
+  useLocalTimeZone = false,
+}) => {
+  const timeZone = useLocalTimeZone
+    ? Intl.DateTimeFormat().resolvedOptions().timeZone
+    : "Africa/Nairobi";
 
-  return <time dateTime={isoString}>{formattedDate}</time>;
+  const formattedDate = formatInTimeZone(date, timeZone, formatString);
+  return <time dateTime={date.toISOString()}>{formattedDate}</time>;
 };
 
 export default DateDisplay;
