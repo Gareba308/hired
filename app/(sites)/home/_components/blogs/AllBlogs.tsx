@@ -127,7 +127,7 @@ const AllBlogs = ({ blogs }: AllBlogsProps) => {
               <div className="px-2.5 pb-3 pt-1 w-full  border-t border-gray-200">
                 <div className="flex items-center gap-x-4 text-xs">
                   <p className="text-gray-500 line-clamp-1">
-                  <DateDisplay date={post.createdAt} formatString="PPP" />,{" "}
+                  <DateDisplay date={post.createdAt} formatString="MMMM d, yyyy" />,{" "}
                     <DateDisplay date={post.createdAt} formatString="HH:mm" />h
                   </p>
                   <div className="relative rounded-sm bg-gray-100 border-gray-200 px-2 py-[5px] font-medium text-gray-600 hover:bg-gray-100">
