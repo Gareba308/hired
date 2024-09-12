@@ -1,29 +1,18 @@
-"use client";
-
-import { useSyncExternalStore } from "react";
-import { format } from "date-fns";
+import { DateTime } from 'luxon';
+import { format } from 'date-fns';
+import { FC } from 'react';
 
 type DateDisplayProps = {
   date: Date;
   formatString: string;
 };
+const DateDisplay: FC<DateDisplayProps> = ({ date, formatString }) => {
+  const dt = DateTime.fromJSDate(date).setZone('local');
+  const jsDate = dt.toJSDate();
+  const formattedDate = format(jsDate, formatString);
+  const isoString = dt.toISO() ?? undefined;
 
-const dummyStore = () => () => {};
+  return <time dateTime={isoString}>{formattedDate}</time>;
+};
 
-export function DateDisplay({ date, formatString }: DateDisplayProps) {
-  const display = useSyncExternalStore(
-    dummyStore,
-    () => format(new Date(date), formatString),
-    () => new Date(date).toISOString() 
-  );
-
-  return (
-    <time dateTime={new Date(date).toISOString()}>{display}</time>
-  );
-}
-
-
-
-
-// <DateDisplay date="2024-09-11T12:00:00Z" format="PPP" />
-// <DateDisplay date="2024-09-11T12:00:00Z" format="HHmm" />
+export default DateDisplay;

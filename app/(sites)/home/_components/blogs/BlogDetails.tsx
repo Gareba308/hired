@@ -6,14 +6,14 @@ import TagButton from "./TagButton";
 import NewsLetterBox from "./NewsLetter";
 import Image from "next/image";
 import { Blogs } from "@prisma/client";
-import { ArrowRight, Camera, CornerUpLeft, Share2} from "lucide-react";
+import { ArrowRight, Camera, CornerUpLeft, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Preview2 } from "@/components/Preview2";
 import { useToast } from "@/components/ui/use-toast";
-import { DateDisplay } from "@/lib/DateDisplay";
+import DateDisplay from "@/lib/DateDisplay";
 interface BlogDetailsProps {
   blog: Blogs;
   allOtherBlogs: Blogs[];
@@ -286,8 +286,13 @@ const BlogDetails = ({
                           slug={`/home/blogs/job-seekers/${post.id}`}
                           date={
                             <>
-                              <DateDisplay date={blog.createdAt} formatString="PPP" />,{" "}
-                              <DateDisplay date={blog.createdAt} formatString="HH:mm" />h
+                              <DateDisplay date={blog.createdAt} formatString="PPP" />
+                              ,{" "}
+                              <DateDisplay
+                                date={blog.createdAt}
+                                formatString="HH:mm"
+                              />
+                              h
                             </>
                           }
                         />

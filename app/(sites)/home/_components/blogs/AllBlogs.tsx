@@ -1,7 +1,6 @@
 "use client";
 import { Menu, Transition } from "@headlessui/react";
 import { Blogs } from "@prisma/client";
-import { format } from "date-fns";
 import { ChevronDownIcon, CornerUpLeft, SlidersHorizontal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { Fragment, useState} from "react";
 import ReactPaginate from "react-paginate";
 import { categories } from "../data/create-job/BlogData";
-import { DateDisplay } from "@/lib/DateDisplay";
+import DateDisplay from "@/lib/DateDisplay";
 
 interface AllBlogsProps {
   blogs: Blogs[];
