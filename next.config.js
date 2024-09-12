@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: false,
  eslint: {
   ignoreDuringBuilds: true,
 },
@@ -8,7 +7,7 @@ typescript: {
   ignoreBuildErrors: true,
 },
   reactStrictMode: false,
-  swcMinify: true,
+  swcMinify: false,
   images: {
     remotePatterns: [
       {
