@@ -6,7 +6,6 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
@@ -107,7 +106,7 @@ export const AcceptAssessmentAlertModal: React.FC<
                   <span className="text-muted-foreground font-medium">
                     Date:
                   </span>
-                  <span>{format(new Date(), "PPP")}</span>
+                  <span suppressHydrationWarning>{format(new Date(), "PPP")}</span>
                 </li>
               </ul>
               <Separator className="my-1.5" />

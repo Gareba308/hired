@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Menu, Transition } from "@headlessui/react";
 import { Blogs } from "@prisma/client";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import {
   ChevronDown,
   ChevronDownIcon,
@@ -209,7 +208,7 @@ const AllWithTags = ({
               </Link>
               <div className="px-2.5 pb-3 pt-1 w-full  border-t border-gray-200">
                 <div className="flex items-center gap-x-4 text-xs">
-                  <p className="text-gray-500 line-clamp-1">
+                  <p suppressHydrationWarning className="text-gray-500 line-clamp-1">
                     {format(post.createdAt, "PPP")},{" "}
                     {format(post.createdAt, "HH:mm")}h
                   </p>

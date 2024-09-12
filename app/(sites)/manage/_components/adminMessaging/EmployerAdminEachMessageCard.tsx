@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
 import { format, isToday } from "date-fns";
-import "@/lib/suppressHydration"
 import { useRouter } from "next/navigation";
 import { ContactEmployer } from "@prisma/client";
 
@@ -51,7 +50,7 @@ const EmployerAdminEachMessageCard = ({
                     {message.adminName}
                   </h4>
                   {message.createdAt && (
-                    <p className="text-gray-600 font-normal text-sm">
+                    <p suppressHydrationWarning className="text-gray-600 font-normal text-sm">
                       {isToday(new Date(message.createdAt))
                         ? format(new Date(message.createdAt), "HH:mm")
                         : format(new Date(message.createdAt), "MM/dd/yyyy")}

@@ -17,7 +17,6 @@ import {
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { useRouter} from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { trpc } from "@/app/_trpc/client";
@@ -466,7 +465,7 @@ const AllAssessmentsInBanner = ({
 
                 <div className="flex flex-col justify-start items-start w-full">
                   <div className="px-3 mb-1 w-full items-center font-medium flex flex-row justify-between gap-x-3">
-                    <h3 className="text-base">
+                    <h3 suppressHydrationWarning className="text-base">
                       <span className='font-bold'>Published: </span> {format(assessment.createdAt, "PPP")}
                     </h3>
                     <div>

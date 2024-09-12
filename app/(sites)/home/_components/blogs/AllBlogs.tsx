@@ -5,7 +5,6 @@ import { ChevronDownIcon, CornerUpLeft, SlidersHorizontal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 import ReactPaginate from "react-paginate";

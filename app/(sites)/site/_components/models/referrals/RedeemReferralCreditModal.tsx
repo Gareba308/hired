@@ -19,7 +19,6 @@ import {
 import { User, WorkerContact, WorkerCreditPoints } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
 import { addDays, format, isThursday } from "date-fns";
-import "@/lib/suppressHydration"
 import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
@@ -130,7 +129,7 @@ export const RedeemReferralCreditAlertModal: React.FC<
                   <span className="text-muted-foreground">
                     Current Date
                   </span>
-                  <span>{format(currentDate, "PPP")}</span>
+                  <span suppressHydrationWarning>{format(currentDate, "PPP")}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">
@@ -203,7 +202,7 @@ export const RedeemReferralCreditAlertModal: React.FC<
                     <CalendarDays className="h-4 w-4" />
                     Potential Pay Date
                   </dt>
-                  <dd>{format(nextThursday, "PPP")}</dd>
+                  <dd suppressHydrationWarning>{format(nextThursday, "PPP")}</dd>
                 </div>
               </dl>
             </div>

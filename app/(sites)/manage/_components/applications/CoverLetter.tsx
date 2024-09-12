@@ -4,7 +4,6 @@ import QuillPreview from "@/components/QuillPreview";
 import { Section } from "@/components/ui/section";
 import { Application } from "@prisma/client";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { useToast } from "@/components/ui/use-toast";
 
 interface CoverLetterProps {
@@ -52,7 +51,7 @@ const CoverLetter = ({ application }: CoverLetterProps) => {
                         )}
                       </div>
                     ))}
-                    <p className="underline text-base">
+                    <p suppressHydrationWarning className="underline text-base">
                       {format(application.createdAt, "PPP")}.
                     </p>
                   </div>

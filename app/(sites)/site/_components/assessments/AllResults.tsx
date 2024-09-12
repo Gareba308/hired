@@ -23,7 +23,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import {
   DropdownMenu,
   DropdownMenuContent,

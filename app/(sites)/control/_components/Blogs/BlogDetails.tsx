@@ -9,7 +9,6 @@ import { Blogs } from "@prisma/client";
 import { ArrowRight, Camera, CornerUpLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Preview2 } from "@/components/Preview2";
@@ -107,7 +106,7 @@ const BlogDetails = ({
                       </div>
                     </div>
                     <div className="mb-4 flex items-center">
-                      <p className="mr-5 flex items-center text-sm font-normal text-body-color">
+                      <p suppressHydrationWarning className="mr-5 flex items-center text-sm font-normal text-body-color">
                         <span className="mr-0.5">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

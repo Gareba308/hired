@@ -1,6 +1,5 @@
 import { db } from "@/db";
 import { differenceInMonths, differenceInYears, parse } from "date-fns";
-import "@/lib/suppressHydration"
 import React from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";

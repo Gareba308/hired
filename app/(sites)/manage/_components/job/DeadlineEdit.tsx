@@ -25,7 +25,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { Calendar } from "@/components/ui/calendar";
 
 type ReminderFormSchemaType = z.infer<typeof reminderFormSchema>;
@@ -140,6 +139,7 @@ const DeadlineEdit = ({ job, jobId }: TitleEditProps) => {
                                 <FormControl>
                                   <Button
                                     variant={"outline"}
+                                    suppressHydrationWarning
                                     className={cn(
                                       "w-full sm:w-[350px] pl-3 text-left font-normal",
                                       !field.value && "text-muted-foreground"
@@ -235,7 +235,7 @@ const DeadlineEdit = ({ job, jobId }: TitleEditProps) => {
                       </div>
                     </div>
                     {job?.deadline ? (
-                      <div className="font-normal text-base text-gray-500 -mt-0.5 w-full">
+                      <div suppressHydrationWarning className="font-normal text-base text-gray-500 -mt-0.5 w-full">
                         {format(job.deadline, "PPP")}
                       </div>
                     ) : (

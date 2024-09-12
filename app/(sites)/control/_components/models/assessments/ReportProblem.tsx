@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {format } from "date-fns";
-import "@/lib/suppressHydration"
 
 interface AllReportsItems {
     id: string;
@@ -59,7 +58,7 @@ export const ReportProblemAlertModal: React.FC<
                   <span className="text-muted-foreground">
                     Report Date
                   </span>
-                  <span>{format(report.createdAt, "PPP")}</span>
+                  <span suppressHydrationWarning>{format(report.createdAt, "PPP")}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">

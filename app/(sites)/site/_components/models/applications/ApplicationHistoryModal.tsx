@@ -6,7 +6,6 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Check, CheckSquare } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { Application } from "@prisma/client";
 
 interface ApplicationHistoryAlertModelProps {
@@ -44,7 +43,7 @@ export const ApplicationHistoryAlertModal: React.FC<
                   <span className="text-muted-foreground">
                     Application Date
                   </span>
-                  <span>{format(application.createdAt, "PPP")}</span>
+                  <span suppressHydrationWarning>{format(application.createdAt, "PPP")}</span>
                 </li>
               </ul>
               <Separator className="my-2" />

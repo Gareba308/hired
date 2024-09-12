@@ -29,7 +29,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import {
   DropdownMenu,
   DropdownMenuContent,

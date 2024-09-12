@@ -24,7 +24,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -237,7 +236,7 @@ export function RedeemHistory({ history }: RedeemHistoryProps) {
       header: "Payment Date",
       cell: ({ row }) => {
         const date: Date = row.getValue("paymentDate");
-        return <div className="font-normal text-sm">{format(date, "PPP")}</div>;
+        return <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>;
       },
     },
     {

@@ -8,7 +8,6 @@ import { Menu, Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EmployerContactWorker } from "@prisma/client";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import {
   Archive,
   CornerLeftDown,
@@ -380,7 +379,7 @@ const SingleWorkerReply = ({
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <div className="text-xs select-none mt-2 text-white/90">
+            <div suppressHydrationWarning className="text-xs select-none mt-2 text-white/90">
               {format(currentDate, "HH:mm")}
             </div>
             <div className="text-xs select-none mt-2 text-white/90">

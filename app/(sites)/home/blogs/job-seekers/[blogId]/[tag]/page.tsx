@@ -5,7 +5,6 @@ import { db } from "@/db";
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
 import { subDays } from "date-fns";
-import "@/lib/suppressHydration"
 import Footer from "@/components/Footer";
 
 interface TagProps {

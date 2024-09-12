@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {format } from "date-fns";
-import "@/lib/suppressHydration"
 
 interface CombinedDataItems {
   id: string;
@@ -62,7 +61,7 @@ export const RedeemedHistoryAlertModal: React.FC<
                   <span className="text-muted-foreground">
                     Redeem Date
                   </span>
-                  <span>{format(redeem.createdAt, "PPP")}</span>
+                  <span suppressHydrationWarning>{format(redeem.createdAt, "PPP")}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span className="text-muted-foreground">
@@ -135,7 +134,7 @@ export const RedeemedHistoryAlertModal: React.FC<
                     <CalendarDays className="h-4 w-4" />
                     Potential Pay Date
                   </dt>
-                  <dd>{format(redeem.paymentDate, "PPP")}</dd>
+                  <dd suppressHydrationWarning>{format(redeem.paymentDate, "PPP")}</dd>
                 </div>
               </dl>
             </div>

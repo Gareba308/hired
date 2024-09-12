@@ -1,7 +1,6 @@
 "use client";
 import { Job } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
-import "@/lib/suppressHydration"
 import { Bookmark } from "lucide-react";
 import {
   Tooltip,
@@ -161,7 +160,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                         </TooltipProvider>
                       ) : (
                         <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
-                          <span className="line-clamp-1">
+                          <span suppressHydrationWarning className="line-clamp-1">
                             {formatDistanceToNowStrict(item.createdAt, {
                               addSuffix: true,
                             })}
@@ -202,7 +201,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                       orientation="vertical"
                       className="text-gray-500"
                     />
-                    <p className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1">
+                    <p suppressHydrationWarning className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1">
                       {formatDistanceToNowStrict(item.createdAt, {
                         addSuffix: true,
                       })}

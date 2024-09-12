@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import {
   Card,
   CardContent,

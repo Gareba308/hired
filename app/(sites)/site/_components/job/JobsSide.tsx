@@ -67,7 +67,7 @@ const JobsSide = ({
         <p className="text-xs font-medium text-body-color line-clamp-1">
           {company}
         </p>
-        <p className="text-xs font-normal text-body-color line-clamp-1">
+        <p suppressHydrationWarning className="text-xs font-normal text-body-color line-clamp-1">
           {date}
         </p>
       </div>

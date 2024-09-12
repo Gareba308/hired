@@ -6,7 +6,6 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { CalendarDays, Check, Smartphone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { HomepageContact } from "@prisma/client";
 
 interface HomeContactModelProps {
@@ -40,7 +39,7 @@ export const HomeContactAlertModal: React.FC<HomeContactModelProps> = ({
               <ul>
                 <li className="flex text-base items-center justify-between">
                   <span className="text-muted-foreground text-base">Contact Date</span>
-                  <span className="text-base">{format(contact.createdAt, "PPP")}</span>
+                  <span suppressHydrationWarning className="text-base">{format(contact.createdAt, "PPP")}</span>
                 </li>
                 <li className="flex text-base items-center justify-between">
                   <span className="text-muted-foreground text-base">Contact Name</span>

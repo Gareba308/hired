@@ -12,7 +12,6 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
@@ -171,7 +170,7 @@ const Feedback = ({ myHelpMessages, name, toggleView }: FeedbackProps) => {
                                 <div key={message.id}>
                                   {isNewDate && (
                                     <div className="flex justify-center mb-1">
-                                      <div className="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-700/10">
+                                      <div suppressHydrationWarning className="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-700/10">
                                         {displayDate}
                                         {displayDate === "Today" ||
                                         displayDate === "Yesterday"
@@ -245,6 +244,7 @@ const Feedback = ({ myHelpMessages, name, toggleView }: FeedbackProps) => {
                                         )}
                                         <div className="flex items-center justify-between">
                                           <div
+                                           suppressHydrationWarning
                                             className={cn(
                                               "text-xs select-none mt-2",
                                               {

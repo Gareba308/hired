@@ -14,7 +14,6 @@ import {
   subMonths,
   subWeeks,
 } from "date-fns";
-import "@/lib/suppressHydration"
 import { db } from "@/db";
 
 const Page = async () => {

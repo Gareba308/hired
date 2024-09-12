@@ -17,7 +17,6 @@ import { ArrowUpDown, Copy, ExternalLink, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import {
   DropdownMenu,
   DropdownMenuContent,

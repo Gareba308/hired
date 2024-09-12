@@ -43,7 +43,6 @@ import {
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { Switch } from "@/components/ui/switch";
 
 interface CareerPointDetailsProps {
@@ -371,7 +370,7 @@ const CareerPointDetails = ({
                                     <span className="text-muted-foreground hidden sm:flex">
                                       Search Date:
                                     </span>
-                                    <span>
+                                    <span suppressHydrationWarning>
                                       {format(careerDetails.createdAt, "PPP")}
                                     </span>
                                   </li>

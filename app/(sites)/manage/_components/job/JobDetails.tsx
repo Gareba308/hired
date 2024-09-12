@@ -20,8 +20,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Company, Job } from "@prisma/client";
-import { format, formatDistance } from "date-fns";
-import "@/lib/suppressHydration"
+import { format, formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -193,15 +192,11 @@ export default function JobDetails({
                 <Briefcase className="h-5 w-5 mr-1.5" />
                 {job.category}
               </p>
-              <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
+              <p suppressHydrationWarning className="flex items-center text-gray-600 shrink-0 text-base font-normal">
                 <Calendar className="h-5 w-5 mr-1.5" />
-                {formatDistance(
-                  new Date(job.createdAt.toString() as string),
-                  Date.now(),
-                  {
-                    addSuffix: true,
-                  }
-                )}
+                {formatDistanceToNowStrict(job.createdAt, {
+                  addSuffix: true,
+                })}
               </p>
             </div>
             <div className="flex-shrink-0 flex justify-end">
@@ -358,7 +353,7 @@ export default function JobDetails({
             {job.deadline && (
               <p className="flex flex-1 mt-1 text-gray-700 text-base font-medium">
                 Deadline:{" "}
-                <span className="ml-4 font-normal text-base text-gray-700">
+                <span suppressHydrationWarning className="ml-4 font-normal text-base text-gray-700">
                   {format(job.deadline!, "PPP")}
                 </span>
               </p>

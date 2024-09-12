@@ -17,7 +17,6 @@ import {
   subMonths,
   subWeeks,
 } from "date-fns";
-import "@/lib/suppressHydration"
 
 const Page = async () => {
   const session = await getServerSession(authOptions);

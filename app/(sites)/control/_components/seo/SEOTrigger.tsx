@@ -6,7 +6,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { LastRequestBlogsIndex, LastRequestJobsIndex } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { format, add } from "date-fns";
-import "@/lib/suppressHydration"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 
@@ -90,11 +89,11 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
                   <span className="font-medium text-base flex flex-col">
                     Updated Time:
                   </span>
-                  <span>
+                  <span suppressHydrationWarning>
                     Last: {format(jobReq?.updatedAt ?? new Date(), "PPP")},{" "}
                     {format(jobReq?.updatedAt ?? new Date(), "HHmm")}
                   </span>
-                  <span>
+                  <span suppressHydrationWarning>
                     Next: {format(nextIndexJobsDate, "PPP")},{" "}
                     {format(nextIndexJobsDate, "HHmm")}
                   </span>
@@ -134,12 +133,12 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
                   <span className="font-medium text-base flex flex-col">
                     Updated Time
                   </span>
-                  <span>
+                  <span suppressHydrationWarning>
                     
                     Last: {format(blogReq?.updatedAt ?? new Date(), "PPP")},{" "}
                     {format(blogReq?.updatedAt ?? new Date(), "HHmm")}
                   </span>
-                  <span>
+                  <span suppressHydrationWarning>
                     Next: {format(nextIndexBlogsDate, "PPP")},{" "}
                     {format(nextIndexBlogsDate, "HHmm")}
                   </span>

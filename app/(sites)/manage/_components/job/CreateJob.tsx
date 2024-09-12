@@ -46,7 +46,6 @@ import {
   Loader2,
 } from "lucide-react";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { cn } from "@/lib/utils";
 import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
@@ -714,6 +713,7 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
                               <FormControl>
                                 <Button
                                   variant={"outline"}
+                                  suppressHydrationWarning
                                   disabled={isLoading}
                                   className={cn(
                                     "w-full sm:w-[350px] pl-3 text-left font-normal",

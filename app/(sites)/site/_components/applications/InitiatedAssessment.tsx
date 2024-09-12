@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { differenceInSeconds } from "date-fns";
-import "@/lib/suppressHydration"
 import { Button } from "@/components/ui/button";
 import {
   AcceptToBeAssessed,

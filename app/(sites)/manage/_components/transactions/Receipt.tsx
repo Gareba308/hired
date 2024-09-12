@@ -1,6 +1,5 @@
 import React from "react";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { Payment} from "@prisma/client";
 interface ReceiptProps {
   receipt: Payment;
@@ -21,7 +20,7 @@ const Receipt = ({ receipt}: ReceiptProps) => {
           </div>
           <div className="md:text-right print:text-right mb-4 md:mb-0 print:mb-0">
             <h1 className="font-bold text-3xl">MPesa Receipt</h1>
-            <p className="text-sm mt-2">
+            <p suppressHydrationWarning className="text-sm mt-2">
               <strong>MPesa ID:</strong>
               {receipt.mPesaID}
               <br />
@@ -62,7 +61,7 @@ const Receipt = ({ receipt}: ReceiptProps) => {
         </div>
 
         <div className="mb-6">
-          <h1 className="text-xl font-bold mb-2">
+          <h1 suppressHydrationWarning className="text-xl font-bold mb-2">
             Ksh.{receipt.amount} received on {formattedDate}
           </h1>
             <p className="text-sm mb-4">Paid with ID: {receipt.mPesaID}</p>

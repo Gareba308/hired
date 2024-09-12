@@ -41,7 +41,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { format, endOfWeek, startOfWeek } from "date-fns";
-import "@/lib/suppressHydration"
 import {
   Table,
   TableBody,

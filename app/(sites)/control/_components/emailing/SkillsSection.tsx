@@ -56,7 +56,6 @@ import { cn } from "@/lib/utils";
 import { reasonsForEmailToWorkerSkills } from "../data/create-job/BlogData";
 import { Menu, Transition } from "@headlessui/react";
 import { formatDistanceToNowStrict } from "date-fns";
-import "@/lib/suppressHydration"
 
 type EmailFormTypes = z.infer<typeof formSchema>;
 
@@ -483,7 +482,7 @@ const SkillsSection = ({ finalData, finalDataCounts }: EmailSectionProps) => {
                             </span>
                           </div>
                           <div className="flex items-center gap-x-4 text-muted-foreground flex-wrap">
-                            <p className="text-xs font-medium text-body-color">
+                            <p suppressHydrationWarning className="text-xs font-medium text-body-color">
                               &bull;{" "}
                               {formatDistanceToNowStrict(post.createdAt, {
                                 addSuffix: true,

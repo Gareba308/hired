@@ -3,7 +3,6 @@ import { db } from "@/db";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { startOfMonth, endOfMonth, subMonths,} from "date-fns";
-import "@/lib/suppressHydration"
 import { AllApplications } from "../_components/applications/AllApplications";
 import DashboardPage from "../_components/userDashboard/DashboardData";
 

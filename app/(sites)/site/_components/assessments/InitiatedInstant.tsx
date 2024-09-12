@@ -2,7 +2,6 @@ import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { AcceptToBeAssessed, AssessmentBanner } from "@prisma/client";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -92,7 +91,7 @@ const InitiatedInstant = ({
                         Questions: {banner.numberQuestions} total available
                         questions
                       </h3>
-                      <h2>
+                      <h2 suppressHydrationWarning>
                         Obtained: {format(instantResults.createdAt, "PPP")},{" "}
                         {format(instantResults.createdAt, "HH:mm")}h
                       </h2>

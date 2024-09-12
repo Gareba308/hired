@@ -61,7 +61,6 @@ import { Job, User } from "@prisma/client";
 import { CopyJobDetailsAlertModal } from "../models/email/CopyJobsDetailModal";
 import { Menu, Transition } from "@headlessui/react";
 import { formatDistanceToNowStrict } from "date-fns";
-import "@/lib/suppressHydration"
 
 type EmailFormTypes = z.infer<typeof formSchema>;
 
@@ -645,7 +644,7 @@ const EmailSection = ({
                             </span>
                           </div>
                           <div className="flex items-center gap-x-4 text-muted-foreground flex-wrap">
-                            <p className="text-xs font-medium text-body-color mb-2 xl:mb-0">
+                            <p suppressHydrationWarning className="text-xs font-medium text-body-color mb-2 xl:mb-0">
                               &bull;{" "}
                               {formatDistanceToNowStrict(post.createdAt, {
                                 addSuffix: true,

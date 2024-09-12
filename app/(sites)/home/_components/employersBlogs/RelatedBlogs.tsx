@@ -32,7 +32,7 @@ const RelatedPost = ({
             <span className="line-clamp-3">{title}</span>
           </Link>
         </h5>
-        <p className="text-xs font-medium text-body-color">{date}</p>
+        <p suppressHydrationWarning className="text-xs font-medium text-body-color">{date}</p>
       </div>
     </div>
   );

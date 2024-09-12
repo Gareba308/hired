@@ -1,6 +1,5 @@
 import React from "react";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import { PurchaseJobPlan } from "@prisma/client";
 interface InvoiceProps {
   purchase: PurchaseJobPlan;
@@ -23,7 +22,7 @@ const Invoice = ({ purchase}: InvoiceProps) => {
           </div>
           <div className="md:text-right print:text-right mb-4 md:mb-0 print:mb-0">
             <h1 className="font-bold text-3xl">Invoice</h1>
-            <p className="text-sm mt-2">
+            <p suppressHydrationWarning className="text-sm mt-2">
               <strong>Invoice number:</strong>
               {purchase.invoiceID}
               <br />
@@ -66,7 +65,7 @@ const Invoice = ({ purchase}: InvoiceProps) => {
         </div>
 
         <div className="mb-6">
-          <h1 className="text-xl font-bold mb-2">
+          <h1 suppressHydrationWarning className="text-xl font-bold mb-2">
             Ksh.{purchase.planPrice} used to purchase {purchase.planUnits} units
             on {formattedDate}
           </h1>

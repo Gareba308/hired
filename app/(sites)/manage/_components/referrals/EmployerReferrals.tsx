@@ -17,7 +17,6 @@ import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { trpc } from "@/app/_trpc/client";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import RelatedPost from "./RelatedBlogs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

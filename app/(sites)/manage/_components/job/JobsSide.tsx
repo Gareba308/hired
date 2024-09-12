@@ -2,7 +2,6 @@
 
 import { Job } from "@prisma/client";
 import { format } from "date-fns";
-import "@/lib/suppressHydration"
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -70,7 +69,7 @@ const JobsSide = ({
         <p className="text-xs font-medium text-body-color line-clamp-1">
           {company}
         </p>
-        <p className="text-xs font-normal text-body-color line-clamp-1">
+        <p suppressHydrationWarning className="text-xs font-normal text-body-color line-clamp-1">
           {format(job.createdAt, "PPP")}
         </p>
       </div>
