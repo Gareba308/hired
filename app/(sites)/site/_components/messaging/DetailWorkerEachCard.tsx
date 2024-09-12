@@ -2,6 +2,7 @@ import {Company, EmployerContactWorker } from "@prisma/client";
 import Image from "next/image";
 import React from "react";
 import { format, isToday } from "date-fns";
+import "@/lib/suppressHydration"
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 interface DetailWorkerEachCardProps {

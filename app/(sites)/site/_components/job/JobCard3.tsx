@@ -2,6 +2,7 @@
 import { Job } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
 import { formatDistanceToNowStrict } from "date-fns";
+import "@/lib/suppressHydration"
 import Link from "next/link";
 
 import {

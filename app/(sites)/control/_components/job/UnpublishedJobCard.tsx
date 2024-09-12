@@ -1,5 +1,6 @@
 import { Job } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
+import "@/lib/suppressHydration"
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";

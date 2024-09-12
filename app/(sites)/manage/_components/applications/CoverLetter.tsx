@@ -4,6 +4,7 @@ import QuillPreview from "@/components/QuillPreview";
 import { Section } from "@/components/ui/section";
 import { Application } from "@prisma/client";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import { useToast } from "@/components/ui/use-toast";
 
 interface CoverLetterProps {

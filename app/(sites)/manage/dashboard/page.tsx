@@ -13,6 +13,7 @@ import {
   startOfDay,
   endOfDay,
 } from "date-fns";
+import "@/lib/suppressHydration"
 import DashboardPage from "../_components/userDashboard/DashboardData";
 import { AllJobsApplications } from "../_components/applications/AllJobsApplications";
 import { ApplicationStatus } from "@prisma/client";

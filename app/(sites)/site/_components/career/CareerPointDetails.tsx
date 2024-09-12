@@ -43,6 +43,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import { Switch } from "@/components/ui/switch";
 
 interface CareerPointDetailsProps {

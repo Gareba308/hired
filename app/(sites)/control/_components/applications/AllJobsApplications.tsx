@@ -14,6 +14,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { endOfWeek, startOfWeek } from "date-fns";
+import "@/lib/suppressHydration"
 import {
   Card,
   CardContent,

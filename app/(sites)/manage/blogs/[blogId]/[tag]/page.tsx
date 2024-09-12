@@ -1,4 +1,5 @@
 import { subDays } from "date-fns";
+import "@/lib/suppressHydration"
 import AllWithTags from "../../../_components/blogs/AllWithTags";
 import NoTagBlogs from "../../../_components/blogs/NoTagBlogs";
 import { db } from "@/db";

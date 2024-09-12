@@ -14,6 +14,7 @@ import {
   subMonths,
   subWeeks,
 } from "date-fns";
+import "@/lib/suppressHydration"
 import { ApplicationStatus } from "@prisma/client";
 
 interface JobApplicationIDProps {

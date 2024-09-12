@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Company, Job } from "@prisma/client";
 import { format, formatDistance } from "date-fns";
+import "@/lib/suppressHydration"
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";

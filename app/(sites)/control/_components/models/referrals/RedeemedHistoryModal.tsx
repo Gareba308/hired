@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {format } from "date-fns";
+import "@/lib/suppressHydration"
 
 interface CombinedDataItems {
   id: string;

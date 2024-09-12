@@ -46,6 +46,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import { cn } from "@/lib/utils";
 import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";

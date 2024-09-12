@@ -9,6 +9,7 @@ import { Blogs } from "@prisma/client";
 import { ArrowRight, Camera, CornerUpLeft, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Preview2 } from "@/components/Preview2";

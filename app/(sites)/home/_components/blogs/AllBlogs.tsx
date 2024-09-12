@@ -5,6 +5,7 @@ import { ChevronDownIcon, CornerUpLeft, SlidersHorizontal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 import ReactPaginate from "react-paginate";
@@ -126,7 +127,7 @@ const AllBlogs = ({ blogs }: AllBlogsProps) => {
               </Link>
               <div className="px-2.5 pb-3 pt-1 w-full  border-t border-gray-200">
                 <div className="flex items-center gap-x-4 text-xs">
-                  <p className="text-gray-500 line-clamp-1">
+                  <p suppressHydrationWarning className="text-gray-500 line-clamp-1">
                     {format(post.createdAt, "PPP")},{" "}
                     {format(post.createdAt, "HH:mm")}h
                   </p>

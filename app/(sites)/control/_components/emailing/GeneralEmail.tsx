@@ -55,6 +55,7 @@ import { cn } from "@/lib/utils";
 import { reasonsForEmailToWorkerGeneral } from "../data/create-job/BlogData";
 import { Menu, Transition } from "@headlessui/react";
 import { formatDistanceToNowStrict } from "date-fns";
+import "@/lib/suppressHydration"
 
 type EmailFormTypes = z.infer<typeof formSchema>;
 

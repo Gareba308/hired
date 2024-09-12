@@ -2,6 +2,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Blogs } from "@prisma/client";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import {
   ChevronDownIcon,
   CornerUpLeft,

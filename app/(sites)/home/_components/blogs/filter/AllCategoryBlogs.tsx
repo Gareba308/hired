@@ -3,6 +3,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Blogs } from "@prisma/client";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import { ChevronDownIcon, CornerUpLeft, SlidersHorizontal} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

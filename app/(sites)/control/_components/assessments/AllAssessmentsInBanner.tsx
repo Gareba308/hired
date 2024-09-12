@@ -17,6 +17,7 @@ import {
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import { useRouter} from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { trpc } from "@/app/_trpc/client";

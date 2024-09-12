@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Company, ContactEmployer } from "@prisma/client";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import {
   Archive,
   CheckCheck,

@@ -1,5 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import { PurchaseJobPlan } from "@prisma/client";
 interface InvoiceProps {
   purchase: PurchaseJobPlan;

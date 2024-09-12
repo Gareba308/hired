@@ -8,6 +8,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ContactEmployer } from "@prisma/client";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import {
   Archive,
   CornerLeftDown,

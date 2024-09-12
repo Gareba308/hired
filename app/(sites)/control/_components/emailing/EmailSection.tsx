@@ -61,6 +61,7 @@ import { Job, User } from "@prisma/client";
 import { CopyJobDetailsAlertModal } from "../models/email/CopyJobsDetailModal";
 import { Menu, Transition } from "@headlessui/react";
 import { formatDistanceToNowStrict } from "date-fns";
+import "@/lib/suppressHydration"
 
 type EmailFormTypes = z.infer<typeof formSchema>;
 
@@ -147,7 +148,7 @@ const EmailSection = ({
     if (!matchingCategoryReason) {
       form.setValue("jobCategory", "");
     }
-  }, [matchingCategoryReason]);
+  }, [matchingCategoryReason, form]);
   const { isSubmitting } = form.formState;
 
   const { mutate: sendEmail, isLoading } = trpc.adminEmailWorkers.useMutation({

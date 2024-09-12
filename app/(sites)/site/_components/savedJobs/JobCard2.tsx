@@ -2,6 +2,7 @@
 
 import { Job, SavedJobs } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
+import "@/lib/suppressHydration"
 import { Bookmark } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";

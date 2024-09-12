@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { redirect } from "next/navigation";
 import { subDays } from "date-fns";
+import "@/lib/suppressHydration"
 import EditJob from "../../../_components/job/EditJob";
 
 interface EditJobProps {

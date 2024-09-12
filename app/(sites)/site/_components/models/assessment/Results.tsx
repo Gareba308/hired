@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import { AssessmentStatus } from "@prisma/client";
 
 interface CombinedDataItems {

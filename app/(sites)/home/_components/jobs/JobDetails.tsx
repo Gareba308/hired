@@ -25,6 +25,7 @@ import {
 import { Job, Company } from "@prisma/client";
 import JobsSide from "./JobsSide";
 import { format, formatDistance } from "date-fns";
+import "@/lib/suppressHydration"
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

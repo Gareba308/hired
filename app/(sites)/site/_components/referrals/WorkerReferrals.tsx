@@ -28,6 +28,7 @@ import { Label } from "@/components/ui/label";
 import RelatedPost from "./RelatedBlogs";
 import { Blogs } from "@prisma/client";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 
 type WorkerReferralsTypes = z.infer<typeof formSchema>;
 

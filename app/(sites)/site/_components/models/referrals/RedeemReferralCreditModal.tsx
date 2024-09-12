@@ -19,6 +19,7 @@ import {
 import { User, WorkerContact, WorkerCreditPoints } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
 import { addDays, format, isThursday } from "date-fns";
+import "@/lib/suppressHydration"
 import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";

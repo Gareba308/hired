@@ -12,6 +12,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import { format, subYears } from "date-fns";
+import "@/lib/suppressHydration"
 import { User } from "@prisma/client";
 
 interface LineChartsProps {

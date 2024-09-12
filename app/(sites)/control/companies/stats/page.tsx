@@ -10,6 +10,7 @@ import {
   subMonths,
   subWeeks,
 } from "date-fns";
+import "@/lib/suppressHydration"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { db } from "@/db";
 import { getServerSession } from "next-auth";

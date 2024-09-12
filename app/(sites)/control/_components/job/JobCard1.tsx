@@ -1,5 +1,6 @@
 import { Job } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
+import "@/lib/suppressHydration"
 import {
   Tooltip,
   TooltipContent,

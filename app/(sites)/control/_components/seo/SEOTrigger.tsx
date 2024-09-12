@@ -6,6 +6,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { LastRequestBlogsIndex, LastRequestJobsIndex } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { format, add } from "date-fns";
+import "@/lib/suppressHydration"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 

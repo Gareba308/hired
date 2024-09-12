@@ -13,6 +13,7 @@ import {
   Settings,
 } from "lucide-react";
 import { format, formatDistance } from "date-fns";
+import "@/lib/suppressHydration"
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import QuillPreview from "@/components/QuillPreview";

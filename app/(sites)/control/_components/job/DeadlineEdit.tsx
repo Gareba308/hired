@@ -25,6 +25,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import { Calendar } from "@/components/ui/calendar";
 
 type ReminderFormSchemaType = z.infer<typeof reminderFormSchema>;

@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import NoProfile from "../../../_components/profile/Unavailable";
 import NoPortfolio from "../../../_components/portfolio/NoPortfolio";
 import { differenceInMonths, differenceInYears, parse } from "date-fns";
+import "@/lib/suppressHydration"
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

@@ -9,7 +9,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Roboto } from "next/font/google";
 import ScrollToTop from "../components/common/ScrollToTop";
 import { siteConfig } from "@/lib/config";
-import "@/lib/suppressHydration"
+import "../lib/suppressHydration"
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700", "900"],

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { format, startOfWeek, endOfWeek } from "date-fns";
+import "@/lib/suppressHydration"
 import {
   Card,
   CardContent,

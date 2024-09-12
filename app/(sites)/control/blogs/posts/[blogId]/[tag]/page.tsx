@@ -2,6 +2,7 @@ import AllWithTags from "@/app/(sites)/control/_components/Blogs/AllWithTags";
 import NoTagBlogs from "@/app/(sites)/control/_components/Blogs/NoTagBlogs";
 import { db } from "@/db";
 import { subDays } from "date-fns";
+import "@/lib/suppressHydration"
 
 interface TagProps {
   params: {

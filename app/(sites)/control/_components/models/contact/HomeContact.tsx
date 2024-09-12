@@ -6,6 +6,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { CalendarDays, Check, Smartphone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { format } from "date-fns";
+import "@/lib/suppressHydration"
 import { HomepageContact } from "@prisma/client";
 
 interface HomeContactModelProps {

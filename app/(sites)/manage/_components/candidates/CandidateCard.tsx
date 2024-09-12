@@ -24,6 +24,7 @@ import {
   WorkerDesires,
 } from "@prisma/client";
 import { formatDistance } from "date-fns";
+import "@/lib/suppressHydration"
 import { MapPinIcon, Pin, ThumbsUp, UserSquare2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

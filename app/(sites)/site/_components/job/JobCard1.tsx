@@ -1,6 +1,7 @@
 "use client";
 import { Application, Job, SavedJobs } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
+import "@/lib/suppressHydration"
 import { Bookmark } from "lucide-react";
 import {
   Tooltip,
