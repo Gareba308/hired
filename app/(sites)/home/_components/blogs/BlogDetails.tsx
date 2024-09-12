@@ -13,7 +13,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Preview2 } from "@/components/Preview2";
 import { useToast } from "@/components/ui/use-toast";
-import DateDisplay from "@/lib/DateDisplay";
 interface BlogDetailsProps {
   blog: Blogs;
   allOtherBlogs: Blogs[];
@@ -153,11 +152,7 @@ const BlogDetails = ({
                             <path d="M16 18h.01" />
                           </svg>
                         </span>
-                        <DateDisplay
-                          date={blog.createdAt}
-                          formatString="PPP"
-                          useLocalTimeZone={true}
-                        />
+                        {format(blog.createdAt, "PPP")}
                       </p>
                       <p className="flex mr-5 items-center text-sm font-normal text-body-color">
                         <span className="mr-1">
@@ -288,22 +283,10 @@ const BlogDetails = ({
                           blogId={blog.id}
                           image={post.image}
                           slug={`/home/blogs/job-seekers/${post.id}`}
-                          date={
-                            <>
-                              <DateDisplay
-                                date={blog.createdAt}
-                                formatString="PPP"
-                                useLocalTimeZone={true}
-                              />
-                              ,{" "}
-                              <DateDisplay
-                                date={blog.createdAt}
-                                formatString="HH:mm"
-                                useLocalTimeZone={true}
-                              />
-                              h
-                            </>
-                          }
+                          date={`${format(post.createdAt, "PPP")}, ${format(
+                            post.createdAt,
+                            "HH:mm"
+                          )}h`}
                         />
                       </li>
                     ))}
