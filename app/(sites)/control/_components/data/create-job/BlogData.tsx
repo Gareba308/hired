@@ -1,38 +1,76 @@
 export const categories = [
   {
-    label: "Recruitment Strategy",
-    value: "Recruitment Strategy",
-  },
-  { label: "Candidate Insight", value: "Candidate Insight" },
-  {
-    label: "HR Marketing",
-    value: "HR Marketing",
-  },
-  { label: "Trends", value: "Trends" },
-  {
-    label: "Technology",
-    value: "Technology",
-  },
-  { label: "Employer Branding", value: "Employer Branding" },
-  {
-    label: "Diversity and Inclusion",
-    value: "Diversity and Inclusion",
+    label: "Recruitment in Kenya",
+    value: "Recruitment in Kenya",
   },
   {
-    label: "Budget",
-    value: "Budget",
+    label: "Candidate Behavior",
+    value: "Candidate Behavior",
   },
-  { label: "Case Study", value: "Case Study" },
-  { label: "Career Advice", value: "Career Advice" },
   {
-    label: "Job Hunting",
-    value: "Job Hunting",
+    label: "HR Marketing Strategies",
+    value: "HR Marketing Strategies",
+  },
+  {
+    label: "Workplace Trends",
+    value: "Workplace Trends",
+  },
+  {
+    label: "Technology in Recruitment",
+    value: "Technology in Recruitment",
+  },
+  {
+    label: "HR & Recruitment Tech",
+    value: "HR & Recruitment Tech",
+  },
+  {
+    label: "Employer Branding Tips",
+    value: "Employer Branding Tips",
+  },
+  {
+    label: "Diversity & Inclusion",
+    value: "Diversity & Inclusion",
+  },
+  {
+    label: "Recruitment Budgeting",
+    value: "Recruitment Budgeting",
+  },
+  {
+    label: "Hiring Success Stories",
+    value: "Hiring Success Stories",
+  },
+  {
+    label: "Career Advice",
+    value: "Career Advice",
+  },
+  {
+    label: "Top Jobs in Kenya",
+    value: "Top Jobs in Kenya",
+  },
+  {
+    label: "Job Opportunities in Kenya",
+    value: "Job Opportunities in Kenya",
+  },
+  {
+    label: "Job Hunting Tips",
+    value: "Job Hunting Tips",
   },
   {
     label: "Resume Help",
     value: "Resume Help",
   },
-  { label: "Interview Tips", value: "Interview Tips" },
+  {
+    label: "Interview Tips",
+    value: "Interview Tips",
+  },
+  {
+    label: "Workplace Diversity Insights",
+    value: "Workplace Diversity Insights",
+  },
+  {
+    label: "Recruitment Marketing",
+    value: "Recruitment Marketing",
+  }
 ];
 
 export const reasonsForEmailToWorker = [

@@ -248,7 +248,7 @@ export default function JobDetails({
             </div>
             <div className="flex-shrink-0 flex justify-end">
               {job.companyLogo ? (
-                <div className="relative cursor-pointer bg-gray-200 h-[80px] w-[80px] md:h-[96px] md:w-[96px] overflow-hidden rounded-sm">
+                <div className="relative cursor-pointer h-[80px] w-[80px] md:h-[96px] md:w-[96px] overflow-hidden rounded-sm">
                   <Image
                     src={job.companyLogo}
                     alt={job.company_name as string}
