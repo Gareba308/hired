@@ -1,5 +1,4 @@
 import { Preview } from "@/components/Preview";
-import QuillPreview from "@/components/QuillPreview";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -241,7 +240,7 @@ const NewTertiaryCreated = ({
           <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-base">
             {tertiaryDetails.activities ? (
               <div className="mt-2">
-                <QuillPreview htmlContent={tertiaryDetails.activities}/>
+                <Preview value={tertiaryDetails.activities}/>
               </div>
             ) : (
               <span className="italic text-sm text-gray-500">No details found</span>

@@ -42,7 +42,7 @@ import {
 } from "@/components/ui/select";
 import { Editor } from "@/components/Editor";
 import ExperienceCreatedStart from "./created/ExperienceCreatedStart";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import { useRef, useState } from "react";
 
 type FormSchemaType = z.infer<typeof formSchema>;

@@ -1,7 +1,7 @@
 "use client";
 import { trpc } from "@/app/_trpc/client";
-import QuillPreview from "@/components/QuillPreview";
 import { Button } from "@/components/ui/button";
+import { Preview } from "@/components/Preview";
 import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
@@ -320,8 +320,8 @@ const CandidateDetails = ({
                             </div>
                             {workersAbout && workersAbout?.about && (
                               <div className="text-gray-600 w-full text-base">
-                                <QuillPreview
-                                  htmlContent={workersAbout?.about}
+                                <Preview
+                                  value={workersAbout?.about as string}
                                 />
                               </div>
                             )}
@@ -376,8 +376,8 @@ const CandidateDetails = ({
                                 </p>
                               </div>
                               <div className="text-gray-600 w-full text-base">
-                                <QuillPreview
-                                  htmlContent={
+                                <Preview
+                                  value={
                                     experience?.description as string
                                   }
                                 />
@@ -434,8 +434,8 @@ const CandidateDetails = ({
                                 </p>
                               </div>
                               <div className="text-gray-600 w-full text-base">
-                                <QuillPreview
-                                  htmlContent={education?.activities as string}
+                                <Preview
+                                  value={education?.activities as string}
                                 />
                               </div>
                             </div>
@@ -514,8 +514,8 @@ const CandidateDetails = ({
                                 )}
                               </div>
                               <div className="text-gray-600 w-full text-base">
-                                <QuillPreview
-                                  htmlContent={award.description as string}
+                                <Preview
+                                  value={award.description as string}
                                 />
                               </div>
                             </div>
@@ -544,8 +544,8 @@ const CandidateDetails = ({
                                 </div>
                               </div>
                               <div className="text-gray-600 text-base">
-                                <QuillPreview
-                                  htmlContent={
+                                <Preview
+                                  value={
                                     certificate.description as string
                                   }
                                 />

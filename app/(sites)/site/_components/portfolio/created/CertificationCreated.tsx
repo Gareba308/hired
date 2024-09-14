@@ -8,7 +8,7 @@ import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import EditCertificationModal from "../modal/EditCertification";
-import QuillPreview from "@/components/QuillPreview";
+import { Preview } from "@/components/Preview";
 
 interface CertificationCreatedProps {
   certification: CertificationLicense[];
@@ -231,7 +231,7 @@ const CertificationCreated = ({ certification }: CertificationCreatedProps) => {
                             <div className="text-gray-700 px-2">
                               {certificate.description && (
                                 <div className="mt-2">
-                                  <QuillPreview htmlContent={certificate.description}/>
+                                  <Preview value={certificate.description}/>
                                 </div>
                               )}
                             </div>

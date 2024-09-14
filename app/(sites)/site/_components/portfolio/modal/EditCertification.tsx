@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CertificationLicense } from "@prisma/client";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import { useRef } from "react";
 import { Editor } from "@/components/Editor";
 

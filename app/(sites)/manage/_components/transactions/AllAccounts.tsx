@@ -106,7 +106,7 @@ export function AllAccounts({ purchases }: AllAccountsProps) {
       header: "Purchase Date",
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
-        return <div className="font-normal text-sm">{format(date, "PPP")}</div>;
+        return <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>;
       },
     },
     {
@@ -117,7 +117,7 @@ export function AllAccounts({ purchases }: AllAccountsProps) {
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
         return (
-          <div className="text-sm font-normal flex justify-center items-center">
+          <div suppressHydrationWarning className="text-sm font-normal flex justify-center items-center">
             {format(date, "HH:mm")}h
           </div>
         );

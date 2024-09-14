@@ -43,7 +43,7 @@ import { cn } from "@/lib/utils";
 import { categories } from "../data/create-job/BlogData";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Editor } from "@/components/Editor";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import { Textarea } from "@/components/ui/textarea";
 import CloudUpload from "@/components/CloudUpload";
 

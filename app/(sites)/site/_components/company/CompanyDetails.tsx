@@ -1,6 +1,6 @@
 "use client";
 
-import QuillPreview from "@/components/QuillPreview";
+import { Preview } from "@/components/Preview";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -317,8 +317,8 @@ const CompanyDetails = ({
                           </div>
                           {company.company_description && (
                             <div className="text-gray-600 text-base">
-                              <QuillPreview
-                                htmlContent={
+                              <Preview
+                                value={
                                   company.company_description as string
                                 }
                               />

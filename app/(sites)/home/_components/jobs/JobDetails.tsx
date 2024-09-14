@@ -10,18 +10,10 @@ import {
   Edit,
   Eye,
   Flag,
-  HelpCircle,
-  Info,
   Link as Links,
   Mail,
   Share2,
 } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Job, Company } from "@prisma/client";
 import JobsSide from "./JobsSide";
 import { format, formatDistanceToNowStrict } from "date-fns";
@@ -29,7 +21,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import QuillPreview from "@/components/QuillPreview";
 import { Preview } from "@/components/Preview";
 import { useEffect, useState } from "react";
 import RecentlyViewedLoader from "@/components/RecentlyViewedLoader";
@@ -434,7 +425,7 @@ export default function JobDetails({
                 </h3>
 
                 <div className="mt-1 -mb-2 text-base text-gray-700">
-                  <QuillPreview htmlContent={job.job_description} />
+                  <Preview value={job.job_description as string} />
                 </div>
               </div>
             )}
@@ -446,7 +437,7 @@ export default function JobDetails({
                 </h3>
 
                 <div className="text-base text-gray-700">
-                  <Preview value={job.responsibilities} />
+                  <Preview value={job.responsibilities as string} />
                 </div>
               </div>
             )}
@@ -457,7 +448,7 @@ export default function JobDetails({
                   Qualification Requirements
                 </h3>
                 <div className="text-base text-gray-700">
-                  <Preview value={job.requirement} />
+                  <Preview value={job.requirement as string} />
                 </div>
               </div>
             )}
@@ -530,7 +521,7 @@ export default function JobDetails({
                     <div className="mt-1.5">
                       <h3 className="text-lg font-medium">Instructions</h3>
                       <div className="text-base text-gray-700 -mt-2 -mb-2">
-                        <Preview value={job.instructions} />
+                        <Preview value={job.instructions as string} />
                       </div>
                     </div>
                   )}

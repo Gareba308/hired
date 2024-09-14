@@ -63,7 +63,6 @@ import {
   categories,
 } from "../data/create-job/CreateJobData";
 import { Label } from "@/components/ui/label";
-import ReactQuill from "react-quill";
 import {
   Autocomplete,
   Chip,
@@ -78,6 +77,7 @@ import {
   UnregisteredCompany,
 } from "@prisma/client";
 import CloudUpload from "@/components/CloudUpload";
+import ReactQuill from "react-quill-new";
 
 type ReminderFormSchemaType = z.infer<typeof reminderFormSchema>;
 interface AdminCreateJobProps {
@@ -1144,7 +1144,7 @@ const CreateJob = ({
                                   date < new Date() ||
                                   date < new Date("1900-01-01")
                                 }
-                                initialFocus
+                                // initialFocus
                               />
                             </PopoverContent>
                           </Popover>

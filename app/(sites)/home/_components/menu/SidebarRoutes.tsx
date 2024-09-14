@@ -17,12 +17,12 @@ const guestRoute = [
   },
   {
     icon: Newspaper,
-    label: "Employer Blogs",
+    label: "Hiring Insight",
     href: "/home/blogs/employers",
   },
   {
     icon: GalleryHorizontal,
-    label: "Job Seeker Blogs",
+    label: "Career Advice",
     href: "/home/blogs/job-seekers",
   },
   {

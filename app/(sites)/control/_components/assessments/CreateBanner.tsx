@@ -33,7 +33,7 @@ import { z } from "zod";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Editor } from "@/components/Editor";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { assessmentCategories } from "../data/create-job/Assessment";

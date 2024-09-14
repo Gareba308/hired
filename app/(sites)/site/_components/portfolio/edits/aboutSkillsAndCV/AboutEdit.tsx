@@ -1,6 +1,6 @@
 import { trpc } from "@/app/_trpc/client";
 import { Editor } from "@/components/Editor";
-import QuillPreview from "@/components/QuillPreview";
+import { Preview } from "@/components/Preview";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,7 +19,7 @@ import { Loader2, PenLine, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import { z } from "zod";
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -293,7 +293,7 @@ const AboutEdit = ({ about, toggleCreate }: AboutEditProps) => {
                   <div className="bg-white lg:px-2 pt-1">
                     {about.about ? (
                       <div className="mt-2 w-full text-base text-gray-700">
-                        <QuillPreview htmlContent={about.about} />
+                        <Preview value={about.about} />
                       </div>
                     ) : (
                       <>

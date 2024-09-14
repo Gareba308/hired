@@ -1,17 +1,3 @@
-// import { Blogs } from "@prisma/client"
-
-// interface BodyEditProps{
-//   blog: Blogs
-// }
-
-// const BodyEdit = ({blog}: BodyEditProps) => {
-//   return (
-//     <div>BodyEdit</div>
-//   )
-// }
-
-// export default BodyEdit
-
 "use client";
 
 import { trpc } from "@/app/_trpc/client";
@@ -35,7 +21,7 @@ import { GripVertical, Loader2, PenLine } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import { z } from "zod";
 
 interface BannerInstructionsEditProps {

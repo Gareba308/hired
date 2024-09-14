@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import AddAwardModal from "../modal/AddAward";
 import EditAwardModal from "../modal/EditAward";
-import QuillPreview from "@/components/QuillPreview";
+import { Preview } from "@/components/Preview";
 
 interface AwardCreatedProps {
   awards: Award[];
@@ -200,7 +200,7 @@ const AwardCreated = ({ awards }: AwardCreatedProps) => {
                             <div className="text-gray-700 px-2">
                               {award.description && (
                                 <div className="mt-2">
-                                  <QuillPreview htmlContent={award.description} />
+                                  <Preview value={award.description} />
                                 </div>
                               )}
                             </div>

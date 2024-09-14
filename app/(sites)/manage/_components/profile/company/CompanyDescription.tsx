@@ -2,7 +2,7 @@
 
 import { trpc } from "@/app/_trpc/client";
 import { Editor } from "@/components/Editor";
-import QuillPreview from "@/components/QuillPreview";
+import { Preview } from "@/components/Preview";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -21,7 +21,7 @@ import { GripVertical, Loader2, PenLine } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import { z } from "zod";
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -176,8 +176,8 @@ const CompanyDescription = ({ profile }: CompanyDescriptionProps) => {
                     <>
                       {profile.company_description && (
                         <div className="font-normal text-base w-full text-gray-600">
-                          <QuillPreview
-                            htmlContent={profile.company_description}
+                          <Preview
+                            value={profile.company_description}
                           />
                         </div>
                       )}

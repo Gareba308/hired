@@ -240,7 +240,7 @@ export function CategoryEmails({
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
 
-        return <div className="font-normal text-sm">{format(date, "PPP")}</div>;
+        return <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>;
       },
     },
     {

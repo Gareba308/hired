@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import NewCreateTertiary from "../NewCreateTertiary";
 import TertiaryCreated from "./TertiaryCreated";
 import { Separator } from "@/components/ui/separator";
-import QuillPreview from "@/components/QuillPreview";
+import { Preview } from "@/components/Preview";
 
 interface ExperienceCreatedStartProps {
   tertiaryEducation: TertiaryEducation[];
@@ -169,7 +169,7 @@ export default function TertiaryEducationCreatedStart({
                                 </p>
                               )}
                               {tertiary.activities && <div className="line-clamp-3 mt-1.5">
-                              <QuillPreview htmlContent={tertiary.activities}/>
+                              <Preview value={tertiary.activities}/>
                               </div>}
                                                                                              
                               </div>

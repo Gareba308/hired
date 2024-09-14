@@ -17,7 +17,7 @@ import {
   WorkerContact,
 } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
-import QuillPreview from "@/components/QuillPreview";
+import { Preview } from "@/components/Preview";
 
 interface DocumentsRenderItems {
   dbUser: User;
@@ -87,8 +87,8 @@ export default function DocumentDetails({
                 </h2>
               </div>
               <div className="text-pretty -mt-0.5 text-sm text-gray-600">
-                <QuillPreview
-                  htmlContent={application.about?.about as string}
+                <Preview
+                  value={application.about?.about as string}
                 />
               </div>
             </Section>
@@ -146,8 +146,8 @@ export default function DocumentDetails({
                       </CardHeader>
                       {work.description && (
                         <CardContent className="text-sm text-gray-600">
-                          <QuillPreview
-                            htmlContent={work.description as string}
+                          <Preview
+                            value={work.description as string}
                           />
                         </CardContent>
                       )}
@@ -183,8 +183,8 @@ export default function DocumentDetails({
                         <p className='font-medium'>{education.field}</p>
                         <p className='font-medium'>{education.grade}</p>
                         <div>
-                          <QuillPreview
-                            htmlContent={education.activities as string}
+                          <Preview
+                            value={education.activities as string}
                           />
                         </div>
                       </CardContent>
@@ -259,7 +259,7 @@ export default function DocumentDetails({
                       </div>
                     </CardHeader>
                     <CardContent className="text-sm text-gray-600">
-                      <QuillPreview htmlContent={award.description as string} />
+                      <Preview value={award.description as string} />
                     </CardContent>
                   </Card>
                 );
@@ -293,7 +293,7 @@ export default function DocumentDetails({
                       </div>
                     </CardHeader>
                     <CardContent className="text-sm text-gray-600">
-                      <QuillPreview htmlContent={item.description as string} />
+                      <Preview value={item.description as string} />
                     </CardContent>
                   </Card>
                 );

@@ -8,7 +8,7 @@ import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
-import QuillPreview from "@/components/QuillPreview";
+import { Preview } from "@/components/Preview";
 
 interface ExperienceCreatedStartProps {
   experiences: Experience[];
@@ -199,8 +199,8 @@ export default function ExperienceCreatedStart({
                                   </div>
                                   {experience.description && (
                                     <div className="line-clamp-3 -mt-1 text-gray-700 text-sm">
-                                      <QuillPreview
-                                        htmlContent={experience.description}
+                                      <Preview
+                                        value={experience.description}
                                       />
                                     </div>
                                   )}

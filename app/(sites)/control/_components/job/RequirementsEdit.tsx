@@ -25,7 +25,7 @@ import { GripVertical, Loader2, PenLine } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import { z } from "zod";
 import { useCachedSkills } from "../data/create-job/AllSkills";
 

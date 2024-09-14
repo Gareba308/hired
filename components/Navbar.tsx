@@ -28,8 +28,8 @@ const Navbar = () => {
     {
       title: "Resources",
       submenu: [
-        { title: "Job Seekers Blog", path: "/home/blogs/job-seekers" },
-        { title: "Employers Blog", path: "/home/blogs/employers" },
+        { title: "Career Advice", path: "/home/blogs/job-seekers" },
+        { title: "Hiring Insight", path: "/home/blogs/employers" },
       ],
     },
     { title: "About Us", path: "/home/about" },

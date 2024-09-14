@@ -15,7 +15,6 @@ import {
 import { format, formatDistanceToNowStrict } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import QuillPreview from "@/components/QuillPreview";
 import { Preview } from "@/components/Preview";
 import Link from "next/link";
 
@@ -265,7 +264,7 @@ const MyJobsDetails = ({ job, companyProfile }: MyJobsDetailsProps) => {
               </h3>
 
               <div className="mt-1 -mb-2 text-base text-gray-800">
-                <QuillPreview htmlContent={job?.job_description} />
+                <Preview value={job?.job_description as string} />
               </div>
             </div>
           )}

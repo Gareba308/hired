@@ -61,7 +61,7 @@ import {
   categories,
 } from "../data/create-job/CreateJobData";
 import { Label } from "@/components/ui/label";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import {
   Autocomplete,
   Chip,

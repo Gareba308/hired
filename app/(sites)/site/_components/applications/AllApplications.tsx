@@ -69,7 +69,7 @@ export function AllApplications({ myApplication }: AllApplicationsProps) {
         const date: Date = row.getValue("createdAt");
 
         return (
-          <div className="font-normal text-gray-700 text-sm">
+          <div suppressHydrationWarning className="font-normal text-gray-700 text-sm">
             {format(date, "PPP")}
           </div>
         );

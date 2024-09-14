@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/select";
 import { Editor } from "@/components/Editor";
 import { useRef } from "react";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 
 const maxCharacters = 250;
 const nilCharacters = 0;

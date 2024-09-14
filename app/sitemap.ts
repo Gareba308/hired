@@ -62,15 +62,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
   const workerCategories = workerBlogs
     .map((blog) => blog.category)
-    .filter((category, index, self) => category && self.indexOf(category) === index);
+    .filter(
+      (category, index, self) => category && self.indexOf(category) === index
+    );
   const employerCategories = employerBlogs
     .map((blog) => blog.category)
-    .filter((category, index, self) => category && self.indexOf(category) === index);
+    .filter(
+      (category, index, self) => category && self.indexOf(category) === index
+    );
 
   const jobsUrls = jobs.map((job) => {
     return {
       url: `${baseUrl}/home/jobs/${job.id}`,
       lastModified: new Date(job.updatedAt),
+      changeFreq: "daily",
+      priority: 0.9,
     };
   });
 
@@ -78,18 +84,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return {
       url: `${baseUrl}/home/blogs/job-seekers/${blog.id}`,
       lastModified: new Date(blog.updatedAt),
+      changeFreq: "daily",
+      priority: 0.7,
     };
   });
 
   const workerBlogsDetailCategoriesURL = workerBlogs.flatMap(
-    (blog): Array<{ url: string; lastModified: Date }> => {
-      const urls: Array<{ url: string; lastModified: Date }> = [];
+    (
+      blog
+    ): Array<{
+      url: string;
+      lastModified: Date;
+      changeFreq: string;
+      priority: number;
+    }> => {
+      const urls: Array<{
+        url: string;
+        lastModified: Date;
+        changeFreq: string;
+        priority: number;
+      }> = [];
       workerCategories.forEach((category) => {
-        if (blog.category && blog.category.toLowerCase() === category.toLowerCase()) {
+        if (
+          blog.category &&
+          blog.category.toLowerCase() === category.toLowerCase()
+        ) {
           const categorySlug = convertToSlug(category);
           urls.push({
             url: `${baseUrl}/home/blogs/job-seekers/${blog.id}/categories/${categorySlug}`,
             lastModified: new Date(blog.updatedAt),
+            changeFreq: "daily",
+            priority: 0.7,
           });
         }
       });
@@ -101,18 +126,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return {
       url: `${baseUrl}/home/blogs/employers/${blog.id}`,
       lastModified: new Date(blog.updatedAt),
+      changeFreq: "daily",
+      priority: 0.7,
     };
   });
 
   const employerBlogsDetailCategoriesURL = employerBlogs.flatMap(
-    (blog): Array<{ url: string; lastModified: Date }> => {
-      const urls: Array<{ url: string; lastModified: Date }> = [];
+    (
+      blog
+    ): Array<{
+      url: string;
+      lastModified: Date;
+      changeFreq: string;
+      priority: number;
+    }> => {
+      const urls: Array<{
+        url: string;
+        lastModified: Date;
+        changeFreq: string;
+        priority: number;
+      }> = [];
       employerCategories.forEach((category) => {
-        if (blog.category && blog.category.toLowerCase() === category.toLowerCase()) {
+        if (
+          blog.category &&
+          blog.category.toLowerCase() === category.toLowerCase()
+        ) {
           const categorySlug = convertToSlug(category);
           urls.push({
             url: `${baseUrl}/home/blogs/employers/${blog.id}/categories/${categorySlug}`,
             lastModified: new Date(blog.updatedAt),
+            changeFreq: "daily",
+            priority: 0.7,
           });
         }
       });
@@ -121,7 +165,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   const workerBlogsTagsUrls = allBlogsForWorkerTags.flatMap(
-    (blog): Array<{ url: string; lastModified: Date }> => {
+    (
+      blog
+    ): Array<{
+      url: string;
+      lastModified: Date;
+      changeFreq: string;
+      priority: number;
+    }> => {
       const tags = blog.body.match(/#\w+/g);
       if (tags) {
         return tags.map((tag) => {
@@ -129,6 +180,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           return {
             url: `${baseUrl}/home/blogs/job-seekers/${blog.id}/${tagSlug}`,
             lastModified: new Date(blog.updatedAt),
+            changeFreq: "daily",
+            priority: 0.7,
           };
         });
       }
@@ -137,7 +190,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   const employerBlogsTagsUrls = allBlogsForEmployerTags.flatMap(
-    (blog): Array<{ url: string; lastModified: Date }> => {
+    (
+      blog
+    ): Array<{
+      url: string;
+      lastModified: Date;
+      changeFreq: string;
+      priority: number;
+    }> => {
       const tags = blog.body.match(/#\w+/g);
       if (tags) {
         return tags.map((tag) => {
@@ -145,6 +205,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           return {
             url: `${baseUrl}/home/blogs/employers/${blog.id}/${tagSlug}`,
             lastModified: new Date(blog.updatedAt),
+            changeFreq: "daily",
+            priority: 0.7,
           };
         });
       }
@@ -157,35 +219,42 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return {
       url: `${baseUrl}/home/blogs/job-seekers/filter/${categorySlug}`,
       lastModified: new Date(),
+      changeFreq: "daily",
+      priority: 0.7,
     };
   });
 
-  const employerBlogsFiltersCategoryUrls = employerCategories.map((category) => {
-    const categorySlug = convertToSlug(category);
-    return {
-      url: `${baseUrl}/home/blogs/employers/filter/${categorySlug}`,
-      lastModified: new Date(),
-    };
-  });
+  const employerBlogsFiltersCategoryUrls = employerCategories.map(
+    (category) => {
+      const categorySlug = convertToSlug(category);
+      return {
+        url: `${baseUrl}/home/blogs/employers/filter/${categorySlug}`,
+        lastModified: new Date(),
+        changeFreq: "daily",
+        priority: 0.7,
+      };
+    }
+  );
 
   return [
     {
       url: baseUrl,
+      lastModified: new Date(),
     },
     {
       url: `${baseUrl}/home/jobs`,
     },
     {
-      url: `${baseUrl}/home/login`
+      url: `${baseUrl}/home/login`,
     },
     {
-      url: `${baseUrl}/home/register`
+      url: `${baseUrl}/home/register`,
     },
     {
-      url: `${baseUrl}/home/login/enterprises`
+      url: `${baseUrl}/home/login/enterprises`,
     },
     {
-      url: `${baseUrl}/home/register/enterprises`
+      url: `${baseUrl}/home/register/enterprises`,
     },
     {
       url: `${baseUrl}/home/blogs/job-seekers`,
@@ -194,32 +263,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/home/blogs/employers`,
     },
     {
-      url: `${baseUrl}/home/faqs/employers`
+      url: `${baseUrl}/home/faqs/employers`,
     },
     {
-      url: `${baseUrl}/home/faqs/job-seekers`
-    }, 
-    {
-      url: `${baseUrl}/home/privacy`
+      url: `${baseUrl}/home/faqs/job-seekers`,
     },
     {
-      url: `${baseUrl}/home/terms`
-    },
-   
-    {
-      url: `${baseUrl}/home/about`
+      url: `${baseUrl}/home/privacy`,
     },
     {
-      url: `${baseUrl}/home/contact`
+      url: `${baseUrl}/home/terms`,
+    },
+
+    {
+      url: `${baseUrl}/home/about`,
     },
     {
-      url: `${baseUrl}/home/security/email`
+      url: `${baseUrl}/home/contact`,
     },
     {
-      url: `${baseUrl}/home/security/password`
+      url: `${baseUrl}/home/security/email`,
     },
     {
-      url: `${baseUrl}/home/forgot-password`
+      url: `${baseUrl}/home/security/password`,
+    },
+    {
+      url: `${baseUrl}/home/forgot-password`,
     },
     ...jobsUrls,
     ...workersBlogsDetailUrls,

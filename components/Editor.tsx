@@ -2,26 +2,19 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, forwardRef, ForwardedRef, useRef } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import "react-quill-new/dist/quill.snow.css";
 import EditorLoader from "./EditorLoader";
+import ReactQuill from "react-quill-new";
 
 interface EditorProps {
   onChange: (value: string) => void;
   value: string;
 }
 
-const QuillEditor = dynamic(
-  () => import("react-quill").then((module) => module.default),
-  {
-    ssr: false,
-    loading: () => (
-      <>
-        <EditorLoader />
-      </>
-    ),
-  }
-) as any;
+const QuillEditor = dynamic(() => import("react-quill-new").then((module) => module.default), {
+  ssr: false,
+  loading: () => <EditorLoader />,
+}) as any;
 
 export const Editor = forwardRef(
   ({ onChange, value }: EditorProps, ref: ForwardedRef<ReactQuill | null>) => {

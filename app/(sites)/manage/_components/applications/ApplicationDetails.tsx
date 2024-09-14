@@ -5,7 +5,7 @@ import { Section } from "@/components/ui/section";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Application } from "@prisma/client";
-import QuillPreview from "@/components/QuillPreview";
+import { Preview } from "@/components/Preview";
 import Image from "next/image";
 import { useToast } from "@/components/ui/use-toast";
 import { Badge } from "@/components/ui/badge";
@@ -432,7 +432,7 @@ export default function ApplicationDetails({
                     </div>
                   </div>
                   <div className="text-pretty -mt-0.5 text-sm text-gray-600">
-                    <QuillPreview htmlContent={application.about as string} />
+                    <Preview value={application.about as string} />
                   </div>
                 </Section>
               )}
@@ -552,8 +552,8 @@ export default function ApplicationDetails({
                         </CardHeader>
                         {JSON.parse(JSON.stringify(work)).description && (
                           <CardContent className="text-sm text-gray-600">
-                            <QuillPreview
-                              htmlContent={
+                            <Preview
+                              value={
                                 JSON.parse(JSON.stringify(work))
                                   .description as string
                               }
@@ -666,8 +666,8 @@ export default function ApplicationDetails({
                           <p>{JSON.parse(JSON.stringify(education)).field}</p>
                           <p>{JSON.parse(JSON.stringify(education)).grade}</p>
                           <div>
-                            <QuillPreview
-                              htmlContent={
+                            <Preview
+                              value={
                                 JSON.parse(JSON.stringify(education))
                                   .activities as string
                               }
@@ -870,8 +870,8 @@ export default function ApplicationDetails({
                           </div>
                         </CardHeader>
                         <CardContent className="text-sm text-gray-600">
-                          <QuillPreview
-                            htmlContent={
+                          <Preview
+                            value={
                               JSON.parse(JSON.stringify(award))
                                 .description as string
                             }
@@ -972,8 +972,8 @@ export default function ApplicationDetails({
                           </div>
                         </CardHeader>
                         <CardContent className="text-sm text-gray-600">
-                          <QuillPreview
-                            htmlContent={
+                          <Preview
+                            value={
                               JSON.parse(JSON.stringify(item))
                                 .description as string
                             }

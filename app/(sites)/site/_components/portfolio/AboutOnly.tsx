@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useRef, useState } from "react";
 import { Editor } from "@/components/Editor";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 
 type FormSchemaType = z.infer<typeof formSchema>;
 

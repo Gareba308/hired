@@ -25,8 +25,8 @@ const HomePage = () => {
           />
         </svg>
       ),
-      title: "Check Qualifications Easily",
-      desc: "Select a job and instantly see your qualification percentage. Ensure you're the perfect fit before applying",
+      title: "Easily Check Job Qualifications",
+      desc: "Explore jobs in Kenya and instantly see your qualification percentage. Ensure you're the perfect fit for career opportunities before applying to companies.",
     },
     {
       icon: (
@@ -45,8 +45,8 @@ const HomePage = () => {
           />
         </svg>
       ),
-      title: "Engage and Earn",
-      desc: "Refer other job seekers and earn rewards. Our robust referral system lets you grow your network while gaining extra income",
+      title: "Earn Rewards by Referring Job Seekers",
+      desc: "Refer other job seekers and earn rewards. Grow your network, find work opportunities, and boost your income while helping others.",
     },
     {
       icon: (
@@ -66,7 +66,7 @@ const HomePage = () => {
         </svg>
       ),
       title: "Personalized Career Tools",
-      desc: "Enhance your profile with custom resumes and cover letters. Stand out to employers with professional, tailored documents",
+      desc: "Create custom resumes and cover letters to stand out to employers. Personalize your profile and showcase your skills for top job opportunities",
     },
     {
       icon: (
@@ -85,8 +85,8 @@ const HomePage = () => {
           />
         </svg>
       ),
-      title: "Comprehensive Application Process",
-      desc: "Apply for jobs effortlessly. Manage applications, view activities, and track progress with our intuitive dashboard.",
+      title: "Streamlined Job Application Process",
+      desc: "Easily apply for jobs, manage applications, and track progress. Stay organized with our intuitive dashboard designed for job seekers.",
     },
   ];
   const featuresEmployer = [
@@ -107,8 +107,8 @@ const HomePage = () => {
           />
         </svg>
       ),
-      title: "Assess and Select",
-      desc: "Utilize our assessment services to find the right candidates based on their knowledge, skills, and experience. Ensure the perfect fit every time.",
+      title: "Assess and Select Top Talent",
+      desc: "For jobs in Kenya, employers can use our assessment services to identify candidates with the right knowledge, skills, and experience.",
     },
     {
       icon: (
@@ -127,8 +127,8 @@ const HomePage = () => {
           />
         </svg>
       ),
-      title: "Direct Communication",
-      desc: "Engage with admins and candidates using our efficient messaging system. Streamline your communication process and build strong connections.",
+      title: "Direct Employer Communication",
+      desc: "Companies and employers can directly engage with admins and job candidates using our messaging system, making the hiring efficient.",
     },
     {
       icon: (
@@ -147,8 +147,8 @@ const HomePage = () => {
           />
         </svg>
       ),
-      title: "Earn Job Posting Credits",
-      desc: "Refer other employers and earn credits. Use these credits to post jobs and access a wider talent pool. Save on recruiting costs.",
+      title: "Earn Credits for Job Posting",
+      desc: "Refer employers to earn credits, which you can use to post jobs. Expand your access to Kenya’s job market and reduce recruiting costs.",
     },
     {
       icon: (
@@ -167,8 +167,8 @@ const HomePage = () => {
           />
         </svg>
       ),
-      title: "Powerful Analytics Dashboard",
-      desc: "Monitor applicant progress and insights with our comprehensive analytics dashboard. Make data-driven decisions effortlessly.",
+      title: "Analytics Dashboard for Employers",
+      desc: "Track applicant progress and performance with our data-driven analytics. Employers can easily make informed hiring decisions.",
     },
   ];
 
@@ -239,9 +239,9 @@ const HomePage = () => {
               <span className="text-sky-700"> connect</span>
             </h1>
             <p className="text-gray-700 text-base sm:text-[15px] max-w-xl leading-relaxed sm:mx-auto lg:ml-0">
-              Why would you think of spending time on a boring job website with
-              unattractive user interface? Don&apos;t you like good looking
-              stuffs? We got you covered!
+              Looking for jobs in Kenya shouldn&apos;t be dull! Our platform connects
+              job seekers with top employers through a user-friendly
+              interface. Explore career opportunities and find work easily.
             </p>
             <div>
               <p className="text-gray-700 py-3 text-base font-medium sm:text-[15px]">

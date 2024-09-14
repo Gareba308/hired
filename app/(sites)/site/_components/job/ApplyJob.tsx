@@ -22,7 +22,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import { z } from "zod";
 import { CheckSquare, FolderOpen, Loader2, Megaphone } from "lucide-react";
 import AllAssessments from "./AllAssessments";

@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import { useRef } from "react";
 
 type FormSchemaType = z.infer<typeof formSchema>;

@@ -8,12 +8,7 @@ interface QuillPreviewProps {
 const QuillPreview: React.FC<QuillPreviewProps> = ({ htmlContent }) => {
   const parsedContent = parse(htmlContent);
 
-  return (
-    <div
-    >
-      {parsedContent}
-    </div>
-  );
+  return <div className="quill-preview">{parsedContent}</div>;
 };
 
 export default QuillPreview;

@@ -51,7 +51,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                     onClick={() =>
                       router.push(`/home/jobs/${item.id}?origin=home/jobs`)
                     }
-                    className="relative cursor-pointer h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] border border-gray-300 overflow-hidden rounded-sm"
+                    className="relative cursor-pointer flex items-center justify-center h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] border border-gray-300 overflow-hidden rounded-sm"
                   >
                     <Image
                       src={item.companyLogo}
@@ -60,6 +60,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                       quality={100}
                       fill
                       sizes="100%"
+                      style={{ objectFit: "contain" }}
                       priority
                     />
                   </div>

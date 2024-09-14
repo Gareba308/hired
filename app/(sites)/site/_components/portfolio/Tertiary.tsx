@@ -42,7 +42,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Editor } from "@/components/Editor";
 import CloudUpload from "@/components/CloudUpload";
 import TertiaryEducationCreatedStart from "./created/TertiaryEducationCreatedStart";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import { useRef, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 

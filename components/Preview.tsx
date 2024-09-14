@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-import "react-quill/dist/quill.bubble.css";
+import "react-quill-new/dist/quill.bubble.css";
 import PreviewSkeleton from "./PreviewSkeleton";
 
 interface PreviewProps {
@@ -12,7 +12,7 @@ interface PreviewProps {
 export const Preview = ({ value }: PreviewProps) => {
   const ReactQuill = useMemo(
     () =>
-      dynamic(() => import("react-quill"), {
+      dynamic(() => import("react-quill-new").then((module) => module.default), {
         ssr: false,
         loading: () => (
           <>
@@ -27,7 +27,7 @@ export const Preview = ({ value }: PreviewProps) => {
     <ReactQuill
       theme="bubble"
       value={value}
-      className="-ml-3.5 text-base space-x-6 -mt-3 -mb-2 -mr-3"
+      className="quill-preview -ml-3.5 text-base space-x-6 -mt-3 -mb-2 -mr-3"
       readOnly
     />
   );

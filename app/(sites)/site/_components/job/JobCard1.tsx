@@ -116,13 +116,14 @@ const JobCard1 = ({
                     onClick={() =>
                       router.push(`/site/jobs/${item.id}?origin=site/jobs`)
                     }
-                    className="relative cursor-pointer h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] border border-gray-300 overflow-hidden rounded-sm lg:h-[74px] lg:w-[74px]"
+                    className="relative cursor-pointer flex items-center justify-center h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] border border-gray-300 overflow-hidden rounded-sm lg:h-[74px] lg:w-[74px]"
                   >
                     <Image
                       src={item.companyLogo}
                       alt={`${item.company_name} logo`}
                       title={`${item.company_name}'s logo`}
                       quality={100}
+                      style={{ objectFit: "contain" }}
                       fill
                       sizes="100%"
                       priority

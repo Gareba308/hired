@@ -24,7 +24,6 @@ import { format, formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import QuillPreview from "@/components/QuillPreview";
 import { Preview } from "@/components/Preview";
 import { useEffect, useState } from "react";
 import RecentlyViewedLoader from "@/components/RecentlyViewedLoader";
@@ -509,7 +508,7 @@ export default function JobDetails({
               </h3>
 
               <div className="mt-1 -mb-2 text-base text-gray-700">
-                <QuillPreview htmlContent={job.job_description} />
+                <Preview value={job.job_description as string} />
               </div>
             </div>
           )}

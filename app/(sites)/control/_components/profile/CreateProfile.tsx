@@ -38,7 +38,7 @@ import { Input } from "@/components/ui/input";
 import CloudUpload from "@/components/CloudUpload";
 import { counties } from "../data/create-job/CreateJobData";
 import { Label } from "@/components/ui/label";
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import { Editor } from "@/components/Editor";
 import { useRef, useState } from "react";
 
