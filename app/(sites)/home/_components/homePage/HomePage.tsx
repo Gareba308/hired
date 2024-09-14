@@ -360,7 +360,7 @@ const HomePage = () => {
             <div className="mt-6">
               <ul className="grid gap-y-8 gap-x-12 sm:grid-cols-2 lg:grid-cols-2">
                 {features.map((item, idx) => (
-                  <li key={idx} className="flex gap-x-5">
+                  <li key={idx} className="flex gap-x-3.5 sm:gap-5">
                     <div className="flex-none w-12 h-12 bg-gray-100 text-primary rounded-lg flex items-center justify-center border-gray-100">
                       {item.icon}
                     </div>
@@ -413,7 +413,7 @@ const HomePage = () => {
             <div className="mt-6">
               <ul className="grid gap-y-8 gap-x-12 sm:grid-cols-2 lg:grid-cols-2">
                 {featuresEmployer.map((item, idx) => (
-                  <li key={idx} className="flex gap-x-5">
+                  <li key={idx} className="flex gap-x-3.5 sm:gap-5">
                     <div className="flex-none w-12 h-12 bg-gray-100 text-primary rounded-lg flex items-center justify-center">
                       {item.icon}
                     </div>

@@ -180,12 +180,13 @@ const CompanyLogo = ({ profile }: CompanyLogoProps) => {
                   {profile.logo ? (
                     <>
                       {profile.logo && (
-                        <div className="relative border border-gray-200 h-[72px] shrink-0 w-[72px] overflow-hidden rounded-sm">
+                        <div className="relative h-[72px] shrink-0 w-[72px] overflow-hidden rounded-sm">
                           <Image
                             src={profile.logo as string}
                             alt={profile.company_name as string}
                             title={profile.company_name as string}
                             quality={100}
+                            style={{ objectFit: "contain" }}
                             fill
                             sizes="100%"
                             priority

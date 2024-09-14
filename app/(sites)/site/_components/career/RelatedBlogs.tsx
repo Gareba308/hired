@@ -37,7 +37,7 @@ const RelatedPost = ({
             onClick={() => router.push(`${slug}?origin=site/career-point`)}
             className="relative cursor-pointer h-[56px] w-[56px] overflow-hidden rounded-sm sm:h-[60px] sm:w-[60px]"
           >
-            <Image src={image} alt={title} fill sizes="100%" priority />
+            <Image src={image} alt={title} style={{ objectFit: "contain" }} fill sizes="100%" priority />
           </div>
         ) : (
           <div

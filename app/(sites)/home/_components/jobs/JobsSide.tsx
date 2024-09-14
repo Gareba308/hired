@@ -45,6 +45,7 @@ const JobsSide = ({
               src={image}
               alt={title}
               title={title}
+              style={{ objectFit: "contain" }}
               fill
               sizes="100%"
               priority

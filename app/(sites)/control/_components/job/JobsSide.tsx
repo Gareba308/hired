@@ -42,7 +42,7 @@ const JobsSide = ({
             onClick={() => router.push(`/control/jobs/${jobID}`)}
             className="relative cursor-pointer h-[56px] w-[56px] overflow-hidden rounded-sm sm:h-[60px] sm:w-[60px]"
           >
-            <Image src={image} alt={title} fill sizes="100%" priority />
+            <Image src={image} style={{ objectFit: "contain" }} alt={title} fill sizes="100%" priority />
           </div>
         ) : (
           <div

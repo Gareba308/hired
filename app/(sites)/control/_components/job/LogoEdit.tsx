@@ -196,11 +196,12 @@ const LogoEdit = ({ job, jobId }: LogoEditProps) => {
                     </div>
                     {job?.companyLogo ? (
                       <div className="font-normal text-gray-800 text-base -mt-0.5 w-full">
-                        <div className="relative cursor-pointer h-[56px] sm:h-[60px] w-[56px] sm:w-[60px] bg-gray-200 border border-gray-200 overflow-hidden rounded-sm">
+                        <div className="relative cursor-pointer h-[56px] sm:h-[60px] w-[56px] sm:w-[60px] bg-gray-200 overflow-hidden rounded-sm">
                           <Image
                             src={job.companyLogo}
                             alt={`${job.company_name} logo`}
                             title={`${job.company_name}'s logo`}
+                            style={{ objectFit: "contain" }}
                             quality={100}
                             fill
                             sizes="100%"
