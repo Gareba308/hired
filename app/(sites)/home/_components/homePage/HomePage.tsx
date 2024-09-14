@@ -26,7 +26,7 @@ const HomePage = () => {
         </svg>
       ),
       title: "Easily Check Job Qualifications",
-      desc: "Explore jobs in Kenya and instantly see your qualification percentage. Ensure you're the perfect fit for career opportunities before applying to companies.",
+      desc: "Explore jobs in Kenya and instantly see your qualification percentage. Ensure you're the perfect fit for career opportunities.",
     },
     {
       icon: (
@@ -66,7 +66,7 @@ const HomePage = () => {
         </svg>
       ),
       title: "Personalized Career Tools",
-      desc: "Create custom resumes and cover letters to stand out to employers. Personalize your profile and showcase your skills for top job opportunities",
+      desc: "Create custom resumes and cover letters to stand out to employers. Personalize your profile and showcase your skills for jobs",
     },
     {
       icon: (
@@ -108,7 +108,7 @@ const HomePage = () => {
         </svg>
       ),
       title: "Assess and Select Top Talent",
-      desc: "For jobs in Kenya, employers can use our assessment services to identify candidates with the right knowledge, skills, and experience.",
+      desc: "For jobs in Kenya, employers utilize assessments to identify candidates with the right knowledge, skills, and experience.",
     },
     {
       icon: (
@@ -128,7 +128,7 @@ const HomePage = () => {
         </svg>
       ),
       title: "Direct Employer Communication",
-      desc: "Companies and employers can directly engage with admins and job candidates using our messaging system, making the hiring efficient.",
+      desc: "Companies and employers can easily and directly engage with admins and job candidates using our messaging system.",
     },
     {
       icon: (
@@ -148,7 +148,7 @@ const HomePage = () => {
         </svg>
       ),
       title: "Earn Credits for Job Posting",
-      desc: "Refer employers to earn credits, which you can use to post jobs. Expand your access to Kenya’s job market and reduce recruiting costs.",
+      desc: "Refer employers to earn credits, which you can use to post jobs. Expand your access to job market and reduce recruiting costs.",
     },
     {
       icon: (
