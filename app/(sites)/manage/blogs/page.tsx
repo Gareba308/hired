@@ -35,7 +35,7 @@ const Page = async () => {
         in: ["Employer", "All"],
       },
       hide: {
-        equals: false
+        equals: true
       }
     },
     orderBy: {

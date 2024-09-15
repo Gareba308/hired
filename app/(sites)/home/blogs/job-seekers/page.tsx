@@ -13,7 +13,7 @@ async function getBlogs() {
         in: ["Worker", "All"],
       },
       hide: {
-        equals: false
+        equals: true
       }
     },
     orderBy: {

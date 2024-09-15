@@ -23,7 +23,7 @@ const getBlog = cache(async (category: string) => {
         in: ["Worker", "All"],
       },
       hide: {
-        equals: false
+        equals: true
       }
     },
     orderBy: {

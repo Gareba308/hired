@@ -23,7 +23,7 @@ const Page = async ({ params }: TagProps) => {
         in: ["Employer", "All"],
       },
       hide: {
-        equals: false
+        equals: true
       }
     },
     orderBy: {

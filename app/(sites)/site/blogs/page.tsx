@@ -37,7 +37,7 @@ const Page = async () => {
         in: ["Worker", "All"],
       },
       hide: {
-        equals: false
+        equals: true
       }
     },
     orderBy: {

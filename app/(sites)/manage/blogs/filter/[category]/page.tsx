@@ -26,7 +26,7 @@ const Page = async ({ params }: CategoryProps) => {
         in: ["Employer", "All"],
       },
       hide: {
-        equals: false
+        equals: true
       }
     },
     orderBy: {
