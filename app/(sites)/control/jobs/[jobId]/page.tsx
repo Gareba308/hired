@@ -61,7 +61,7 @@ const Page = async ({ params }: JobsProps) => {
     return shuffledArray.slice(0, numElement);
   };
 
-  const randomElements = getRandomElement(similarJobs, 10);
+  const randomElements = getRandomElement(similarJobs, 5);
 
   //  Popular Applied Job
   const allApplications = await db.application.findMany();
@@ -102,7 +102,7 @@ const Page = async ({ params }: JobsProps) => {
     .map((jobId) => popularJobs.find((job) => job.id === jobId))
     .filter((job) => job !== undefined) as Job[];
 
-  const finalSortedPopularJobs = sortedPopularJobs.slice(0, 10);
+  const finalSortedPopularJobs = sortedPopularJobs.slice(0, 5);
 
   const companyProfile = await db.company.findFirst({
     where: {

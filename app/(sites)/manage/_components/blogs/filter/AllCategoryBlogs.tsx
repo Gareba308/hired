@@ -127,7 +127,7 @@ const AllCategoryBlogs = ({ blogs, category }: AllCategoryBlogsProps) => {
                 />
               </Link>
               <div className="px-2.5 pb-3 pt-1 w-full  border-t border-gray-200">
-                <div className="flex items-center gap-x-4 text-xs">
+                <div className="flex items-center justify-between gap-x-4 text-xs">
                   <p suppressHydrationWarning className="text-gray-500 line-clamp-1">
                     {format(post.createdAt, "PPP")},{" "}
                     {format(post.createdAt, "HH:mm")}h

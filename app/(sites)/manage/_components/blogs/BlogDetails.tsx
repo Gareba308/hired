@@ -96,7 +96,7 @@ const BlogDetails = ({
                     <CornerUpLeft className="h-6 w-6 mr-2.5 shrink-0" />
                   </Link>
                   {blog.category && (
-                    <span className="inline-flex items-center rounded-sm bg-green-100 px-2 py-[3px] text-[12.6px] font-medium text-green-700 ring-1 ring-inset ring-green-500/20">
+                    <span className="inline-flex items-center rounded-sm bg-green-100 px-2 py-[3px] text-xs font-medium text-green-700 ring-1 ring-inset ring-green-500/20">
                       {blog.category}
                     </span>
                   )}
@@ -125,7 +125,10 @@ const BlogDetails = ({
                       </div>
                     </div>
                     <div className="mb-4 flex items-center">
-                      <p suppressHydrationWarning className="mr-5 flex items-center text-sm font-normal text-body-color">
+                      <p
+                        suppressHydrationWarning
+                        className="mr-5 flex items-center text-sm font-normal text-body-color"
+                      >
                         <span className="mr-0.5">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -203,8 +206,15 @@ const BlogDetails = ({
                       {blog.credit}
                     </p>
                   </div>
-                  <div className="mb-8 text-base leading-relaxed">
+                  <div className="mb-6 text-base leading-relaxed">
                     <Preview2 value={cleanBody} />
+                  </div>
+                  <div
+                    suppressHydrationWarning
+                    className="my-2 text-base text-gray-700 line-clamp-1"
+                  >
+                    Updated: {format(blog.updatedAt, "PPP")},{" "}
+                    {format(blog.updatedAt, "HH:mm")}h
                   </div>
                   <div className="items-start gap-x-4 justify-between lg:flex">
                     <div className="mb-5">
@@ -245,13 +255,13 @@ const BlogDetails = ({
             <div className="w-full xl:pl-4 xl:w-4/12">
               <div className="shadow-sm border border-gray-300 mb-4 xl:mb-10 rounded-sm bg-white">
                 <h3 className="border-b border-body-color border-opacity-10 px-5 py-3 text-lg font-semibold text-primary bg-gray-200">
-                  What is on your mind?
+                  Looking for Top Talent?
                 </h3>
                 <div className="px-5 py-6 leading-relaxed">
                   <p className="text-base font-normal">
-                    The idea is to publish comprehensive, catchy and upto date
-                    articles to help both the employers and candidates. That is
-                    the main objective of this platform.
+                    Post your job on this platform and connect with a wide pool
+                    of highly skilled candidates. Reach top talent across Kenya
+                    and beyond with ease.
                   </p>
                   <div className="mt-4">
                     <Button

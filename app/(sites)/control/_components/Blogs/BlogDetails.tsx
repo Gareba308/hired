@@ -77,7 +77,7 @@ const BlogDetails = ({
                     <CornerUpLeft className="h-6 w-6 mr-2.5 shrink-0" />
                   </Link>
                   {blog.category && (
-                    <span className="inline-flex items-center rounded-sm bg-green-100 px-2 py-[3px] text-[12.6px] font-medium text-green-700 ring-1 ring-inset ring-green-500/20">
+                    <span className="inline-flex items-center rounded-sm bg-green-100 px-2 py-[3px] text-xs font-medium text-green-700 ring-1 ring-inset ring-green-500/20">
                       {blog.category}
                     </span>
                   )}
@@ -180,6 +180,13 @@ const BlogDetails = ({
                   </div>
                   <div className="mb-8 text-base leading-relaxed">
                     <Preview2 value={cleanBody} />
+                  </div>
+                  <div
+                    suppressHydrationWarning
+                    className="my-2 text-base text-gray-700 line-clamp-1"
+                  >
+                    Updated: {format(blog.updatedAt, "PPP")},{" "}
+                    {format(blog.updatedAt, "HH:mm")}h
                   </div>
                   <div className="items-start gap-x-4 justify-between lg:flex">
                     <div className="mb-5">

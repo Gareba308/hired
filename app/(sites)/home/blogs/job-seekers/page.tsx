@@ -6,6 +6,21 @@ import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
 import Footer from "@/components/Footer";
 
+async function getBlogs() {
+  const blogs = await db.blogs.findMany({
+    where: {
+      target: {
+        in: ["Worker", "All"],
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return blogs;
+}
+
 export const metadata: Metadata = {
   title: {
     absolute: "Finding Jobs in Kenya, Essential Career Insights",
@@ -69,29 +84,14 @@ export const metadata: Metadata = {
   },
 };
 
-const Page = async () => {
-  const workerBlogs = await db.blogs.findMany({
-    where: {
-      target: {
-        in: ["Worker", "All"],
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+export default async function Page() {
+  const blogs = await getBlogs();
   return (
     <>
       <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-70px)] mx-auto bg-white px-4 md:px-6 text-gray-700">
-        {workerBlogs.length === 0 ? (
-          <NoAllBlogs />
-        ) : (
-          <AllBlogs blogs={workerBlogs} />
-        )}
+        {blogs.length > 0 ? <AllBlogs blogs={blogs} /> : <NoAllBlogs />}
       </div>
       <Footer />
     </>
   );
-};
-
-export default Page;
+}
