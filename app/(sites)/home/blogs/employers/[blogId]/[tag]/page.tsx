@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
 import Footer from "@/components/Footer";
+import { subDays } from "date-fns";
 
 interface TagProps {
   params: {
@@ -13,6 +14,41 @@ interface TagProps {
 }
 
 export const revalidate = 30;
+
+export async function generateStaticParams() {
+  const sixtyDaysAgo = subDays(new Date(), 60);
+
+  const allBlogsForTags = await db.blogs.findMany({
+    where: {
+      createdAt: {
+        gte: sixtyDaysAgo,
+      },
+      target: {
+        in: ["Employer", "All"],
+      },
+    },
+    select: {
+      body: true
+    }
+  });
+
+  const hashtagsSet = new Set<string>();
+
+  allBlogsForTags.forEach((blog) => {
+    const hashtags = blog.body.match(/#\w+/g);
+    if (hashtags) {
+      hashtags.forEach((hashtag) => {
+        const cleanedHashtag = hashtag.substring(1).toLowerCase();
+        hashtagsSet.add(cleanedHashtag);
+      });
+    }
+  });
+
+  const tagArrays = Array.from(hashtagsSet);
+
+  return tagArrays.map((tag) => ({ tag }));
+}
+
 const getTagBlog = async (tag: string) => {
   const hashtag = `#${tag}`;
   const allBlogsWithThisTag = await db.blogs.findMany({

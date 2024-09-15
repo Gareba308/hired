@@ -1,4 +1,3 @@
-import { cache } from "react";
 import AllWithTags from "../../../../_components/blogs/AllWithTags";
 import NoTagBlogs from "../../../../_components/blogs/NoTagBlogs";
 import { db } from "@/db";
@@ -15,6 +14,40 @@ interface TagProps {
 }
 
 export const revalidate = 30;
+export async function generateStaticParams() {
+  const sixtyDaysAgo = subDays(new Date(), 60);
+
+  const allBlogsForTags = await db.blogs.findMany({
+    where: {
+      createdAt: {
+        gte: sixtyDaysAgo,
+      },
+      target: {
+        in: ["Worker", "All"],
+      },
+    },
+    select: {
+      body: true
+    }
+  });
+
+  const hashtagsSet = new Set<string>();
+
+  allBlogsForTags.forEach((blog) => {
+    const hashtags = blog.body.match(/#\w+/g);
+    if (hashtags) {
+      hashtags.forEach((hashtag) => {
+        const cleanedHashtag = hashtag.substring(1).toLowerCase();
+        hashtagsSet.add(cleanedHashtag);
+      });
+    }
+  });
+
+  const tagArrays = Array.from(hashtagsSet);
+
+  return tagArrays.map((tag) => ({ tag }));
+}
+
 const getTagBlog = async (tag: string) => {
   const hashtag = `#${tag}`;
   const allBlogsWithThisTag = await db.blogs.findMany({

@@ -17,6 +17,23 @@ interface CategoryCounts {
 }
 
 export const revalidate = 30;
+export async function generateStaticParams() {
+  const employerBlogs = await db.blogs.findMany({
+    where: {
+      target: {
+        in: ["Employer", "All"]
+      }
+    },
+    select: {
+      id: true
+    }
+  });
+
+  return employerBlogs.map((blog) => ({
+    blogId: blog.id,
+  }));
+}
+
 const getBlog = async (blogId: string) => {
   const blogExists = await db.blogs.findFirst({
     where: {

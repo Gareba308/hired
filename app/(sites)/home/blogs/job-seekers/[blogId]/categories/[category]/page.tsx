@@ -13,6 +13,21 @@ interface CategoryProps {
 }
 
 export const revalidate = 30;
+export async function generateStaticParams() {
+  const allBlogCategories = await db.blogs.findMany({
+    select: {
+      category: true
+    }
+  });
+
+  const convertToSlug = (text: string): string => {
+    return text.toLowerCase().replace(/\s+/g, "-");
+  };
+
+  return allBlogCategories.map((blog) => ({
+    category: convertToSlug(blog.category),
+  }));
+}
 const getBlogs = async (category: string) => {
   const allBlogsMatchingThisCategory = await db.blogs.findMany({
     where: {

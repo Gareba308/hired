@@ -521,7 +521,15 @@ export default function JobDetails({
               <div className="text-base grid grid-cols-1 sm:grid-cols-2 sm:gap-x-2 md:gap-x-0 md:grid-cols-1 lg:gap-x-2 lg:grid-cols-2">
                 {job.personal_skills?.map((skill) => (
                   <ul key={skill} className="ml-5 text-gray-700">
-                    <li className="list-disc">{skill}</li>
+                    <li
+                      className="list-disc"
+                      style={{
+                        fontSize: "0.88rem",
+                        lineHeight: "1.35rem",
+                      }}
+                    >
+                      {skill}
+                    </li>
                   </ul>
                 ))}
               </div>
@@ -534,7 +542,15 @@ export default function JobDetails({
               <div className="text-base grid grid-cols-1 sm:grid-cols-2 sm:gap-x-2 md:gap-x-0 md:grid-cols-1 lg:gap-x-2 lg:grid-cols-2">
                 {job.benefits?.map((benefit) => (
                   <ul key={benefit} className="ml-5 text-gray-700">
-                    <li className="list-disc">{benefit}</li>
+                    <li
+                      className="list-disc"
+                      style={{
+                        fontSize: "0.88rem",
+                        lineHeight: "1.35rem",
+                      }}
+                    >
+                      {benefit}
+                    </li>
                   </ul>
                 ))}
               </div>

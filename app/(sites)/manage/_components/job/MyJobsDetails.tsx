@@ -51,7 +51,10 @@ const MyJobsDetails = ({ job, companyProfile }: MyJobsDetailsProps) => {
                 <Briefcase className="h-5 w-5 mr-1.5" />
                 {job?.category}
               </p>
-              <p suppressHydrationWarning className="flex items-center text-base font-normal">
+              <p
+                suppressHydrationWarning
+                className="flex items-center text-base font-normal"
+              >
                 <Calendar className="h-5 w-5 mr-1.5" />
                 {formatDistanceToNowStrict(job.createdAt, {
                   addSuffix: true,
@@ -193,7 +196,10 @@ const MyJobsDetails = ({ job, companyProfile }: MyJobsDetailsProps) => {
             {job?.deadline && (
               <p className="flex flex-1 mt-1 text-gray-800 text-base font-medium">
                 Deadline:{" "}
-                <span suppressHydrationWarning className="ml-4 font-normal text-base text-gray-800">
+                <span
+                  suppressHydrationWarning
+                  className="ml-4 font-normal text-base text-gray-800"
+                >
                   {format(job?.deadline!, "PPP")}
                 </span>
               </p>
@@ -301,7 +307,15 @@ const MyJobsDetails = ({ job, companyProfile }: MyJobsDetailsProps) => {
               <div className="text-base grid grid-cols-1 sm:grid-cols-2 sm:gap-x-2 md:gap-x-0 md:grid-cols-1 lg:gap-x-2 lg:grid-cols-2">
                 {job?.personal_skills?.map((skill) => (
                   <ul key={skill} className="ml-5">
-                    <li className="list-disc">{skill}</li>
+                    <li
+                      className="list-disc"
+                      style={{
+                        fontSize: "0.88rem",
+                        lineHeight: "1.35rem",
+                      }}
+                    >
+                      {skill}
+                    </li>
                   </ul>
                 ))}
               </div>
@@ -314,7 +328,15 @@ const MyJobsDetails = ({ job, companyProfile }: MyJobsDetailsProps) => {
               <div className="text-base grid grid-cols-1 sm:grid-cols-2 sm:gap-x-2 md:gap-x-0 md:grid-cols-1 lg:gap-x-2 lg:grid-cols-2">
                 {job?.benefits?.map((benefit) => (
                   <ul key={benefit} className="ml-5 text-gray-800">
-                    <li className="list-disc">{benefit}</li>
+                    <li
+                      className="list-disc"
+                      style={{
+                        fontSize: "0.88rem",
+                        lineHeight: "1.35rem",
+                      }}
+                    >
+                      {benefit}
+                    </li>
                   </ul>
                 ))}
               </div>

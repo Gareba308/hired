@@ -191,7 +191,10 @@ export default function JobDetails({
                 <Briefcase className="h-5 w-5 mr-1.5" />
                 {job.category}
               </p>
-              <p suppressHydrationWarning className="flex items-center text-gray-600 shrink-0 text-base font-normal">
+              <p
+                suppressHydrationWarning
+                className="flex items-center text-gray-600 shrink-0 text-base font-normal"
+              >
                 <Calendar className="h-5 w-5 mr-1.5" />
                 {formatDistanceToNowStrict(job.createdAt, {
                   addSuffix: true,
@@ -353,7 +356,10 @@ export default function JobDetails({
             {job.deadline && (
               <p className="flex flex-1 mt-1 text-gray-700 text-base font-medium">
                 Deadline:{" "}
-                <span suppressHydrationWarning className="ml-4 font-normal text-base text-gray-700">
+                <span
+                  suppressHydrationWarning
+                  className="ml-4 font-normal text-base text-gray-700"
+                >
                   {format(job.deadline!, "PPP")}
                 </span>
               </p>
@@ -545,7 +551,15 @@ export default function JobDetails({
               <div className="text-base grid grid-cols-1 sm:grid-cols-2 sm:gap-x-2 md:gap-x-0 md:grid-cols-1 lg:gap-x-2 lg:grid-cols-2">
                 {job.personal_skills?.map((skill) => (
                   <ul key={skill} className="ml-5 text-gray-700">
-                    <li className="list-disc">{skill}</li>
+                    <li
+                      className="list-disc"
+                      style={{
+                        fontSize: "0.88rem",
+                        lineHeight: "1.35rem",
+                      }}
+                    >
+                      {skill}
+                    </li>
                   </ul>
                 ))}
               </div>
@@ -558,7 +572,15 @@ export default function JobDetails({
               <div className="text-base grid grid-cols-1 sm:grid-cols-2 sm:gap-x-2 md:gap-x-0 md:grid-cols-1 lg:gap-x-2 lg:grid-cols-2">
                 {job.benefits?.map((benefit) => (
                   <ul key={benefit} className="ml-5 text-gray-700">
-                    <li className="list-disc">{benefit}</li>
+                    <li
+                      className="list-disc"
+                      style={{
+                        fontSize: "0.88rem",
+                        lineHeight: "1.35rem",
+                      }}
+                    >
+                      {benefit}
+                    </li>
                   </ul>
                 ))}
               </div>
@@ -572,7 +594,9 @@ export default function JobDetails({
                 {job.platform === "email" && (
                   <p>
                     <span className="font-medium">Email application to:</span>{" "}
-                    <span className="text-blue-700 break-words font-medium">{job.emailPlatform}</span>
+                    <span className="text-blue-700 break-words font-medium">
+                      {job.emailPlatform}
+                    </span>
                   </p>
                 )}
                 {job.platform === "link" && (
@@ -582,10 +606,12 @@ export default function JobDetails({
                     </span>{" "}
                     <Link
                       className="text-blue-700 font-medium text-lg"
-                      title='Apply for a job'
+                      title="Apply for a job"
                       target="_blank"
                       href={`https://${job.linkPlatform}`}
-                    >Apply Now</Link>
+                    >
+                      Apply Now
+                    </Link>
                   </p>
                 )}
                 {job.platform === "office" && (

@@ -85,7 +85,7 @@ export default function JobDetails({
 }: JobDetailsProps) {
   const [recentlyViewedJobs, setRecentlyViewedJobs] = useState<Job[]>([]);
   const router = useRouter();
-  const {toast}= useToast()
+  const { toast } = useToast();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -173,11 +173,14 @@ export default function JobDetails({
                 <Briefcase className="h-5 w-5 mr-1.5" />
                 {job.category}
               </p>
-              <p suppressHydrationWarning className="flex items-center text-gray-600 shrink-0 text-base font-normal">
+              <p
+                suppressHydrationWarning
+                className="flex items-center text-gray-600 shrink-0 text-base font-normal"
+              >
                 <Calendar className="h-5 w-5 mr-1.5" />
                 {formatDistanceToNowStrict(job.createdAt, {
-                        addSuffix: true,
-                      })}
+                  addSuffix: true,
+                })}
               </p>
             </div>
             <div className="flex-shrink-0 flex justify-end">
@@ -318,16 +321,16 @@ export default function JobDetails({
             <div className="border-slate-100">
               <h2 className="text-xl text-gray-700 font-bold flex items-center justify-between gap-x-3">
                 <span>Job Overview</span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="lg:hidden"
-                onClick={handleCopyClick}
-              >
-                <Share2 className="h-4 w-4 mr-1.5 shrink-0" />
-                Share
-              </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="lg:hidden"
+                  onClick={handleCopyClick}
+                >
+                  <Share2 className="h-4 w-4 mr-1.5 shrink-0" />
+                  Share
+                </Button>
               </h2>
 
               {job.county && (
@@ -397,7 +400,10 @@ export default function JobDetails({
               {job.deadline && (
                 <p className="flex flex-1 mt-1 text-gray-700 text-base font-medium">
                   Deadline:{" "}
-                  <span suppressHydrationWarning className="ml-4 font-normal text-base text-gray-700">
+                  <span
+                    suppressHydrationWarning
+                    className="ml-4 font-normal text-base text-gray-700"
+                  >
                     {format(job.deadline!, "PPP")}
                   </span>
                 </p>
@@ -462,7 +468,15 @@ export default function JobDetails({
                 <div className="text-base grid grid-cols-1 sm:grid-cols-2 sm:gap-x-2 md:gap-x-0 md:grid-cols-1">
                   {job.personal_skills?.map((skill) => (
                     <ul key={skill} className="ml-5 text-gray-700">
-                      <li className="list-disc">{skill}</li>
+                      <li
+                        className="list-disc"
+                        style={{
+                          fontSize: "0.88rem",
+                          lineHeight: "1.35rem",
+                        }}
+                      >
+                        {skill}
+                      </li>
                     </ul>
                   ))}
                 </div>
@@ -475,7 +489,15 @@ export default function JobDetails({
                 <div className="text-base grid grid-cols-1 sm:grid-cols-2 sm:gap-x-2 md:gap-x-0 md:grid-cols-1">
                   {job.benefits?.map((benefit) => (
                     <ul key={benefit} className="ml-5 text-gray-700">
-                      <li className="list-disc">{benefit}</li>
+                      <li
+                        className="list-disc"
+                        style={{
+                          fontSize: "0.88rem",
+                          lineHeight: "1.35rem",
+                        }}
+                      >
+                        {benefit}
+                      </li>
                     </ul>
                   ))}
                 </div>
