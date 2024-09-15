@@ -1,4 +1,3 @@
-import { cache } from "react";
 import AllWithTags from "../../../../_components/employersBlogs/AllWithTags";
 import NoTagBlogs from "../../../../_components/employersBlogs/NoTagBlogs";
 import { db } from "@/db";
@@ -13,7 +12,8 @@ interface TagProps {
   };
 }
 
-const getTagBlog = cache(async (tag: string) => {
+export const revalidate = 30;
+const getTagBlog = async (tag: string) => {
   const hashtag = `#${tag}`;
   const allBlogsWithThisTag = await db.blogs.findMany({
     where: {
@@ -34,7 +34,7 @@ const getTagBlog = cache(async (tag: string) => {
   });
 
   return allBlogsWithThisTag;
-});
+};
 
 export async function generateMetadata({
   params,

@@ -4,7 +4,6 @@ import Footer from "@/components/Footer";
 import { db } from "@/db";
 import { siteConfig } from "@/lib/config";
 import { Metadata } from "next";
-import { cache } from "react";
 
 interface CategoryProps {
   params: {
@@ -13,7 +12,8 @@ interface CategoryProps {
   };
 }
 
-const getBlogs = cache(async (category: string) => {
+export const revalidate = 30;
+const getBlogs = async (category: string) => {
   const allBlogsMatchingThisCategory = await db.blogs.findMany({
     where: {
       category: {
@@ -33,7 +33,7 @@ const getBlogs = cache(async (category: string) => {
   });
 
   return allBlogsMatchingThisCategory;
-});
+};
 
 export async function generateMetadata({
   params,

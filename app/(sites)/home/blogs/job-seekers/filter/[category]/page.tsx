@@ -1,4 +1,3 @@
-import { cache } from "react";
 import AllCategoryBlogs from "../../../../_components/blogs/filter/AllCategoryBlogs";
 import NoCategoryBlogs from "../../../../_components/blogs/filter/NoCategoryBlogs";
 import { db } from "@/db";
@@ -12,7 +11,8 @@ interface CategoryProps {
   };
 }
 
-const getBlog = cache(async (category: string) => {
+export const revalidate = 30;
+const getBlog = async (category: string) => {
   const allBlogsMatchingThisCategory = await db.blogs.findMany({
     where: {
       category: {
@@ -32,7 +32,7 @@ const getBlog = cache(async (category: string) => {
   });
 
   return allBlogsMatchingThisCategory;
-});
+};
 
 export async function generateMetadata({
   params,

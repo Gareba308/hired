@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { redirect } from "next/navigation";
-import React, { cache } from "react";
+import React from "react";
 import BlogDetails from "../../../_components/blogs/BlogDetails";
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
@@ -16,7 +16,8 @@ interface CategoryCounts {
   [key: string]: number;
 }
 
-const getBlog = cache(async (blogId: string) => {
+export const revalidate = 30;
+const getBlog = async (blogId: string) => {
   const blogExists = await db.blogs.findFirst({
     where: {
       id: blogId,
@@ -24,7 +25,7 @@ const getBlog = cache(async (blogId: string) => {
   });
   
   return blogExists;
-});
+};
 
 export async function generateMetadata({
   params,

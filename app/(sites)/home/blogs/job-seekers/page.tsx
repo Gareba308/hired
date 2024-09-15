@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
 import Footer from "@/components/Footer";
 
+export const revalidate = 0;
 async function getBlogs() {
   const blogs = await db.blogs.findMany({
     where: {
