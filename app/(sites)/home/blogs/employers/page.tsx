@@ -12,6 +12,9 @@ async function getBlogs() {
       target: {
         in: ["Employer", "All"],
       },
+      hide: {
+        equals: false
+      }
     },
     orderBy: {
       createdAt: "desc",

@@ -186,7 +186,7 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
   const addAssess = useWatch({ control, name: "addAssessment" });
   const agreeAddAssessment = addAssess === true;
 
-  const firstAssessment= useWatch({control, name: "assessmentOneID"})
+  const firstAssessment = useWatch({ control, name: "assessmentOneID" });
 
   const isEmailValues = useWatch({ control, name: "emailPlatform" }) || "";
   const isLinkValue = useWatch({ control, name: "linkPlatform" }) || "";
@@ -232,7 +232,7 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
           variant: "default",
           duration: 3000,
         });
-        window.location.reload()
+        window.location.reload();
       },
       onError: (err) => {
         if (err.message) {
@@ -1081,7 +1081,14 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
                           filterSelectedOptions
                           renderOption={(props, option) => {
                             return (
-                              <li {...props} key={option}>
+                              <li
+                                {...props}
+                                key={option}
+                                style={{
+                                  fontSize: "0.88rem",
+                                  lineHeight: "1.35rem",
+                                }}
+                              >
                                 {option}
                               </li>
                             );
@@ -1298,7 +1305,14 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
                           filterSelectedOptions
                           renderOption={(props, option) => {
                             return (
-                              <li {...props} key={option}>
+                              <li
+                                {...props}
+                                key={option}
+                                style={{
+                                  fontSize: "0.88rem",
+                                  lineHeight: "1.35rem",
+                                }}
+                              >
                                 {option}
                               </li>
                             );
@@ -1561,7 +1575,9 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
                                 render={({ field }) => (
                                   <FormItem className="flex flex-col">
                                     <FormLabel className="font-normal text-base text-gray-700">
-                                      Would you like to add a second assessment to this job listing? Select from the list below.
+                                      Would you like to add a second assessment
+                                      to this job listing? Select from the list
+                                      below.
                                       <span className="text-xs text-gray-600">
                                         (e.g., Talanta2 Language Test)
                                       </span>
@@ -1620,7 +1636,8 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
                                                   <CheckIcon
                                                     className={cn(
                                                       "mr-2 h-4 w-4",
-                                                      test.testID === field.value
+                                                      test.testID ===
+                                                        field.value
                                                         ? "opacity-100"
                                                         : "opacity-0"
                                                     )}

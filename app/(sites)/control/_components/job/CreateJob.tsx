@@ -273,7 +273,7 @@ const CreateJob = ({
           variant: "default",
           duration: 3000,
         });
-        window.location.reload()
+        window.location.reload();
       },
       onError: (err) => {
         if (err.message) {
@@ -1144,7 +1144,7 @@ const CreateJob = ({
                                   date < new Date() ||
                                   date < new Date("1900-01-01")
                                 }
-                                // initialFocus
+                                initialFocus
                               />
                             </PopoverContent>
                           </Popover>
@@ -1481,7 +1481,14 @@ const CreateJob = ({
                           filterSelectedOptions
                           renderOption={(props, option) => {
                             return (
-                              <li {...props} key={option}>
+                              <li
+                                {...props}
+                                key={option}
+                                style={{
+                                  fontSize: "0.88rem",
+                                  lineHeight: "1.35rem",
+                                }}
+                              >
                                 {option}
                               </li>
                             );
@@ -1698,7 +1705,14 @@ const CreateJob = ({
                           filterSelectedOptions
                           renderOption={(props, option) => {
                             return (
-                              <li {...props} key={option}>
+                              <li
+                                {...props}
+                                key={option}
+                                style={{
+                                  fontSize: "0.88rem",
+                                  lineHeight: "1.35rem",
+                                }}
+                              >
                                 {option}
                               </li>
                             );

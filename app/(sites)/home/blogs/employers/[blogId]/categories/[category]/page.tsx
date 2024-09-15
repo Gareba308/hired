@@ -23,6 +23,9 @@ const getBlogs = cache(async (category: string) => {
       target: {
         in: ["Employer", "All"],
       },
+      hide: {
+        equals: false
+      }
     },
     orderBy: {
       createdAt: "desc",

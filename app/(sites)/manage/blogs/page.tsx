@@ -34,6 +34,9 @@ const Page = async () => {
       target: {
         in: ["Employer", "All"],
       },
+      hide: {
+        equals: false
+      }
     },
     orderBy: {
       createdAt: "desc",

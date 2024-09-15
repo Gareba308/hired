@@ -24,6 +24,9 @@ const getTagBlog = cache(async (tag: string) => {
       target: {
         in: ["Employer", "All"],
       },
+      hide: {
+        equals: false
+      }
     },
     orderBy: {
       createdAt: "desc",

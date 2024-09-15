@@ -214,7 +214,8 @@ const BlogDetails = ({
                     suppressHydrationWarning
                     className="my-2 text-base text-gray-700 line-clamp-1"
                   >
-                    Updated: {format(blog.updatedAt, "PPP")},{" "}
+                    <span className="font-medium">Updated:</span>{" "}
+                    {format(blog.updatedAt, "PPP")},{" "}
                     {format(blog.updatedAt, "HH:mm")}h
                   </div>
                   <div className="items-start gap-x-4 justify-between lg:flex">
@@ -260,9 +261,9 @@ const BlogDetails = ({
                 </h3>
                 <div className="px-5 py-6 leading-relaxed">
                   <p className="text-base font-normal">
-                    Post your job on this platform and connect with
-                    a wide pool of highly skilled candidates. Reach top talent
-                    across Kenya and beyond with ease.
+                    Post your job on this platform and connect with a wide pool
+                    of highly skilled candidates. Reach top talent across Kenya
+                    and beyond with ease.
                   </p>
                   <div className="mt-4">
                     <Button

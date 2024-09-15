@@ -106,7 +106,10 @@ const BlogDetails = ({
                       </div>
                     </div>
                     <div className="mb-4 flex items-center">
-                      <p suppressHydrationWarning className="mr-5 flex items-center text-sm font-normal text-body-color">
+                      <p
+                        suppressHydrationWarning
+                        className="mr-5 flex items-center text-sm font-normal text-body-color"
+                      >
                         <span className="mr-0.5">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +188,8 @@ const BlogDetails = ({
                     suppressHydrationWarning
                     className="my-2 text-base text-gray-700 line-clamp-1"
                   >
-                    Updated: {format(blog.updatedAt, "PPP")},{" "}
+                    <span className="font-medium">Updated:</span>{" "}
+                    {format(blog.updatedAt, "PPP")},{" "}
                     {format(blog.updatedAt, "HH:mm")}h
                   </div>
                   <div className="items-start gap-x-4 justify-between lg:flex">

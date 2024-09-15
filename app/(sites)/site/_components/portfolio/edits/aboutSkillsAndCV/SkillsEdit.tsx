@@ -143,7 +143,9 @@ const SkillsEdit = ({ skills, toggleCreate }: SkillsProps) => {
     <div className="lg:py-4 pb-5 lg:px-3 lg:grid lg:grid-cols-3 lg:gap-4 text-gray-700">
       <dt className="text-base leading-6 text-gray-600">
         <div className="flex flex-1 justify-between bg-secondary border-b border-gray-200 lg:border-none lg:bg-inherit items-center py-1.5 lg:py-0 lg:px-0 px-2">
-          <div className="text-lg font-medium text-gray-600">Professional Skills</div>
+          <div className="text-lg font-medium text-gray-600">
+            Professional Skills
+          </div>
           {!isEditing && (
             <div className="ml-4 pl-4 h-5 lg:hidden lg:ml-8 flex-shrink-0 flex justify-between items-center">
               <Button
@@ -154,7 +156,7 @@ const SkillsEdit = ({ skills, toggleCreate }: SkillsProps) => {
                 className="font-normal flex items-center"
                 onClick={toggleEdit}
               >
-                <PenLine className="h-4 w-4"/>
+                <PenLine className="h-4 w-4" />
               </Button>
               <Separator orientation="vertical" />
               <Button
@@ -203,7 +205,14 @@ const SkillsEdit = ({ skills, toggleCreate }: SkillsProps) => {
                             filterSelectedOptions
                             renderOption={(props, option) => {
                               return (
-                                <li {...props} key={option}>
+                                <li
+                                  {...props}
+                                  key={option}
+                                  style={{
+                                    fontSize: "0.88rem",
+                                    lineHeight: "1.35rem",
+                                  }}
+                                >
                                   {option}
                                 </li>
                               );

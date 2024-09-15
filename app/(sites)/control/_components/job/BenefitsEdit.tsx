@@ -100,7 +100,7 @@ const BenefitsEdit = ({ job, jobId }: TitleEditProps) => {
       <dt className="font-medium pb-2">
         <div className="flex items-center justify-between">
           <div className="text-base font-medium lg:font-semibold text-gray-800">
-          <div className="text-base flex items-center">
+            <div className="text-base flex items-center">
               <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
               Additional Benefits
             </div>
@@ -142,7 +142,14 @@ const BenefitsEdit = ({ job, jobId }: TitleEditProps) => {
                             filterSelectedOptions
                             renderOption={(props, option) => {
                               return (
-                                <li {...props} key={option}>
+                                <li
+                                  {...props}
+                                  key={option}
+                                  style={{
+                                    fontSize: "0.88rem",
+                                    lineHeight: "1.35rem",
+                                  }}
+                                >
                                   {option}
                                 </li>
                               );

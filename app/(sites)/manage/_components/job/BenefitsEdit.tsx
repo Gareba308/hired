@@ -142,7 +142,14 @@ const BenefitsEdit = ({ job, jobId }: TitleEditProps) => {
                             filterSelectedOptions
                             renderOption={(props, option) => {
                               return (
-                                <li {...props} key={option}>
+                                <li
+                                  {...props}
+                                  key={option}
+                                  style={{
+                                    fontSize: "0.88rem",
+                                    lineHeight: "1.35rem",
+                                  }}
+                                >
                                   {option}
                                 </li>
                               );

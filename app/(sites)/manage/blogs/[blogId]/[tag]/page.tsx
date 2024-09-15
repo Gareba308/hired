@@ -22,6 +22,9 @@ const Page = async ({ params }: TagProps) => {
       target: {
         in: ["Employer", "All"],
       },
+      hide: {
+        equals: false
+      }
     },
     orderBy: {
       createdAt: "desc",

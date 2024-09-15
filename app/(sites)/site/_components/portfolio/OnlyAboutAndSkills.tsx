@@ -148,7 +148,8 @@ const OnlyAboutAndSkills = ({
                 <dl className="lg:border-r-0 lg:border-l-0 border border-gray-200 bg-white rounded-none lg:rounded-none">
                   <div className="lg:py-4 pb-5 lg:px-3 lg:gap-4  lg:grid lg:grid-cols-3 text-gray-700">
                     <dt className="font-medium text-lg leading-6 text-gray-600 bg-secondary border-b border-gray-200 lg:border-none lg:bg-inherit py-2 lg:py-0 lg:px-0 px-2">
-                      Professional skills<span className="text-red-500 ml-0.5">*</span>
+                      Professional skills
+                      <span className="text-red-500 ml-0.5">*</span>
                     </dt>
 
                     <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-base bg-white px-2">
@@ -156,8 +157,8 @@ const OnlyAboutAndSkills = ({
                         <div>
                           <div className="-mb-2">
                             <Label className="text-base font-normal">
-                              Start typing select relevant skills from the
-                              list that will help tell your professional
+                              Start typing select relevant skills from the list
+                              that will help tell your professional
                               qualification and experience.
                             </Label>
                           </div>
@@ -177,7 +178,14 @@ const OnlyAboutAndSkills = ({
                                 filterSelectedOptions
                                 renderOption={(props, option) => {
                                   return (
-                                    <li {...props} key={option}>
+                                    <li
+                                      {...props}
+                                      key={option}
+                                      style={{
+                                        fontSize: "0.88rem",
+                                        lineHeight: "1.35rem",
+                                      }}
+                                    >
                                       {option}
                                     </li>
                                   );
