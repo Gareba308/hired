@@ -196,7 +196,7 @@ const Page = async ({ params }: CompanyProps) => {
   });
   return (
     <>
-      <section className="mt-5 bg-white h-full md:min-h-[calc(100vh-70px)]">
+      <section className="mt-5 bg-white h-full min-h-[calc(100vh-70px)]">
         <Suspense
           fallback={
             <p className="flex items-center justify-center">
