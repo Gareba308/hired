@@ -50,16 +50,6 @@ const getCompanyJobs = async (slug: string) => {
   return jobs;
 };
 
-export const revalidate = 60;
-export async function generateStaticParams() {
-  const allValues = Object.values(allSubcategories).flatMap((subcategory) =>
-    subcategory.map((item) => item.value)
-  );
-  return allValues.map((value) => ({
-    slug: slugify(value),
-  }));
-}
-
 export async function generateMetadata({
   params,
 }: CompanyProps): Promise<Metadata> {

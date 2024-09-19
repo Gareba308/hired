@@ -565,7 +565,9 @@ const HomePage = () => {
             style={{
               background: "#1e293b"
             }}
-          ></div>
+          >
+            
+          </div>
         </section>
         <section className="pt-6 max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">
           <div className="text-gray-600">
