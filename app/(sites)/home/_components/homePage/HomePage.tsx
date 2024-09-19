@@ -563,8 +563,7 @@ const HomePage = () => {
           <div
             className="absolute top-0 w-full h-[350px]"
             style={{
-              background:
-                "linear-gradient(152.92deg, rgba(107, 114, 128, 0.2) 4.54%, rgba(75, 85, 99, 0.17) 34.2%, rgba(107, 114, 128, 0.1) 77.55%)",
+              background: "#1e293b"
             }}
           ></div>
         </section>
