@@ -568,17 +568,17 @@ const HomePage = () => {
             }}
           ></div>
         </section>
-        <section className="pt-14 max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">
+        <section className="pt-6 max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">
           <div className="text-gray-600">
             <div className="max-w-xl mx-auto space-y-3 sm:text-center">
               <h2
                 className="text-gray-700 text-3xl font-bold sm:text-4xl"
                 title="Explore jobs by profession"
               >
-                Explore Jobs by Popular Profession
+                Explore Jobs by Profession
               </h2>
             </div>
-            <div className="mt-8 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="mt-6 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {Object.entries(allSubcategories).map(
                 ([category, subcategories]) => (
                   <ul key={category} className="text-gray-600">
@@ -590,7 +590,7 @@ const HomePage = () => {
                         (subcategory) => !subcategory.label.startsWith("Other")
                       )
                       .map((subcategory) => (
-                        <li key={subcategory.value} className="space-y-2">
+                        <li key={subcategory.value} className="space-y-2.5">
                           <Link
                             href={`/home/jobs/subcategory/${slugify(subcategory.value)}`}
                             title={`Open ${subcategory.label}`}

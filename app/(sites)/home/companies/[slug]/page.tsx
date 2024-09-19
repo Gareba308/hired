@@ -52,26 +52,11 @@ const getCompanyJobs = async (slug: string) => {
 
 export const revalidate = 60;
 export async function generateStaticParams() {
-  const currentDate = new Date();
-  const jobs = await db.job.findMany({
-    where: {
-      deadline: {
-        gte: currentDate,
-      },
-      createdAt: {
-        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
-      },
-    },
-    select: {
-      company_name: true,
-    },
-  });
-  const uniqueCompanies = new Set<string>();
-  jobs.forEach((job) => {
-    uniqueCompanies.add(job.company_name);
-  });
-  return Array.from(uniqueCompanies).map((company_name) => ({
-    slug: slugify(company_name),
+  const allValues = Object.values(allSubcategories).flatMap((subcategory) =>
+    subcategory.map((item) => item.value)
+  );
+  return allValues.map((value) => ({
+    slug: slugify(value),
   }));
 }
 

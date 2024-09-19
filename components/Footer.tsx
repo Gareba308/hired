@@ -49,7 +49,7 @@ const footerNavs = [
       },
       {
         href: "/home/blogs/job-seekers",
-        name: "Employer Blogs",
+        name: "Job Seekers Blogs",
       },
     ],
   },
