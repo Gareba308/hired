@@ -492,16 +492,16 @@ const HomePage = () => {
             </div>
           </div>
         </section>
-        <section className="relative py-14">
+        <section className="relative pt-14 pb-4">
           <div className="relative z-10 max-w-screen-xl mx-auto px-4 md:px-8">
             <div className="max-w-xl sm:text-center md:mx-auto">
               <h3
-                className="text-gray-800 text-3xl font-semibold sm:text-4xl"
+                className="text-primary-foreground text-3xl font-semibold sm:text-4xl"
                 title="Testmonials"
               >
                 Testimonials from Platform Users
               </h3>
-              <p className="mt-2 text-gray-600 text-sm sm:text-[15px]">
+              <p className="mt-2 text-primary-foreground text-sm sm:text-[15px]">
                 Platform users appreciate the seamless experience, professional
                 service, and effective results, often recommending it to others
                 for its high quality and reliability.
@@ -566,10 +566,10 @@ const HomePage = () => {
               background: "#1e293b"
             }}
           >
-            
+
           </div>
         </section>
-        <section className="pt-6 max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">
+        <section className="pt-14 sm max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">
           <div className="text-gray-600">
             <div className="max-w-xl mx-auto space-y-3 sm:text-center">
               <h2
