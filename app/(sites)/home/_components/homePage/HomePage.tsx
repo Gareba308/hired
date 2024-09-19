@@ -5,8 +5,52 @@ import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { allSubcategories } from "../data/create-job/CreateJobData";
 
 const HomePage = () => {
+  type SubcategoryMapping = {
+    [key: string]: string;
+  };
+
+  const categoryMapping: SubcategoryMapping = {
+    ITSubcategory: "Information Technology (IT)",
+    HealthcareSubcategory: "Healthcare and Medical",
+    FinanceSubcategory: "Finance, Accounting & Insurance",
+    SalesSubcategory: "Sales and Marketing",
+    SecuritySubcategory: "Security and Law Enforcement",
+    EducationSubcategory: "Education and Teaching",
+    CustomerSubcategory: "Customer Service and Support",
+    EngineeringSubcategory: "Engineering, Repair & Maintenance",
+    AgricultureSubcategory: "Agriculture and Farming",
+    FishingSubcategory: "Fishing and Blue Economy",
+    AdministrativeSubcategory: "Administrative & Office Support",
+    ManufacturingSubcategory: "Manufacturing and Production",
+    HRSubcategory: "Human Resources",
+    SportsSubcategory: "Sports and Entertainment",
+    BuildingSubcategory: "Building, Construction, Electric",
+    RetailSubcategory: "Retail and Sales",
+    HospitalitySubcategory: "Hospitality, Travel and Tourism",
+    LegalSubcategory: "Legal and Compliance",
+    ResearchSubcategory: "Science, Research, M&E",
+    MediaSubcategory: "Media, Communications, Films & Art",
+    TransportationSubcategory: "Transportation and Logistics",
+    RealEstateSubcategory: "Real Estate",
+    SocialSubcategory: "Social Services and Non-Profit",
+    ConsultingSubcategory: "Consulting",
+  };
+
+  const getCategoryName = (subcategory: keyof SubcategoryMapping): string => {
+    return categoryMapping[subcategory];
+  };
+
+  const slugify = (str: string): string => {
+    return str
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/--+/g, "-");
+  };
   const features = [
     {
       icon: (
@@ -239,8 +283,8 @@ const HomePage = () => {
               <span className="text-sky-700"> connect</span>
             </h1>
             <p className="text-gray-700 text-base sm:text-[15px] max-w-xl leading-relaxed sm:mx-auto lg:ml-0">
-              Looking for jobs in Kenya shouldn&apos;t be dull! Our platform connects
-              job seekers with top employers through a user-friendly
+              Looking for jobs in Kenya shouldn&apos;t be dull! Our platform
+              connects job seekers with top employers through a user-friendly
               interface. Explore career opportunities and find work easily.
             </p>
             <div>
@@ -318,7 +362,7 @@ const HomePage = () => {
                 title="Why our customers are happy"
                 className="text-primary-foreground text-3xl font-semibold sm:text-4xl"
               >
-                Platform users are always happy
+                Platform Users Are Always Happy
               </h3>
               <p className="mt-3 text-primary-foreground text-sm sm:text-[15px]">
                 Employers and job seekers are consistently satisfied with
@@ -353,7 +397,7 @@ const HomePage = () => {
                   title="Why job seekers like us"
                   className="text-gray-700 text-3xl font-bold sm:text-4xl"
                 >
-                  Why job seekers love us
+                  Why Job Seekers Love Us
                 </h2>
               </div>
             </div>
@@ -406,7 +450,7 @@ const HomePage = () => {
                   className="text-gray-700 text-3xl font-bold sm:text-4xl"
                   title="Why employers like us"
                 >
-                  Why recruiters love us
+                  Why Recruiters Love Us
                 </h2>
               </div>
             </div>
@@ -484,7 +528,7 @@ const HomePage = () => {
                       </svg>
                       <figure className="flex h-full flex-col justify-between pb-4">
                         <blockquote>
-                          <p className="text-gray-700 text-lg font-medium px-4 pt-1">
+                          <p className="text-gray-600 text-base sm:text-lg font-medium px-4 pt-1">
                             {item.quote}
                           </p>
                         </blockquote>
@@ -493,7 +537,7 @@ const HomePage = () => {
                             <Image
                               src={item.avatar}
                               alt="Testimonial user"
-                              title="Testmonial user"
+                              title="Testimonial user"
                               quality={100}
                               fill
                               sizes="100%"
@@ -523,6 +567,44 @@ const HomePage = () => {
                 "linear-gradient(152.92deg, rgba(107, 114, 128, 0.2) 4.54%, rgba(75, 85, 99, 0.17) 34.2%, rgba(107, 114, 128, 0.1) 77.55%)",
             }}
           ></div>
+        </section>
+        <section className="pt-14 max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">
+          <div className="text-gray-600">
+            <div className="max-w-xl mx-auto space-y-3 sm:text-center">
+              <h2
+                className="text-gray-700 text-3xl font-bold sm:text-4xl"
+                title="Explore jobs by profession"
+              >
+                Explore Jobs by Popular Profession
+              </h2>
+            </div>
+            <div className="mt-8 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {Object.entries(allSubcategories).map(
+                ([category, subcategories]) => (
+                  <ul key={category} className="text-gray-600">
+                    <h4 className="text-gray-700 line-clamp-1 text-lg font-semibold">
+                      {getCategoryName(category)}
+                    </h4>
+                    {subcategories
+                      .filter(
+                        (subcategory) => !subcategory.label.startsWith("Other")
+                      )
+                      .map((subcategory) => (
+                        <li key={subcategory.value} className="space-y-2">
+                          <Link
+                            href={`/home/jobs/subcategory/${slugify(subcategory.value)}`}
+                            title={`Open ${subcategory.label}`}
+                            className="hover:text-blue-700 line-clamp-1 text-base duration-150"
+                          >
+                            {subcategory.label}
+                          </Link>
+                        </li>
+                      ))}
+                  </ul>
+                )
+              )}
+            </div>
+          </div>
         </section>
         <Footer />
       </div>

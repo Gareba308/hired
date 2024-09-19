@@ -2062,8 +2062,8 @@ const HomeJobsNavBar = ({
               </div>
             </div>
             {firstJob ? (
-              <div className="hidden md:flex md:sticky md:top-2 md:border md:shadow-sm md:border-gray-200 md:rounded-lg md:max-h-[calc(100vh-2rem)]">
-                <div key={firstJob.id}>
+              <div className="hidden w-full md:flex md:sticky md:top-2 md:border md:shadow-sm md:border-gray-200 md:rounded-lg md:max-h-[calc(100vh-2rem)]">
+                <div key={firstJob.id} className='w-full'>
                   <JobDetails
                     job={firstJob}
                     viewID={viewID}

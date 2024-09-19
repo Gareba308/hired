@@ -55,8 +55,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   academics,
   job_types,
+  seniorityData,
   counties,
   experiences,
+  allSubcategories,
   payments,
   categories,
 } from "../data/create-job/CreateJobData";
@@ -77,6 +79,61 @@ type ReminderFormSchemaType = z.infer<typeof reminderFormSchema>;
 const minSkills = 4;
 
 const nilSkills = 0;
+
+const getCustomCategory = (category: any) => {
+  switch (category) {
+    case "Information Technology (IT) and Software Development":
+      return "ITSubcategory";
+    case "Healthcare and Medical":
+      return "HealthcareSubcategory";
+    case "Finance, Accounting and Insurance":
+      return "FinanceSubcategory";
+    case "Sales and Marketing":
+      return "SalesSubcategory";
+    case "Security and law enforcement":
+      return "SecuritySubcategory";
+    case "Education and Teaching":
+      return "EducationSubcategory";
+    case "Customer Service and Support":
+      return "CustomerSubcategory";
+    case "Engineering, repair and maintenance":
+      return "EngineeringSubcategory";
+    case "Agriculture and farming":
+      return "AgricultureSubcategory";
+    case "Fishing and blue economy":
+      return "FishingSubcategory";
+    case "Administrative and Office Support":
+      return "AdministrativeSubcategory";
+    case "Manufacturing and Production":
+      return "ManufacturingSubcategory";
+    case "Human Resources":
+      return "HRSubcategory";
+    case "Sports and Entertainment":
+      return "SportsSubcategory";
+    case "Building, Construction, electric and maintenance":
+      return "BuildingSubcategory";
+    case "Retail and Sales":
+      return "RetailSubcategory";
+    case "Hospitality travel and tourism":
+      return "HospitalitySubcategory";
+    case "Legal and Compliance":
+      return "LegalSubcategory";
+    case "Science, Research, Monitoring and Evaluation":
+      return "ResearchSubcategory";
+    case "Media, Communications, films and art":
+      return "MediaSubcategory";
+    case "Transportation and Logistics":
+      return "TransportationSubcategory";
+    case "Real Estate":
+      return "RealEstateSubcategory";
+    case "Social Services and Non-Profit":
+      return "SocialSubcategory";
+    case "Consulting":
+      return "ConsultingSubcategory";
+    default:
+      return null;
+  }
+};
 
 export const reminderFormSchema = z.object({
   job_title: z.string().min(1, { message: "Job title cannot be left blank." }),
@@ -112,6 +169,8 @@ export const reminderFormSchema = z.object({
   assessmentTwoID: z.string(),
   academicDesired: z.string(),
   deadline: z.coerce.date(),
+  seniority: z.string(),
+  subCategory: z.string(),
 });
 
 interface CreateJobProps {
@@ -165,6 +224,8 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
       benefits: [],
       instructions: "",
       deadline: new Date(currentDate),
+      seniority: "",
+      subCategory: "",
     },
   });
   const { control } = form;
@@ -197,12 +258,16 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
     return emailRegex.test(email);
   };
   const isEmailValue = isValidEmail(isEmailValues);
+  const categoryWatch = useWatch({ control, name: "category" }) || "";
+  const customCategory = getCustomCategory(categoryWatch);
 
   const [popoverOpen1, setPopoverOpen1] = useState<boolean>(false);
   const [popoverOpenA, setPopoverOpenA] = useState<boolean>(false);
   const [popoverOpen2, setPopoverOpen2] = useState<boolean>(false);
   const [popoverOpen3, setPopoverOpen3] = useState<boolean>(false);
+  const [popoverOpen3A, setPopoverOpen3A] = useState<boolean>(false);
   const [popoverOpen4, setPopoverOpen4] = useState<boolean>(false);
+  const [popoverOpen4A, setPopoverOpen4A] = useState<boolean>(false);
   const [popoverOpen5, setPopoverOpen5] = useState<boolean>(false);
   const [popoverOpen6, setPopoverOpen6] = useState<boolean>(false);
   const [popoverOpen7, setPopoverOpen7] = useState<boolean>(false);
@@ -557,6 +622,107 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
                   </dd>
                 </div>
 
+                {customCategory && (
+                  <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                    <dt className="text-base font-medium text-gray-600">
+                      <div className="flex items-center flex-row">
+                        <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                        <span className="flex items-center">
+                          Job Subcategory
+                          <span className="text-lg font-normal pl-0.5 text-red-600">
+                            *
+                          </span>
+                        </span>
+                      </div>
+                    </dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      <FormField
+                        disabled={isLoading}
+                        control={form.control}
+                        name="subCategory"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col">
+                            <FormLabel className="font-normal text-base text-gray-700">
+                              What is the subcategory of this job(Select Others
+                              when not listed)?
+                              <span className="text-xs text-gray-600">
+                                e.g., IT Support
+                              </span>
+                            </FormLabel>
+                            <Popover
+                              open={popoverOpen3A}
+                              onOpenChange={setPopoverOpen3A}
+                            >
+                              <PopoverTrigger asChild>
+                                <FormControl>
+                                  <Button
+                                    variant="outline"
+                                    role="combobox"
+                                    disabled={isLoading}
+                                    className={cn(
+                                      "w-full justify-between",
+                                      !field.value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    {field.value
+                                      ? customCategory &&
+                                        allSubcategories[customCategory]?.find(
+                                          (subCat) =>
+                                            subCat.value === field.value
+                                        )?.label
+                                      : "---Select the job's subcategory---"}
+                                    <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                  </Button>
+                                </FormControl>
+                              </PopoverTrigger>
+                              <PopoverContent className="p-0 max-h-[400px] overflow-y-scroll">
+                                <Command>
+                                  <CommandInput placeholder="Search category..." />
+                                  <CommandEmpty>
+                                    No subcategory found.
+                                  </CommandEmpty>
+                                  <CommandGroup>
+                                    {customCategory &&
+                                      allSubcategories[customCategory]
+                                        ?.sort((a, b) =>
+                                          a.label.localeCompare(b.label)
+                                        )
+                                        .map((subCat) => (
+                                          <CommandItem
+                                            value={subCat.label}
+                                            key={subCat.value}
+                                            onSelect={() => {
+                                              form.setValue(
+                                                "subCategory",
+                                                subCat.value
+                                              );
+                                              setPopoverOpen3A(false);
+                                            }}
+                                          >
+                                            <CheckIcon
+                                              className={cn(
+                                                "mr-2 h-4 w-4",
+                                                subCat.value === field.value
+                                                  ? "opacity-100"
+                                                  : "opacity-0"
+                                              )}
+                                            />
+                                            {subCat.label}
+                                          </CommandItem>
+                                        ))}
+                                  </CommandGroup>
+                                </Command>
+                              </PopoverContent>
+                            </Popover>
+                            <FormDescription></FormDescription>
+                            <FormMessage className="text-red-500 font-normal text-sm" />
+                          </FormItem>
+                        )}
+                      />
+                    </dd>
+                  </div>
+                )}
+
                 <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
                   <dt className="text-base font-medium text-gray-600">
                     <div className="flex items-center flex-row">
@@ -633,6 +799,88 @@ const CreateJob = ({ orderedAssessments }: CreateJobProps) => {
                                         {job_type.label}
                                       </CommandItem>
                                     ))}
+                                </CommandGroup>
+                              </Command>
+                            </PopoverContent>
+                          </Popover>
+                          <FormDescription></FormDescription>
+                          <FormMessage className="text-red-500 font-normal text-sm" />
+                        </FormItem>
+                      )}
+                    />
+                  </dd>
+                </div>
+
+                <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                  <dt className="text-base font-medium text-gray-600">
+                    <div className="flex items-center flex-row">
+                      <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                      <span className="flex items-center">Seniority Level</span>
+                    </div>
+                  </dt>
+                  <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    <FormField
+                      disabled={isLoading}
+                      control={form.control}
+                      name="seniority"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel className="font-normal text-base text-gray-700">
+                            What&apos;s the seniority level of this job?
+                            <span className="text-xs text-gray-600">
+                              (e.g. Entry Level etc.)
+                            </span>
+                          </FormLabel>
+                          <Popover
+                            open={popoverOpen4A}
+                            onOpenChange={setPopoverOpen4A}
+                          >
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant="outline"
+                                  disabled={isLoading}
+                                  role="combobox"
+                                  className={cn(
+                                    "w-full sm:w-[350px] justify-between",
+                                    !field.value && "text-muted-foreground"
+                                  )}
+                                >
+                                  {field.value
+                                    ? seniorityData.find(
+                                        (senior) => senior.value === field.value
+                                      )?.label
+                                    : "---Select seniority---"}
+                                  <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent className="p-0 max-h-[500px] overflow-y-scroll">
+                              <Command>
+                                <CommandGroup>
+                                  {seniorityData.map((senior) => (
+                                    <CommandItem
+                                      value={senior.label}
+                                      key={senior.value}
+                                      onSelect={() => {
+                                        form.setValue(
+                                          "seniority",
+                                          senior.value
+                                        );
+                                        setPopoverOpen4A(false);
+                                      }}
+                                    >
+                                      <CheckIcon
+                                        className={cn(
+                                          "mr-2 h-4 w-4",
+                                          senior.value === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        )}
+                                      />
+                                      {senior.label}
+                                    </CommandItem>
+                                  ))}
                                 </CommandGroup>
                               </Command>
                             </PopoverContent>

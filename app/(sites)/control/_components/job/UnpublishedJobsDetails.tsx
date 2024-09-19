@@ -624,6 +624,7 @@ export default function JobDetails({
                       className="list-disc"
                       style={{
                         fontSize: "0.88rem",
+                        fontWeight: 400,
                         lineHeight: "1.35rem",
                       }}
                     >

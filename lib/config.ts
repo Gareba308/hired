@@ -13,6 +13,12 @@ export const siteConfig = {
     "https://res.cloudinary.com/dflvibeo6/image/upload/v1725088246/Apply_Now_2_thynxq.png",
   ogWorkerBlogs:
     "https://res.cloudinary.com/dflvibeo6/image/upload/v1725088246/Apply_Now_1_vyoltt.png",
+  ogCompanies:
+    "https://res.cloudinary.com/dflvibeo6/image/upload/v1726745453/Apply_Now22_uytxmz.png",
+  ogCompaniesDetails:
+    "https://res.cloudinary.com/dflvibeo6/image/upload/v1726745462/Apply_Now_7_q3rdwa.png",
+  ogSubcategory:
+    "https://res.cloudinary.com/dflvibeo6/image/upload/v1726745461/Apply_Now_8_xazmse.png",
   ogEmployerFAQs:
     "https://res.cloudinary.com/dflvibeo6/image/upload/v1725088248/Apply_Now_6_umcn7a.png",
   ogWorkerFAQs:

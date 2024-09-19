@@ -37,6 +37,8 @@ import AddAssessmentEdit from "./AddAssessmentEdit";
 import AssessmentOneIDEdit from "./AssessmentOneIDEdit";
 import AssessmentTwoIDEdit from "./AssessmentTwoIDEdit";
 import LogoEdit from "./LogoEdit";
+import SubCategoryEdit from "./SubCategoryEdit";
+import SeniorityEdit from "./SeniorityEdit";
 
 interface EditJobPageProps {
   job: Job | null;
@@ -138,7 +140,9 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
           <LogoEdit  job={job} jobId={job?.id as string}/>
           <CountyEdit job={job} jobId={job?.id as string} />
           <CategoryEdit job={job} jobId={job?.id as string} />
+          <SubCategoryEdit job={job} jobId={job?.id as string} />
           <EmploymentTypeEdit job={job} jobId={job?.id as string} />
+          <SeniorityEdit job={job} jobId={job?.id as string} />
           <DescriptionEdit job={job} jobId={job?.id as string} />
           <DeadlineEdit job={job} jobId={job?.id as string} />
           <ResponsibilitiesEdit job={job} jobId={job?.id as string} />

@@ -153,7 +153,7 @@ export default function JobDetails({
   };
   return (
     <>
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col w-full h-full">
         <div className="md:border-b md:border-gray-200 md:pb-3 bg-white md:shadow-md md:sticky md:px-4 md:pt-4 md:top-0 md:z-10">
           <div className="flex gap-x-4 w-full justify-between">
             <div>
@@ -426,12 +426,12 @@ export default function JobDetails({
 
           <div className="py-4">
             {job.job_description && (
-              <div className="text-gray-700">
+              <div className="text-gray-700 w-full">
                 <h3 className="text-xl font-medium text-gray-700">
                   Job Description
                 </h3>
 
-                <div className="mt-1 -mb-2 text-base text-gray-700">
+                <div className="mt-1 -mb-2 text-base w-full text-gray-700">
                   <Preview value={job.job_description as string} />
                 </div>
               </div>
@@ -472,6 +472,7 @@ export default function JobDetails({
                         className="list-disc"
                         style={{
                           fontSize: "0.88rem",
+                          fontWeight: 400,
                           lineHeight: "1.35rem",
                         }}
                       >

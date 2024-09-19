@@ -4,6 +4,7 @@ import {
   GalleryHorizontal,
   ArrowUpSquare,
   ArrowRightSquare,
+  Edit,
   Newspaper,
 } from "lucide-react";
 import React from "react";
@@ -24,6 +25,11 @@ const guestRoute = [
     icon: GalleryHorizontal,
     label: "Career Advice",
     href: "/home/blogs/job-seekers",
+  },
+  {
+    icon: Edit,
+    label: "Top Companies",
+    href: "/home/companies",
   },
   {
     icon: ArrowRightSquare,

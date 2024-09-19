@@ -21,7 +21,6 @@ import { trpc } from "@/app/_trpc/client";
 import { useRouter} from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -35,6 +34,8 @@ import ChooseMethodEdit from "./ChooseMethodEdit";
 import AddAssessmentEdit from "./AddAssessmentEdit";
 import AssessmentOneIDEdit from "./AssessmentOneIDEdit";
 import AssessmentTwoIDEdit from "./AssessmentTwoIDEdit";
+import SubCategoryEdit from "./SubCategoryEdit";
+import SeniorityEdit from "./SeniorityEdit";
 
 interface EditJobPageProps {
   job: Job | null;
@@ -131,7 +132,9 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
           <TitleEdit job={job} jobId={job?.id as string} />
           <CountyEdit job={job} jobId={job?.id as string} />
           <CategoryEdit job={job} jobId={job?.id as string} />
+          <SubCategoryEdit job={job} jobId={job?.id as string} />
           <EmploymentTypeEdit job={job} jobId={job?.id as string} />
+          <SeniorityEdit  job={job} jobId={job?.id as string} />
           <DescriptionEdit job={job} jobId={job?.id as string} />
           <DeadlineEdit job={job} jobId={job?.id as string} />
           <ResponsibilitiesEdit job={job} jobId={job?.id as string} />

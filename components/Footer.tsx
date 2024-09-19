@@ -6,41 +6,49 @@ import React, { useState } from "react";
 import { useToast } from "./ui/use-toast";
 import { Loader2 } from "lucide-react";
 
+const internship= "internship"
+const nairobi= "nairobi"
+const mombasa= "mombasa"
+const latest= "latest"
 const footerNavs = [
   {
-    label: "Job Seekers",
+    label: "Popular Searches",
     items: [
       {
-        href: "/home/register",
-        name: "Sign Up",
+        href: `/home/jobs/popular/${internship}`,
+        name: "Internships",
       },
       {
-        href: "/home/faqs/job-seekers",
-        name: "FAQs",
+        href: `/home/jobs/popular/${nairobi}`,
+        name: "Jobs in Nairobi",
       },
       {
-        href: "/home/jobs",
-        name: "All Jobs",
+        href: `/home/jobs/popular/${mombasa}`,
+        name: "Jobs in Mombasa",
       },
       {
-        href: "/home/blogs/job-seekers",
-        name: "Candidates Blogs",
+        href: `/home/jobs/popular/${latest}`,
+        name: "Latest Jobs Kenya",
       },
     ],
   },
   {
-    label: "For Employers",
+    label: "Browse Shortcuts",
     items: [
       {
-        href: "/home/register/enterprises",
-        name: "Sign Up",
+        href: "/home/faqs/job-seekers",
+        name: "Job Seekers FAQs",
       },
       {
         href: "/home/faqs/employers",
-        name: "FAQs",
+        name: "Employers FAQs",
       },
       {
         href: "/home/blogs/employers",
+        name: "Employer Blogs",
+      },
+      {
+        href: "/home/blogs/job-seekers",
         name: "Employer Blogs",
       },
     ],
@@ -118,7 +126,7 @@ const Footer = () => {
   };
   return (
     <div className="border-t border-gray-300 mt-4">
-      <footer className="text-gray-500 bg-white px-4 pb-5 pt-2 md:py-5 max-w-screen-xl mx-auto md:px-8">
+      <footer className="text-gray-600 bg-white px-4 pb-5 pt-2 md:py-5 max-w-screen-xl mx-auto md:px-8">
         <div className="gap-6 justify-between md:flex">
           <div className="flex-1">
             <div className="max-w-xs">

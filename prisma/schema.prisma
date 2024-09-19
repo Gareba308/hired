@@ -224,6 +224,8 @@ model Job {
   companyLogo                 String?
   adminPosted                 Boolean   @default(false)
   job_type                    String?
+  seniority                   String?
+  subCategory                 String?
   job_title                   String
   summaryDescription          String
   job_description             String    @db.Text
@@ -283,6 +285,7 @@ model LastRequestJobsIndex {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 model LastRequestBlogsIndex {
   id        String   @id @default(cuid())
   number    Int      @default(0)

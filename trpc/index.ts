@@ -14,7 +14,7 @@ import nodemailer from "nodemailer";
 import { NextResponse } from "next/server";
 import cryptoRandomString from "crypto-random-string";
 import axios from "axios";
-import {CronJob} from 'cron'
+import { CronJob } from "cron";
 import sanitizeHtml from "sanitize-html";
 import {
   format,
@@ -58,30 +58,30 @@ const shortDescription = (htmlString: string): string => {
 };
 
 CronJob.from({
-  cronTime: '0 */6 * * *',
+  cronTime: "0 */6 * * *",
   onTick: async function () {
     try {
       await googleIndexAPI();
-      console.log('Google Indexing Task completed successfully.');
+      console.log("Google Indexing Task completed successfully.");
     } catch (error) {
-      console.error('Error running Google Indexing Task:', error);
+      console.error("Error running Google Indexing Task:", error);
     }
   },
   start: true,
-  timeZone: 'America/Los_Angeles'
+  timeZone: "America/Los_Angeles",
 });
 CronJob.from({
-  cronTime: '0 13 * * *',
+  cronTime: "0 13 * * *",
   onTick: async function () {
     try {
       await googleIndexBlogAPI();
-      console.log('Google Indexing Blog Task completed successfully.');
+      console.log("Google Indexing Blog Task completed successfully.");
     } catch (error) {
-      console.error('Error running Google Indexing Blog Task:', error);
+      console.error("Error running Google Indexing Blog Task:", error);
     }
   },
   start: true,
-  timeZone: 'America/Los_Angeles'
+  timeZone: "America/Los_Angeles",
 });
 
 export const appRouter = router({
@@ -3586,6 +3586,8 @@ export const appRouter = router({
         numberOfPositions: z.string(),
         possible_pay: z.string(),
         job_type: z.string(),
+        seniority: z.string(),
+        subCategory: z.string(),
         category: z.string(),
         county: z.string(),
         address: z.string(),
@@ -3668,6 +3670,8 @@ export const appRouter = router({
         assessmentTwoID,
         addAssessment,
         academicDesired,
+        seniority,
+        subCategory,
       } = input;
 
       const employerProfile = await db.company.findFirst({
@@ -3837,6 +3841,8 @@ export const appRouter = router({
               assessmentOneID: checkIfEmployerRequestedID.testID,
               assessmentTwoID: checkIfHadOrderedSecond.testID,
               bonusTestID: randomBannerId,
+              seniority,
+              subCategory,
             },
           });
         }
@@ -3876,6 +3882,8 @@ export const appRouter = router({
             academicDesired,
             assessmentOneID: checkIfEmployerRequestedID.testID,
             bonusTestID: randomBannerId,
+            seniority,
+            subCategory,
           },
         });
       }
@@ -3914,6 +3922,8 @@ export const appRouter = router({
           benefits,
           instructions,
           academicDesired,
+          seniority,
+          subCategory,
         },
       });
     }),
@@ -4570,6 +4580,8 @@ export const appRouter = router({
         numberOfPositions: z.string(),
         possible_pay: z.string(),
         job_type: z.string(),
+        seniority: z.string(),
+        subCategory: z.string(),
         category: z.string(),
         county: z.string(),
         address: z.string(),
@@ -4624,6 +4636,8 @@ export const appRouter = router({
         unregisteredKnown,
         adminCreatingAddLogo,
         unregisteredID,
+        seniority,
+        subCategory,
       } = input;
 
       if (!userId)
@@ -4908,6 +4922,8 @@ export const appRouter = router({
               assessmentOneID: checkIfEmployerRequestedID.testID,
               assessmentTwoID: checkIfHadOrderedSecond.testID,
               bonusTestID: randomBannerId,
+              seniority,
+              subCategory,
             },
           });
         }
@@ -4951,6 +4967,8 @@ export const appRouter = router({
             addAssessment,
             assessmentOneID: checkIfEmployerRequestedID.testID,
             bonusTestID: randomBannerId,
+            seniority,
+            subCategory,
           },
         });
       }
@@ -4993,6 +5011,8 @@ export const appRouter = router({
           instructions,
           addAssessment,
           academicDesired,
+          seniority,
+          subCategory,
         },
       });
     }),
@@ -5048,17 +5068,17 @@ export const appRouter = router({
     });
 
     let indexId;
-    if (!lastIndexExists){
-      const createIndexRecord= await db.lastRequestJobsIndex.create({
+    if (!lastIndexExists) {
+      const createIndexRecord = await db.lastRequestJobsIndex.create({
         data: {
-          number: urlsToIndex.length
-        }
-      })
-      
-      indexId= createIndexRecord.id
+          number: urlsToIndex.length,
+        },
+      });
+
+      indexId = createIndexRecord.id;
     }
 
-    const updateIndexId= lastIndexExists ? lastIndexExists.id : indexId
+    const updateIndexId = lastIndexExists ? lastIndexExists.id : indexId;
     await db.lastRequestJobsIndex.update({
       where: {
         id: updateIndexId,
@@ -5210,17 +5230,17 @@ export const appRouter = router({
     });
 
     let indexId;
-    if(!lastIndexExists){
-      const createIndex= await db.lastRequestBlogsIndex.create({
+    if (!lastIndexExists) {
+      const createIndex = await db.lastRequestBlogsIndex.create({
         data: {
-          number: urlsToIndex.length
-        }
-      })
+          number: urlsToIndex.length,
+        },
+      });
 
-      indexId= createIndex.id
+      indexId = createIndex.id;
     }
 
-    const updateIndexId= lastIndexExists ? lastIndexExists.id : indexId
+    const updateIndexId = lastIndexExists ? lastIndexExists.id : indexId;
 
     await db.lastRequestBlogsIndex.update({
       where: { id: updateIndexId },
@@ -7248,6 +7268,8 @@ export const appRouter = router({
         numberOfPositions: z.string().optional(),
         possible_pay: z.string().optional(),
         job_type: z.string().optional(),
+        seniority: z.string().optional(),
+        subCategory: z.string().optional(),
         category: z.string().optional(),
         county: z.string().optional(),
         address: z.string().optional(),
@@ -7291,6 +7313,8 @@ export const appRouter = router({
         assessmentOneID,
         assessmentTwoID,
         academicDesired,
+        seniority,
+        subCategory,
       } = input;
 
       const dbUser = await db.user.findFirst({
@@ -7370,6 +7394,8 @@ export const appRouter = router({
             instructions,
             deadline,
             academicDesired,
+            seniority,
+            subCategory,
           },
         });
       }
@@ -7458,6 +7484,8 @@ export const appRouter = router({
           instructions,
           deadline,
           academicDesired,
+          seniority,
+          subCategory,
         };
         if (!jobExists.bonusTestID) {
           updatedJobData.bonusTestID = randomBannerId;
@@ -7555,6 +7583,8 @@ export const appRouter = router({
           instructions,
           deadline,
           academicDesired,
+          seniority,
+          subCategory,
         };
 
         if (!jobExists.bonusTestID && randomBannerId) {
@@ -7600,6 +7630,8 @@ export const appRouter = router({
           instructions,
           deadline,
           academicDesired,
+          seniority,
+          subCategory,
         },
       });
     }),
@@ -7626,6 +7658,8 @@ export const appRouter = router({
         numberOfPositions: z.string().optional(),
         possible_pay: z.string().optional(),
         job_type: z.string().optional(),
+        seniority: z.string().optional(),
+        subCategory: z.string().optional(),
         category: z.string().optional(),
         county: z.string().optional(),
         address: z.string().optional(),
@@ -7674,6 +7708,8 @@ export const appRouter = router({
         assessmentTwoID,
         companyLogo,
         adminCreatingCompanyName,
+        seniority,
+        subCategory,
       } = input;
       const dbUser = await db.user.findFirst({
         where: {
@@ -7749,6 +7785,8 @@ export const appRouter = router({
             instructions,
             deadline,
             academicDesired,
+            seniority,
+            subCategory,
           },
         });
       }
@@ -7841,6 +7879,8 @@ export const appRouter = router({
           instructions,
           deadline,
           academicDesired,
+          seniority,
+          subCategory,
         };
 
         if (!jobExists.bonusTestID && randomBannerId) {
@@ -7938,6 +7978,8 @@ export const appRouter = router({
           instructions,
           deadline,
           academicDesired,
+          seniority,
+          subCategory,
         };
         if (!jobExists.bonusTestID && randomBannerId) {
           updatedJobData.bonusTestID = randomBannerId;
@@ -7982,6 +8024,8 @@ export const appRouter = router({
           instructions,
           deadline,
           academicDesired,
+          seniority,
+          subCategory,
         },
       });
     }),
