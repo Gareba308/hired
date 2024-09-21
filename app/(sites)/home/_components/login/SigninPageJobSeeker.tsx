@@ -4,12 +4,13 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
 
 const SigninPageJobSeeker = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -145,17 +146,30 @@ const SigninPageJobSeeker = () => {
                   >
                     Your Password
                   </label>
-                  <input
-                    id="password"
-                    type="password"
-                    name="password"
-                    autoComplete="current-password"
-                    value={data.password}
-                    onChange={onFieldChange}
-                    required
-                    placeholder="Enter your Password"
-                    className="w-full h-11 rounded-sm border placeholder:text-gray-400 border-gray-300 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
-                  />
+                  <div className="relative w-full">
+                    <input
+                      id="password"
+                      type={showPassword ? "text" : "password"} // Toggle between "password" and "text"
+                      name="password"
+                      autoComplete="current-password"
+                      value={data.password}
+                      onChange={onFieldChange}
+                      required
+                      placeholder="Enter your Password"
+                      className="w-full h-11 rounded-sm border placeholder:text-gray-400 border-gray-300 py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
                 </div>
                 <div className="mb-1 flex justify-start flex-row items-start">
                   <div>
