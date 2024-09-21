@@ -20,8 +20,8 @@ const TopCompanies = ({ companies }: TopCompaniesProps) => {
       .toLowerCase()
       .trim()
       .replace(/[^\w\s-]/g, (char) => encodeURIComponent(char))
-      .replace(/\s+/g, "-")
-      .replace(/--+/g, "-");
+      .replace(/\s+/g, "_")
+      .replace(/__+/g, "_");
   };
 
   function getInitials(fullName: string): string {

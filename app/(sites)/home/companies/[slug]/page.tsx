@@ -15,17 +15,13 @@ interface CompanyProps {
   };
 }
 const convertFromSlug = (slug: string): string => {
-  return decodeURIComponent(slug.replace(/-/g, " "));
+  return decodeURIComponent(slug)
+    .replace(/_/g, " ")
+    .replace(/\s\s+/g, " ")
+    .trim();
 };
 const currentYear = new Date().getFullYear();
-const slugify = (str: string): string => {
-  return str
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, (char) => encodeURIComponent(char))
-    .replace(/\s+/g, "-")
-    .replace(/--+/g, "-");
-};
+
 const getCompanyJobs = async (slug: string) => {
   const currentDate = new Date();
   const trueCompanyName = convertFromSlug(slug);

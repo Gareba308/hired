@@ -512,7 +512,7 @@ const HomePage = () => {
                 {testimonials.map((item, idx) => (
                   <li
                     key={idx}
-                    className="bg-white rounded-xl border border-gray-200 shadow-sm flex flex-col"
+                    className="bg-white rounded-xl border border-gray-300 shadow-sm flex flex-col"
                   >
                     <div className="p-4 flex-grow">
                       <svg

@@ -153,8 +153,8 @@ export default function JobDetails({
   };
   return (
     <>
-      <div className="flex flex-col w-full h-full">
-        <div className="md:border-b md:border-gray-200 md:pb-3 bg-white md:shadow-md md:sticky md:px-4 md:pt-4 md:top-0 md:z-10">
+      <div className="flex flex-col h-full">
+        <div className="md:border-b md:border-gray-200 w-full md:pb-3 bg-white md:shadow-md md:sticky md:px-4 md:pt-4 md:top-0 md:z-10">
           <div className="flex gap-x-4 w-full justify-between">
             <div>
               <h2
@@ -316,7 +316,7 @@ export default function JobDetails({
         </div>
 
         {/* Options */}
-        <div className="md:overflow-y-auto md:px-4">
+        <div className="md:overflow-y-auto w-full md:px-4">
           <div className="mt-4">
             <div className="border-slate-100">
               <h2 className="text-xl text-gray-700 font-bold flex items-center justify-between gap-x-3">
@@ -426,12 +426,12 @@ export default function JobDetails({
 
           <div className="py-4">
             {job.job_description && (
-              <div className="text-gray-700 w-full">
+              <div className="text-gray-700">
                 <h3 className="text-xl font-medium text-gray-700">
                   Job Description
                 </h3>
 
-                <div className="mt-1 -mb-2 text-base w-full text-gray-700">
+                <div className="mt-1 -mb-2 text-base text-gray-700 overflow-wrap-anywhere">
                   <Preview value={job.job_description as string} />
                 </div>
               </div>
@@ -443,7 +443,7 @@ export default function JobDetails({
                   Job Responsibilities
                 </h3>
 
-                <div className="text-base text-gray-700">
+                <div className="text-base text-gray-700 overflow-wrap-anywhere">
                   <Preview value={job.responsibilities as string} />
                 </div>
               </div>
@@ -454,7 +454,7 @@ export default function JobDetails({
                 <h3 className="text-xl font-medium text-gray-700">
                   Qualification Requirements
                 </h3>
-                <div className="text-base text-gray-700">
+                <div className="text-base text-gray-700 overflow-wrap-anywhere">
                   <Preview value={job.requirement as string} />
                 </div>
               </div>
@@ -544,7 +544,7 @@ export default function JobDetails({
                   {job.instructions && (
                     <div className="mt-1.5">
                       <h3 className="text-lg font-medium">Instructions</h3>
-                      <div className="text-base text-gray-700 -mt-2 -mb-2">
+                      <div className="text-base text-gray-700 -mt-2 -mb-2 overflow-wrap-anywhere">
                         <Preview value={job.instructions as string} />
                       </div>
                     </div>

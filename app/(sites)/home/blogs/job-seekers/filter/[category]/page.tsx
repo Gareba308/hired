@@ -75,7 +75,7 @@ export async function generateMetadata({
   }
   return {
     title: {
-      absolute: `${categoryUpper} Tips and Discussions for Your Next Career Move`
+      absolute: `${categoryUpper}: Proven Tips for Job Seekers to Boost Their Career Success`
     },
     description:
       "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
@@ -84,7 +84,7 @@ export async function generateMetadata({
       locale: "en_US",
       url: siteConfig.url,
       title: {
-        absolute: `${categoryUpper} Tips and Discussions for Your Next Career Move`
+        absolute: `${categoryUpper}: Proven Tips for Job Seekers to Boost Their Career Success`
       },
       description:
         "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
@@ -107,7 +107,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: {
-        absolute: `${categoryUpper} Tips and Discussions for Your Next Career Move`
+        absolute: `${categoryUpper}: Proven Tips for Job Seekers to Boost Their Career Success`
       },
       description:
         "Dive into expert insights on hiring strategies and workforce management. Enhance your recruitment process with practical tips and industry advice.",

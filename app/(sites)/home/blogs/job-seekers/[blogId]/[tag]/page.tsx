@@ -97,7 +97,7 @@ export async function generateMetadata({
   }
   return {
     title: {
-      absolute: `${goodTag}: Career Tips from ${blog.heading}`,
+      absolute: `${goodTag}: Proven Tips for Job Seekers to Boost Their Career Success`,
     },
     description:
       "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
@@ -106,7 +106,7 @@ export async function generateMetadata({
       locale: "en_US",
       url: siteConfig.url,
       title: {
-        absolute: `${goodTag}: Career Tips from ${blog.heading}`,
+        absolute: `${goodTag}: Proven Tips for Job Seekers to Boost Their Career Success`,
       },
       description:
         "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
@@ -116,7 +116,7 @@ export async function generateMetadata({
           url: siteConfig.ogWorkerBlogs,
           width: 1200,
           height: 630,
-          alt: `${goodTag} as seen in ${blog.heading}`,
+          alt: `${goodTag}`,
         },
       ],
     },
@@ -129,7 +129,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: {
-        absolute: `${goodTag}: Career Tips from ${blog.heading}`,
+        absolute: `${goodTag}: Proven Tips for Job Seekers to Boost Their Career Success`,
       },
       description:
         "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
@@ -138,7 +138,7 @@ export async function generateMetadata({
           url: siteConfig.ogWorkerBlogs,
           width: 1200,
           height: 630,
-          alt: `${goodTag} as seen in ${blog.heading}`,
+          alt: `${goodTag}`,
         },
       ],
       creator: "@hiredke",

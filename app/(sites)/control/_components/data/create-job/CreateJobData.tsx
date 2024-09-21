@@ -248,7 +248,7 @@ export const allSubcategories = {
     { label: "IT Support", value: "IT Support" },
     { label: "Mobile App Developer Jobs", value: "Mobile App Developer Jobs" },
     { label: "Network Administrator", value: "Network Administrator" },
-    { label: "UX/UI Designer Jobs", value: "UX/UI Designer Jobs" },
+    { label: "UX UI Designer Jobs", value: "UX UI Designer Jobs" },
     { label: "Systems Administrator Jobs", value: "Systems Administrator Jobs" },
     { label: "DevOps Engineer Jobs", value: "DevOps Engineer Jobs" },
     { label: "Database Administrator", value: "Database Administrator" },

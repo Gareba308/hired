@@ -79,7 +79,7 @@ export async function generateMetadata({
   }
   return {
     title: {
-      absolute: `${categoryUpper}: Career Tips from ${blog.heading}`,
+      absolute: `${categoryUpper}: How Job Seekers Can Stand Out and Secure Their Next Role`,
     },
     description:
       "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
@@ -88,7 +88,7 @@ export async function generateMetadata({
       locale: "en_US",
       url: siteConfig.url,
       title: {
-        absolute: `${categoryUpper}: Career Tips from ${blog.heading}`,
+        absolute: `${categoryUpper}: How Job Seekers Can Stand Out and Secure Their Next Role`,
       },
       description:
         "Explore the best job search tips, resume writing advice, and career insights for Kenyan job seekers. Elevate your career journey today!",
@@ -111,7 +111,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: {
-        absolute: `${categoryUpper}: Career Tips from ${blog.heading}`,
+        absolute: `${categoryUpper}: How Job Seekers Can Stand Out and Secure Their Next Role`,
       },
       description:
         "Dive into expert insights on hiring strategies and workforce management. Enhance your recruitment process with practical tips and industry advice.",

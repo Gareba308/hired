@@ -81,7 +81,7 @@ export async function generateMetadata({
   }
   return {
     title: {
-      absolute: `${categoryUpper}: Hiring Strategies from ${blog.heading}`,
+      absolute: `${categoryUpper}: Proven Employer Strategies for Superior Hiring Results`,
     },
     description:
       "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
@@ -90,7 +90,7 @@ export async function generateMetadata({
       locale: "en_US",
       url: siteConfig.url,
       title: {
-        absolute: `${categoryUpper}: Hiring Strategies from ${blog.heading}`,
+        absolute: `${categoryUpper}: Proven Employer Strategies for Superior Hiring Results`,
       },
       description:
         "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
@@ -100,7 +100,7 @@ export async function generateMetadata({
           url: siteConfig.ogEmployerBlogs,
           width: 1200,
           height: 630,
-          alt: `${categoryUpper} as seen in ${blog.heading}`,
+          alt: `${categoryUpper}`,
         },
       ],
     },
@@ -113,7 +113,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: {
-        absolute: `${categoryUpper}: Hiring Strategies from ${blog.heading}`,
+        absolute: `${categoryUpper}: Proven Employer Strategies for Superior Hiring Results`,
       },
       description:
         "Stay ahead with top recruitment insights, hiring tips, and workforce management advice for Kenyan employers. Transform your hiring process now!",
@@ -122,7 +122,7 @@ export async function generateMetadata({
           url: siteConfig.ogEmployerBlogs,
           width: 1200,
           height: 630,
-          alt: `${categoryUpper} as seen in ${blog.heading}`,
+          alt: `${categoryUpper}`,
         },
       ],
       creator: "@hiredke",

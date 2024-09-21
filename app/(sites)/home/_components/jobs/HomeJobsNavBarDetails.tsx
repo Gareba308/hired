@@ -2075,7 +2075,7 @@ const HomeJobsNavBarDetails = ({
             </div>
             <div className="md:sticky md:top-2 w-full md:border md:shadow-sm md:border-gray-200 md:rounded-lg  md:max-h-[calc(100vh-2rem)]">
               {job ? (
-                <JobDetails
+                  <JobDetails
                   job={job}
                   viewID={viewID}
                   similarJobs={similarJobs}
