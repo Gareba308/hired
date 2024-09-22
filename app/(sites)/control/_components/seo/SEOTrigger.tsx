@@ -8,6 +8,7 @@ import { Loader2 } from "lucide-react";
 import { format, add } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 interface SEOTriggerProps {
   blogReq: LastRequestBlogsIndex | null;
@@ -15,6 +16,7 @@ interface SEOTriggerProps {
 }
 const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
   const { toast } = useToast();
+  const router= useRouter()
   const { mutate: triggerIndexing, isLoading } =
     trpc.adminTriggerIndexing.useMutation({
       onSuccess: () => {
@@ -24,6 +26,8 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
           variant: "default",
           duration: 3000,
         });
+
+        router.refresh()
       },
       onError: (err) => {
         toast({
@@ -46,6 +50,8 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
           variant: "default",
           duration: 3000,
         });
+
+        router.refresh()
       },
       onError: (err) => {
         toast({

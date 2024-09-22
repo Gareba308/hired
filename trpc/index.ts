@@ -5052,7 +5052,7 @@ export const appRouter = router({
           gte: currentDate,
         },
         createdAt: {
-          gte: new Date(currentDate.getTime() - 25 * 24 * 60 * 60 * 1000),
+          gte: new Date(currentDate.getTime() - 12 * 60 * 60 * 1000),
         },
       },
     });
