@@ -16,7 +16,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
@@ -31,7 +30,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { counties } from "../../../data/create-job/CreateJobData";
+import { countries } from "../../../data/create-job/CreateJobData";
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -148,9 +147,9 @@ const BioCitizen = ({ profile }: BioNameProps) => {
                                     )}
                                   >
                                     {field.value
-                                      ? counties.find(
-                                          (county) =>
-                                            county.value === field.value
+                                      ? countries.find(
+                                          (country) =>
+                                            country.value === field.value
                                         )?.label
                                       : "Select citizenship details"}
                                     <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -159,22 +158,19 @@ const BioCitizen = ({ profile }: BioNameProps) => {
                               </PopoverTrigger>
                               <PopoverContent className="justify-start p-0 max-h-[400px] overflow-y-scroll">
                                 <Command>
-                                  <CommandInput placeholder="Search county..." />
+                                  <CommandInput placeholder="Search country..." />
                                   <CommandEmpty>No country found.</CommandEmpty>
                                   <CommandGroup>
-                                    {counties
-                                      .sort((a, b) =>
-                                        a.label.localeCompare(b.label)
-                                      )
-                                      .map((county) => (
+                                    {countries
+                                      .map((country) => (
                                         <CommandItem
-                                          value={county.label}
-                                          key={county.value}
+                                          value={country.label}
+                                          key={country.value}
                                           disabled={isLoading}
                                           onSelect={() => {
                                             form.setValue(
                                               "citizen",
-                                              county.value
+                                              country.value
                                             );
                                             setPopoverOpen(false);
                                           }}
@@ -182,12 +178,12 @@ const BioCitizen = ({ profile }: BioNameProps) => {
                                           <CheckIcon
                                             className={cn(
                                               "mr-2 h-4 w-4",
-                                              county.value === field.value
+                                              country.value === field.value
                                                 ? "opacity-100"
                                                 : "opacity-0"
                                             )}
                                           />
-                                          {county.label}
+                                          {country.label}
                                         </CommandItem>
                                       ))}
                                   </CommandGroup>
@@ -241,10 +237,10 @@ const BioCitizen = ({ profile }: BioNameProps) => {
                       <PenLine className="h-4 w-4 mr-1" /> Edit
                     </Button>
                   </div>
-                  {profile.county ? (
+                  {profile.citizen ? (
                     <>
                       <div className="font-normal text-base text-gray-500">
-                        {profile.county}
+                        {profile.citizen}
                       </div>
                     </>
                   ) : (

@@ -38,6 +38,7 @@ import CloudUpload from "@/components/CloudUpload";
 import {
   academics,
   counties,
+  countries,
   job_types,
 } from "../data/create-job/CreateJobData";
 import {
@@ -345,8 +346,7 @@ const BioData = ({ profileBio }: BioProps) => {
                 />
               </dd>
             </div>
-
-            {/* Change to country */}
+            
             <div className="py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0">
               <dt className="font-medium leading-6 text-gray-700">
                 Citizenship
@@ -376,8 +376,8 @@ const BioData = ({ profileBio }: BioProps) => {
                               )}
                             >
                               {field.value
-                                ? counties.find(
-                                    (county) => county.value === field.value
+                                ? countries.find(
+                                    (country) => country.value === field.value
                                   )?.label
                                 : "Select a country"}
                               <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -386,30 +386,29 @@ const BioData = ({ profileBio }: BioProps) => {
                         </PopoverTrigger>
                         <PopoverContent className="p-0 max-h-[400px] overflow-y-scroll">
                           <Command>
-                            <CommandInput placeholder="Search county..." />
-                            <CommandEmpty>No county found.</CommandEmpty>
+                            <CommandInput placeholder="Search country..." />
+                            <CommandEmpty>No country found.</CommandEmpty>
                             <CommandGroup>
-                              {counties
-                                .sort((a, b) => a.label.localeCompare(b.label))
-                                .map((county) => (
+                              {countries
+                                .map((country) => (
                                   <CommandItem
-                                    value={county.label}
-                                    key={county.value}
+                                    value={country.label}
+                                    key={country.value}
                                     disabled={isLoading}
                                     onSelect={() => {
-                                      form.setValue("county", county.value);
+                                      form.setValue("citizen", country.value);
                                       setPopoverOpen2(false);
                                     }}
                                   >
                                     <CheckIcon
                                       className={cn(
                                         "mr-2 h-4 w-4",
-                                        county.value === field.value
+                                        country.value === field.value
                                           ? "opacity-100"
                                           : "opacity-0"
                                       )}
                                     />
-                                    {county.label}
+                                    {country.label}
                                   </CommandItem>
                                 ))}
                             </CommandGroup>
