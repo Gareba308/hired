@@ -6,8 +6,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { allSubcategories } from "../data/create-job/CreateJobData";
+import { Job } from "@prisma/client";
 
-const HomePage = () => {
+interface HomePageProps {
+  jobs: Job[];
+}
+
+const HomePage = ({ jobs }: HomePageProps) => {
   type SubcategoryMapping = {
     [key: string]: string;
   };
@@ -262,6 +267,17 @@ const HomePage = () => {
     },
   ];
 
+  const uniqueSubCategories = jobs.reduce((acc: string[], job) => {
+    const subCategory = job.subCategory;
+    if (
+      subCategory &&
+      !acc.includes(subCategory) &&
+      !subCategory.startsWith("Other")
+    ) {
+      acc.push(subCategory);
+    }
+    return acc;
+  }, []);
   return (
     <>
       <div className="bg-white">
@@ -563,11 +579,9 @@ const HomePage = () => {
           <div
             className="absolute top-0 w-full h-[350px]"
             style={{
-              background: "#1e293b"
+              background: "#1e293b",
             }}
-          >
-
-          </div>
+          ></div>
         </section>
         <section className="pt-14 sm max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">
           <div className="text-gray-600">
@@ -579,31 +593,20 @@ const HomePage = () => {
                 Explore Jobs by Profession
               </h2>
             </div>
-            <div className="mt-6 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {Object.entries(allSubcategories).map(
-                ([category, subcategories]) => (
-                  <ul key={category} className="text-gray-600">
-                    <h4 className="text-gray-700 line-clamp-1 text-lg font-semibold">
-                      {getCategoryName(category)}
-                    </h4>
-                    {subcategories
-                      .filter(
-                        (subcategory) => !subcategory.label.startsWith("Other")
-                      )
-                      .map((subcategory) => (
-                        <li key={subcategory.value} className="space-y-2.5">
-                          <Link
-                            href={`/home/jobs/subcategory/${slugify(subcategory.value)}`}
-                            title={`Open ${subcategory.label}`}
-                            className="hover:text-blue-700 line-clamp-1 text-base duration-150"
-                          >
-                            {subcategory.label}
-                          </Link>
-                        </li>
-                      ))}
-                  </ul>
-                )
-              )}
+            <div className="mt-4 sm:mx-auto grid gap-4">
+              <ul className="text-gray-600 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-2.5">
+                {uniqueSubCategories.map((subCategory) => (
+                  <li key={subCategory}>
+                    <Link
+                      href={`/home/jobs/subcategory/${slugify(subCategory)}`}
+                      title={`Open ${subCategory}`}
+                      className="hover:text-blue-700 line-clamp-1 text-base duration-150"
+                    >
+                      {subCategory}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </section>
