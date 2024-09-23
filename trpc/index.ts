@@ -5052,14 +5052,46 @@ export const appRouter = router({
           gte: currentDate,
         },
         createdAt: {
-          gte: new Date(currentDate.getTime() - 12 * 60 * 60 * 1000),
+          gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
         },
       },
     });
 
-    const urlsToIndex = [
-      ...jobs.map((job) => `${baseUrl}/home/jobs/${job.id}`),
-    ];
+    const convertToSlug = (text: string): string => {
+      return text.toLowerCase().replace(/\s+/g, "-");
+    };
+
+    const slugify = (str: string): string => {
+      return str
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, (char) => encodeURIComponent(char))
+        .replace(/\s+/g, "_")
+        .replace(/__+/g, "_");
+    };
+    const companyUrls = jobs.map((job) => {
+      const companySlug = slugify(job.company_name);
+      return {
+        url: `${baseUrl}/home/companies/${companySlug}`,
+      };
+    });
+
+    const subCategoryUrls = jobs
+      .filter((job) => job.subCategory !== null)
+      .map((job) => {
+        const subCategorySlug = convertToSlug(job.subCategory as string);
+        return {
+          url: `${baseUrl}/home/jobs/subcategory/${subCategorySlug}`,
+        };
+      });
+
+    const urlsToIndex = Array.from(
+      new Set([
+        ...jobs.map((job) => `${baseUrl}/home/jobs/${job.id}`),
+        ...subCategoryUrls.map((obj) => obj.url),
+        ...companyUrls.map((obj) => obj.url),
+      ])
+    );
 
     const lastIndexExists = await db.lastRequestJobsIndex.findFirst({
       select: {

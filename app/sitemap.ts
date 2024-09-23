@@ -18,7 +18,7 @@ const slugMapping = {
   internship: "internship",
   nairobi: "nairobi",
   mombasa: "mombasa",
-  latest: "latest"
+  latest: "latest",
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -87,66 +87,77 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       (category, index, self) => category && self.indexOf(category) === index
     );
 
-    const companyUrls = jobs.map((job) => {
-      const companySlug = slugify(job.company_name);
-      return {
-        url: `${baseUrl}/home/companies/${companySlug}`,
-        lastModified: new Date(job.updatedAt),
-        changeFreq: "daily",
-        priority: 0.8,
-      };
-    });
-  
-    const subCategoryUrls = jobs
-  .filter((job) => job.subCategory !== null)
-  .map((job) => {
-    const subCategorySlug = convertToSlug(job.subCategory as string);
-    return {
-      url: `${baseUrl}/home/jobs/subcategory/${subCategorySlug}`,
-      lastModified: new Date(job.updatedAt),
-      changeFreq: "daily",
-      priority: 0.8,
-    };
-  });
+  const companyUrls = Array.from(
+    new Set(
+      jobs.map((job) => {
+        const companySlug = slugify(job.company_name);
+        return {
+          url: `${baseUrl}/home/companies/${companySlug}`,
+          lastModified: new Date(job.updatedAt),
+          changeFreq: "daily",
+          priority: 0.8,
+        };
+      })
+    )
+  );
 
-  const popularUrls = jobs.flatMap((job) => {
-    const urls = [];
-    if (job.job_type === slugMapping.internship) {
-      urls.push({
-        url: `${baseUrl}/home/jobs/popular/${slugMapping.internship}`,
-        lastModified: new Date(job.updatedAt),
-        changeFreq: "daily",
-        priority: 0.8,
-      });
-    }
-    if (job.county === slugMapping.nairobi) {
-      urls.push({
-        url: `${baseUrl}/home/jobs/popular/${slugMapping.nairobi}`,
-        lastModified: new Date(job.updatedAt),
-        changeFreq: "daily",
-        priority: 0.8,
-      });
-    } else if (job.county === slugMapping.mombasa) {
-      urls.push({
-        url: `${baseUrl}/home/jobs/popular/${slugMapping.mombasa}`,
-        lastModified: new Date(job.updatedAt),
-        changeFreq: "daily",
-        priority: 0.8,
-      });
-    }
-    if (
-      job.createdAt >= new Date(currentDate.getTime() - 24 * 60 * 60 * 1000)
-    ) {
-      urls.push({
-        url: `${baseUrl}/home/jobs/popular/${slugMapping.latest}`,
-        lastModified: new Date(job.updatedAt),
-        changeFreq: "hourly",
-        priority: 0.9,
-      });
-    }
+  const subCategoryUrls = Array.from(
+    new Set(
+      jobs
+        .filter((job) => job.subCategory !== null)
+        .map((job) => {
+          const subCategorySlug = convertToSlug(job.subCategory as string);
+          return {
+            url: `${baseUrl}/home/jobs/subcategory/${subCategorySlug}`,
+            lastModified: new Date(job.updatedAt),
+            changeFreq: "daily",
+            priority: 0.8,
+          };
+        })
+    )
+  );
 
-    return urls;
-  });
+  const popularUrls = Array.from(
+    new Set(
+      jobs.flatMap((job) => {
+        const urls = [];
+        if (job.job_type === slugMapping.internship) {
+          urls.push({
+            url: `${baseUrl}/home/jobs/popular/${slugMapping.internship}`,
+            lastModified: new Date(job.updatedAt),
+            changeFreq: "daily",
+            priority: 0.8,
+          });
+        }
+        if (job.county === slugMapping.nairobi) {
+          urls.push({
+            url: `${baseUrl}/home/jobs/popular/${slugMapping.nairobi}`,
+            lastModified: new Date(job.updatedAt),
+            changeFreq: "daily",
+            priority: 0.8,
+          });
+        } else if (job.county === slugMapping.mombasa) {
+          urls.push({
+            url: `${baseUrl}/home/jobs/popular/${slugMapping.mombasa}`,
+            lastModified: new Date(job.updatedAt),
+            changeFreq: "daily",
+            priority: 0.8,
+          });
+        }
+        if (
+          job.createdAt >= new Date(currentDate.getTime() - 24 * 60 * 60 * 1000)
+        ) {
+          urls.push({
+            url: `${baseUrl}/home/jobs/popular/${slugMapping.latest}`,
+            lastModified: new Date(job.updatedAt),
+            changeFreq: "hourly",
+            priority: 0.9,
+          });
+        }
+        return urls;
+      })
+    )
+  );
 
   const jobsUrls = jobs.map((job) => {
     return {
