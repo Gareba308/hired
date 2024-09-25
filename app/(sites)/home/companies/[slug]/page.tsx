@@ -14,10 +14,9 @@ interface CompanyProps {
     slug: string;
   };
 }
-const convertFromSlug = (slug: string): string => {
-  return decodeURIComponent(slug)
+const convertFromSlug = (str: string): string => {
+  return decodeURIComponent(str)
     .replace(/_/g, " ")
-    .replace(/\s\s+/g, " ")
     .trim();
 };
 const currentYear = new Date().getFullYear();
