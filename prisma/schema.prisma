@@ -218,9 +218,11 @@ model Job {
   jobFormNonRegisteredCompany Boolean   @default(false)
   unregisteredKnown           Boolean   @default(false)
   adminCreatingCompanyName    String?
+  company_description         String?   @db.Text
+  companyCategory             String?
+  companyWebsite              String?
   companyId                   String
   company_name                String
-  company_description         String?
   companyLogo                 String?
   adminPosted                 Boolean   @default(false)
   job_type                    String?
@@ -272,11 +274,14 @@ model Job {
 }
 
 model UnregisteredCompany {
-  id          String   @id @default(cuid())
-  companyName String
-  logo        String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                 String   @id @default(cuid())
+  companyName        String
+  companyDescription String?
+  companyCategory    String?
+  companyWebsite     String?
+  logo               String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
 model LastRequestJobsIndex {

@@ -3681,6 +3681,8 @@ export const appRouter = router({
         select: {
           id: true,
           company_name: true,
+          website: true,
+          category: true,
           company_description: true,
         },
       });
@@ -3693,7 +3695,7 @@ export const appRouter = router({
 
       const { id: companyId, company_description } = employerProfile;
 
-      const company_name = employerProfile.company_name!;
+      const company_name = employerProfile?.company_name!.trim() as string;
 
       if (assessmentOneID) {
         if (assessmentTwoID === assessmentOneID)
@@ -3813,6 +3815,8 @@ export const appRouter = router({
               companyId,
               company_name,
               company_description,
+              companyCategory: employerProfile?.category as string,
+              companyWebsite: employerProfile?.website as string,
               job_type,
               job_title,
               job_description,
@@ -3858,6 +3862,8 @@ export const appRouter = router({
             job_type,
             job_title,
             job_description,
+            companyCategory: employerProfile?.category as string,
+              companyWebsite: employerProfile?.website as string,
             summaryDescription: shortDescription(job_description),
             responsibilities,
             requirement,
@@ -3897,6 +3903,8 @@ export const appRouter = router({
           companyId,
           company_name,
           company_description,
+          companyCategory: employerProfile?.category as string,
+              companyWebsite: employerProfile?.website as string,
           job_type,
           job_title,
           job_description,
@@ -4596,6 +4604,9 @@ export const appRouter = router({
         assessmentTwoID: z.string(),
         jobFormNonRegisteredCompany: z.boolean().default(false),
         adminCreatingCompanyName: z.string(),
+        adminCreatingCompanyDescription: z.string(),
+        adminCreatingCompanyCategory: z.string(),
+        adminCreatingCompanyWebsite: z.string(),
         adminCreatingAddLogo: z.string(),
         unregisteredKnown: z.boolean().default(false),
         unregisteredID: z.string(),
@@ -4631,6 +4642,9 @@ export const appRouter = router({
         addAssessment,
         jobFormNonRegisteredCompany,
         adminCreatingCompanyName,
+        adminCreatingCompanyDescription,
+        adminCreatingCompanyCategory,
+        adminCreatingCompanyWebsite,
         assessmentOneID,
         assessmentTwoID,
         unregisteredKnown,
@@ -4702,6 +4716,8 @@ export const appRouter = router({
           userId: true,
           isEmployerID: true,
           company_name: true,
+          website: true,
+          category: true,
           company_description: true,
           logo: true,
           id: true,
@@ -4719,7 +4735,6 @@ export const appRouter = router({
       const {
         userId: employerUserId,
         isEmployerID,
-        company_description,
         employerName,
       } = companyExists;
 
@@ -4729,7 +4744,7 @@ export const appRouter = router({
         },
       });
 
-      const company_name =
+      const company_nameOld =
         jobFormNonRegisteredCompany &&
         !unregisteredKnownExists &&
         unregisteredKnown === false
@@ -4740,6 +4755,32 @@ export const appRouter = router({
           ? unregisteredKnownExists.companyName
           : (companyExists.company_name as string);
 
+      const company_name= company_nameOld.trim()
+
+      const company_description= 
+      jobFormNonRegisteredCompany &&
+      !unregisteredKnownExists &&
+      unregisteredKnown === false ? adminCreatingCompanyDescription : jobFormNonRegisteredCompany &&
+      unregisteredKnownExists &&
+      unregisteredKnown === true ?  unregisteredKnownExists.companyDescription
+      : (companyExists.company_description as string);
+
+      const companyCategory= 
+      jobFormNonRegisteredCompany &&
+      !unregisteredKnownExists &&
+      unregisteredKnown === false ? adminCreatingCompanyCategory : jobFormNonRegisteredCompany &&
+      unregisteredKnownExists &&
+      unregisteredKnown === true ?  unregisteredKnownExists.companyCategory
+      : (companyExists.category as string);
+
+      const companyWebsite= 
+      jobFormNonRegisteredCompany &&
+      !unregisteredKnownExists &&
+      unregisteredKnown === false ? adminCreatingCompanyWebsite : jobFormNonRegisteredCompany &&
+      unregisteredKnownExists &&
+      unregisteredKnown === true ?  unregisteredKnownExists.companyWebsite
+      : (companyExists.website as string);
+      
       const logo =
         jobFormNonRegisteredCompany &&
         !unregisteredKnownExists &&
@@ -4755,6 +4796,9 @@ export const appRouter = router({
         await db.unregisteredCompany.create({
           data: {
             companyName: company_name,
+            companyDescription: company_description,
+            companyCategory,
+            companyWebsite,
             logo: logo,
           },
         });

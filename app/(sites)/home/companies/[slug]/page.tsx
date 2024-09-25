@@ -15,9 +15,7 @@ interface CompanyProps {
   };
 }
 const convertFromSlug = (str: string): string => {
-  return decodeURIComponent(str)
-    .replace(/_/g, " ")
-    .trim();
+  return decodeURIComponent(str).replace(/_/g, " ").trim();
 };
 const currentYear = new Date().getFullYear();
 
@@ -34,7 +32,7 @@ const getCompanyJobs = async (slug: string) => {
         gte: currentDate,
       },
       createdAt: {
-        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+        gte: new Date(currentDate.getTime() - 24 * 60 * 60 * 1000),
       },
     },
     orderBy: {
