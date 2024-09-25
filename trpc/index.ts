@@ -5052,7 +5052,7 @@ export const appRouter = router({
           gte: currentDate,
         },
         createdAt: {
-          gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+          gte: new Date(currentDate.getTime() - 12 * 60 * 60 * 1000),
         },
       },
     });
@@ -5069,29 +5069,25 @@ export const appRouter = router({
         .replace(/\s+/g, "_")
         .replace(/__+/g, "_");
     };
-    const companyUrls = jobs.map((job) => {
-      const companySlug = slugify(job.company_name);
-      return {
-        url: `${baseUrl}/home/companies/${companySlug}`,
-      };
+    const companyUrls = Array.from(
+      new Set(jobs.map((job) => job.company_name))
+    ).map((company_name) => {
+      const companySlug = slugify(company_name);
+      return `${baseUrl}/home/companies/${companySlug}`;
     });
 
-    const subCategoryUrls = jobs
-      .filter((job) => job.subCategory !== null)
-      .map((job) => {
-        const subCategorySlug = convertToSlug(job.subCategory as string);
-        return {
-          url: `${baseUrl}/home/jobs/subcategory/${subCategorySlug}`,
-        };
-      });
+    const subCategoryUrls = Array.from(
+      new Set(
+        jobs.filter((job) => job.subCategory).map((job) => job.subCategory)
+      )
+    ).map((subCategory) => {
+      const subCategorySlug = convertToSlug(subCategory as string);
+      return `${baseUrl}/home/jobs/subcategory/${subCategorySlug}`;
+    });
 
-    const urlsToIndex = Array.from(
-      new Set([
-        ...jobs.map((job) => `${baseUrl}/home/jobs/${job.id}`),
-        ...subCategoryUrls.map((obj) => obj.url),
-        ...companyUrls.map((obj) => obj.url),
-      ])
-    );
+    const jobsUrls = jobs.map((job) => `${baseUrl}/home/jobs/${job.id}`);
+
+    const urlsToIndex = [...companyUrls, ...subCategoryUrls, ...jobsUrls];
 
     const lastIndexExists = await db.lastRequestJobsIndex.findFirst({
       select: {
@@ -5130,10 +5126,7 @@ export const appRouter = router({
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            url,
-            type: "URL_UPDATED",
-          }),
+          body: JSON.stringify({ url, type: "URL_UPDATED" }),
         }
       )
         .then((response) => response.json())

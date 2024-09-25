@@ -87,21 +87,23 @@ const Page = async () => {
       },
     },
   });
-  const companyJobs = jobs.reduce<Record<string, CompanyJob>>(
-    (acc, job: Job) => {
-      if (acc[job.company_name]) {
-        acc[job.company_name].numberOfOccurrence += 1;
-      } else {
-        acc[job.company_name] = {
-          company_name: job.company_name,
-          companyLogo: job.companyLogo,
-          numberOfOccurrence: 1,
-        };
-      }
-      return acc;
-    },
-    {}
-  );
+
+  const companyJobs = jobs.reduce<Record<string, CompanyJob>>((acc, job: Job) => {
+    const normalizedCompanyName = job.company_name.toLowerCase();
+  
+    if (acc[normalizedCompanyName]) {
+      acc[normalizedCompanyName].numberOfOccurrence += 1;
+    } else {
+      acc[normalizedCompanyName] = {
+        company_name: job.company_name,
+        companyLogo: job.companyLogo,
+        numberOfOccurrence: 1,
+      };
+    }
+  
+    return acc;
+  }, {});
+  
   const result: CompanyJob[] = Object.values(companyJobs);
   return (
     <>
