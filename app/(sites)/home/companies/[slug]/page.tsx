@@ -25,14 +25,14 @@ const getCompanyJobs = async (slug: string) => {
   const jobs = await db.job.findMany({
     where: {
       company_name: {
-        equals: trueCompanyName,
+        contains: trueCompanyName,
         mode: "insensitive",
       },
       deadline: {
         gte: currentDate,
       },
       createdAt: {
-        gte: new Date(currentDate.getTime() - 24 * 60 * 60 * 1000),
+        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
     orderBy: {
@@ -40,7 +40,12 @@ const getCompanyJobs = async (slug: string) => {
     },
   });
 
-  return jobs;
+  const filteredJobs = jobs.filter(job => {
+    const normalizedJobCompanyName = job.company_name.trim().toLowerCase();
+    return normalizedJobCompanyName === trueCompanyName.toLowerCase();
+  });
+
+  return filteredJobs;
 };
 
 
