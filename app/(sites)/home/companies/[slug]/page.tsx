@@ -48,7 +48,6 @@ const getCompanyJobs = async (slug: string) => {
   return filteredJobs;
 };
 
-
 export async function generateMetadata({
   params,
 }: CompanyProps): Promise<Metadata> {

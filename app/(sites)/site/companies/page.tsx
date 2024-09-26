@@ -7,6 +7,17 @@ import { Job } from "@prisma/client";
 import NoCompanies from "../_components/company/NoCompany";
 import AllCompanies from "../_components/company/AllCompanies";
 
+type CompanyJob = {
+  company_name: string;
+  companyLogo: string | null;
+  company_description: string | null;
+  companyCategory: string | null;
+  companyEmail: string | null;
+  companyWebsite: string | null;
+  numberOfOccurrence: number;
+  latestUpdatedAt: Date;
+};
+
 const Page = async () => {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/home/login?origin=site/companies");
@@ -26,54 +37,62 @@ const Page = async () => {
 
   if (!dbUser) redirect("/home/login?origin=site/companies");
 
-  const allCompanies = await db.company.findMany();
+  const jobs = await db.job.findMany({ 
+    where: {
+      deadline: {
+        gte: currentDate,
+      },
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+      },
+    },
+  });
+  
+  const companyJobs = jobs.reduce<Record<string, CompanyJob>>((acc, job: Job) => {
+    const normalizedCompanyName = job.company_name.toLowerCase();
+  
+    if (acc[normalizedCompanyName]) {
 
-  const allTopEmployersWithVacancies = await Promise.all(
-    allCompanies.map(async (company) => {
-      let vacanciesCount = 0;
-      let individualJobs: Job[] = [];
-      let openings = 0;
-      if (company.id) {
-        const companyJobs = await db.job.findMany({
-          where: {
-            companyId: company.id,
-            deadline: {
-              gte: currentDate,
-            },
-            createdAt: {
-              gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
-            },
-          },
-        });
-
-        vacanciesCount = companyJobs.length;
-        individualJobs = companyJobs;
-        openings = companyJobs.reduce((total, job) => {
-          const numPositions = job.numberOfPositions
-            ? parseInt(job.numberOfPositions, 10)
-            : 0;
-          return total + (isNaN(numPositions) ? 0 : numPositions);
-        }, 0);
+      if (new Date(job.updatedAt) > new Date(acc[normalizedCompanyName].latestUpdatedAt)) {
+        acc[normalizedCompanyName] = {
+          company_name: job.company_name,
+          companyLogo: job.companyLogo,
+          company_description: job.company_description,
+          companyCategory: job.companyCategory,
+          companyEmail: job.companyEmail,
+          companyWebsite: job.companyWebsite,
+          latestUpdatedAt: job.updatedAt,
+          numberOfOccurrence: acc[normalizedCompanyName].numberOfOccurrence,
+        };
       }
 
-      return {
-        companyDetails: company,
-        vacanciesCount,
-        individualJobs,
-        openings,
+      acc[normalizedCompanyName].numberOfOccurrence += 1;
+    } else {
+
+      acc[normalizedCompanyName] = {
+        company_name: job.company_name,
+        companyLogo: job.companyLogo,
+        company_description: job.company_description,
+        companyCategory: job.companyCategory,
+        companyEmail: job.companyEmail,
+        companyWebsite: job.companyWebsite,
+        latestUpdatedAt: job.updatedAt,
+        numberOfOccurrence: 1,
       };
-    })
-  );
+    }
+  
+    return acc;
+  }, {});
+  
+  const companies: CompanyJob[] = Object.values(companyJobs);
 
   return (
-    <div className="bg-white min-h-[calc(100vh-90px)] sm:rounded-md sm:shadow-sm max-w-7xl mx-auto px-4 pt-2 md:px-5">
-      {allCompanies.length === 0 ? (
+    <div className="bg-white min-h-[calc(100vh-90px)] sm:rounded-md sm:shadow-sm max-w-7xl mx-auto px-4 pt-2 pb-6 md:px-5">
+      {companies.length === 0 ? (
         <NoCompanies />
       ) : (
         <AllCompanies
-          companies={allCompanies}
-          userId={dbUser.id}
-          companyCounts={allTopEmployersWithVacancies as []}
+          companies={companies}
         />
       )}
     </div>

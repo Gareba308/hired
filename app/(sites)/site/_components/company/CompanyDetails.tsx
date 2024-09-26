@@ -2,49 +2,28 @@
 
 import { Preview } from "@/components/Preview";
 import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Company, Job } from "@prisma/client";
-import {
-  BadgeCheck,
-  BadgeX,
-  Briefcase,
-  CalendarClock,
-  CornerUpLeft,
-  Lock,
-  Globe,
-  Info,
-  Mail,
-  MapPinIcon,
-} from "lucide-react";
+import { Job } from "@prisma/client";
+import { Briefcase, CornerUpLeft, Lock, Globe, Mail } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import JobCard3 from "../job/JobCard3";
 import { cn } from "@/lib/utils";
 interface TopCompany {
-  companyDetails: Company;
-  vacanciesCount: number;
+  company_name: string;
+  companyLogo: string | null;
+  company_description: string | null;
+  companyCategory: string | null;
+  companyEmail: string | null;
+  companyWebsite: string | null;
+  numberOfOccurrence: number;
+  jobs: Job[];
 }
 interface CompanyDetailsProps {
-  company: Company;
-  companyCounts: TopCompany[];
-  allJobs: Job[];
+  company: TopCompany | null;
 }
 
-const CompanyDetails = ({
-  company,
-  companyCounts,
-  allJobs,
-}: CompanyDetailsProps) => {
+const CompanyDetails = ({ company }: CompanyDetailsProps) => {
   const router = useRouter();
-  const [isVerified, setIsVerified] = useState<boolean>(
-    company.verified || false
-  );
   function getInitials(fullName: string): string {
     const nameParts = fullName.split(" ");
 
@@ -57,10 +36,6 @@ const CompanyDetails = ({
       return "";
     }
   }
-
-  const thisCompanyCounts = companyCounts.filter(
-    (item) => item.companyDetails.id === company.id
-  );
 
   return (
     <>
@@ -87,205 +62,73 @@ const CompanyDetails = ({
                         <div className="w-full mt-0">
                           {company?.company_name && (
                             <h3 className="font-bold flex items-center gap-x-1 text-gray-600 tracking-tight text-[17.5px] sm:text-xl lg:text-2xl">
-                              {company?.company_name}{" "}
-                              {isVerified &&
-                                !company.suspended &&
-                                !company.special && (
-                                  <TooltipProvider>
-                                    <Tooltip>
-                                      <TooltipTrigger>
-                                        <BadgeCheck className="h-[22px] w-[22px] fill-[#b45309] text-primary-foreground text-base" />
-                                      </TooltipTrigger>
-                                      <TooltipContent className="text-gray-600 text-sm tracking-normal font-normal">
-                                        The checkmark indicates that the admin
-                                        did a background check to verify
-                                        authenticity of this company.
-                                      </TooltipContent>
-                                    </Tooltip>
-                                  </TooltipProvider>
-                                )}
-                              {company.suspended &&
-                                isVerified &&
-                                !company.special && (
-                                  <TooltipProvider>
-                                    <Tooltip>
-                                      <TooltipTrigger>
-                                        <BadgeCheck className="h-[22px] w-[22px] fill-red-700 text-primary-foreground text-base" />
-                                      </TooltipTrigger>
-                                      <TooltipContent className="text-gray-600 text-sm tracking-normal font-normal">
-                                        The checkmark indicates that the company
-                                        is verified although at the moment it
-                                        has been suspended.
-                                      </TooltipContent>
-                                    </Tooltip>
-                                  </TooltipProvider>
-                                )}
-                              {company.suspended &&
-                                isVerified &&
-                                company.special && (
-                                  <TooltipProvider>
-                                    <Tooltip>
-                                      <TooltipTrigger>
-                                        <BadgeCheck className="h-[22px] w-[22px] fill-red-700 text-primary-foreground text-base" />
-                                      </TooltipTrigger>
-                                      <TooltipContent className="text-gray-600 text-sm tracking-normal font-normal">
-                                        The checkmark indicates that the company
-                                        is verified although at the moment it
-                                        has been suspended.
-                                      </TooltipContent>
-                                    </Tooltip>
-                                  </TooltipProvider>
-                                )}
-                              {!company.suspended &&
-                                isVerified &&
-                                company.special && (
-                                  <TooltipProvider>
-                                    <Tooltip>
-                                      <TooltipTrigger>
-                                        <BadgeCheck className="h-[22px] w-[22px] fill-green-700 text-primary-foreground text-base" />
-                                      </TooltipTrigger>
-                                      <TooltipContent className="text-gray-600 text-sm tracking-normal font-normal">
-                                        The checkmark indicates that the company
-                                        is verified although at the moment it
-                                        has been suspended.
-                                      </TooltipContent>
-                                    </Tooltip>
-                                  </TooltipProvider>
-                                )}
-                              {company.special &&
-                                !company.suspended &&
-                                !company.verified && (
-                                  <TooltipProvider>
-                                    <Tooltip>
-                                      <TooltipTrigger>
-                                        <BadgeCheck className="h-[22px] w-[22px] fill-green-700 text-primary-foreground text-base" />
-                                      </TooltipTrigger>
-                                      <TooltipContent className="text-gray-600 text-sm tracking-normal font-normal">
-                                        The checkmark indicates that the company
-                                        is verified although at the moment it
-                                        has been suspended.
-                                      </TooltipContent>
-                                    </Tooltip>
-                                  </TooltipProvider>
-                                )}
-                              {company.suspended &&
-                                !isVerified &&
-                                !company.special && (
-                                  <TooltipProvider>
-                                    <Tooltip>
-                                      <TooltipTrigger>
-                                        <BadgeX className="h-[22px] w-[22px] fill-red-700 text-primary-foreground text-base" />
-                                      </TooltipTrigger>
-                                      <TooltipContent className="text-gray-600 text-sm tracking-normal font-normal">
-                                        The mark indicates that the company has
-                                        been suspended and it hasn&apos;t been
-                                        verified.
-                                      </TooltipContent>
-                                    </Tooltip>
-                                  </TooltipProvider>
-                                )}
+                              {company?.company_name}
                             </h3>
                           )}
-                          {company?.category && (
+                          {company?.companyCategory && (
                             <h2 className="text-lg font-medium shrink-0 tracking-tight leading-tight text-gray-600">
-                              {company?.category}
+                              {company?.companyCategory}
                             </h2>
                           )}
-                          {company?.county && (
-                            <p className="flex items-center text-sm text-gray-500 font-normal">
-                              <MapPinIcon className="h-4 w-4 mr-1.5 text-gray-500" />{" "}
-                              {company?.county && (
-                                <span className="mr-1">{company?.town},</span>
-                              )}
-                              <span>{company.county}</span>
-                            </p>
-                          )}
-                          <div className="flex item-center">
-                            {company?.established && (
-                              <div className="flex items-center mr-4 text-sm font-normal text-gray-500">
-                                <CalendarClock className="h-4 w-4 mr-1.5 text-gray-500" />{" "}
-                                {company.established && (
-                                  <span className="mr-1">
-                                    {company.established}
-                                  </span>
-                                )}
-                                <TooltipProvider>
-                                  <Tooltip>
-                                    <TooltipTrigger>
-                                      <Info className="h-4 w-4 ml-0.5 text-gray-500" />
-                                    </TooltipTrigger>
-                                    <TooltipContent className="text-gray-600 text-sm tracking-normal font-normal">
-                                      Represents the year when this company was
-                                      established.
-                                    </TooltipContent>
-                                  </Tooltip>
-                                </TooltipProvider>
-                              </div>
-                            )}
-                            {company.suspended && (
-                              <span className="inline-flex items-center rounded-sm bg-red-100 px-2 py-1 text-xs font-medium text-red-800">
-                                Suspended
-                              </span>
-                            )}
-                          </div>
                         </div>
                         <div className="flex-shrink-0 flex justify-end">
                           <div>
-                            {company.logo ? (
-                              <div className="relative cursor-pointer shrink-0 border border-gray-200 bg-gray-200 h-[96px] w-[96px] overflow-hidden rounded-sm">
-                              <Image
-                                src={company.logo}
-                                alt={company.company_name as string}
-                                title={company.company_name as string}
-                                quality={100}
-                                fill
-                                sizes="100%"
-                                priority
-                              />
-                            </div>
-                          ) : (
-                            <div
-                              title={`${company.company_name as string}'s made up logo`}
-                              className="h-[96px] w-[96px] cursor-pointer py-1 px-0.5 shrink-0 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
-                            >
-                              <div className="flex items-center justify-center shrink-0 w-full h-full">
-                                <div className="text-2xl sm:text-2xl font-semibold shrink-0">
-                                  {getInitials(company.company_name as string)}
+                            {company?.companyLogo ? (
+                              <div className="relative cursor-pointer h-[80px] w-[80px] md:h-[96px] md:w-[96px] overflow-hidden rounded-sm">
+                                <Image
+                                  src={company.companyLogo}
+                                  alt={company.company_name as string}
+                                  title={company.company_name as string}
+                                  quality={100}
+                                  style={{ objectFit: "contain" }}
+                                  fill
+                                  sizes="100%"
+                                  priority
+                                />
+                              </div>
+                            ) : (
+                              <div
+                                title={`${
+                                  company?.company_name as string
+                                }'s made up logo`}
+                                className="h-[80px] w-[80px] md:h-[96px] md:w-[96px] cursor-pointer py-1 px-0.5 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
+                              >
+                                <div className="flex items-center justify-center w-full h-full">
+                                  <div className="text-2xl sm:text-2xl font-semibold">
+                                    {getInitials(
+                                      company?.company_name as string
+                                    )}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
                             )}
                           </div>
                         </div>
                       </div>
                       <div className="flex flex-row items-center mt-1.5 w-full justify-between text-base">
-                        {company.employerPhone && (
+                        {company?.companyEmail && (
                           <Button
                             variant="secondary"
                             size="sm"
                             type="button"
                             onClick={() => {
-                              const mailtoLink = `mailto:${company.secondaryEmail}`;
+                              const mailtoLink = `mailto:${company.companyEmail}`;
                               window.location.href = mailtoLink;
                             }}
                             className="rounded-sm font-normal text-sm border text-primary hover:text-primary hover:bg-secondary bg-white border-gray-200 hover:border-gray-200"
                           >
-                            <a
-                              target="_blank"
-                              href={`tel:${company.employerPhone}`}
-                              className="flex items-center text-sm"
-                            >
+                            <span className="flex items-center text-sm">
                               <Mail className="w-4 h-4 mr-1.5 font-semibold" />
                               Email
-                            </a>
+                            </span>
                           </Button>
                         )}
-                        {company.website && (
+                        {company?.companyWebsite && (
                           <Button
                             variant="outline"
                             size="sm"
                             onClick={() => {
-                              let url: string | null = company.website;
+                              let url: string | null = company.companyWebsite;
                               if (url) {
                                 if (!url.startsWith("https://www.")) {
                                   url = `https://www.${url}`;
@@ -318,9 +161,7 @@ const CompanyDetails = ({
                           {company.company_description && (
                             <div className="text-gray-600 text-base">
                               <Preview
-                                value={
-                                  company.company_description as string
-                                }
+                                value={company.company_description as string}
                               />
                             </div>
                           )}
@@ -334,14 +175,15 @@ const CompanyDetails = ({
                         <h3 className="text-xl font-medium text-gray-700">
                           Our Latest Jobs
                         </h3>
-                        <div>
-                          {thisCompanyCounts.flatMap((top) => (
-                            <div
-                              key={top.companyDetails.id}
-                              className="flex flex-row items-center"
-                            >
+                        {company?.numberOfOccurrence &&
+                          company?.numberOfOccurrence > 1 && (
+                            <div className="flex flex-row items-center">
                               <h3 className="text-3xl font-medium text-sky-700 mr-1">
-                                {top.vacanciesCount}
+                                {company?.numberOfOccurrence ? (
+                                  <>{company.numberOfOccurrence}</>
+                                ) : (
+                                  "0"
+                                )}
                               </h3>{" "}
                               <h3 className="flex flex-col leading-tight text-sm">
                                 <span className="text-sky-700">
@@ -350,13 +192,12 @@ const CompanyDetails = ({
                                 <span>in this organization</span>
                               </h3>
                             </div>
-                          ))}
-                        </div>
+                          )}
                       </div>
 
-                      {allJobs.length !== 0 ? (
+                      {company?.jobs.length !== 0 ? (
                         <div className="mt-1 text-base text-gray-700">
-                          <JobCard3 allJobs={allJobs} />
+                          <JobCard3 allJobs={company?.jobs as []} />
                         </div>
                       ) : (
                         <section className="relative max-w-screen-xl mx-auto border-t border-gray-200 mt-1.5 pb-4">
@@ -424,7 +265,8 @@ const CompanyDetails = ({
                               company&apos;s{" "}
                               <a
                                 onClick={() => {
-                                  let url: string | null = company.website;
+                                  let url: string | null =
+                                    company.companyWebsite;
                                   if (url) {
                                     if (!url.startsWith("https://www.")) {
                                       url = `https://www.${url}`;
@@ -437,7 +279,7 @@ const CompanyDetails = ({
                                   }
                                 }}
                                 className={cn(
-                                  company.website
+                                  company.companyWebsite
                                     ? "text-blue-700 cursor-pointer"
                                     : ""
                                 )}

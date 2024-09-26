@@ -7870,7 +7870,7 @@ export const appRouter = router({
       const newJobSummary = job_description
         ? shortDescription(job_description)
         : jobExists.summaryDescription;
-
+      
       if (jobExists.addAssessment === true && addAssessment === false) {
         return await db.job.update({
           where: {

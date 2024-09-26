@@ -283,7 +283,7 @@ export default function JobDetails({
               ) : (
                 <div
                   title={`${job.company_name}'s made up logo`}
-                  className=" h-[80px] w-[80px] md:h-[96px] md:w-[96px] cursor-pointer py-1 px-0.5 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
+                  className="h-[80px] w-[80px] md:h-[96px] md:w-[96px] cursor-pointer py-1 px-0.5 text-gray-600 border border-gray-200  bg-gray-200 hover:bg-secondary rounded-sm sm:flex items-center justify-center"
                 >
                   <div className="flex items-center justify-center w-full h-full">
                     <div className="text-2xl sm:text-2xl font-semibold">
