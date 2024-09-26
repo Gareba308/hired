@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { DeleteAlertModal } from "../models/job/DeleteAlertModal";
 import { trpc } from "@/app/_trpc/client";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -39,10 +39,14 @@ import AssessmentTwoIDEdit from "./AssessmentTwoIDEdit";
 import LogoEdit from "./LogoEdit";
 import SubCategoryEdit from "./SubCategoryEdit";
 import SeniorityEdit from "./SeniorityEdit";
+import CompanyDescriptionEdit from "./CompanyDescriptionEdit";
+import CompanyCategoryEdit from "./CompanyCategoryEdit";
+import CompanyWebsiteEdit from "./CompanyWebsiteEdit";
+import CompanyEmailEdit from "./CompanyEmailEdit";
 
 interface EditJobPageProps {
   job: Job | null;
-  myOrderedPicks: PickAssessCandidate[]
+  myOrderedPicks: PickAssessCandidate[];
 }
 const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
   const router = useRouter();
@@ -51,36 +55,35 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const { mutate: confirmDelete, isLoading } =
-    trpc.adminDeleteJob.useMutation({
-      onSuccess: () => {
+  const { mutate: confirmDelete, isLoading } = trpc.adminDeleteJob.useMutation({
+    onSuccess: () => {
+      toast({
+        title: "Successfully deleted",
+        description: "The job has successfully been deleted",
+        variant: "default",
+        duration: 3000,
+      });
+      router.push("/control/jobs");
+    },
+    onError: (err) => {
+      if (err.message) {
         toast({
-          title: "Successfully deleted",
-          description: "The job has successfully been deleted",
-          variant: "default",
+          title: "Something went wrong",
+          description: err.message,
+          variant: "destructive",
           duration: 3000,
         });
-        router.push("/control/jobs");
-      },
-      onError: (err) => {
-        if (err.message) {
-          toast({
-            title: "Something went wrong",
-            description: err.message,
-            variant: "destructive",
-            duration: 3000,
-          });
-        } else {
-          toast({
-            title: "Something went wrong",
-            description:
-              "There was a problem deleting this job. Please try again later",
-            variant: "destructive",
-            duration: 3000,
-          });
-        }
-      },
-    });
+      } else {
+        toast({
+          title: "Something went wrong",
+          description:
+            "There was a problem deleting this job. Please try again later",
+          variant: "destructive",
+          duration: 3000,
+        });
+      }
+    },
+  });
 
   const submitDelete = () => {
     setDeleteOpen(false);
@@ -137,7 +140,19 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
           {job?.jobFormNonRegisteredCompany === true && (
             <CompanyNameEdit job={job} jobId={job?.id as string} />
           )}
-          <LogoEdit  job={job} jobId={job?.id as string}/>
+          {job?.jobFormNonRegisteredCompany === true && (
+            <CompanyEmailEdit job={job} jobId={job?.id as string} />
+          )}
+          {job?.jobFormNonRegisteredCompany === true && (
+            <CompanyDescriptionEdit job={job} jobId={job?.id as string} />
+          )}
+          {job?.jobFormNonRegisteredCompany === true && (
+            <CompanyCategoryEdit job={job} jobId={job?.id as string} />
+          )}
+          {job?.jobFormNonRegisteredCompany === true && (
+            <CompanyWebsiteEdit job={job} jobId={job?.id as string} />
+          )}
+          <LogoEdit job={job} jobId={job?.id as string} />
           <CountyEdit job={job} jobId={job?.id as string} />
           <CategoryEdit job={job} jobId={job?.id as string} />
           <SubCategoryEdit job={job} jobId={job?.id as string} />

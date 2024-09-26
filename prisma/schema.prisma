@@ -220,6 +220,7 @@ model Job {
   adminCreatingCompanyName    String?
   company_description         String?   @db.Text
   companyCategory             String?
+  companyEmail                String?
   companyWebsite              String?
   companyId                   String
   company_name                String
@@ -279,6 +280,7 @@ model UnregisteredCompany {
   companyDescription String?
   companyCategory    String?
   companyWebsite     String?
+  companyEmail       String?
   logo               String?
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt

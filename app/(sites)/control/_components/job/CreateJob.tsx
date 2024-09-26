@@ -182,9 +182,12 @@ export const reminderFormSchema = z.object({
   assessmentOneID: z.string(),
   assessmentTwoID: z.string(),
   jobFormNonRegisteredCompany: z.boolean().default(false),
-  adminCreatingCompanyName: z.string(),
   adminCreatingAddLogo: z.string(),
-
+  adminCreatingCompanyName: z.string(),
+  adminCreatingCompanyDescription: z.string(),
+  adminCreatingCompanyCategory: z.string(),
+  adminCreatingCompanyWebsite: z.string(),
+  adminCreatingCompanyEmail: z.string(),
   unregisteredKnown: z.boolean().default(false),
   unregisteredID: z.string(),
   seniority: z.string(),
@@ -245,6 +248,10 @@ const CreateJob = ({
       companyID: "",
       jobFormNonRegisteredCompany: false,
       adminCreatingCompanyName: "",
+      adminCreatingCompanyDescription: "",
+      adminCreatingCompanyCategory: "",
+      adminCreatingCompanyWebsite: "",
+      adminCreatingCompanyEmail: "",
       adminCreatingAddLogo: "",
       unregisteredKnown: false,
       unregisteredID: "",
@@ -702,7 +709,7 @@ const CreateJob = ({
                       <FormField
                         disabled={isLoading}
                         control={form.control}
-                        rules={{ required: "Job title cannot be left blank" }}
+                        rules={{ required: "Company's name cannot be blank" }}
                         name="adminCreatingCompanyName"
                         render={({ field }) => (
                           <FormItem>
@@ -717,6 +724,178 @@ const CreateJob = ({
                                 {...field}
                               />
                             </FormControl>
+                            <FormDescription></FormDescription>
+                            <FormMessage className="text-red-500 font-normal text-sm" />
+                          </FormItem>
+                        )}
+                      />
+                    </dd>
+                  </div>
+                )}
+
+                {unregistered && !known && (
+                  <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                    <dt className="text-base font-medium text-gray-600">
+                      <div className="flex items-center flex-row">
+                        <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                        <span className="flex items-center">
+                          Company Email
+                          <span className="text-lg font-normal pl-0.5 text-red-600">
+                            *
+                          </span>
+                        </span>
+                      </div>
+                    </dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-base">
+                      <FormField
+                        disabled={isLoading}
+                        control={form.control}
+                        rules={{ required: "Company's email cannot be blank" }}
+                        name="adminCreatingCompanyEmail"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="font-normal text-base text-gray-700">
+                              What is the email of the company?
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                disabled={isLoading}
+                                type='email'
+                                placeholder="e.g. example@example.com"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormDescription></FormDescription>
+                            <FormMessage className="text-red-500 font-normal text-sm" />
+                          </FormItem>
+                        )}
+                      />
+                    </dd>
+                  </div>
+                )}
+
+                {unregistered && !known && (
+                  <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                    <dt className="text-base font-medium text-gray-600">
+                      <div className="flex items-center flex-row">
+                        <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                        <span className="flex items-center">
+                          Company&apos;s About
+                          <span className="text-lg font-normal pl-0.5 text-red-600">
+                            *
+                          </span>
+                        </span>
+                      </div>
+                    </dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-base">
+                      <FormField
+                        disabled={isLoading}
+                        control={form.control}
+                        rules={{
+                          required: "The company's description is required",
+                        }}
+                        name="adminCreatingCompanyDescription"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="font-normal text-base text-gray-700">
+                              What is the company&apos;s brief description?
+                            </FormLabel>
+                            <FormControl className="mb-4">
+                              <Editor
+                                disabled={isLoading}
+                                {...field}
+                                ref={(editor) => (editorRef.current = editor)}
+                              />
+                            </FormControl>
+                            <FormDescription></FormDescription>
+                            <FormMessage className="text-red-500 font-normal text-sm" />
+                          </FormItem>
+                        )}
+                      />
+                    </dd>
+                  </div>
+                )}
+                {unregistered && !known && (
+                  <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                    <dt className="text-base font-medium text-gray-600">
+                      <div className="flex items-center flex-row">
+                        <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                        <span className="flex items-center">
+                          Company&apos;s Category
+                          <span className="text-lg font-normal pl-0.5 text-red-600">
+                            *
+                          </span>
+                        </span>
+                      </div>
+                    </dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-base">
+                      <FormField
+                        disabled={isLoading}
+                        control={form.control}
+                        rules={{
+                          required: "The company's category is required",
+                        }}
+                        name="adminCreatingCompanyCategory"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="font-normal text-base text-gray-700">
+                              What is the company&apos;s category of operation?
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                disabled={isLoading}
+                                placeholder="e.g. Healthcare"
+                                required
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormDescription></FormDescription>
+                            <FormMessage className="text-red-500 font-normal text-sm" />
+                          </FormItem>
+                        )}
+                      />
+                    </dd>
+                  </div>
+                )}
+                {unregistered && !known && (
+                  <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                    <dt className="text-base font-medium text-gray-600">
+                      <div className="flex items-center flex-row">
+                        <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
+                        <span className="flex items-center">
+                          Company&apos;s Website
+                          <span className="text-lg font-normal pl-0.5 text-red-600">
+                            *
+                          </span>
+                        </span>
+                      </div>
+                    </dt>
+                    <dd className="mt-1 leading-6 text-gray-700 sm:col-span-2 sm:mt-0 text-base">
+                      <FormField
+                        disabled={isLoading}
+                        control={form.control}
+                        rules={{
+                          required: "The company's website is required",
+                        }}
+                        name="adminCreatingCompanyWebsite"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="font-normal text-base text-gray-700">
+                              What is the company&apos;s website address?
+                            </FormLabel>
+                            <div className="flex items-center text-gray-700 rounded-sm">
+                              <div className="flex px-1.5 border rounded-l-sm border-gray-200 items-center justify-center h-10 bg-gray-200">
+                                https://
+                              </div>
+                              <FormControl className="">
+                                <Input
+                                  disabled={isLoading}
+                                  placeholder="www.example.com/job"
+                                  className="rounded-l-none"
+                                  {...field}
+                                />
+                              </FormControl>
+                            </div>
                             <FormDescription></FormDescription>
                             <FormMessage className="text-red-500 font-normal text-sm" />
                           </FormItem>

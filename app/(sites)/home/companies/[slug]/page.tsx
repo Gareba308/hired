@@ -21,11 +21,11 @@ const currentYear = new Date().getFullYear();
 
 const getCompanyJobs = async (slug: string) => {
   const currentDate = new Date();
-  const trueCompanyName = convertFromSlug(slug);
+  const trueCompanyName = convertFromSlug(slug).trim();
   const jobs = await db.job.findMany({
     where: {
       company_name: {
-        equals: trueCompanyName,
+        contains: trueCompanyName,
         mode: "insensitive",
       },
       deadline: {
@@ -40,8 +40,14 @@ const getCompanyJobs = async (slug: string) => {
     },
   });
 
-  return jobs;
+  const filteredJobs = jobs.filter(job => {
+    const normalizedJobCompanyName = job.company_name.trim().toLowerCase();
+    return normalizedJobCompanyName === trueCompanyName.toLowerCase();
+  });
+
+  return filteredJobs;
 };
+
 
 export async function generateMetadata({
   params,

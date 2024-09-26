@@ -3617,6 +3617,7 @@ export const appRouter = router({
         },
         select: {
           name: true,
+          email: true
         },
       });
 
@@ -3817,6 +3818,7 @@ export const appRouter = router({
               company_description,
               companyCategory: employerProfile?.category as string,
               companyWebsite: employerProfile?.website as string,
+              companyEmail: dbUser.email,
               job_type,
               job_title,
               job_description,
@@ -3863,7 +3865,8 @@ export const appRouter = router({
             job_title,
             job_description,
             companyCategory: employerProfile?.category as string,
-              companyWebsite: employerProfile?.website as string,
+            companyWebsite: employerProfile?.website as string,
+            companyEmail: dbUser.email,
             summaryDescription: shortDescription(job_description),
             responsibilities,
             requirement,
@@ -3904,7 +3907,8 @@ export const appRouter = router({
           company_name,
           company_description,
           companyCategory: employerProfile?.category as string,
-              companyWebsite: employerProfile?.website as string,
+          companyEmail: dbUser.email,
+          companyWebsite: employerProfile?.website as string,
           job_type,
           job_title,
           job_description,
@@ -4607,6 +4611,7 @@ export const appRouter = router({
         adminCreatingCompanyDescription: z.string(),
         adminCreatingCompanyCategory: z.string(),
         adminCreatingCompanyWebsite: z.string(),
+        adminCreatingCompanyEmail: z.string(),
         adminCreatingAddLogo: z.string(),
         unregisteredKnown: z.boolean().default(false),
         unregisteredID: z.string(),
@@ -4645,6 +4650,7 @@ export const appRouter = router({
         adminCreatingCompanyDescription,
         adminCreatingCompanyCategory,
         adminCreatingCompanyWebsite,
+        adminCreatingCompanyEmail,
         assessmentOneID,
         assessmentTwoID,
         unregisteredKnown,
@@ -4703,7 +4709,7 @@ export const appRouter = router({
           id: true,
         },
       });
-
+      
       const assignCompanyID = jobFormNonRegisteredCompany
         ? companyForUnregistered?.id
         : companyID;
@@ -4731,7 +4737,14 @@ export const appRouter = router({
           message:
             "There is no a company with the provided details. Kindly check, ensure the company has profile and try again.",
         });
-
+        const companyUser= await db.user.findFirst({
+          where: {
+            id: companyExists.userId
+          },
+          select: {
+            email: true
+          }
+        })
       const {
         userId: employerUserId,
         isEmployerID,
@@ -4755,32 +4768,52 @@ export const appRouter = router({
           ? unregisteredKnownExists.companyName
           : (companyExists.company_name as string);
 
-      const company_name= company_nameOld.trim()
+      const company_name = company_nameOld.trim();
 
-      const company_description= 
-      jobFormNonRegisteredCompany &&
-      !unregisteredKnownExists &&
-      unregisteredKnown === false ? adminCreatingCompanyDescription : jobFormNonRegisteredCompany &&
-      unregisteredKnownExists &&
-      unregisteredKnown === true ?  unregisteredKnownExists.companyDescription
-      : (companyExists.company_description as string);
+      const company_description =
+        jobFormNonRegisteredCompany &&
+        !unregisteredKnownExists &&
+        unregisteredKnown === false
+          ? adminCreatingCompanyDescription
+          : jobFormNonRegisteredCompany &&
+            unregisteredKnownExists &&
+            unregisteredKnown === true
+          ? unregisteredKnownExists.companyDescription
+          : (companyExists.company_description as string);
 
-      const companyCategory= 
-      jobFormNonRegisteredCompany &&
-      !unregisteredKnownExists &&
-      unregisteredKnown === false ? adminCreatingCompanyCategory : jobFormNonRegisteredCompany &&
-      unregisteredKnownExists &&
-      unregisteredKnown === true ?  unregisteredKnownExists.companyCategory
-      : (companyExists.category as string);
+      const companyCategory =
+        jobFormNonRegisteredCompany &&
+        !unregisteredKnownExists &&
+        unregisteredKnown === false
+          ? adminCreatingCompanyCategory
+          : jobFormNonRegisteredCompany &&
+            unregisteredKnownExists &&
+            unregisteredKnown === true
+          ? unregisteredKnownExists.companyCategory
+          : (companyExists.category as string);
 
-      const companyWebsite= 
-      jobFormNonRegisteredCompany &&
-      !unregisteredKnownExists &&
-      unregisteredKnown === false ? adminCreatingCompanyWebsite : jobFormNonRegisteredCompany &&
-      unregisteredKnownExists &&
-      unregisteredKnown === true ?  unregisteredKnownExists.companyWebsite
-      : (companyExists.website as string);
-      
+      const companyWebsite =
+        jobFormNonRegisteredCompany &&
+        !unregisteredKnownExists &&
+        unregisteredKnown === false
+          ? adminCreatingCompanyWebsite
+          : jobFormNonRegisteredCompany &&
+            unregisteredKnownExists &&
+            unregisteredKnown === true
+          ? unregisteredKnownExists.companyWebsite
+          : (companyExists.website as string);
+          
+      const companyEmail =
+        jobFormNonRegisteredCompany &&
+        !unregisteredKnownExists &&
+        unregisteredKnown === false
+          ? adminCreatingCompanyEmail
+          : jobFormNonRegisteredCompany &&
+            unregisteredKnownExists &&
+            unregisteredKnown === true
+          ? unregisteredKnownExists.companyEmail
+          : (companyUser?.email as string);
+
       const logo =
         jobFormNonRegisteredCompany &&
         !unregisteredKnownExists &&
@@ -4799,6 +4832,7 @@ export const appRouter = router({
             companyDescription: company_description,
             companyCategory,
             companyWebsite,
+            companyEmail,
             logo: logo,
           },
         });
@@ -4934,6 +4968,9 @@ export const appRouter = router({
               companyId: companyExists.id,
               company_name,
               company_description,
+              companyCategory,
+            companyWebsite,
+            companyEmail,
               companyLogo: logo,
               job_type,
               adminPosted: true,
@@ -4980,6 +5017,9 @@ export const appRouter = router({
             companyId: companyExists.id,
             company_name,
             company_description,
+            companyCategory,
+            companyWebsite,
+            companyEmail,
             companyLogo: logo,
             job_type,
             adminPosted: true,
@@ -5026,6 +5066,9 @@ export const appRouter = router({
           companyId: companyExists.id,
           company_name,
           company_description,
+          companyCategory,
+            companyWebsite,
+            companyEmail,
           companyLogo: logo,
           job_type,
           adminPosted: true,
@@ -7721,7 +7764,11 @@ export const appRouter = router({
         linkPlatform: z.string().optional(),
         otherPlatform: z.string().optional(),
         jobFormNonRegisteredCompany: z.boolean().optional(),
-        adminCreatingCompanyName: z.string().optional(),
+        company_name: z.string().optional(),
+        company_description: z.string().optional(),
+        companyCategory: z.string().optional(),
+        companyWebsite: z.string().optional(),
+        companyEmail: z.string().optional(),
         experienceDesired: z.string().optional(),
         experience: z.string().optional(),
         numberOfPositions: z.string().optional(),
@@ -7776,7 +7823,11 @@ export const appRouter = router({
         assessmentOneID,
         assessmentTwoID,
         companyLogo,
-        adminCreatingCompanyName,
+        company_name,
+        company_description,
+        companyCategory,
+        companyWebsite,
+        companyEmail,
         seniority,
         subCategory,
       } = input;
@@ -7850,6 +7901,11 @@ export const appRouter = router({
             address,
             academic,
             companyLogo,
+            company_name,
+            company_description,
+            companyCategory,
+            companyWebsite,
+            companyEmail,
             benefits,
             instructions,
             deadline,
@@ -7944,6 +8000,11 @@ export const appRouter = router({
           address,
           academic,
           companyLogo,
+          company_name,
+          company_description,
+          companyCategory,
+          companyWebsite,
+          companyEmail,
           benefits,
           instructions,
           deadline,
@@ -8043,6 +8104,11 @@ export const appRouter = router({
           address,
           academic,
           companyLogo,
+          company_name,
+          company_description,
+          companyCategory,
+          companyWebsite,
+          companyEmail,
           benefits,
           instructions,
           deadline,
@@ -8069,7 +8135,11 @@ export const appRouter = router({
           job_description,
           summaryDescription: newJobSummary,
           jobFormNonRegisteredCompany,
-          adminCreatingCompanyName,
+          company_name,
+          company_description,
+          companyCategory,
+          companyWebsite,
+          companyEmail,
           responsibilities,
           requirement,
           personal_skills,

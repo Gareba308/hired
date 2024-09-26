@@ -23,7 +23,7 @@ import { z } from "zod";
 type ReminderFormSchemaType = z.infer<typeof reminderFormSchema>;
 
 export const reminderFormSchema = z.object({
-  adminCreatingCompanyName: z.string().optional(),
+  company_name: z.string().optional(),
 });
 
 interface CompanyNameEditProps {
@@ -42,8 +42,8 @@ const CompanyNameEdit = ({ job, jobId }: CompanyNameEditProps) => {
   const form = useForm<ReminderFormSchemaType>({
     resolver: zodResolver(reminderFormSchema),
     defaultValues: {
-      adminCreatingCompanyName: job?.adminCreatingCompanyName
-        ? job.adminCreatingCompanyName
+      company_name: job?.company_name
+        ? job.company_name
         : "",
     },
   });
@@ -119,7 +119,7 @@ const CompanyNameEdit = ({ job, jobId }: CompanyNameEditProps) => {
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                       <FormField
                         control={form.control}
-                        name="adminCreatingCompanyName"
+                        name="company_name"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="font-normal text-base">
@@ -193,13 +193,13 @@ const CompanyNameEdit = ({ job, jobId }: CompanyNameEditProps) => {
                         )}
                       </div>
                     </div>
-                    {job?.adminCreatingCompanyName ? (
+                    {job?.company_name ? (
                       <div className="font-normal text-gray-800 text-base -mt-0.5 w-full">
-                        {job?.adminCreatingCompanyName}
+                        {job?.company_name}
                       </div>
                     ) : (
                       <span className="italic text-sm text-gray-500">
-                        No unregistered company name details
+                        No company name details
                       </span>
                     )}
                   </div>
