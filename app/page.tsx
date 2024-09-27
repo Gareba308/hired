@@ -1,5 +1,7 @@
 import { db } from "@/db";
 import HomePage from "./(sites)/home/_components/homePage/HomePage";
+import { Suspense } from "react";
+import { Loader2 } from "lucide-react";
 
 export const revalidate = 30;
 
@@ -26,7 +28,15 @@ const Page = async () => {
   const jobs = await getJobs()
   return (
     <div>
-      <HomePage jobs={jobs} />
+      <Suspense
+          fallback={
+            <p className="flex items-center justify-center">
+              <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
+            </p>
+          }
+        >
+        <HomePage jobs={jobs} />
+        </Suspense>
     </div>
   );
 };
