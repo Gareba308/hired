@@ -5,7 +5,6 @@ import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { allSubcategories } from "../data/create-job/CreateJobData";
 import { Job } from "@prisma/client";
 
 interface HomePageProps {
@@ -44,9 +43,6 @@ const HomePage = ({ jobs }: HomePageProps) => {
     ConsultingSubcategory: "Consulting",
   };
 
-  const getCategoryName = (subcategory: keyof SubcategoryMapping): string => {
-    return categoryMapping[subcategory];
-  };
 
   const slugify = (str: string): string => {
     return str

@@ -9,7 +9,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import { categories } from "../data/create-job/CreateJobData";
+import { CheckIcon, ChevronDown } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,7 +46,7 @@ interface CompanyCategoryEditProps {
 }
 const CompanyCategoryEdit = ({ job, jobId }: CompanyCategoryEditProps) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
+  const [popoverOpen3K, setPopoverOpen3K] = useState<boolean>(false);
   const { toast } = useToast();
 
   const router = useRouter();
@@ -123,14 +137,69 @@ const CompanyCategoryEdit = ({ job, jobId }: CompanyCategoryEditProps) => {
                             <FormLabel className="font-normal text-base">
                               Update the company category
                             </FormLabel>
-                            <FormControl>
-                              <Input
-                                disabled={isSubmitting}
-                                placeholder="e.g. Healthcare"
-                                className="w-full"
-                                {...field}
-                              />
-                            </FormControl>
+                            <Popover
+                              open={popoverOpen3K}
+                              onOpenChange={setPopoverOpen3K}
+                            >
+                              <PopoverTrigger asChild>
+                                <FormControl>
+                                  <Button
+                                    variant="outline"
+                                    role="combobox"
+                                    disabled={isLoading}
+                                    className={cn(
+                                      "w-full justify-between",
+                                      !field.value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    {field.value
+                                      ? categories.find(
+                                          (category) =>
+                                            category.value === field.value
+                                        )?.label
+                                      : "---Select the company's category---"}
+                                    <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                  </Button>
+                                </FormControl>
+                              </PopoverTrigger>
+                              <PopoverContent className="p-0 max-h-[400px] overflow-y-scroll">
+                                <Command>
+                                  <CommandInput placeholder="Search category..." />
+                                  <CommandEmpty>
+                                    No category found.
+                                  </CommandEmpty>
+                                  <CommandGroup>
+                                    {categories
+                                      .sort((a, b) =>
+                                        a.label.localeCompare(b.label)
+                                      )
+                                      .map((category) => (
+                                        <CommandItem
+                                          value={category.label}
+                                          key={category.value}
+                                          onSelect={() => {
+                                            form.setValue(
+                                              "companyCategory",
+                                              category.value
+                                            );
+                                            setPopoverOpen3K(false);
+                                          }}
+                                        >
+                                          <CheckIcon
+                                            className={cn(
+                                              "mr-2 h-4 w-4",
+                                              category.value === field.value
+                                                ? "opacity-100"
+                                                : "opacity-0"
+                                            )}
+                                          />
+                                          {category.label}
+                                        </CommandItem>
+                                      ))}
+                                  </CommandGroup>
+                                </Command>
+                              </PopoverContent>
+                            </Popover>
                             <FormMessage className="text-red-500 font-normal text-sm" />
                           </FormItem>
                         )}

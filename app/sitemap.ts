@@ -87,46 +87,39 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       (category, index, self) => category && self.indexOf(category) === index
     );
 
-  const seenCompanies = new Set<string>();
-  const seenSubCategories = new Set<string>();
+  const companyUrls = Array.from(
+    new Set(
+      jobs.flatMap((job) => {
+        if (job.company_name) {
+          const companySlug = slugify(job.company_name);
+          return {
+            url: `${baseUrl}/home/companies/${companySlug}`,
+            lastModified: new Date(job.updatedAt),
+            changeFreq: "daily",
+            priority: 0.8,
+          };
+        }
+        return [];
+      })
+    )
+  );
 
-  const companyUrls = jobs
-    .filter((job) => {
-      if (!seenCompanies.has(job.company_name)) {
-        seenCompanies.add(job.company_name);
-        return true;
-      }
-      return false;
-    })
-    .map((job) => {
-      const companySlug = slugify(job.company_name);
-      return {
-        url: `${baseUrl}/home/companies/${companySlug}`,
-        lastModified: new Date(job.updatedAt),
-        changeFreq: "daily",
-        priority: 0.8,
-      };
-    });
-
-  const subCategoryUrls = jobs
-    .filter((job) => job.subCategory !== null)
-    .filter((job) => {
-      const subCategory = job.subCategory as string;
-      if (!seenSubCategories.has(subCategory)) {
-        seenSubCategories.add(subCategory);
-        return true;
-      }
-      return false;
-    })
-    .map((job) => {
-      const subCategorySlug = convertToSlug(job.subCategory as string);
-      return {
-        url: `${baseUrl}/home/jobs/subcategory/${subCategorySlug}`,
-        lastModified: new Date(job.updatedAt),
-        changeFreq: "daily",
-        priority: 0.8,
-      };
-    });
+  const subCategoryUrls = Array.from(
+    new Set(
+      jobs.flatMap((job) => {
+        if (job.subCategory) {
+          const subCategorySlug = convertToSlug(job.subCategory as string);
+          return {
+            url: `${baseUrl}/home/jobs/subcategory/${subCategorySlug}`,
+            lastModified: new Date(job.updatedAt),
+            changeFreq: "daily",
+            priority: 0.8,
+          };
+        }
+        return [];
+      })
+    )
+  );
 
   const popularUrls = Array.from(
     new Set(

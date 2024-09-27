@@ -303,6 +303,7 @@ const CreateJob = ({
   const [popoverOpenB, setPopoverOpenB] = useState<boolean>(false);
   const [popoverOpen2, setPopoverOpen2] = useState<boolean>(false);
   const [popoverOpen3, setPopoverOpen3] = useState<boolean>(false);
+  const [popoverOpen3K, setPopoverOpen3K] = useState<boolean>(false);
   const [popoverOpen3A, setPopoverOpen3A] = useState<boolean>(false);
   const [popoverOpen4, setPopoverOpen4] = useState<boolean>(false);
   const [popoverOpen4A, setPopoverOpen4A] = useState<boolean>(false);
@@ -760,7 +761,7 @@ const CreateJob = ({
                             <FormControl>
                               <Input
                                 disabled={isLoading}
-                                type='email'
+                                type="email"
                                 placeholder="e.g. example@example.com"
                                 {...field}
                               />
@@ -841,14 +842,69 @@ const CreateJob = ({
                             <FormLabel className="font-normal text-base text-gray-700">
                               What is the company&apos;s category of operation?
                             </FormLabel>
-                            <FormControl>
-                              <Input
-                                disabled={isLoading}
-                                placeholder="e.g. Healthcare"
-                                required
-                                {...field}
-                              />
-                            </FormControl>
+                            <Popover
+                              open={popoverOpen3K}
+                              onOpenChange={setPopoverOpen3K}
+                            >
+                              <PopoverTrigger asChild>
+                                <FormControl>
+                                  <Button
+                                    variant="outline"
+                                    role="combobox"
+                                    disabled={isLoading}
+                                    className={cn(
+                                      "w-full justify-between",
+                                      !field.value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    {field.value
+                                      ? categories.find(
+                                          (category) =>
+                                            category.value === field.value
+                                        )?.label
+                                      : "---Select the company's category---"}
+                                    <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                  </Button>
+                                </FormControl>
+                              </PopoverTrigger>
+                              <PopoverContent className="p-0 max-h-[400px] overflow-y-scroll">
+                                <Command>
+                                  <CommandInput placeholder="Search category..." />
+                                  <CommandEmpty>
+                                    No category found.
+                                  </CommandEmpty>
+                                  <CommandGroup>
+                                    {categories
+                                      .sort((a, b) =>
+                                        a.label.localeCompare(b.label)
+                                      )
+                                      .map((category) => (
+                                        <CommandItem
+                                          value={category.label}
+                                          key={category.value}
+                                          onSelect={() => {
+                                            form.setValue(
+                                              "adminCreatingCompanyCategory",
+                                              category.value
+                                            );
+                                            setPopoverOpen3K(false);
+                                          }}
+                                        >
+                                          <CheckIcon
+                                            className={cn(
+                                              "mr-2 h-4 w-4",
+                                              category.value === field.value
+                                                ? "opacity-100"
+                                                : "opacity-0"
+                                            )}
+                                          />
+                                          {category.label}
+                                        </CommandItem>
+                                      ))}
+                                  </CommandGroup>
+                                </Command>
+                              </PopoverContent>
+                            </Popover>
                             <FormDescription></FormDescription>
                             <FormMessage className="text-red-500 font-normal text-sm" />
                           </FormItem>

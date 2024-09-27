@@ -20,6 +20,7 @@ import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import ReactQuill from "react-quill-new";
+import { Preview } from "@/components/Preview";
 
 type ReminderFormSchemaType = z.infer<typeof reminderFormSchema>;
 
@@ -199,7 +200,7 @@ const CompanyDescriptionEdit = ({
                     </div>
                     {job?.company_description ? (
                       <div className="font-normal text-gray-700 text-base -mt-0.5 w-full">
-                        {job?.company_description}
+                        <Preview value={job?.company_description} />
                       </div>
                     ) : (
                       <span className="italic text-sm text-gray-500">
