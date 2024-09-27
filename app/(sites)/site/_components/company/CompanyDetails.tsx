@@ -149,11 +149,11 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
                       </div>
                     </div>
                   </>
-                  <div className="lg:col-span-2 lg:col-start-1 mt-4">
+                  <div className="lg:col-span-2 lg:col-start-1 mt-3">
                     <>
                       {company && (
                         <div className="w-full">
-                          <div className="flex items-center justify-between border-b border-gray-200 mb-1 pb-1">
+                          <div className="flex items-center justify-between mb-1">
                             <h3 className="text-xl font-medium text-gray-700">
                               Company&apos;s Description
                             </h3>
