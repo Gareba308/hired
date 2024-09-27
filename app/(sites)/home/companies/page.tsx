@@ -14,6 +14,23 @@ type CompanyJob = {
   numberOfOccurrence: number;
 };
 
+export const revalidate = 60;
+const getJobs = async () => {
+  const currentDate = new Date();
+  const jobs = await db.job.findMany({
+    where: {
+      deadline: {
+        gte: currentDate,
+      },
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+      },
+    },
+  });
+
+  return jobs
+};
+
 const currentYear = new Date().getFullYear();
 export const metadata: Metadata = {
   title: {
@@ -81,17 +98,7 @@ export const metadata: Metadata = {
 };
 
 const Page = async () => {
-  const currentDate = new Date();
-  const jobs = await db.job.findMany({
-    where: {
-      deadline: {
-        gte: currentDate,
-      },
-      createdAt: {
-        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
-      },
-    },
-  });
+  const jobs=  await getJobs()
 
   const companyJobs = jobs.reduce<Record<string, CompanyJob>>(
     (acc, job: Job) => {
