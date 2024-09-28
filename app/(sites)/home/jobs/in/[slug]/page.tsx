@@ -112,7 +112,7 @@ export async function generateMetadata({ params }: PopularProps): Promise<Metada
   switch (slug.toLowerCase()) {
     case "nairobi":
     case "mombasa":
-      title = `Explore Jobs at ${trueSlugName}: Latest Job Opportunities and Vacancies`;
+      title = `Explore Jobs in ${trueSlugName}: Latest Job Opportunities and Vacancies`;
       description = `Looking for jobs in ${trueSlugName}? Discover top jobs in ${trueSlugName} Kenya. Explore career opportunities, job vacancies, and apply today to join leading companies in ${trueSlugName}.`;
       keywords = [
         `Jobs in ${trueSlugName}`,
@@ -196,7 +196,7 @@ export async function generateMetadata({ params }: PopularProps): Promise<Metada
       ],
     },
     alternates: {
-      canonical: `/home/jobs/popular/${slug}`,
+      canonical: `/home/jobs/in/${slug}`,
       languages: {
         "en-US": "/en-US",
       },

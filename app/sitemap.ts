@@ -134,7 +134,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const urls = [];
         if (job.job_type === slugMapping.internship) {
           urls.push({
-            url: `${baseUrl}/home/jobs/popular/${slugMapping.internship}`,
+            url: `${baseUrl}/home/jobs/in/${slugMapping.internship}`,
             lastModified: new Date(job.updatedAt),
             changeFreq: "daily",
             priority: 0.8,
@@ -142,14 +142,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         }
         if (job.county === slugMapping.nairobi) {
           urls.push({
-            url: `${baseUrl}/home/jobs/popular/${slugMapping.nairobi}`,
+            url: `${baseUrl}/home/jobs/in/${slugMapping.nairobi}`,
             lastModified: new Date(job.updatedAt),
             changeFreq: "daily",
             priority: 0.8,
           });
         } else if (job.county === slugMapping.mombasa) {
           urls.push({
-            url: `${baseUrl}/home/jobs/popular/${slugMapping.mombasa}`,
+            url: `${baseUrl}/home/jobs/in/${slugMapping.mombasa}`,
             lastModified: new Date(job.updatedAt),
             changeFreq: "daily",
             priority: 0.8,
@@ -159,7 +159,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           job.createdAt >= new Date(currentDate.getTime() - 24 * 60 * 60 * 1000)
         ) {
           urls.push({
-            url: `${baseUrl}/home/jobs/popular/${slugMapping.latest}`,
+            url: `${baseUrl}/home/jobs/in/${slugMapping.latest}`,
             lastModified: new Date(job.updatedAt),
             changeFreq: "hourly",
             priority: 0.9,
@@ -369,6 +369,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/home/faqs/job-seekers`,
+    },
+    {
+      url: `${baseUrl}/home/jobs/in/kenya`,
     },
     {
       url: `${baseUrl}/home/privacy`,

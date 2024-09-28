@@ -15,20 +15,24 @@ const footerNavs = [
     label: "Popular Searches",
     items: [
       {
-        href: `/home/jobs/popular/${internship}`,
+        href: `/home/jobs/in/${internship}`,
         name: "Internships",
       },
       {
-        href: `/home/jobs/popular/${nairobi}`,
+        href: `/home/jobs/in/${nairobi}`,
         name: "Jobs in Nairobi",
       },
       {
-        href: `/home/jobs/popular/${mombasa}`,
+        href: `/home/jobs/in/${mombasa}`,
         name: "Jobs in Mombasa",
       },
       {
-        href: `/home/jobs/popular/${latest}`,
-        name: "Latest Jobs Kenya",
+        href: `/home/jobs/in/${latest}`,
+        name: "New Jobs in Kenya",
+      },
+      {
+        href: `/home/jobs/in/kenya`,
+        name: "All Jobs in Kenya",
       },
     ],
   },

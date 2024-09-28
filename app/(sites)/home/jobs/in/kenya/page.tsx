@@ -1,0 +1,178 @@
+import React from "react";
+import { Suspense } from "react";
+import { db } from "@/db";
+import { headers } from "next/headers";
+import { Job } from "@prisma/client";
+import { Metadata } from "next";
+import { siteConfig } from "@/lib/config";
+import FooterJobs from "@/components/FooterJobs";
+import { Loader2 } from "lucide-react";
+import HomeJobsInKenyaNavBar from "../../../_components/in/HomeJobsInKenyaNavBar";
+
+export const metadata: Metadata = {
+  title: {
+    absolute:
+      "Find all the latest jobs in Kenya, sign up free, apply for vacancies & career listings",
+  },
+  description:
+    "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteConfig.url,
+    title: {
+      absolute:
+        "Find all the latest jobs in Kenya, sign up free, apply for vacancies & career listings",
+    },
+    description:
+      "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
+    siteName: siteConfig.name,
+    images: [
+      {
+        url: siteConfig.ogJobPage,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  keywords: [
+    "job in Kenya listings",
+    "Top jobs in Kenya",
+    "Kenyan employment opportunities",
+    "Hired careers Kenya",
+    "Job openings in Kenya",
+    "job in Kenya portal",
+    "Search jobs in Kenya",
+    "recruitment in Kenya",
+    "Find employment in Kenya",
+    "Latest job in Kenya opportunities",
+  ],
+  alternates: {
+    canonical: "/home/jobs/in/kenya",
+    languages: {
+      "en-US": "/en-US",
+    },
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: {
+      absolute:
+        "Find all the latest jobs in Kenya, sign up free, apply for vacancies & career listings",
+    },
+    description:
+      "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
+    images: [
+      {
+        url: siteConfig.ogJobPage,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
+    creator: "@hiredke",
+    site: "@hiredke",
+  },
+};
+
+const Page = async () => {
+  const header = headers();
+
+  const cookiePairs = header.get("cookie");
+  let viewID;
+  for (const pair of cookiePairs ? cookiePairs.split(";") : []) {
+    const [key, value] = pair.split("=").map((item) => item.trim());
+    if (
+      key === "__Host-next-auth.csrf-token" ||
+      key === "next-auth.csrf-token"
+    ) {
+      viewID = value;
+      break;
+    }
+  }
+  const currentDate = new Date();
+  const jobs = await db.job.findMany({
+    where: {
+      deadline: {
+        gte: currentDate,
+      },
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  //  Popular Hot Not Applied
+  const allApplications = await db.application.findMany();
+  const applicationsCounts: Record<string, number> = {};
+  allApplications.forEach((application) => {
+    const { jobId } = application;
+    if (jobId) {
+      applicationsCounts[jobId] = (applicationsCounts[jobId] || 0) + 1;
+    }
+  });
+  const applicationsArray = Object.entries(applicationsCounts).map(
+    ([jobId, count]) => ({
+      jobId,
+      count,
+    })
+  );
+  const sortedApplications = applicationsArray.sort(
+    (a, b) => b.count - a.count
+  );
+  const jobIDS = sortedApplications.map((top) => top.jobId);
+  const popularJobs = await db.job.findMany({
+    where: {
+      id: {
+        in: jobIDS,
+      },
+      deadline: {
+        gte: currentDate,
+      },
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+      },
+    },
+  });
+
+  const sortedPopularJobs = jobIDS
+    .map((jobId) => popularJobs.find((job) => job.id === jobId))
+    .filter((job) => job !== undefined) as Job[];
+
+  const finalSortedPopularJobs = sortedPopularJobs.slice(0, 4);
+
+  const liveJobsCompanyIDS = jobs.flatMap((job) => job.companyId);
+  const companyProfiles = await db.company.findMany({
+    where: {
+      id: {
+        in: liveJobsCompanyIDS,
+      },
+    },
+  });
+  return (
+    <>
+      <section className="mt-5 bg-white h-full min-h-[calc(100vh-70px)]">
+        <Suspense
+          fallback={
+            <p className="flex items-center justify-center">
+              <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
+            </p>
+          }
+        >
+          <HomeJobsInKenyaNavBar
+            jobs={jobs}
+            viewID={viewID as string}
+            popular={finalSortedPopularJobs}
+            companyProfiles={companyProfiles}
+          />
+        </Suspense>
+      </section>
+      <FooterJobs />
+    </>
+  );
+};
+
+export default Page;

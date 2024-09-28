@@ -10,14 +10,22 @@ import FooterJobs from "@/components/FooterJobs";
 import { Loader2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Apply for Vacancies & Career Listings",
-  description: "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
+  title: {
+    absolute:
+      "Find all the latest jobs in Kenya, sign up free, apply for vacancies & career listings",
+  },
+  description:
+    "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
-    title: "Apply for Vacancies & Career Listings",
-    description: "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
+    title: {
+      absolute:
+        "Find all the latest jobs in Kenya, sign up free, apply for vacancies & career listings",
+    },
+    description:
+      "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
     siteName: siteConfig.name,
     images: [
       {
@@ -48,8 +56,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Apply for Vacancies & Career Listings",
-    description: "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
+    title: {
+      absolute:
+        "Find all the latest jobs in Kenya, sign up free, apply for vacancies & career listings",
+    },
+    description:
+      "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
     images: [
       {
         url: siteConfig.ogJobPage,
@@ -70,7 +82,10 @@ const Page = async () => {
   let viewID;
   for (const pair of cookiePairs ? cookiePairs.split(";") : []) {
     const [key, value] = pair.split("=").map((item) => item.trim());
-    if (key === "__Host-next-auth.csrf-token" || key === "next-auth.csrf-token") {
+    if (
+      key === "__Host-next-auth.csrf-token" ||
+      key === "next-auth.csrf-token"
+    ) {
       viewID = value;
       break;
     }
@@ -129,14 +144,14 @@ const Page = async () => {
 
   const finalSortedPopularJobs = sortedPopularJobs.slice(0, 4);
 
-  const liveJobsCompanyIDS= jobs.flatMap((job)=> job.companyId)
-  const companyProfiles= await db.company.findMany({
+  const liveJobsCompanyIDS = jobs.flatMap((job) => job.companyId);
+  const companyProfiles = await db.company.findMany({
     where: {
       id: {
-        in: liveJobsCompanyIDS
-      }
-    }
-  })
+        in: liveJobsCompanyIDS,
+      },
+    },
+  });
   return (
     <>
       <section className="mt-5 bg-white h-full min-h-[calc(100vh-70px)]">

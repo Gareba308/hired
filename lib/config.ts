@@ -4,11 +4,11 @@ export const siteConfig = {
     "Jobs in Kenya, for Latest Vacancies, Career Opportunities & Listings",
   url: "https://www.hired.co.ke",
   ogImage:
-    "https://res.cloudinary.com/dflvibeo6/image/upload/v1725088248/Apply_Now_6_umcn7a.png",
+    "https://res.cloudinary.com/dflvibeo6/image/upload/v1727523549/aahomepage2_sbphv8.png",
   ogJobPage:
-    "https://res.cloudinary.com/dflvibeo6/image/upload/v1725088246/Apply_Now_3_lntt1z.png",
+    "https://res.cloudinary.com/dflvibeo6/image/upload/v1727523549/aahomer_cyjydp.png",
   ogJobDetail:
-    "https://res.cloudinary.com/dflvibeo6/image/upload/v1725089163/Apply_Now_New_xlpeyz.png",
+    "https://res.cloudinary.com/dflvibeo6/image/upload/v1727523549/aahomer_cyjydp.png",
   ogEmployerBlogs:
     "https://res.cloudinary.com/dflvibeo6/image/upload/v1725088246/Apply_Now_2_thynxq.png",
   ogWorkerBlogs:
