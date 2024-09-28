@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { MetadataRoute } from "next";
 
-export const revalidate = 60;
+export const revalidate = 30;
 
 const convertToSlug = (text: string): string => {
   return text.toLowerCase().replace(/\s+/g, "-");

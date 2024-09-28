@@ -383,8 +383,8 @@ export const categories = [
   },
   { label: "Legal and Compliance", value: "Legal and Compliance" },
   {
-    label: "Science,  Research, Monitoring and Evaluation",
-    value: "Science,  Research, Monitoring and Evaluation",
+    label: "Science, Research, Monitoring and Evaluation",
+    value: "Science, Research, Monitoring and Evaluation",
   },
   {
     label: "Media, Communications, films and art",

@@ -14,7 +14,7 @@ type CompanyJob = {
   numberOfOccurrence: number;
 };
 
-export const revalidate = 60;
+export const revalidate = 30;
 const getJobs = async () => {
   const currentDate = new Date();
   const jobs = await db.job.findMany({
