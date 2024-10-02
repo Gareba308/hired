@@ -3,7 +3,8 @@ import HomePage from "./(sites)/home/_components/homePage/HomePage";
 import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 
-export const revalidate = 30;
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
 
 const getJobs = async () => {
   const currentDate = new Date();

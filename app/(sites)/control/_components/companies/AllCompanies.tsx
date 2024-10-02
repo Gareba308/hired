@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 interface CompanyJob {
@@ -45,9 +46,12 @@ const AllCompanies = ({ companies }: TopCompaniesProps) => {
   const router = useRouter();
   return (
     <>
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-600 mb-4">
-        Employer Companies
-      </h1>
+      <div className='w-full flex flex-row justify-between gap-x-3 mb-4'>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-600">
+          Companies
+        </h1>
+        <Button onClick={() => router.push('/control/companies/stats')} type='button' size='default' variant='default' className='hover:bg-primary hover:opacity-90'>Statistics</Button>
+      </div>
       <div className="mt-4 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {companies
           .sort((a, b) => b.numberOfOccurrence - a.numberOfOccurrence)

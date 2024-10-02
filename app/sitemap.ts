@@ -1,7 +1,9 @@
 import { db } from "@/db";
 import { MetadataRoute } from "next";
 
-export const revalidate = 30;
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
+export const dynamicParams= true
 
 const convertToSlug = (text: string): string => {
   return text.toLowerCase().replace(/\s+/g, "-");

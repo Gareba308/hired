@@ -14,7 +14,10 @@ type CompanyJob = {
   numberOfOccurrence: number;
 };
 
-export const revalidate = 30;
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
+export const dynamicParams= true
+
 const getJobs = async () => {
   const currentDate = new Date();
   const jobs = await db.job.findMany({
