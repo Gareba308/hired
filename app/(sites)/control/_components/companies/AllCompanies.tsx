@@ -5,6 +5,7 @@ import Image from "next/image";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 
 interface CompanyJob {
   company_name: string;
@@ -46,11 +47,19 @@ const AllCompanies = ({ companies }: TopCompaniesProps) => {
   const router = useRouter();
   return (
     <>
-      <div className='w-full flex flex-row justify-between gap-x-3 mb-4'>
+      <div className="w-full flex flex-row justify-between gap-x-3 mb-4">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-600">
           Companies
         </h1>
-        <Button onClick={() => router.push('/control/companies/stats')} type='button' size='default' variant='default' className='hover:bg-primary hover:opacity-90'>Statistics</Button>
+        <Button
+          onClick={() => router.push("/control/companies/stats")}
+          type="button"
+          size="default"
+          variant="default"
+          className="hover:bg-primary hover:opacity-90"
+        >
+          Statistics <ArrowRight className="h-4 w-4 mr-1.5 shrink-0" />
+        </Button>
       </div>
       <div className="mt-4 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {companies
