@@ -22,7 +22,6 @@ const slugMapping = {
   internship: "internship",
   nairobi: "nairobi",
   mombasa: "mombasa",
-  latest: "latest",
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -155,16 +154,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             lastModified: new Date(job.updatedAt),
             changeFreq: "daily",
             priority: 0.8,
-          });
-        }
-        if (
-          job.createdAt >= new Date(currentDate.getTime() - 24 * 60 * 60 * 1000)
-        ) {
-          urls.push({
-            url: `${baseUrl}/home/jobs/in/${slugMapping.latest}`,
-            lastModified: new Date(job.updatedAt),
-            changeFreq: "hourly",
-            priority: 0.9,
           });
         }
         return urls;
@@ -365,6 +354,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/home/blogs/employers`,
+    },
+    {
+      url: `${baseUrl}/home/jobs/in/latest`,
     },
     {
       url: `${baseUrl}/home/faqs/employers`,

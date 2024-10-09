@@ -1,9 +1,9 @@
 
+import React from "react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { db } from "@/db";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import React from "react";
 import DocumentsRender from "../_components/documents/DocumentsRender";
 import NoPortfolio from "../_components/documents/NoPortfolio";
 import NoProfile from "../_components/documents/NoProfile";

@@ -40,7 +40,6 @@ interface DocumentDetailsProps {
 export default function DocumentDetails({
   document: application,
 }: DocumentDetailsProps) {
-
   return (
     <div className="w-full relative mx-auto">
       <section className="w-full print:space-y-4">
@@ -51,18 +50,10 @@ export default function DocumentDetails({
                 {application.dbUser.name}
               </h1>
               <p className="-mt-0.5 text-gray-600 text-sm">
-                <span className="text-sm">
-                  P.O Box{" "}
-                  {application.contact?.postal && (
-                    <span>{application.contact?.postal} </span>
-                  )}
-                </span>
-                {"-"}
-                <span className="text-sm">
-                  {application.contact?.zip}
-                </span>,{" "}
                 <span className="text-sm">{application.contact?.county}</span>{" "}
-                Kenya
+                {application.bio?.citizen && (
+                  <span>{application.bio?.citizen}</span>
+                )}
               </p>
               <div className="flex gap-x-1 items-center h-4">
                 {application.contact?.email && (
@@ -87,9 +78,7 @@ export default function DocumentDetails({
                 </h2>
               </div>
               <div className="text-pretty -mt-0.5 text-sm text-gray-600">
-                <Preview
-                  value={application.about?.about as string}
-                />
+                <Preview value={application.about?.about as string} />
               </div>
             </Section>
             <Section className="mt-2 w-full">
@@ -146,9 +135,7 @@ export default function DocumentDetails({
                       </CardHeader>
                       {work.description && (
                         <CardContent className="text-sm text-gray-600">
-                          <Preview
-                            value={work.description as string}
-                          />
+                          <Preview value={work.description as string} />
                         </CardContent>
                       )}
                     </Card>
@@ -179,13 +166,11 @@ export default function DocumentDetails({
                         </div>
                       </CardHeader>
                       <CardContent className="mt-1 text-sm text-gray-600">
-                        <p className='font-medium'>{education.programArea}</p>
-                        <p className='font-medium'>{education.field}</p>
-                        <p className='font-medium'>{education.grade}</p>
+                        <p className="font-medium">{education.programArea}</p>
+                        <p className="font-medium">{education.field}</p>
+                        <p className="font-medium">{education.grade}</p>
                         <div>
-                          <Preview
-                            value={education.activities as string}
-                          />
+                          <Preview value={education.activities as string} />
                         </div>
                       </CardContent>
                     </Card>
@@ -246,9 +231,7 @@ export default function DocumentDetails({
                     <CardHeader>
                       <div className="flex items-center text-gray-600 justify-between gap-x-2 text-base">
                         <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold">
-                          <span
-                            className="hover:underline line-clamp-1 text-gray-600"
-                          >
+                          <span className="hover:underline line-clamp-1 text-gray-600">
                             {award.title}
                           </span>
                         </h3>
@@ -278,9 +261,7 @@ export default function DocumentDetails({
                     <CardHeader>
                       <div className="flex text-gray-600 items-center justify-between gap-x-2 text-base">
                         <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold">
-                          <span
-                            className="hover:underline line-clamp-1 text-gray-600"
-                          >
+                          <span className="hover:underline line-clamp-1 text-gray-600">
                             {item.certificateLicenseName}
                           </span>
                         </h3>
