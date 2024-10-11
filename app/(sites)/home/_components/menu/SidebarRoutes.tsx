@@ -24,8 +24,8 @@ const guestRoute = [
   },
   {
     icon: Album,
-    label: "Free Resume",
-    href: "/home/free/resume",
+    label: "Create Resume",
+    href: "/home/create/resume",
   },
   {
     icon: Newspaper,

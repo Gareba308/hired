@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   ],
   creator: "Hired Jobs In Kenya",
   alternates: {
-    canonical: "/home/free/resume",
+    canonical: "/home/create/resume",
     languages: {
       "en-US": "/en-US",
     },

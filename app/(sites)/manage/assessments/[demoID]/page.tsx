@@ -16,14 +16,6 @@ const shuffleArray = (array: any[]) => {
   return array.sort(() => Math.random() - 0.5);
 };
 
-export const revalidate = 60;
-
-export async function generateStaticParams() {
-  const demos = await db.employerRequestAssessment.findMany();
-
-  return demos.map((demo) => ({ demoID: demo.demoID }));
-}
-
 const Page = async ({ params }: DemoProps) => {
   const { demoID } = params;
 
