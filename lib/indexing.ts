@@ -10,6 +10,9 @@ export default async function googleIndexAPI() {
       deadline: {
         gte: currentDate,
       },
+      published: {
+        equals: true
+      },
       createdAt: {
         gte: new Date(currentDate.getTime() - 6 * 60 * 60 * 1000),
       },

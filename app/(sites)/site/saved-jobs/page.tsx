@@ -47,6 +47,9 @@ const Page = async () => {
       deadline: {
         gte: currentDate,
       },
+      published: {
+        equals: true
+      },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
@@ -69,6 +72,9 @@ const Page = async () => {
     where: {
       deadline: {
         gte: currentDate,
+      },
+      published: {
+        equals: true
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
@@ -139,6 +145,9 @@ const Page = async () => {
       },
       deadline: {
         gte: currentDate,
+      },
+      published: {
+        equals: true
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),

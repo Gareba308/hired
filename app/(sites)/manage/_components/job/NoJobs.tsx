@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Squirrel, Undo2 } from "lucide-react";
+import { Squirrel } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -37,7 +37,7 @@ const NoJobs = () => {
               onClick={() => router.push("/manage/profile")}
               className="w-full font-normal text-base px-4 rounded-sm"
             >
-              <Undo2 className="h-4 w-4 mr-1" /> User Profile
+              User Profile
             </Button>
             <Button
               variant="default"
@@ -46,7 +46,6 @@ const NoJobs = () => {
               className="w-full px-4 font-normal text-base hover:bg-primary hover:opacity-90 rounded-sm"
             >
               Post Job
-              <ArrowRight className="h-4 w-4 ml-1" />
             </Button>
           </div>
         </div>

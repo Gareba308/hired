@@ -18,7 +18,7 @@ const NoProfile= () => {
                   <p className="text-gray-600 text-4xl font-semibold sm:text-5xl">
                       No profile available
                   </p>
-                  <p className="text-gray-600 md:text-lg">
+                  <p className="text-gray-600 text-base md:text-[15px]">
                       You do not have a user profile. You are required to create a user profile to be able to post a job.
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-4">
@@ -31,7 +31,7 @@ const NoProfile= () => {
                       </Link>
                       <Link href='/manage/profile?origin=manage/create-job' className={buttonVariants({
                         size: 'lg',
-                        className: "block  px-4 rounded-none text-base"
+                        className: "block px-4 rounded-none text-base hover:bg-primary"
                       })}>
                          <UserPlus2 className='h-4 w-4 mr-1'/> Create profile
                       </Link>

@@ -10,7 +10,7 @@ const NoProfile = () => {
   const router = useRouter();
   return (
     <main>
-      <div className="bg-white max-w-screen-xl mx-auto px-6 flex rounded-lg items-start pt-8 lg:pt-12 justify-start min-h-[calc(100vh-90px)] md:px-8">
+      <div className="bg-white max-w-screen-xl mx-auto px-6 flex rounded-lg items-start pt-5 lg:pt-12 justify-start min-h-[calc(100vh-90px)] md:px-8">
         <div className="max-w-lg mx-auto space-y-3 text-center">
           <h3 className="text-gray-600 font-semibold text-2xl flex flex-col items-center mb-8">
             <User2 className="h-16 w-16 sm:h-20 sm:w-20 border border-gray-600 rounded-full" />
@@ -19,7 +19,7 @@ const NoProfile = () => {
           <p className="text-gray-600 text-3xl font-semibold sm:text-4xl">
             Incomplete Profile
           </p>
-          <p className="text-gray-600 md:text-lg">
+          <p className="text-gray-600 text-base md:text-[15px]">
             You have an incomplete profile. To be able to apply for a job, you
             are required to have{" "}
             <span className="text-primary font-medium">bio data</span> &{" "}

@@ -19,7 +19,7 @@ const NoPortfolio = () => {
           <p className="text-gray-600 text-3xl font-semibold sm:text-4xl">
             Incomplete Portfolio
           </p>
-          <p className="text-gray-600 md:text-lg">
+          <p className="text-gray-600 text-base md:text-[15px]">
             To submit job application, your portfolio should have details on
             your <span className="text-primary font-medium">skills</span>, a{" "}
             <span className="text-primary font-medium">summary</span> about

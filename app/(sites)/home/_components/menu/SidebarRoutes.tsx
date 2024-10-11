@@ -5,6 +5,7 @@ import {
   ArrowUpSquare,
   ArrowRightSquare,
   Edit,
+  Album,
   Newspaper,
 } from "lucide-react";
 import React from "react";
@@ -17,6 +18,16 @@ const guestRoute = [
     href: "/home/jobs",
   },
   {
+    icon: Edit,
+    label: "Top Companies",
+    href: "/home/companies",
+  },
+  {
+    icon: Album,
+    label: "Free Resume",
+    href: "/home/free/resume",
+  },
+  {
     icon: Newspaper,
     label: "Hiring Insight",
     href: "/home/blogs/employers",
@@ -26,11 +37,7 @@ const guestRoute = [
     label: "Career Advice",
     href: "/home/blogs/job-seekers",
   },
-  {
-    icon: Edit,
-    label: "Top Companies",
-    href: "/home/companies",
-  },
+ 
   {
     icon: ArrowRightSquare,
     label: "Employer Login",

@@ -26,6 +26,7 @@ const Navbar = () => {
   const navigation = [
     { title: "Jobs", path: "/home/jobs" },
     { title: "Companies", path: "/home/companies" },
+    { title: "Resume", path: "/home/free/resume" },
     {
       title: "Resources",
       submenu: [
@@ -33,7 +34,6 @@ const Navbar = () => {
         { title: "Hiring Insight", path: "/home/blogs/employers" },
       ],
     },
-    { title: "About Us", path: "/home/about" },
   ];
 
   return (

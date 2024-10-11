@@ -58,7 +58,7 @@ export const reminderFormSchema = z.object({
   employerPhone: z.string(),
   county: z.string(),
   category: z.string().min(1, "The category section cannot be left black"),
-  secondaryEmail: z.string().email(),
+  secondaryEmail: z.string(),
   secondaryPhone: z.string(),
   town: z.string(),
   established: z.string(),

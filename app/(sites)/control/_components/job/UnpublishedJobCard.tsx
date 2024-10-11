@@ -44,7 +44,7 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
                   <div
                     onClick={() =>
                       router.push(
-                        `/control/jobs/${item.id}?origin=control/jobs`
+                        `/control/publication/${item.id}?origin=control/publication`
                       )
                     }
                     className="relative cursor-pointer flex items-center justify-center h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] overflow-hidden rounded-sm lg:h-[74px] lg:w-[74px]"
@@ -64,7 +64,7 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
                   <div
                     onClick={() =>
                       router.push(
-                        `/control/jobs/${item.id}?origin=control/jobs`
+                        `/control/publication/${item.id}?origin=control/publication`
                       )
                     }
                     title={`${item.company_name}'s made up logo`}
@@ -116,7 +116,7 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
                   </div>
                 </div>
                 <Link
-                  href={`/control/jobs/${item.id}?origin=control/jobs`}
+                  href={`/control/publication/${item.id}?origin=control/publication`}
                   title={item.job_title}
                 >
                   <div className="text-lg lg:text-[16.3px] w-full -mt-0.5 block cursor-pointer font-medium text-primary hover:text-[#005580]">

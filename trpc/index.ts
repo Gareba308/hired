@@ -5138,6 +5138,9 @@ export const appRouter = router({
         deadline: {
           gte: currentDate,
         },
+        published: {
+          equals: true
+        },
         createdAt: {
           gte: new Date(currentDate.getTime() - 12 * 60 * 60 * 1000),
         },

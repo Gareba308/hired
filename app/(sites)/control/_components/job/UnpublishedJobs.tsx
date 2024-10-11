@@ -2,14 +2,9 @@
 
 import { Job } from "@prisma/client";
 import UnpublishedJobCard from "./UnpublishedJobCard";
-import { Button } from "@/components/ui/button";
 import {
-  ArrowLeft,
   Briefcase,
-  MessageSquare,
   Rocket,
-  ShieldQuestion,
-  Undo,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

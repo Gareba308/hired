@@ -5,7 +5,6 @@ import {
   Page,
   Text,
   View,
-  Font,
   StyleSheet,
 } from "@react-pdf/renderer";
 import parse from "html-react-parser";
@@ -39,113 +38,94 @@ interface DocumentsRenderItems {
   skills: Skills | null;
 }
 
-Font.register({
-  family: "Roboto",
-  fonts: [
-    {
-      src: 'https://fonts.gstatic.com/s/roboto/v29/KFOmCnqEu92Fr1Mu4mxP.ttf',
-    },
-    {
-      src: 'https://fonts.gstatic.com/s/roboto/v29/KFOkCnqEu92Fr1MmgVxFIzIFKw.ttf',
-      fontWeight: 'bold',
-    },
-    {
-      src: 'https://fonts.gstatic.com/s/roboto/v29/KFOjCnqEu92Fr1Mu51TjASc6Cs.ttf',
-      fontStyle: 'italic',
-    },
-  ],
-});
-
 const styles = StyleSheet.create({
   page: {
     padding: 30,
+    fontFamily: "Times-Roman",
     backgroundColor: "#E4E4E4",
   },
   mainSection: {
     marginBottom: 2,
+    fontFamily: "Times-Roman",
     paddingVertical: 2,
   },
   section: {
     marginBottom: 2,
+    fontFamily: "Times-Roman",
     paddingVertical: 2,
   },
   mainHeader: {
-    fontFamily: "Roboto",
+    fontFamily: "Times-Bold",
     fontSize: 17,
-    fontWeight: "bold",
     marginBottom: 3,
   },
   header: {
-    // fontFamily: "Roboto",
     fontSize: 14,
-    fontWeight: "bold",
+    fontFamily: "Times-Bold",
     borderBottom: "1 solid #555",
     marginBottom: 2,
     paddingBottom: 1,
   },
   boldText: {
-    // fontFamily: "Roboto",
     fontSize: 12,
-    fontWeight: "bold",
+    fontFamily: "Times-Bold",
     color: "666",
-    marginBottom: 3
+    marginBottom: 3,
   },
   text: {
-    // fontFamily: "Roboto",
     fontSize: 11.5,
+    fontFamily: "Times-Roman",
     color: "#000",
     marginBottom: 3,
   },
   textBold: {
-    // fontFamily: "Roboto",
     fontSize: 11.5,
     color: "#000",
     marginBottom: 3,
-    fontWeight: "bold",
+    fontFamily: "Times-Bold",
   },
   textItalic: {
-    // fontFamily: "Roboto",
     fontSize: 11.5,
     color: "#000",
     marginBottom: 3,
-    fontStyle: "italic",
+    fontStyle: "Times-BoldItalic",
   },
   listItemSkills: {
-    // fontFamily: "Roboto",
     fontSize: 11.5,
-    fontWeight: "normal",
+    fontFamily: "Times-Roman",
   },
   bold: {
-    // fontFamily: "Roboto",
-    fontWeight: "bold",
+    fontFamily: "Times-Bold",
   },
   italic: {
-    // fontFamily: "Roboto",
-    fontStyle: "italic",
+    fontStyle: "Times-Italic",
   },
   gridContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
+    fontFamily: "Times-Roman",
     justifyContent: "space-between",
   },
   gridItem: {
     width: "48%",
+    fontFamily: "Times-Roman",
     marginBottom: 3,
   },
   paragraphContainer: {
     marginBottom: 3,
+    fontFamily: "Times-Roman",
   },
   paragraph: {
-    // fontFamily: "Roboto",
     fontSize: 11.5,
+    fontFamily: "Times-Roman",
     color: "#000",
   },
   list: {
     marginLeft: 10,
+    fontFamily: "Times-Roman",
     marginBottom: 2,
   },
   listItemContainer: {
-    // fontFamily: "Roboto",
     flexDirection: "row",
     marginBottom: 3,
   },
@@ -154,9 +134,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   listItem: {
-    // fontFamily: "Roboto",
     fontSize: 11.5,
     color: "#000",
+    fontFamily: "Times-Roman",
     flex: 1,
   },
   headerContainer: {
