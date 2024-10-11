@@ -1,8 +1,9 @@
+"use client"
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Squirrel} from "lucide-react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 const NoMyJobs = () => {
   const router = useRouter();
