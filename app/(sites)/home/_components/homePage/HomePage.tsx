@@ -363,7 +363,7 @@ const HomePage = ({ jobs }: HomePageProps) => {
               height={840}
               priority={true}
               quality={100}
-              className="w-full mx-auto  lg:w-full rounded-xl bg-gray-900/5 p-2 lg:p-4 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl"
+              className="w-full mx-auto  lg:w-full rounded-xl bg-gray-900/10 p-2 lg:p-4 ring-1 ring-inset ring-gray-900/20 lg:rounded-2xl"
             />
           </div>
         </section>
@@ -433,7 +433,7 @@ const HomePage = ({ jobs }: HomePageProps) => {
               </ul>
               <div className="mx-auto mt-4 max-w-6xl">
                 <div className="mt-4 flow-root sm:mt-8">
-                  <div className="rounded-xl bg-gray-900/5 p-2 lg:p-4 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl">
+                  <div className="rounded-xl bg-gray-900/10 p-2 lg:p-4 ring-1 ring-inset ring-gray-900/20 lg:rounded-2xl">
                     <Image
                       src={
                         "https://res.cloudinary.com/dflvibeo6/image/upload/v1724945971/Screenshot_11_c84nxd.png"
@@ -486,7 +486,7 @@ const HomePage = ({ jobs }: HomePageProps) => {
               </ul>
               <div className="mx-auto mt-4 max-w-6xl mb-4">
                 <div className="mt-4 flow-root sm:mt-8">
-                  <div className="rounded-xl bg-gray-900/5 ring-1  p-2 lg:p-4 ring-inset ring-gray-900/10 lg:rounded-2xl">
+                  <div className="rounded-xl bg-gray-900/10 ring-1  p-2 lg:p-4 ring-inset ring-gray-900/20 lg:rounded-2xl">
                     <Image
                       src={
                         "https://res.cloudinary.com/dflvibeo6/image/upload/v1725101412/Screenshot_13_axgg2d.png"

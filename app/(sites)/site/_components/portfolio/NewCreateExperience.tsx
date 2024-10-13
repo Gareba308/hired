@@ -92,6 +92,8 @@ const NewCreateExperience = ({ toggleAdd }: ExperienceProps) => {
   const { control } = form;
 
   const text = useWatch({ control, name: "description" }) || "";
+  const stillWorkingValue = useWatch({control, name: "stillWorking"})
+  const notStillWorking= stillWorkingValue === false
 
   const cleanText = text.replace(/<[^>]*>/g, "");
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
@@ -480,7 +482,7 @@ const NewCreateExperience = ({ toggleAdd }: ExperienceProps) => {
                   </dd>
                 </div>
 
-                <div className="py-2 lg:py-4 pb-5 lg:gap-4  lg:grid lg:grid-cols-3 text-gray-700">
+                {notStillWorking && <div className="py-2 lg:py-4 pb-5 lg:gap-4  lg:grid lg:grid-cols-3 text-gray-700">
                   <dt className="font-medium text-lg text-gray-600">
                     End date
                   </dt>
@@ -551,7 +553,7 @@ const NewCreateExperience = ({ toggleAdd }: ExperienceProps) => {
                       />
                     </div>
                   </dd>
-                </div>
+                </div>}
 
                 <div className="py-2 lg:py-4 pb-5 lg:gap-4  lg:grid lg:grid-cols-3 text-gray-700">
                   <dt className="font-medium text-lg text-gray-600">

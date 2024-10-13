@@ -47,7 +47,7 @@ const guestRoute = [
   },
   {
     icon: FolderOpen,
-    label: "Documents",
+    label: "Free Resume",
     href: "/site/documents",
   },
   {

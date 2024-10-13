@@ -1,9 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { CornerUpLeft, ArrowRight, Printer } from "lucide-react";
+import { ArrowRight, Printer, Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import {
   About,
   Award,
@@ -21,6 +22,7 @@ import {
 import Link from "next/link";
 import DocumentDetails from "./DocumentDetails";
 import { useToast } from "@/components/ui/use-toast";
+import PdfResume from "./PdfResume";
 
 interface DocumentsRenderItems {
   dbUser: User;
@@ -82,32 +84,46 @@ const DocumentsRender = ({ document: application }: DocumentsRenderProps) => {
           <section>
             <div className="flex flex-wrap">
               <div className="w-full min-h-[calc(100vh-90px)] lg:mt-2 pt-2 pb-4 mx-auto print:shadow-none bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
-                <div className="flex w-full items-end px-4 justify-between print:hidden border-b border-gray-400 pb-1">
+                <div className="flex w-full items-end px-4 justify-between print:hidden pb-1">
                   <div className="flex items-center gap-x-1.5">
                     <h3 className="font-bold text-gray-600 tracking-tight text-2xl lg:text-3xl">
                       <span className="hidden md:flex">Generated Resume</span>
                       <span className="md:hidden">Resume</span>
                     </h3>
                   </div>
-                  <Button
-                    size="sm"
-                    type="button"
-                    title="Open uploaded resume"
-                    onClick={() =>
-                      functionOpenResume(application.resume?.resume as string)
-                    }
-                    variant="default"
-                    className="rounded-sm font-normal text-base bg-primary hover:bg-primary hover:opacity-90"
+                  <PDFDownloadLink
+                    document={<PdfResume document={application} />}
+                    fileName="clean-resume.pdf"
+                    className="bg-primary text-primary-foreground hover:bg-primary py-1.5 px-2 rounded-sm"
                   >
-                    Uploaded?
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
+                    {/* @ts-ignore */}
+                    {({ loading }: { loading: boolean }): React.ReactNode =>
+                      loading ? (
+                        <span className="text-base flex flex-row items-center">
+                          <Loader2 className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />
+                          <span>Loading...</span>
+                        </span>
+                      ) : (
+                        <span className="text-base">Download PDF</span>
+                      )
+                    }
+                  </PDFDownloadLink>
                 </div>
-                <div
-                  id="divToPrint"
-                  className="lg:col-span-3 px-4 lg:mt-1.5 lg:pb-2"
-                >
-                  <DocumentDetails document={application} />
+                <div>
+                  <div className="bg-gray-100  px-4 border-b border-t border-gray-200 py-2 sm:py-3 text-gray-700">
+                    <p className="text-xs">
+                      <span>Note: </span>Below is a preliminary draft of your
+                      resume. For a polished and high-quality version, please
+                      use the download button above.
+                    </p>
+                  </div>
+
+                  <div
+                    id="divToPrint"
+                    className="lg:col-span-3 px-4 lg:mt-1.5 lg:pb-2"
+                  >
+                    <DocumentDetails document={application} />
+                  </div>
                 </div>
               </div>
 

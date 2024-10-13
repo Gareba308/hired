@@ -163,7 +163,7 @@ const Page = async () => {
       <section className="mt-5 bg-white h-full min-h-[calc(100vh-70px)]">
         <Suspense
           fallback={
-            <p className="flex items-center justify-center">
+            <p className="flex flex-col h-full items-center justify-center">
               <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
             </p>
           }

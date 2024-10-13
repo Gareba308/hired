@@ -23,11 +23,10 @@ import {
   WorkerContact,
   WorkerDesires,
 } from "@prisma/client";
-import { MapPinIcon, Pin, ThumbsUp, UserSquare2 } from "lucide-react";
+import { MapPinIcon, Pin} from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface CombinedDataItem {
   userId: string;
@@ -51,21 +50,33 @@ interface AllCandidatesProps {
   userId: string;
 }
 
+const calculateCompleteness = (candidate: CombinedDataItem) => {
+  let score = 0;
+  if (candidate.bio) score++;
+  if (candidate.desire) score++;
+  if (candidate.about) score++;
+  if (candidate.experience.length > 0) score++;
+  if (candidate.contact) score++;
+  if (candidate.skills && candidate.skills.skills.length > 0) score++;
+  if (candidate.certification.length > 0) score++;
+  if (candidate.award.length > 0) score++;
+  if (candidate.language.length > 0) score++;
+  if (candidate.secondary) score++;
+  if (candidate.tertiary.length > 0) score++;
+  return score;
+};
+
 const CandidateCard = ({
   combinedData,
   profileViews,
   userId,
 }: AllCandidatesProps) => {
-  const [currentlyViewingID, setCurrentlyViewingID] = useState<string | null>(
-    null
-  );
-  const [isMutationInProgress, setIsMutationInProgress] = useState(false);
-  const specificBioView = profileViews.find(
-    (view) => view.bioID === currentlyViewingID
-  );
-  const [isBioViewed, setIsBioViewed] = useState<boolean>(
-    specificBioView?.viewed || false
-  );
+  const sortedCandidates = combinedData.sort((a, b) => {
+    const scoreA = calculateCompleteness(a);
+    const scoreB = calculateCompleteness(b);
+    return scoreB - scoreA;
+  });
+
   const router = useRouter();
   const { toast } = useToast();
   function formatNumber(number: number): string {
@@ -118,65 +129,21 @@ const CandidateCard = ({
     return fullName.charAt(0).toUpperCase();
   }
 
-  const { mutate: viewingProfile } = trpc.employerCreateProfileView.useMutation(
-    {
-      onSuccess: () => {
-        router.refresh();
-      },
-      onError: () => {
-        toast({
-          title: "Something went wrong",
-          description: "We experienced a small problem trying to redirect you.",
-          variant: "destructive",
-          duration: 3000,
-        });
-      },
-      onMutate: ({ bioID }) => {
-        setCurrentlyViewingID(bioID);
-      },
-      onSettled: () => {
-        setCurrentlyViewingID(null);
-      },
-    }
-  );
-  const handleView = async (bio: WorkerBio) => {
-    if (isMutationInProgress) {
-      setIsBioViewed((prev) => !prev);
-      router.push(`/manage/candidates/${bio.userId}?origin=manage/candidates`);
-      return;
-    }
-
-    setIsMutationInProgress(true);
-
-    try {
-      setIsBioViewed((prev) => !prev);
-      router.push(`/manage/candidates/${bio.userId}?origin=manage/candidates`);
-      viewingProfile({
-        bioID: bio.id,
-        viewed: !isBioViewed,
-      });
-    } catch (error) {
-      console.error("Error occurred during mutation:", error);
-    } finally {
-      setIsMutationInProgress(false);
-    }
-  };
-
   return (
     <div className="mx-auto max-w-2xl md:max-w-7xl">
       <>
         <div className="max-w-screen-xl mx-auto">
           <div className="mt-3 lg:mt-0">
             <div className="grid gap-4 xl:grid-cols-2">
-              {combinedData.flatMap((item) => (
+              {sortedCandidates.flatMap((item) => (
                 <div
-                  onClick={() => handleView(item.bio)}
+                  onClick={() => router.push(`/manage/candidates/${item.userId}?origin=manage/candidates`)}
                   key={item.userId}
                   className="border border-gray-200 pt-1 pb-2.5 px-2.5 cursor-pointer lg:px-3 rounded-sm"
                 >
-                  <div className="flex w-full items-end gap-3">
+                  <div className="flex w-full items-start gap-3">
                     {item.bio.profilePic ? (
-                      <div className="relative cursor-pointer border border-gray-200 h-[80px] shrink-0 w-[80px] overflow-hidden rounded-sm">
+                      <div className="relative cursor-pointer border border-gray-200 h-[80px] shrink-0 w-[80px] overflow-hidden rounded-md">
                         <Image
                           src={item.bio.profilePic as string}
                           alt={item.bio.name as string}
@@ -188,7 +155,7 @@ const CandidateCard = ({
                         />
                       </div>
                     ) : (
-                      <div className="relative cursor-pointer border-border-gray-200 shrink-0 h-[80px] w-[80px] overflow-hidden rounded-sm">
+                      <div className="relative cursor-pointer border-border-gray-200 shrink-0 h-[80px] w-[80px] overflow-hidden rounded-md">
                         <Image
                           src={
                             "https://res.cloudinary.com/dx0i37cyd/image/upload/v1708947730/avatar-159236_1280_1_r7od9k.png"
@@ -266,7 +233,7 @@ const CandidateCard = ({
                       </div>
                     </>
                   )}
-                  {item.skills?.skills.length !== 0 && (
+                  {item.skills && (
                     <div className="mt-0.5">
                       <span className="font-medium text-sm text-gray-600">
                         Skills:

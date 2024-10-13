@@ -280,24 +280,6 @@ export default function DocumentDetails({
                 );
               })}
             </Section>
-
-            <Section className="mt-2 w-full">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-600 border-b border-gray-200">
-                Languages
-              </h2>
-              {application.languages.flatMap((item) => {
-                return (
-                  <Card key={item.id} className="-mt-0.5">
-                    <CardContent className="text-sm">
-                      <p className="inline-flex text-gray-600 items-center justify-center gap-x-1 font-normal">
-                        <span className="font-medium">{item.language}</span>:{" "}
-                        {item.proficiency}
-                      </p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </Section>
           </div>
         </div>
       </section>

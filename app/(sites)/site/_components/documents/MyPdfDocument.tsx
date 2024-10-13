@@ -1,4 +1,6 @@
-import React from "react";
+" use client"
+
+import React, { useState} from "react";
 import {
   PDFViewer,
   Document,
@@ -7,6 +9,7 @@ import {
   View,
   StyleSheet,
 } from "@react-pdf/renderer";
+import { Loader2 } from "lucide-react";
 import parse from "html-react-parser";
 import {
   About,
@@ -40,9 +43,12 @@ interface DocumentsRenderItems {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 30,
+    padding: "5%",
     fontFamily: "Times-Roman",
-    backgroundColor: "#E4E4E4",
+    backgroundColor: "#ffffff",
+    marginBottom: 2,
+    width: "100%",
+    maxWidth: "700px",
   },
   mainSection: {
     marginBottom: 2,
@@ -50,9 +56,9 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   section: {
-    marginBottom: 2,
+    marginBottom: 1.5,
     fontFamily: "Times-Roman",
-    paddingVertical: 2,
+    paddingVertical: 1.5,
   },
   mainHeader: {
     fontFamily: "Times-Bold",
@@ -63,7 +69,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Times-Bold",
     borderBottom: "1 solid #555",
-    marginBottom: 2,
+    marginBottom: 1.5,
     paddingBottom: 1,
   },
   boldText: {
@@ -79,16 +85,16 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   textBold: {
-    fontSize: 11.5,
+    fontSize: 11,
     color: "#000",
     marginBottom: 3,
     fontFamily: "Times-Bold",
   },
   textItalic: {
-    fontSize: 11.5,
+    fontSize: 11,
     color: "#000",
     marginBottom: 3,
-    fontStyle: "Times-BoldItalic",
+    fontFamily: "Times-BoldItalic",
   },
   listItemSkills: {
     fontSize: 11.5,
@@ -98,7 +104,7 @@ const styles = StyleSheet.create({
     fontFamily: "Times-Bold",
   },
   italic: {
-    fontStyle: "Times-Italic",
+    fontFamily: "Times-Italic",
   },
   gridContainer: {
     flexDirection: "row",
@@ -109,7 +115,7 @@ const styles = StyleSheet.create({
   gridItem: {
     width: "48%",
     fontFamily: "Times-Roman",
-    marginBottom: 3,
+    marginBottom: 2,
   },
   paragraphContainer: {
     marginBottom: 3,
@@ -127,7 +133,7 @@ const styles = StyleSheet.create({
   },
   listItemContainer: {
     flexDirection: "row",
-    marginBottom: 3,
+    marginBottom: 2,
   },
   bullet: {
     marginRight: 5,
@@ -223,10 +229,19 @@ const renderContent = (htmlContent: string) => {
 };
 
 const MyPdfDocument = ({ document }: { document: DocumentsRenderItems }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const handleOnRender = () => {
+    setIsLoading(false);
+  };
   return (
-    <div style={{ width: "100%", height: "100vh" }}>
+    <div style={{ width: "100%", height: "calc(100vh - 90px)" }}>
+      {isLoading && (
+        <div className="flex flex-col bg-white h-full items-center justify-center">
+          <Loader2 className="shrink-0 animate-spin h-7 sm:h-10 w-7 sm:w-10 text-gray-600" />
+        </div>
+      )}
       <PDFViewer style={{ width: "100%", height: "100%" }}>
-        <Document>
+        <Document onRender={handleOnRender}>
           <Page size="A4" style={styles.page}>
             <View style={[styles.mainSection, { alignItems: "center" }]}>
               <Text style={styles.mainHeader}>{document.dbUser.name}</Text>
@@ -476,19 +491,6 @@ const MyPdfDocument = ({ document }: { document: DocumentsRenderItems }) => {
                       )}
                     </View>
                   </View>
-                ))}
-              </View>
-            )}
-
-            {document.languages.length !== 0 && (
-              <View style={styles.mainSection}>
-                <View wrap={false} minPresenceAhead={60}>
-                  <Text style={styles.header}>Languages</Text>
-                </View>
-                {document.languages.map((language) => (
-                  <Text key={language.id} style={styles.text}>
-                    {language.language}: {language.proficiency}
-                  </Text>
                 ))}
               </View>
             )}

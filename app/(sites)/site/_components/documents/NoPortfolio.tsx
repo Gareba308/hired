@@ -19,7 +19,7 @@ const NoPortfolio = () => {
             Incomplete User Portfolio
           </p>
           <p className="text-gray-600 text-base md:text-[15px]">
-            To view your documents, your portfolio should have details on your{" "}
+            To view & <b>FREELY</b> download your resume, your portfolio should have details on your{" "}
             <span className="text-primary font-medium">skills</span>, a{" "}
             <span className="text-primary font-medium">summary</span> about
             yourself,{" "}
@@ -35,7 +35,7 @@ const NoPortfolio = () => {
                 variant: "outline",
               })}
             >
-              <Undo2 className="h-4 w-4 mr-1" /> Go Back
+              Explore Jobs
             </Link>
             <Button
               variant="default"
@@ -43,7 +43,7 @@ const NoPortfolio = () => {
               size="lg"
               className="w-full px-4 font-normal hover:bg-primary hover:opacity-90 rounded-sm"
             >
-              <Edit3 className="h-4 w-4 mr-1" /> Create Portfolio
+              Create Portfolio
             </Button>
           </div>
         </div>

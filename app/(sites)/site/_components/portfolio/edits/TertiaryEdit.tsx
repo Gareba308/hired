@@ -132,6 +132,8 @@ const TertiaryEdit = ({ tertiaryDetails, toggleView }: ExperienceProps) => {
   const { control } = form;
 
   const text = useWatch({ control, name: "activities" }) || "";
+  const stillStudyingValue = useWatch({control, name: "stillStudying"})
+  const notStillStudying= stillStudyingValue === false
 
   const cleanText = text.replace(/<[^>]*>/g, "");
 
@@ -544,7 +546,7 @@ const TertiaryEdit = ({ tertiaryDetails, toggleView }: ExperienceProps) => {
                   </dd>
                 </div>
 
-                <div className="py-3 sm:py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                {notStillStudying && <div className="py-3 sm:py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
                   <dt className="font-medium text-base leading-6 text-gray-600">
                     End date
                   </dt>
@@ -624,7 +626,7 @@ const TertiaryEdit = ({ tertiaryDetails, toggleView }: ExperienceProps) => {
                       />
                     </div>
                   </dd>
-                </div>
+                </div>}
 
                 <div className="py-3 sm:py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
                   <dt className="font-medium text-base leading-6 text-gray-600">

@@ -175,7 +175,7 @@ const CandidateDetails = ({
                                 {workersDesire?.category}
                               </h2>
                             )}
-                            {workersBio?.county && (
+                            {workersContact?.county && (
                               <p className="flex items-center text-sm text-gray-500 font-normal">
                                 <MapPinIcon className="h-4 w-4 mr-1.5 text-gray-500" />{" "}
                                 {workersContact?.county && (
@@ -289,52 +289,51 @@ const CandidateDetails = ({
                       </div>
                     </>
                     <div className="lg:col-span-2 lg:col-start-1 mt-4">
-                      <>
-                        {workersAbout?.about && (
-                          <div className="w-full">
-                            <div className="flex items-end justify-between border-b border-gray-300 mb-1 pb-1">
-                              <h3 className="text-xl font-medium text-gray-700">
-                                About
-                              </h3>
-                              {workersBio && (
-                                <Button
-                                  variant="default"
-                                  size="sm"
-                                  type="button"
-                                  onClick={handleCheckClick}
-                                  className="rounded-sm h-9 font-normal hover:bg-primary hover:opacity-90"
-                                >
-                                  {isBioChecked ? (
-                                    <>
-                                      <ShieldCheck className="h-4 w-4 font-normal mr-1.5" />
-                                      Checked
-                                    </>
-                                  ) : (
-                                    <>
-                                      <ShieldCheck className="h-4 w-4 font-normal mr-1.5" />
-                                      Unchecked
-                                    </>
-                                  )}
-                                </Button>
-                              )}
-                            </div>
-                            {workersAbout && workersAbout?.about && (
-                              <div className="text-gray-600 w-full text-base">
-                                <Preview
-                                  value={workersAbout?.about as string}
-                                />
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </>
-                    </div>
-                    <div className="lg:col-span-2 lg:col-start-1 mt-3">
-                      {workersExperience.length !== 0 && (
-                        <>
-                          <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
-                            Work Experience
+                      <div className="w-full">
+                        <div className="flex items-end justify-between border-b border-gray-300 mb-1 pb-1">
+                          <h3 className="text-xl font-medium text-gray-700">
+                            About
                           </h3>
+                          {workersBio && (
+                            <Button
+                              variant="default"
+                              size="sm"
+                              type="button"
+                              onClick={handleCheckClick}
+                              className="rounded-sm h-9 font-normal hover:bg-primary hover:opacity-90"
+                            >
+                              {isBioChecked ? (
+                                <>
+                                  <ShieldCheck className="h-4 w-4 font-normal mr-1.5" />
+                                  Checked
+                                </>
+                              ) : (
+                                <>
+                                  <ShieldCheck className="h-4 w-4 font-normal mr-1.5" />
+                                  Unchecked
+                                </>
+                              )}
+                            </Button>
+                          )}
+                        </div>
+                        {workersAbout && workersAbout?.about ? (
+                          <div className="text-gray-600 w-full text-base">
+                            <Preview value={workersAbout?.about as string} />
+                          </div>
+                        ) : (
+                          <p className="text-base text-gray-700 italic">
+                            No about summary has been provided
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="lg:col-span-2 lg:col-start-1 mt-3">
+                      <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
+                        Work Experience
+                      </h3>
+                      {workersExperience.length !== 0 ? (
+                        <>
                           {workersExperience.flatMap((experience) => (
                             <div key={experience.id} className="w-full mb-3">
                               <div className="flex items-center gap-x-3 justify-between">
@@ -377,14 +376,16 @@ const CandidateDetails = ({
                               </div>
                               <div className="text-gray-600 w-full text-base">
                                 <Preview
-                                  value={
-                                    experience?.description as string
-                                  }
+                                  value={experience?.description as string}
                                 />
                               </div>
                             </div>
                           ))}
                         </>
+                      ) : (
+                        <p className="text-base text-gray-700 italic">
+                          No experience details has been provided
+                        </p>
                       )}
                     </div>
 
@@ -441,7 +442,7 @@ const CandidateDetails = ({
                             </div>
                           ))}
                         </>
-                      ) : (
+                      ) : workersSecondary ? (
                         <>
                           <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
                             Education
@@ -472,26 +473,37 @@ const CandidateDetails = ({
                             </div>
                           </div>
                         </>
+                      ) : (
+                        <>
+                          <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
+                            Education
+                          </h3>
+                          <p className="text-base text-gray-700 italic">
+                            No education details has been provided
+                          </p>
+                        </>
                       )}
                     </div>
 
                     <div className="lg:col-span-2 lg:col-start-1 mt-3">
-                      {workersSkills?.skills.length !== 0 && (
-                        <>
-                          <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
-                            Skills
-                          </h3>
-                          <div className="flex flex-wrap -mx-1">
-                            {workersSkills?.skills.flatMap((skill, index) => (
-                              <span
-                                key={index}
-                                className="inline-flex items-center rounded-sm bg-secondary px-2 py-1 text-[13px] font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 mx-1 my-1"
-                              >
-                                {skill}
-                              </span>
-                            ))}
-                          </div>
-                        </>
+                      <h3 className="text-xl font-medium text-gray-600 border-b border-gray-200 mb-1 pb-0.5">
+                        Skills
+                      </h3>
+                      {workersSkills ? (
+                        <div className="flex flex-wrap -mx-1">
+                          {workersSkills?.skills.flatMap((skill, index) => (
+                            <span
+                              key={index}
+                              className="inline-flex items-center rounded-sm bg-secondary px-2 py-1 text-[13px] font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 mx-1 my-1"
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-base text-gray-700 italic">
+                          Candidate has not listed skills
+                        </p>
                       )}
                     </div>
 
@@ -514,9 +526,7 @@ const CandidateDetails = ({
                                 )}
                               </div>
                               <div className="text-gray-600 w-full text-base">
-                                <Preview
-                                  value={award.description as string}
-                                />
+                                <Preview value={award.description as string} />
                               </div>
                             </div>
                           ))}
@@ -545,9 +555,7 @@ const CandidateDetails = ({
                               </div>
                               <div className="text-gray-600 text-base">
                                 <Preview
-                                  value={
-                                    certificate.description as string
-                                  }
+                                  value={certificate.description as string}
                                 />
                               </div>
                             </div>

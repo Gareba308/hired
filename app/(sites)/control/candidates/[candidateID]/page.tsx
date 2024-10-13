@@ -75,14 +75,27 @@ const Page = async ({ params }: CandidateIDProps) => {
     where: {
       userId: candidateID,
     },
+    orderBy: [
+      {
+        validStartYear: 'desc',
+      },
+      {
+        validStartMonth: 'desc',
+      },
+    ],
   });
   const workersAward = await db.award.findMany({
     where: {
       userId: candidateID,
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: [
+      {
+        awardedYear: 'desc',
+      },
+      {
+        awardedMonth: 'desc',
+      }
+    ],
   });
   const workersLanguage = await db.language.findMany({
     where: {
@@ -96,9 +109,20 @@ const Page = async ({ params }: CandidateIDProps) => {
     where: {
       userId: candidateID,
     },
-    orderBy: {
-      startYear: "desc",
-    },
+    orderBy: [
+      {
+        stillWorking: 'desc',
+      },
+      {
+        startYear: 'desc',
+      },
+      {
+        startMonth: 'desc',
+      },
+      {
+        createdAt: 'desc',
+      }
+    ],
   });
   const workersSecondary = await db.secondaryEducation.findFirst({
     where: {
@@ -109,9 +133,17 @@ const Page = async ({ params }: CandidateIDProps) => {
     where: {
       userId: candidateID,
     },
-    orderBy: {
-      startYear: "desc",
-    },
+    orderBy: [
+      {
+        stillStudying: 'desc',
+      },
+      {
+        startYear: 'desc',
+      },
+      {
+        startMonth: 'desc',
+      }
+    ],
   });
 
   const candidateThumbed = await db.thumbsUp.findFirst({

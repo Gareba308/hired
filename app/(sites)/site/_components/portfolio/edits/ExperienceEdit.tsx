@@ -111,6 +111,8 @@ const ExperienceEdit = ({ experienceDetails, toggleView }: ExperienceProps) => {
   const { control } = form;
 
   const text = useWatch({ control, name: "description" }) || "";
+  const stillWorkingValue = useWatch({control, name: "stillWorking"})
+  const notStillWorking= stillWorkingValue === false
 
   const cleanText = text.replace(/<[^>]*>/g, "");
 
@@ -510,7 +512,7 @@ const ExperienceEdit = ({ experienceDetails, toggleView }: ExperienceProps) => {
                   </dd>
                 </div>
 
-                <div className="py-2 lg:py-4 pb-5 lg:px-3 lg:gap-4  lg:grid lg:grid-cols-3 text-gray-700">
+                {notStillWorking && <div className="py-2 lg:py-4 pb-5 lg:px-3 lg:gap-4  lg:grid lg:grid-cols-3 text-gray-700">
                   <dt className="font-medium text-lg leading-6 text-gray-700">
                     End date
                   </dt>
@@ -597,7 +599,7 @@ const ExperienceEdit = ({ experienceDetails, toggleView }: ExperienceProps) => {
                       />
                     </div>
                   </dd>
-                </div>
+                </div>}
 
                 <div className="py-2 lg:py-4 pb-5 lg:px-3 lg:gap-4  lg:grid lg:grid-cols-3 text-gray-700">
                   <dt className="font-medium text-lg leading-6 text-gray-700">

@@ -1,7 +1,7 @@
 import React from "react";
 import Footer from "./Footer";
 
-const Resume = () => {
+const ComingSoon = () => {
   return (
     <>
       <div className="px-4 md:px-8 pb-6 pt-4 sm:pt-6 min-h-[calc(100vh-70px)] flex flex-col items-center sm:justify-center justify-start space-y-3 max-w-xl mx-auto text-sm sm:text-[15px] text-gray-700">
@@ -30,4 +30,4 @@ const Resume = () => {
   );
 };
 
-export default Resume;
+export default ComingSoon;

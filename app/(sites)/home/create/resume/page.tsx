@@ -2,6 +2,7 @@ import React from "react";
 import Resume from "@/components/Resume";
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
+import ResumeBuild from "../../_components/homePage/ResumeBuild";
 
 export const metadata: Metadata = {
   title: {
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: siteConfig.ogImage,
+        url: siteConfig.ogWorkerResume,
         width: 1200,
         height: 630,
         alt: siteConfig.name,
@@ -63,7 +64,7 @@ export const metadata: Metadata = {
       "Generate high-quality, free PDF resumes with ease on Hired. Boost your job search in Kenya with our user-friendly resume builder. Get started now!",
     images: [
       {
-        url: siteConfig.ogImage,
+        url: siteConfig.ogWorkerResume,
         width: 1200,
         height: 630,
         alt: siteConfig.name,
@@ -77,7 +78,7 @@ export const metadata: Metadata = {
 const Page = () => {
   return (
     <div>
-      <Resume />
+      <ResumeBuild />
     </div>
   );
 };

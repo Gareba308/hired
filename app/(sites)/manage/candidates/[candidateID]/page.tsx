@@ -79,14 +79,27 @@ const Page = async ({ params }: CandidateIDProps) => {
     where: {
       userId: candidateID,
     },
+    orderBy: [
+      {
+        validStartYear: 'desc',
+      },
+      {
+        validStartMonth: 'desc',
+      },
+    ],
   });
   const workersAward = await db.award.findMany({
     where: {
       userId: candidateID,
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: [
+      {
+        awardedYear: 'desc',
+      },
+      {
+        awardedMonth: 'desc',
+      }
+    ],
   });
   const workersLanguage = await db.language.findMany({
     where: {
@@ -100,9 +113,20 @@ const Page = async ({ params }: CandidateIDProps) => {
     where: {
       userId: candidateID,
     },
-    orderBy: {
-      startYear: "desc",
-    },
+    orderBy: [
+      {
+        stillWorking: 'desc',
+      },
+      {
+        startYear: 'desc',
+      },
+      {
+        startMonth: 'desc',
+      },
+      {
+        createdAt: 'desc',
+      }
+    ],
   });
   const workersSecondary = await db.secondaryEducation.findFirst({
     where: {
@@ -113,9 +137,17 @@ const Page = async ({ params }: CandidateIDProps) => {
     where: {
       userId: candidateID,
     },
-    orderBy: {
-      startYear: "desc",
-    },
+    orderBy: [
+      {
+        stillStudying: 'desc',
+      },
+      {
+        startYear: 'desc',
+      },
+      {
+        startMonth: 'desc',
+      }
+    ],
   });
 
   const candidateThumbed = await db.thumbsUp.findFirst({
@@ -125,6 +157,16 @@ const Page = async ({ params }: CandidateIDProps) => {
     },
   });
 
+  const myCompany= await db.company.findFirst({
+    where: {
+      userId: dbUser.id
+    },
+    select: {
+      verified: true
+    }
+  })
+
+  const iAmVerified= myCompany?.verified === true
   return (
     <div>
       <CandidateDetails
@@ -141,6 +183,7 @@ const Page = async ({ params }: CandidateIDProps) => {
         workersSecondary={workersSecondary}
         workersTertiary={workersTertiary}
         candidateThumbed={candidateThumbed}
+        iAmVerified={iAmVerified}
       />
     </div>
   );
