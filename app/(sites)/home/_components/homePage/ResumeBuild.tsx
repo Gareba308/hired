@@ -233,7 +233,7 @@ const ResumeBuild = () => {
                   <div className="rounded-xl bg-gray-900/10 p-2 lg:p-4 ring-1 ring-inset ring-gray-900/20 lg:rounded-2xl">
                     <Image
                       src={
-                        "https://res.cloudinary.com/dflvibeo6/image/upload/v1728823010/best_pqxdov.png"
+                        "https://res.cloudinary.com/dflvibeo6/image/upload/v1728827079/ResumeBetter_ahq4p6.png"
                       }
                       alt="Product Preview"
                       title="Candidates Build Free Resume Preview"
