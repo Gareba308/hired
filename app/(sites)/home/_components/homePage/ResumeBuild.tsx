@@ -120,13 +120,13 @@ const ResumeBuild = () => {
     <>
       <div className="bg-white">
         <section className="sm:mt-5 mt-4 mx-auto max-w-screen-xl pb-4 px-4 items-center lg:flex md:px-8">
-          <div className="space-y-4 flex-1 sm:text-center lg:text-left">
+          <div className="space-y-3 flex-1 sm:text-center lg:text-left">
             <h1
               className="text-gray-700 font-extrabold text-4xl xl:text-5xl"
               title="Create professional resume for free"
             >
               Create professional resumes for
-              <span className="text-green-800"> free today</span>
+              <span className="text-green-800"> FREE</span>
             </h1>
             <p className="text-gray-700 text-base sm:text-[15px] max-w-xl leading-relaxed sm:mx-auto lg:ml-0">
               Create your FREE resume with our professional resume generation
@@ -183,7 +183,7 @@ const ResumeBuild = () => {
               </div>
             </div>
             <div className="mt-12">
-              <ul className="flex flex-col items-center justify-center gap-y-10 sm:flex-row sm:flex-wrap lg:divide-x divide-gray-700">
+              <ul className="flex flex-col items-center justify-center gap-y-8 sm:flex-row sm:flex-wrap lg:divide-x divide-gray-700">
                 {stats.map((item, idx) => (
                   <li key={idx} className="text-center px-12 md:px-16">
                     <h4 className="text-4xl text-primary font-semibold">
@@ -233,7 +233,7 @@ const ResumeBuild = () => {
                   <div className="rounded-xl bg-gray-900/10 p-2 lg:p-4 ring-1 ring-inset ring-gray-900/20 lg:rounded-2xl">
                     <Image
                       src={
-                        "https://res.cloudinary.com/dflvibeo6/image/upload/v1728816894/Untitled_design_1_lsy1sy.png"
+                        "https://res.cloudinary.com/dflvibeo6/image/upload/v1728823010/best_pqxdov.png"
                       }
                       alt="Product Preview"
                       title="Candidates Build Free Resume Preview"

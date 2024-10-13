@@ -347,6 +347,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/home/register`,
     },
     {
+      url: `${baseUrl}/home/create/resume`,
+    },
+    {
       url: `${baseUrl}/home/login/enterprises`,
     },
     {

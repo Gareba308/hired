@@ -355,7 +355,7 @@ const HomePage = ({ jobs }: HomePageProps) => {
           <div className="flex-1 text-center mt-4 lg:mt-0 lg:ml-3">
             <Image
               src={
-                "https://res.cloudinary.com/dflvibeo6/image/upload/v1725089592/Untitled_design_New2_gvo0cj.png"
+                "https://res.cloudinary.com/dflvibeo6/image/upload/v1728825262/areba1_zcwuir.png"
               }
               alt="Hero Image"
               title="Hero Image"

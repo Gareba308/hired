@@ -1,5 +1,4 @@
 import React from "react";
-import Resume from "@/components/Resume";
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
 import ResumeBuild from "../../_components/homePage/ResumeBuild";
