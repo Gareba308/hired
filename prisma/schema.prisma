@@ -7,7 +7,7 @@ generator client {
 datasource db {
   provider     = "postgres"
   url          = env("DATABASE_URL")
-  directUrl =  env("DIRECT_URL")
+  directUrl    = env("DIRECT_URL")
   relationMode = "prisma"
 }
 
@@ -156,7 +156,7 @@ model Employers {
   PurchaseJobPlan           PurchaseJobPlan[]
   EmployerRequestAssessment EmployerRequestAssessment[]
   PickAssessCandidate       PickAssessCandidate[]
-  SubmitDemo            SubmitDemo[]
+  SubmitDemo                SubmitDemo[]
 }
 
 model ChatUser {
@@ -893,7 +893,7 @@ model SubmitTest {
 }
 
 model SubmitDemo {
-  id           String   @id @default(cuid())
+  id           String    @id @default(cuid())
   isEmployerID String
   userId       String
   questionId   String
@@ -901,10 +901,10 @@ model SubmitDemo {
   attemptType  String
   realAnswer   String
   myAnswer     String
-  passed       Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  employer     Employers  @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  passed       Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  employer     Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([isEmployerID])
 }
@@ -1109,6 +1109,8 @@ model Application {
   workerBio            Json[]            @default([])
   workerContact        Json[]            @default([])
   uploadedResumeUrl    String?
+  generatedResumeUrl   String?
+  useGeneratedResume   Boolean           @default(false)
   matchScore           Int               @default(0)
   jobId                String
   job_id               Int?

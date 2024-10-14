@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { Loader2, UploadCloud } from "lucide-react";
+import { Loader2} from "lucide-react";
 
 interface ImageUploadProps {
   disabled?: boolean;
