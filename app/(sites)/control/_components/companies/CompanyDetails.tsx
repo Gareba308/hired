@@ -130,8 +130,8 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
                             onClick={() => {
                               let url: string | null = company.companyWebsite;
                               if (url) {
-                                if (!url.startsWith("https://www.")) {
-                                  url = `https://www.${url}`;
+                                if (!url.startsWith("https://")) {
+                                  url = `https://${url}`;
                                 }
                                 window.open(
                                   url,

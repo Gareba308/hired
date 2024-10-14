@@ -456,7 +456,7 @@ const HomePage = ({ jobs }: HomePageProps) => {
             <div className="max-w-xl mx-auto space-y-3 sm:text-center">
               <div>
                 <span className="inline-flex items-center rounded-sm bg-gray-200 px-2 py-1 text-base font-medium text-gray-700 border-gray-100">
-                  Do yo need talent?
+                  Do you need talent?
                 </span>
                 <h2
                   className="text-gray-700 text-3xl font-bold sm:text-4xl"

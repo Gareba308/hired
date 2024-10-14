@@ -24,7 +24,7 @@ export const siteConfig = {
   ogWorkerFAQs:
     "https://res.cloudinary.com/dflvibeo6/image/upload/v1725088248/Apply_Now_6_umcn7a.png",
   ogWorkerResume:
-    "https://res.cloudinary.com/dflvibeo6/image/upload/v1728816892/newHome_dgyyhf.png",
+    "https://res.cloudinary.com/dflvibeo6/image/upload/v1728904219/dest2_xdakn7.png",
   description:
     "Find the latest jobs in Kenya. Apply for vacancies, career opportunities & recruitment listings. Sign up free, explore top companies, and secure your future today.",
   links: {
