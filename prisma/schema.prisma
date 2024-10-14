@@ -7,7 +7,6 @@ generator client {
 datasource db {
   provider     = "postgres"
   url          = env("DATABASE_URL")
-  directUrl    = env("DIRECT_URL")
   relationMode = "prisma"
 }
 
@@ -244,6 +243,7 @@ model Job {
   published                   Boolean?  @default(false)
   deadline                    DateTime?
   filled                      Boolean?  @default(false)
+  rankTop                     Boolean   @default(false)
   platform                    String?
   emailPlatform               String?
   linkPlatform                String?
