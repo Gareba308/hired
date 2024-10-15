@@ -2024,7 +2024,7 @@ const HomeJobsInKenyaNavBar = ({
         <MaxWidthWrapper>
           <div className="grid gap-x-4 sm:gap-x-5 h-full lg:gap-x-6 md:grid-cols-2">
             <div>
-              {sortedAndFilteredJobs.length !== 0 ? (
+              {sortedAndFilteredJobs && sortedAndFilteredJobs.length !== 0 ? (
                 <JobCard1 allJobs={jobsForCurrentPage} popular={popular} />
               ) : (
                 <>

@@ -34,7 +34,7 @@ const guestRoute = [
   },
   {
     icon: CircuitBoard,
-    label: "Unpublished",
+    label: "Publication",
     href: "/control/publication",
   },
   {

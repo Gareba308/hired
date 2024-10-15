@@ -129,7 +129,7 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
                       {item.company_name}
                     </div>
                     <div>
-                      {!isPublished ? (
+                      {item.published === false ? (
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger>

@@ -3617,7 +3617,7 @@ export const appRouter = router({
         },
         select: {
           name: true,
-          email: true
+          email: true,
         },
       });
 
@@ -4709,7 +4709,7 @@ export const appRouter = router({
           id: true,
         },
       });
-      
+
       const assignCompanyID = jobFormNonRegisteredCompany
         ? companyForUnregistered?.id
         : companyID;
@@ -4737,14 +4737,14 @@ export const appRouter = router({
           message:
             "There is no a company with the provided details. Kindly check, ensure the company has profile and try again.",
         });
-        const companyUser= await db.user.findFirst({
-          where: {
-            id: companyExists.userId
-          },
-          select: {
-            email: true
-          }
-        })
+      const companyUser = await db.user.findFirst({
+        where: {
+          id: companyExists.userId,
+        },
+        select: {
+          email: true,
+        },
+      });
       const {
         userId: employerUserId,
         isEmployerID,
@@ -4802,7 +4802,7 @@ export const appRouter = router({
             unregisteredKnown === true
           ? unregisteredKnownExists.companyWebsite
           : (companyExists.website as string);
-          
+
       const companyEmail =
         jobFormNonRegisteredCompany &&
         !unregisteredKnownExists &&
@@ -4969,8 +4969,8 @@ export const appRouter = router({
               company_name,
               company_description,
               companyCategory,
-            companyWebsite,
-            companyEmail,
+              companyWebsite,
+              companyEmail,
               companyLogo: logo,
               job_type,
               adminPosted: true,
@@ -5067,8 +5067,8 @@ export const appRouter = router({
           company_name,
           company_description,
           companyCategory,
-            companyWebsite,
-            companyEmail,
+          companyWebsite,
+          companyEmail,
           companyLogo: logo,
           job_type,
           adminPosted: true,
@@ -5139,7 +5139,7 @@ export const appRouter = router({
           gte: currentDate,
         },
         published: {
-          equals: true
+          equals: true,
         },
         createdAt: {
           gte: new Date(currentDate.getTime() - 12 * 60 * 60 * 1000),
@@ -7873,7 +7873,7 @@ export const appRouter = router({
       const newJobSummary = job_description
         ? shortDescription(job_description)
         : jobExists.summaryDescription;
-      
+
       if (jobExists.addAssessment === true && addAssessment === false) {
         return await db.job.update({
           where: {
@@ -15195,6 +15195,67 @@ export const appRouter = router({
         },
         data: {
           archived: true,
+        },
+      });
+    }),
+
+  adminRankTopJob: privateProcedure
+    .input(
+      z.object({
+        rankTop: z.boolean().default(false),
+        jobId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { userId, email } = ctx;
+      const { rankTop, jobId } = input;
+
+      const dbUser = await db.user.findFirst({
+        where: {
+          id: userId,
+          email,
+        },
+      });
+
+      if (!dbUser)
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You are unauthorized, Login and try again",
+        });
+
+      const isAdmin = await db.admin.findFirst({
+        where: {
+          adminEmail: dbUser.email,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (!isAdmin)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "This is an admin only section",
+        });
+
+      const jobExists = await db.job.findFirst({
+        where: {
+          id: jobId,
+        },
+      });
+
+      if (!jobExists)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "The job you requesting to rank top, does not exist.",
+        });
+
+      return await db.job.update({
+        where: {
+          id: jobExists.id,
+        },
+        data: {
+          rankTop,
         },
       });
     }),

@@ -32,6 +32,7 @@ const MyJobCard = ({ allJobs }: MyJobCardProps) => {
     <section className="max-w-screen-lg mx-auto">
       <ul className="space-y-3 lg:space-y-4">
         {allJobs.map((item) => {
+          const isPublished = allJobs.some((mine) => mine.published === true);
           return (
             <li
               key={item.id}
@@ -122,13 +123,31 @@ const MyJobCard = ({ allJobs }: MyJobCardProps) => {
                     <div className="text-[13px] lg:mb-[1px] font-medium -mt-1 text-gray-600 line-clamp-1">
                       {item.company_name}
                     </div>
-                    <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
-                      <span suppressHydrationWarning className="line-clamp-1">
-                        {formatDistanceToNowStrict(item.createdAt, {
-                          addSuffix: true,
-                        })}
-                      </span>
-                    </p>
+                    {!isPublished ? (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <span className="inline-flex items-center rounded-sm px-1.5 sm:px-2 text-xs font-normal text-red-900">
+                              Unlisted
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent className="text-gray-600 text-sm tracking-normal">
+                            <p>
+                              This job has not been published, therefore, it is
+                              not live.
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    ) : (
+                      <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
+                        <span suppressHydrationWarning className="line-clamp-1">
+                          {formatDistanceToNowStrict(item.createdAt, {
+                            addSuffix: true,
+                          })}
+                        </span>
+                      </p>
+                    )}
                   </div>
                   <div className="flex h-4 w-full items-center space-x-1.5">
                     <div className="flex items-center">
@@ -162,7 +181,10 @@ const MyJobCard = ({ allJobs }: MyJobCardProps) => {
                       orientation="vertical"
                       className="text-gray-500"
                     />
-                    <p suppressHydrationWarning className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1">
+                    <p
+                      suppressHydrationWarning
+                      className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1"
+                    >
                       {formatDistanceToNowStrict(item.createdAt, {
                         addSuffix: true,
                       })}

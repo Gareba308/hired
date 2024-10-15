@@ -143,7 +143,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                       {item.company_name}
                     </div>
                     <div>
-                      {thePopular ? (
+                      {thePopular && item.rankTop === false ? (
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger>
@@ -159,9 +159,42 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
+                      ) : thePopular && item.rankTop === true ? (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <span className="inline-flex items-center rounded-sm bg-purple-100 px-1.5 sm:px-2 py-[3px] text-xs font-normal text-purple-900">
+                                <span className="animate-shake">Trendy</span>
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent className="text-gray-600 text-sm tracking-normal">
+                              <p>
+                                This job is very trendy right now!
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      ) : !thePopular && item.rankTop === true ? (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <span className="inline-flex items-center rounded-sm bg-red-100 px-1.5 sm:px-2 py-[3px] text-xs font-normal text-red-900">
+                                <span className="animate-shake">Hot</span>
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent className="text-gray-600 text-sm tracking-normal">
+                              <p>
+                                We recommend you checking out this job!
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       ) : (
                         <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
-                          <span suppressHydrationWarning className="line-clamp-1">
+                          <span
+                            suppressHydrationWarning
+                            className="line-clamp-1"
+                          >
                             {formatDistanceToNowStrict(item.createdAt, {
                               addSuffix: true,
                             })}
@@ -202,7 +235,10 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                       orientation="vertical"
                       className="text-gray-500"
                     />
-                    <p suppressHydrationWarning className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1">
+                    <p
+                      suppressHydrationWarning
+                      className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1"
+                    >
                       {formatDistanceToNowStrict(item.createdAt, {
                         addSuffix: true,
                       })}

@@ -72,9 +72,10 @@ const getPopularSearchesJobs = async (slug: string) => {
 
   const jobs = await db.job.findMany({
     where: filterConditions,
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: [
+      { rankTop: 'desc' },
+      { createdAt: 'desc' },
+    ]
   });
 
   return jobs;

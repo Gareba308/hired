@@ -9,8 +9,6 @@ import {
   Share2,
   Building2,
   Download,
-  Eye,
-  HelpCircle,
   MailQuestion,
 } from "lucide-react";
 import ContactEmployerModal from "../models/job/ContactEmployerModal";
@@ -23,6 +21,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { Company, Job } from "@prisma/client";
 import { format } from "date-fns";
 import { formatDistanceToNowStrict } from "date-fns";
@@ -33,8 +38,20 @@ import { Preview } from "@/components/Preview";
 import { useEffect, useState } from "react";
 import RecentlyViewedLoader from "@/components/RecentlyViewedLoader";
 import { useToast } from "@/components/ui/use-toast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { trpc } from "@/app/_trpc/client";
 import Link from "next/link";
+import { Switch } from "@/components/ui/switch";
+import { z } from "zod";
+
+type FormSchemaType = z.infer<typeof formSchema>;
+
+export const formSchema = z.object({
+  jobId: z.string(),
+  rankTop: z.boolean().default(false),
+});
+
 interface JobDetailsProps {
   job: Job;
   companyProfile: Company | null;
@@ -83,8 +100,7 @@ export const getRecentlyViewedJobs = (userId: string): Job[] => {
     return [];
   }
 };
-
-export default function JobDetails({
+export default function UnpublishedJobsDetails({
   job,
   companyProfile,
   similarJobs,
@@ -104,28 +120,6 @@ export default function JobDetails({
     job.published || false
   );
 
-  const handleCopyClick = async () => {
-    let currentUrl = window.location.href;
-    currentUrl = currentUrl.replace("/control", "/home");
-
-    try {
-      await navigator.clipboard.writeText(currentUrl);
-      toast({
-        title: "Job link copied",
-        description:
-          "The job's URL link has been copied to clipboard. You may share around the job.",
-        variant: "default",
-        duration: 4000,
-      });
-    } catch (error) {
-      toast({
-        title: "Something went wrong",
-        description: "Was unable to copy the job's URL link",
-        variant: "destructive",
-        duration: 4000,
-      });
-    }
-  };
 
   useEffect(() => {
     const userId = userID;
@@ -207,6 +201,36 @@ export default function JobDetails({
       return "";
     }
   }
+
+  const form = useForm<FormSchemaType>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      jobId: "",
+      rankTop: false,
+    },
+  });
+
+  const { mutate: rankTop, isLoading:rankLoading } = trpc.adminRankTopJob.useMutation({
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "This job will be made to rank at the top of your listing",
+        variant: "default",
+        duration: 3000,
+      });
+      router.refresh();
+    },
+    onError: (err) => {
+      toast({
+        title: "Something went wrong",
+        description:
+          err.message || "There was a problem updating the job's rank",
+        variant: "destructive",
+        duration: 3000,
+      });
+    },
+  });
+
   return (
     <>
       <div className="pt-4 mx-auto max-w-2xl lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-6">
@@ -295,10 +319,13 @@ export default function JobDetails({
               {job.published === false ? (
                 <>
                   {isLoading ? (
-                    <Loader2 className="h-5 w-5 animate-spin text-gray-500 shrink-0" />
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin text-gray-500 mr-1.5 shrink-0" />{" "}
+                      Wait...
+                    </>
                   ) : (
                     <span className="flex items-center text-base">
-                      <Upload className="w-5 h-5 mr-1.5 shrink-0" />
+                      <Upload className="w-4 h-4 mr-1.5 shrink-0" />
                       Publish
                     </span>
                   )}
@@ -306,10 +333,13 @@ export default function JobDetails({
               ) : (
                 <>
                   {isLoading ? (
-                    <Loader2 className="h-5 w-5 animate-spin text-gray-500 shrink-0" />
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin text-gray-500 mr-1.5 shrink-0" />
+                      Wait...
+                    </>
                   ) : (
                     <span className="flex items-center text-base">
-                      <Download className="w-5 h-5 mr-1.5 shrink-0" />
+                      <Download className="w-4 h-4 mr-1.5 shrink-0" />
                       Withhold
                     </span>
                   )}
@@ -324,7 +354,7 @@ export default function JobDetails({
               onClick={() => setContactOpen(true)}
               className="rounded-none text-base"
             >
-              <MailQuestion className="w-5 h-5 mr-1.5 text-gray-600" />
+              <MailQuestion className="w-4 h-4 mr-1.5 text-gray-600" />
               Contact
             </Button>
           </div>
@@ -346,16 +376,29 @@ export default function JobDetails({
           <div className="lg:pb-3 lg:bg-slate-200 lg:border border-slate-200 lg:rounded-sm lg:-mx-3 lg:pt-3 lg:px-3">
             <h2 className="text-xl text-gray-700 font-bold flex items-center justify-between gap-x-4">
               <span>Job Overview</span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="lg:hidden"
-                onClick={handleCopyClick}
-              >
-                <Share2 className="h-4 w-4 mr-1.5 shrink-0" />
-                Share
-              </Button>
+              <Form {...form}>
+                <FormField
+                  control={form.control}
+                  name="rankTop"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between w-full gap-x-4">
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          disabled={rankLoading}
+                          onCheckedChange={(checked) => {
+                            field.onChange(checked);
+                            rankTop({ jobId: job.id, rankTop: checked });
+                          }}
+                        />
+                      </FormControl>
+                      <div>
+                        <FormLabel className="text-lg">Rank Top?</FormLabel>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </Form>
             </h2>
 
             {job.county && (
@@ -569,19 +612,34 @@ export default function JobDetails({
         <div className="py-4 lg:col-span-2 lg:col-start-1 lg:pb-8 lg:pr-5">
           {job.job_description && (
             <div className="text-gray-700">
-              <h3 className="text-xl font-medium text-gray-700 flex items-center justify-between gap-x-4">
-                <span>Job Description</span>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="hidden lg:flex"
-                  onClick={handleCopyClick}
-                >
-                  <Share2 className="h-4 w-4 mr-1.5 shrink-0" />
-                  Share Job
-                </Button>
-              </h3>
+              <div className=" flex items-center justify-between gap-x-4">
+                <h3 className="text-xl font-medium text-gray-700">
+                  Job Description
+                </h3>
+                <Form {...form}>
+                  <FormField
+                    control={form.control}
+                    name="rankTop"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between w-full gap-x-4">
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            disabled={rankLoading}
+                            onCheckedChange={(checked) => {
+                              field.onChange(checked);
+                              rankTop({ jobId: job.id, rankTop: checked });
+                            }}
+                          />
+                        </FormControl>
+                        <div>
+                          <FormLabel className="text-lg">Rank Top?</FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </Form>
+              </div>
 
               <div className="mt-1 -mb-2 text-base text-gray-700">
                 <Preview value={job.job_description as string} />

@@ -25,9 +25,10 @@ const Page = async () => {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: [
+      { rankTop: 'desc' },
+      { createdAt: 'desc' },
+    ]
   });
 
   const session = await getServerSession(authOptions);

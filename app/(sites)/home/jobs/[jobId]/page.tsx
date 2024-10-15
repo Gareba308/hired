@@ -19,9 +19,10 @@ const getJob = cache(async (jobId: string) => {
     where: {
       id: jobId,
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: [
+      { rankTop: 'desc' },
+      { createdAt: 'desc' },
+    ]
   });
 
   return jobExists;
@@ -137,9 +138,10 @@ const Page = async ({ params }: JobDetailsProps) => {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: [
+      { rankTop: 'desc' },
+      { createdAt: 'desc' },
+    ]
   });
 
   //  Popular Hot Not Applied

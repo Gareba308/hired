@@ -45,7 +45,7 @@ const TopCompanies = ({ companies }: TopCompaniesProps) => {
       .map((company, index) => (
         <li
          key={`${slugify(company.company_name)}-${index}`}
-          className="flex items-center px-3 w-full sm:px-4 pb-4 pt-3 sm:py-5 duration-150 border border-gray-200 rounded-lg"
+          className="flex items-center px-3 w-full sm:px-4 pb-4 pt-3 sm:py-5 duration-150 border border-gray-300 rounded-lg"
         >
           <div className="mr-3.5 sm:mr-4">
             {company.companyLogo ? (

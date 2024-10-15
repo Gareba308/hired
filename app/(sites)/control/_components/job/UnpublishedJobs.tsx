@@ -2,10 +2,7 @@
 
 import { Job } from "@prisma/client";
 import UnpublishedJobCard from "./UnpublishedJobCard";
-import {
-  Briefcase,
-  Rocket,
-} from "lucide-react";
+import { Briefcase, Rocket } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
@@ -33,7 +30,7 @@ export default function UnpublishedJobs({ myJobs }: AllMyJobsProps) {
         <div className="flex flex-wrap">
           <div className="w-full min-h-[calc(100vh-100px)] lg:mt-2 px-4 pt-2 pb-4 mx-auto bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
             <h2 className="font-bold text-center sm:text-start text-gray-600 tracking-tight text-2xl sm:text-3xl">
-              Unpublished Postings
+              Listed Overview
             </h2>
             <div className="lg:col-span-3 mt-2 pb-2">
               <UnpublishedJobCard allJobs={jobsForCurrentPage} />

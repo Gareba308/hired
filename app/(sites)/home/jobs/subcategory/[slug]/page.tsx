@@ -45,9 +45,10 @@ const getSubcategoryJobs = async (slug: string) => {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: [
+      { rankTop: 'desc' },
+      { createdAt: 'desc' },
+    ]
   });
 
   return jobs;
