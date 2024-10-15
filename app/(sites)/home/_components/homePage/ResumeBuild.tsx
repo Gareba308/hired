@@ -141,14 +141,14 @@ const ResumeBuild = () => {
                 <Link
                   href="/home/login"
                   title="Generate a resume"
-                  className="flex items-center justify-center  py-4 px-5 text-center w-full text-primary font-medium bg-gray-300 duration-150 hover:opacity-90 border border-gray-300 rounded-sm shadow-sm hover:shadow-none"
+                  className="flex items-center justify-center  py-4 px-5 text-center w-full text-primary font-medium bg-gray-300 duration-150 hover:opacity-90 border border-gray-500 rounded-sm shadow-sm hover:shadow-none"
                 >
                   Generate Free Resume
                 </Link>
                 <Link
                   href="/home/jobs/in/kenya"
                   title="Explore all available jobs in Kenya"
-                  className="flex items-center w-full justify-center bg-white py-4 px-5 text-primary hover:text-sky-800 font-medium duration-150 active:bg-secondary border border-gray-300 rounded-sm md:inline-flex"
+                  className="flex items-center w-full justify-center bg-white py-4 px-5 text-primary hover:text-sky-800 font-medium duration-150 active:bg-secondary border border-gray-400 rounded-sm md:inline-flex"
                 >
                   Explore All Jobs
                 </Link>
