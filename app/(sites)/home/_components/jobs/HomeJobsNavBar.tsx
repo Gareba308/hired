@@ -643,14 +643,14 @@ const HomeJobsNavBar = ({
     )
     .reverse();
 
-  const firstJob = jobsForCurrentPage[0];
+  const firstJob = jobsForCurrentPage.length > 0 ? jobsForCurrentPage[0] : null;
   const firstJobCategory = firstJob?.category;
-  const resultantSimilarJobs = jobs.filter(
-    (job) => job.category === firstJobCategory
-  ).slice(0, 3);
+  const resultantSimilarJobs = firstJob
+    ? jobs.filter((job) => job.category === firstJobCategory).slice(0, 3)
+    : [];
 
   const companyProfile =
-    companyProfiles.find((company) => company.id === firstJob.companyId) ||
+    companyProfiles.find((company) => company.id === firstJob?.companyId) ||
     null;
   return (
     <>
@@ -2063,7 +2063,7 @@ const HomeJobsNavBar = ({
             </div>
             {firstJob ? (
               <div className="hidden w-full md:flex md:sticky md:top-2 md:border md:shadow-sm md:border-gray-200 md:rounded-lg md:max-h-[calc(100vh-2rem)]">
-                <div key={firstJob.id} className='w-full'>
+                <div key={firstJob.id} className="w-full">
                   <JobDetails
                     job={firstJob}
                     viewID={viewID}

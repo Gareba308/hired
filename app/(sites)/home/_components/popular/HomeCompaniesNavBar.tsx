@@ -645,14 +645,14 @@ const HomeCompaniesNavBar = ({
     )
     .reverse();
 
-  const firstJob = jobsForCurrentPage[0];
+  const firstJob = jobsForCurrentPage.length > 0 ? jobsForCurrentPage[0] : null;
   const firstJobCategory = firstJob?.category;
-  const resultantSimilarJobs = jobs
-    .filter((job) => job.category === firstJobCategory)
-    .slice(0, 3);
+  const resultantSimilarJobs = firstJob
+  ? jobs.filter((job) => job.category === firstJobCategory).slice(0, 3)
+  : [];
 
   const companyProfile =
-    companyProfiles.find((company) => company.id === firstJob.companyId) ||
+    companyProfiles.find((company) => company.id === firstJob?.companyId) ||
     null;
   return (
     <>

@@ -120,7 +120,6 @@ export default function UnpublishedJobsDetails({
     job.published || false
   );
 
-
   useEffect(() => {
     const userId = userID;
 
@@ -205,31 +204,35 @@ export default function UnpublishedJobsDetails({
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      jobId: "",
-      rankTop: false,
+      jobId: job.id ?? "",
+      rankTop: job.rankTop ?? false,
     },
   });
 
-  const { mutate: rankTop, isLoading:rankLoading } = trpc.adminRankTopJob.useMutation({
-    onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "This job will be made to rank at the top of your listing",
-        variant: "default",
-        duration: 3000,
-      });
-      router.refresh();
-    },
-    onError: (err) => {
-      toast({
-        title: "Something went wrong",
-        description:
-          err.message || "There was a problem updating the job's rank",
-        variant: "destructive",
-        duration: 3000,
-      });
-    },
-  });
+  const { mutate: rankTop, isLoading: rankLoading } =
+    trpc.adminRankTopJob.useMutation({
+      onSuccess: (message) => {
+        toast({
+          title: "Success",
+          description:
+            message.rankTop === true
+              ? "This job will be made to rank at the top of your listing"
+              : "This job will rank normal as others",
+          variant: "default",
+          duration: 3000,
+        });
+        router.refresh();
+      },
+      onError: (err) => {
+        toast({
+          title: "Something went wrong",
+          description:
+            err.message || "There was a problem updating the job's rank",
+          variant: "destructive",
+          duration: 3000,
+        });
+      },
+    });
 
   return (
     <>
@@ -374,32 +377,36 @@ export default function UnpublishedJobsDetails({
         {/* Options */}
         <div className="lg:row-span-3 lg:mt-0">
           <div className="lg:pb-3 lg:bg-slate-200 lg:border border-slate-200 lg:rounded-sm lg:-mx-3 lg:pt-3 lg:px-3">
-            <h2 className="text-xl text-gray-700 font-bold flex items-center justify-between gap-x-4">
-              <span>Job Overview</span>
-              <Form {...form}>
-                <FormField
-                  control={form.control}
-                  name="rankTop"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center justify-between w-full gap-x-4">
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          disabled={rankLoading}
-                          onCheckedChange={(checked) => {
-                            field.onChange(checked);
-                            rankTop({ jobId: job.id, rankTop: checked });
-                          }}
-                        />
-                      </FormControl>
-                      <div>
-                        <FormLabel className="text-lg">Rank Top?</FormLabel>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-              </Form>
-            </h2>
+            <div className="flex items-center justify-between gap-x-4">
+              <span className="text-xl text-gray-700 font-bold">
+                Job Overview
+              </span>
+              <div className="lg:hidden">
+                <Form {...form}>
+                  <FormField
+                    control={form.control}
+                    name="rankTop"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center gap-x-1.5">
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            disabled={rankLoading}
+                            onCheckedChange={(checked) => {
+                              field.onChange(checked);
+                              rankTop({ jobId: job.id, rankTop: checked });
+                            }}
+                          />
+                        </FormControl>
+                        <div>
+                          <FormLabel className="text-lg">Rank?</FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </Form>
+              </div>
+            </div>
 
             {job.county && (
               <p className="flex flex-1 text-gray-700 mt-1 text-base font-medium">
@@ -616,29 +623,31 @@ export default function UnpublishedJobsDetails({
                 <h3 className="text-xl font-medium text-gray-700">
                   Job Description
                 </h3>
-                <Form {...form}>
-                  <FormField
-                    control={form.control}
-                    name="rankTop"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-center justify-between w-full gap-x-4">
-                        <FormControl>
-                          <Switch
-                            checked={field.value}
-                            disabled={rankLoading}
-                            onCheckedChange={(checked) => {
-                              field.onChange(checked);
-                              rankTop({ jobId: job.id, rankTop: checked });
-                            }}
-                          />
-                        </FormControl>
-                        <div>
-                          <FormLabel className="text-lg">Rank Top?</FormLabel>
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                </Form>
+                <div className="hidden lg:flex">
+                  <Form {...form}>
+                    <FormField
+                      control={form.control}
+                      name="rankTop"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center gap-x-1.5">
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              disabled={rankLoading}
+                              onCheckedChange={(checked) => {
+                                field.onChange(checked);
+                                rankTop({ jobId: job.id, rankTop: checked });
+                              }}
+                            />
+                          </FormControl>
+                          <div>
+                            <FormLabel className="text-lg">Rank Top?</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  </Form>
+                </div>
               </div>
 
               <div className="mt-1 -mb-2 text-base text-gray-700">
