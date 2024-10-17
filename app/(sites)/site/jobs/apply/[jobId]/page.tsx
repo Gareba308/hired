@@ -1,6 +1,5 @@
 import { db } from "@/db";
 import NoJobs from "../../../_components/job/NoJobs";
-import ApplyJob from "../../../_components/job/ApplyJob";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
@@ -8,6 +7,7 @@ import NoProfile from "../../../_components/profile/Unavailable";
 import NoPortfolio from "../../../_components/portfolio/NoPortfolio";
 import { differenceInMonths, differenceInYears, parse } from "date-fns";
 import { Metadata } from "next";
+import NewApplyJob from "../../../_components/job/DeleteApply";
 
 export const metadata: Metadata = {
   title: "Submit Job Application",
@@ -103,9 +103,20 @@ const Page = async ({ params }: ApplyJobProps) => {
     where: {
       userId,
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: [
+      {
+        stillWorking: 'desc',
+      },
+      {
+        startYear: 'desc',
+      },
+      {
+        startMonth: 'desc',
+      },
+      {
+        createdAt: 'desc',
+      }
+    ],
   });
 
   if (myExperiences.length === 0) {
@@ -182,18 +193,45 @@ const Page = async ({ params }: ApplyJobProps) => {
     where: {
       userId,
     },
+    orderBy: [
+      {
+        validStartYear: 'desc',
+      },
+      {
+        validStartMonth: 'desc',
+      },
+    ],
   });
 
   const myAwards = await db.award.findMany({
     where: {
       userId,
     },
+    orderBy: [
+      {
+        awardedYear: 'desc',
+      },
+      {
+        awardedMonth: 'desc',
+      }
+    ],
   });
 
   const myAcademicQualification = await db.tertiaryEducation.findMany({
     where: {
       userId,
     },
+    orderBy: [
+      {
+        stillStudying: 'desc',
+      },
+      {
+        startYear: 'desc',
+      },
+      {
+        startMonth: 'desc',
+      }
+    ],
   });
 
   const jobExists = await db.job.findFirst({
@@ -201,7 +239,6 @@ const Page = async ({ params }: ApplyJobProps) => {
       id: jobId,
     },
   });
-
   const myCareerDetails = await db.careerWizard.findFirst({
     where: {
       userId,
@@ -459,14 +496,37 @@ const Page = async ({ params }: ApplyJobProps) => {
     },
   });
 
+  const combinedData = {
+    dbUser,
+    myAbout,
+    myExperiences,
+    secondaryEducation,
+    myAcademicQualification,
+    workerBio,
+    contact,
+    resume,
+    skills,
+    myAwards,
+    myCertificates,
+  };
+
+const companyOfJob= await db.company.findFirst({
+    where: {
+      id: jobExists.companyId
+    }
+  })
+if(!companyOfJob) redirect('/site/jobs')
+
   return (
     <div className="space-y-6  pb-2 max-w-7xl mx-auto bg-white px-4 md:px-6 text-gray-700 rounded-lg shadow-sm">
-      <ApplyJob
+      <NewApplyJob
         job={jobExists}
         user={dbUser}
         banners={assessmentsPicked}
         assessmentIds={assessmentIds}
         acceptedAssessments={myAcceptedAssessments}
+        document={combinedData}
+        company={companyOfJob}
       />
     </div>
   );

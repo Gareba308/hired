@@ -1110,6 +1110,7 @@ model Application {
   workerContact        Json[]            @default([])
   uploadedResumeUrl    String?
   generatedResumeUrl   String?
+  coverLetterUrl       String?
   useGeneratedResume   Boolean           @default(false)
   matchScore           Int               @default(0)
   jobId                String

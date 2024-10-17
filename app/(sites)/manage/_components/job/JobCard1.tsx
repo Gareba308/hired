@@ -125,22 +125,25 @@ const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
                       {item.company_name}
                     </div>
                     <div>
-                      {isMine ? (
+                      {item.rankTop ? (
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger>
-                              <span className="inline-flex items-center rounded-sm px-1.5 sm:px-2 text-xs font-normal text-blue-900">
-                                Mine
+                              <span className="inline-flex items-center rounded-sm bg-red-100 px-1.5 sm:px-2 py-[2.5px] text-xs font-normal text-red-900">
+                                <span className="animate-shake">Hot</span>
                               </span>
                             </TooltipTrigger>
                             <TooltipContent className="text-gray-600 text-sm tracking-normal">
-                              <p>This is a job you or your company listed.</p>
+                              <p>We recommend you check out this job!</p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
                       ) : (
                         <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
-                          <span suppressHydrationWarning className="line-clamp-1">
+                          <span
+                            suppressHydrationWarning
+                            className="line-clamp-1"
+                          >
                             {formatDistanceToNowStrict(item.createdAt, {
                               addSuffix: true,
                             })}
@@ -181,7 +184,10 @@ const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
                       orientation="vertical"
                       className="text-gray-500"
                     />
-                    <p suppressHydrationWarning className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1">
+                    <p
+                      suppressHydrationWarning
+                      className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1"
+                    >
                       {formatDistanceToNowStrict(item.createdAt, {
                         addSuffix: true,
                       })}

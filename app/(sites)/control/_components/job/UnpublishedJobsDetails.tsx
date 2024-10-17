@@ -387,19 +387,21 @@ export default function UnpublishedJobsDetails({
                     control={form.control}
                     name="rankTop"
                     render={({ field }) => (
-                      <FormItem className="flex flex-row items-center gap-x-1.5">
-                        <FormControl>
-                          <Switch
-                            checked={field.value}
-                            disabled={rankLoading}
-                            onCheckedChange={(checked) => {
-                              field.onChange(checked);
-                              rankTop({ jobId: job.id, rankTop: checked });
-                            }}
-                          />
-                        </FormControl>
-                        <div>
-                          <FormLabel className="text-lg">Rank?</FormLabel>
+                      <FormItem>
+                        <div className="flex flex-row items-center gap-x-1.5">
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              disabled={rankLoading}
+                              onCheckedChange={(checked) => {
+                                field.onChange(checked);
+                                rankTop({ jobId: job.id, rankTop: checked });
+                              }}
+                            />
+                          </FormControl>
+                          <div>
+                            <FormLabel className="text-lg">Rank?</FormLabel>
+                          </div>
                         </div>
                       </FormItem>
                     )}
@@ -629,19 +631,23 @@ export default function UnpublishedJobsDetails({
                       control={form.control}
                       name="rankTop"
                       render={({ field }) => (
-                        <FormItem className="flex flex-row items-center gap-x-1.5">
-                          <FormControl>
-                            <Switch
-                              checked={field.value}
-                              disabled={rankLoading}
-                              onCheckedChange={(checked) => {
-                                field.onChange(checked);
-                                rankTop({ jobId: job.id, rankTop: checked });
-                              }}
-                            />
-                          </FormControl>
-                          <div>
-                            <FormLabel className="text-lg">Rank Top?</FormLabel>
+                        <FormItem>
+                          <div className="flex flex-row items-center gap-x-1.5">
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                disabled={rankLoading}
+                                onCheckedChange={(checked) => {
+                                  field.onChange(checked);
+                                  rankTop({ jobId: job.id, rankTop: checked });
+                                }}
+                              />
+                            </FormControl>
+                            <div>
+                              <FormLabel className="text-lg">
+                                Rank Top?
+                              </FormLabel>
+                            </div>
                           </div>
                         </FormItem>
                       )}

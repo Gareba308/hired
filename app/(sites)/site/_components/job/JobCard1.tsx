@@ -220,75 +220,82 @@ const JobCard1 = ({
                       {item.company_name}
                     </div>
                     {applied || thePopular || item.rankTop ? (
-  <div>
-    {applied && (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>
-            <span className="inline-flex items-center rounded-sm bg-rose-100 px-1.5 sm:px-2 py-[3px] text-xs font-normal text-rose-900">
-              Applied
-            </span>
-          </TooltipTrigger>
-          <TooltipContent className="text-gray-600 text-sm tracking-normal">
-            <p>You have already submitted an application for this job.</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    )}
+                      <div>
+                        {applied && (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <span className="inline-flex items-center rounded-sm bg-rose-100 px-1.5 sm:px-2 py-[3px] text-xs font-normal text-rose-900">
+                                  Applied
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent className="text-gray-600 text-sm tracking-normal">
+                                <p>
+                                  You have already submitted an application for
+                                  this job.
+                                </p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        )}
 
-    {!applied && thePopular && !item.rankTop && (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>
-            <span className="inline-flex items-center rounded-sm bg-orange-100 px-1.5 sm:px-2 py-[3px] text-xs font-normal text-orange-900">
-              <span className="animate-shake">Popular</span>
-            </span>
-          </TooltipTrigger>
-          <TooltipContent className="text-gray-600 text-sm tracking-normal">
-            <p>This job is getting a high amount of applications right now!</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    )}
+                        {!applied && thePopular && !item.rankTop && (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <span className="inline-flex items-center rounded-sm bg-orange-100 px-1.5 sm:px-2 py-[2.5px] text-xs font-normal text-orange-900">
+                                  <span className="animate-shake">Popular</span>
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent className="text-gray-600 text-sm tracking-normal">
+                                <p>
+                                  This job is getting a high amount of
+                                  applications right now!
+                                </p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        )}
 
-    {!applied && thePopular && item.rankTop && (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>
-            <span className="inline-flex items-center rounded-sm bg-purple-100 px-1.5 sm:px-2 py-[3px] text-xs font-normal text-purple-900">
-              <span className="animate-shake">Trendy</span>
-            </span>
-          </TooltipTrigger>
-          <TooltipContent className="text-gray-600 text-sm tracking-normal">
-            <p>This job is very trendy right now!</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    )}
+                        {!applied && thePopular && item.rankTop && (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <span className="inline-flex items-center rounded-sm bg-purple-100 px-1.5 sm:px-2 py-[2.5px] text-xs font-normal text-purple-900">
+                                  <span className="animate-shake">Trendy</span>
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent className="text-gray-600 text-sm tracking-normal">
+                                <p>This job is very trendy right now!</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        )}
 
-    {!applied && !thePopular && item.rankTop && (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>
-            <span className="inline-flex items-center rounded-sm bg-red-100 px-1.5 sm:px-2 py-[3px] text-xs font-normal text-red-900">
-              <span className="animate-shake">Hot</span>
-            </span>
-          </TooltipTrigger>
-          <TooltipContent className="text-gray-600 text-sm tracking-normal">
-            <p>We recommend you check out this job!</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    )}
-  </div>
-) : (
-  <p className="text-xs hidden sm:flex font-normal text-gray-600 line-clamp-1">
-    <span suppressHydrationWarning className="line-clamp-1">
-      {formatDistanceToNowStrict(item.createdAt, { addSuffix: true })}
-    </span>
-  </p>
-)}
-
+                        {!applied && !thePopular && item.rankTop && (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <span className="inline-flex items-center rounded-sm bg-red-100 px-1.5 sm:px-2 py-[2.5px] text-xs font-normal text-red-900">
+                                  <span className="animate-shake">Hot</span>
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent className="text-gray-600 text-sm tracking-normal">
+                                <p>We recommend you check out this job!</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="text-xs hidden sm:flex font-normal text-gray-600 line-clamp-1">
+                        <span suppressHydrationWarning className="line-clamp-1">
+                          {formatDistanceToNowStrict(item.createdAt, {
+                            addSuffix: true,
+                          })}
+                        </span>
+                      </p>
+                    )}
                   </div>
                   <div className="flex h-4 w-full items-center space-x-1.5">
                     <div className="flex items-center">

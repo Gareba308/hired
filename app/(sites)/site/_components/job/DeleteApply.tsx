@@ -1,397 +1,444 @@
-// "use client";
+"use client";
 
-// import { trpc } from "@/app/_trpc/client";
-// import { Editor } from "@/components/Editor";
-// import { Button } from "@/components/ui/button";
-// import {
-//   Form,
-//   FormControl,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-//   FormMessage,
-// } from "@/components/ui/form";
-// import { useToast } from "@/components/ui/use-toast";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import {
-//   Job,
-//   User,
-//   AssessmentBanner,
-//   AcceptToBeAssessed,
-// } from "@prisma/client";
-// import { useRouter } from "next/navigation";
-// import { useRef, useState } from "react";
-// import { useForm, useWatch } from "react-hook-form";
-// import ReactQuill from "react-quill-new";
-// import { z } from "zod";
-// import { CheckSquare, FolderOpen, Loader2, Megaphone } from "lucide-react";
-// import AllAssessments from "./AllAssessments";
-// import PdfResume from "@/components/PdfResume";
-// import { Checkbox } from "@/components/ui/checkbox";
-// import { pdf } from "@react-pdf/renderer";
+import { trpc } from "@/app/_trpc/client";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Job,
+  AssessmentBanner,
+  AcceptToBeAssessed,
+  About,
+  Award,
+  CertificationLicense,
+  Experience,
+  Resume,
+  SecondaryEducation,
+  Skills,
+  TertiaryEducation,
+  User,
+  Company,
+  WorkerBio,
+  WorkerContact,
+} from "@prisma/client";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
+import ReactQuill from "react-quill-new";
+import { z } from "zod";
+import { CheckSquare, FolderOpen, Loader2, Megaphone } from "lucide-react";
+import AllAssessments from "./AllAssessments";
+import { Checkbox } from "@/components/ui/checkbox";
+import { pdf } from "@react-pdf/renderer";
+import { Textarea } from "@/components/ui/textarea";
+import CreatePDFResume from "@/components/CreatePDFResume";
+import CreatePDFCoverLetter from "@/components/CreatePDFCoverLetter";
 
-// type FormSchemaTypes = z.infer<typeof formSchema>;
+type FormSchemaTypes = z.infer<typeof formSchema>;
 
-// export const formSchema = z.object({
-//   whyMostQualified: z.string(),
-//   useGeneratedResume: z.boolean(),
-// });
-// interface ApplyJobProps {
-//   job: Job;
-//   user: User;
-//   banners: AssessmentBanner[];
-//   acceptedAssessments: AcceptToBeAssessed[];
-//   assessmentIds: string[];
-// }
+export const formSchema = z.object({
+  whyMostQualified: z.string(),
+  useGeneratedResume: z.boolean(),
+});
+interface DocumentsRenderItems {
+  dbUser: User;
+  myAbout: About | null;
+  myExperiences: Experience[];
+  secondaryEducation: SecondaryEducation | null;
+  myAcademicQualification: TertiaryEducation[];
+  workerBio: WorkerBio | null;
+  myCertificates: CertificationLicense[];
+  myAwards: Award[];
+  contact: WorkerContact | null;
+  resume: Resume | null;
+  skills: Skills | null;
+}
+interface ApplyJobProps {
+  job: Job;
+  user: User;
+  banners: AssessmentBanner[];
+  acceptedAssessments: AcceptToBeAssessed[];
+  assessmentIds: string[];
+  document: DocumentsRenderItems;
+  company: Company;
+}
 
-// const maxCharacters = 2000;
-// const nilCharacters = 0;
-// const ApplyJob = ({
-//   job,
-//   user,
-//   banners,
-//   acceptedAssessments,
-//   assessmentIds,
-// }: ApplyJobProps) => {
-//   const { toast } = useToast();
-//   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_UPLOAD_NAME_REAL;
-//   const presetName =
-//     process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_UPLOAD_PRESET_NAME;
-//   const router = useRouter();
+const maxCharacters = 2000;
+const nilCharacters = 0;
+const NewApplyJob = ({
+  job,
+  user,
+  banners,
+  acceptedAssessments,
+  assessmentIds,
+  document,
+  company,
+}: ApplyJobProps) => {
+  const { toast } = useToast();
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_UPLOAD_NAME_REAL;
+  const presetName =
+    process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_UPLOAD_PRESET_NAME;
+  const router = useRouter();
+  const [generatedResumeUrl, setGeneratedResumeUrl] = useState<string | null>(
+    null
+  );
+  const [generatedCoverLetterUrl, setGeneratedCoverLetterUrl] = useState<
+    string | null
+  >(null);
+  const form = useForm<FormSchemaTypes>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      whyMostQualified: "",
+      useGeneratedResume: false,
+    },
+  });
 
-//   const editorRef = useRef<ReactQuill | null>(null);
-//   const [generatedResumeUrl, setGeneratedResumeUrl] = useState<string | null>(
-//     null
-//   );
-//   const form = useForm<FormSchemaTypes>({
-//     resolver: zodResolver(formSchema),
-//     defaultValues: {
-//       whyMostQualified: "",
-//       useGeneratedResume: false,
-//     },
-//   });
+  const { isSubmitting } = form.formState;
 
-//   const { isSubmitting } = form.formState;
+  const { control } = form;
 
-//   const { control } = form;
+  const text = useWatch({ control, name: "whyMostQualified" }) || "";
 
-//   const text = useWatch({ control, name: "whyMostQualified" }) || "";
+  const cleanText = text.replace(/<[^>]*>/g, "");
 
-//   const cleanText = text.replace(/<[^>]*>/g, "");
+  const remainingCharacters = maxCharacters - cleanText.length;
 
-//   const remainingCharacters = maxCharacters - cleanText.length;
+  const excessCharacters = nilCharacters - remainingCharacters;
 
-//   const excessCharacters = nilCharacters - remainingCharacters;
+  const uploadToCloudinary = async (blob: Blob): Promise<string | null> => {
+    const formData = new FormData();
+    formData.append("file", blob);
+    formData.append("upload_preset", `${presetName}`);
 
-//   const uploadResumeToCloudinary = async (
-//     resumeBlob: Blob
-//   ): Promise<string | null> => {
-//     const formData = new FormData();
-//     formData.append("file", resumeBlob);
-//     formData.append("upload_preset", `${presetName}`);
+    try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const data = await response.json();
+      return data.secure_url;
+    } catch (error) {
+      console.error("Error uploading to Cloudinary:", error);
+      return null;
+    }
+  };
 
-//     try {
-//       const response = await fetch(
-//         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-//         {
-//           method: "POST",
-//           body: formData,
-//         }
-//       );
+  const handleResumeGeneration = async (): Promise<string | null> => {
+    try {
+      const blob = await pdf(<CreatePDFResume document={document} />).toBlob();
+      if (blob) {
+        return await uploadToCloudinary(blob);
+      } else {
+        throw new Error("Failed to generate resume PDF");
+      }
+    } catch (error) {
+      console.error("Error generating resume:", error);
+      return null;
+    }
+  };
 
-//       const data = await response.json();
-//       return data.secure_url;
-//     } catch (error) {
-//       console.error("Error uploading resume:", error);
-//       return null;
-//     }
-//   };
+  const handleCoverLetterGeneration = async (): Promise<string | null> => {
+    try {
+      const blob = await pdf(
+        <CreatePDFCoverLetter
+          document={document}
+          company={company}
+          job={job}
+          whyMostQualified={cleanText}
+        />
+      ).toBlob();
+      if (blob) {
+        return await uploadToCloudinary(blob);
+      } else {
+        throw new Error("Failed to generate cover letter PDF");
+      }
+    } catch (error) {
+      console.error("Error generating cover letter:", error);
+      return null;
+    }
+  };
 
-//   const handleResumeGeneration = async (
-//     user: User,
-//     job: Job
-//   ): Promise<string | null> => {
-//     try {
-//       const blob = await pdf(<PdfResume user={user} job={job} />).toBlob();
+  const { mutate: createApplication, isLoading } =
+    trpc.workerCreateApplication.useMutation({
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "Successfully submitted you job application",
+          variant: "default",
+          duration: 3000,
+        });
+        router.push("/site/jobs");
+        router.refresh();
+      },
+      onError: (err) => {
+        if (err.message) {
+          toast({
+            title: "Something went wrong",
+            description: err.message,
+            variant: "destructive",
+            duration: 3000,
+          });
+        } else {
+          toast({
+            title: "Something went wrong",
+            description:
+              "There was a problem submitting your job application. Please try again.",
+            variant: "destructive",
+            duration: 3000,
+          });
+        }
+      },
+    });
 
-//       if (blob) {
-//         const url = await uploadResumeToCloudinary(blob);
-//         if (url) {
-//           return url;
-//         } else {
-//           throw new Error("Failed to upload resume to Cloudinary");
-//         }
-//       } else {
-//         throw new Error("Failed to generate PDF blob");
-//       }
-//     } catch (error) {
-//       console.error("Error generating or uploading resume:", error);
-//       return null;
-//     }
-//   };
+  const onSubmit = async (value: FormSchemaTypes) => {
+    try {
+      if (value.useGeneratedResume) {
+        const resumeUrl = await handleResumeGeneration();
+        setGeneratedResumeUrl(resumeUrl || null);
 
-//   const { mutate: createApplication, isLoading } =
-//     trpc.workerCreateApplication.useMutation({
-//       onSuccess: () => {
-//         toast({
-//           title: "Success",
-//           description: "Successfully submitted you job application",
-//           variant: "default",
-//           duration: 3000,
-//         });
-//         router.push("/site/jobs");
-//         router.refresh();
-//       },
-//       onError: (err) => {
-//         if (err.message) {
-//           toast({
-//             title: "Something went wrong",
-//             description: err.message,
-//             variant: "destructive",
-//             duration: 3000,
-//           });
-//         } else {
-//           toast({
-//             title: "Something went wrong",
-//             description:
-//               "There was a problem submitting your job application. Please try again.",
-//             variant: "destructive",
-//             duration: 3000,
-//           });
-//         }
-//       },
-//     });
+        const coverLetterUrl = await handleCoverLetterGeneration();
+        setGeneratedCoverLetterUrl(coverLetterUrl || null);
+      }
+      createApplication({
+        ...value,
+        jobId: job.id,
+        companyId: job.companyId,
+        isEmployerID: job.isEmployerID,
+        generatedResumeUrl: generatedResumeUrl || "",
+        coverLetterUrl: generatedCoverLetterUrl || "",
+      });
+    } catch (error) {
+      console.error("Failed to generate and upload documents:", error);
+    }
+  };
+  const isSubmitDisabled = assessmentIds.some((id) => {
+    const assessment = acceptedAssessments.find((a) => a.testId === id);
+    return !assessment || assessment.status === "UNINITIATED";
+  });
+  return (
+    <>
+      <div className="pt-4 mx-auto max-w-2xl lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-6">
+        <div className="lg:col-span-2 lg:border-r  lg:border-gray-200 lg:pr-6 lg:mb-3">
+          <div className="w-full">
+            <div className="border-b border-gray-200 pb-2">
+              <span className="inline-flex items-center rounded-sm bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
+                Easy Apply
+              </span>
+              <h2 className="font-semibold mb-2 tracking-tight text-xl md:text-2xl text-primary">
+                {job?.job_title}
+              </h2>
+              {job.company_name && (
+                <p className="text-base font-normal text-gray-800">
+                  <span className="font-medium mr-2">Company:</span>{" "}
+                  {job.company_name}
+                </p>
+              )}
+              {job.county && (
+                <p className="text-base font-normal text-gray-800">
+                  <span className="font-medium mr-2">County:</span> {job.county}
+                </p>
+              )}
+              {user.name && (
+                <p className="flex items-center text-base font-normal">
+                  <span className="font-medium mr-2">Full Name:</span>{" "}
+                  {user.name}
+                </p>
+              )}
+              {user.email && (
+                <p className="flex items-center text-base font-normal">
+                  <span className="font-medium mr-2">User Email:</span>{" "}
+                  <span className="text-blue-600">{user.email}</span>
+                </p>
+              )}
+            </div>
+            <div>
+              <p className="text-base text-gray-800 mt-1">
+                <span>Note: </span>
+                <span className="italic text-sm">
+                  Part of your portfolio details will be merged together with
+                  this cover letter to form your full application.
+                </span>
+              </p>
+              {banners.length !== 0 && (
+                <div className="mb-4">
+                  <h2 className="text-lg font-semibold">
+                    Required Assessment(s)
+                  </h2>
+                  <p className="text-sm mb-2">
+                    Please note that this job requires you to complete the
+                    following assessment(s) before submitting your application.
+                  </p>
+                  <AllAssessments
+                    jobId={job.id}
+                    banners={banners}
+                    acceptedAssessments={acceptedAssessments}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
 
-//   const onSubmit = async (value: FormSchemaTypes) => {
-//     if (value.useGeneratedResume) {
-//       try {
-//         const resumeUrl = await handleResumeGeneration(user, job);
-//         setGeneratedResumeUrl(resumeUrl || null);
-//       } catch (error) {
-//         console.error("Failed to generate and upload resume:", error);
-//       }
-//     }
+        <div className="mt-4 lg:row-span-3 lg:mt-0">
+          <div className="hidden lg:block pt-4 lg:pb-5 lg:space-y-3 lg:bg-slate-200 lg:border border-slate-200 lg:rounded-md lg:shadow-sm lg:-mx-3 lg:pt-5 lg:px-3">
+            <h2 className="text-xl text-primary flex justify-center">
+              <Megaphone className="h-12 w-12" />
+            </h2>
 
-//     createApplication({
-//       ...value,
-//       jobId: job.id,
-//       companyId: job.companyId,
-//       isEmployerID: job.isEmployerID,
-//       generatedResumeUrl,
-//     });
-//   };
-//   const isSubmitDisabled = assessmentIds.some((id) => {
-//     const assessment = acceptedAssessments.find((a) => a.testId === id);
-//     return !assessment || assessment.status === "UNINITIATED";
-//   });
-//   return (
-//     <>
-//       <div className="pt-4 mx-auto max-w-2xl lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-6">
-//         <div className="lg:col-span-2 lg:border-r  lg:border-gray-200 lg:pr-6 lg:mb-3">
-//           <div className="w-full">
-//             <div className="border-b border-gray-200 pb-2">
-//               <span className="inline-flex items-center rounded-sm bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
-//                 Easy Apply
-//               </span>
-//               <h2 className="font-semibold mb-2 tracking-tight text-xl md:text-2xl text-primary">
-//                 {job?.job_title}
-//               </h2>
-//               {job.company_name && (
-//                 <p className="text-base font-normal text-gray-800">
-//                   <span className="font-medium mr-2">Company:</span>{" "}
-//                   {job.company_name}
-//                 </p>
-//               )}
-//               {job.county && (
-//                 <p className="text-base font-normal text-gray-800">
-//                   <span className="font-medium mr-2">County:</span> {job.county}
-//                 </p>
-//               )}
-//               {user.name && (
-//                 <p className="flex items-center text-base font-normal">
-//                   <span className="font-medium mr-2">Full Name:</span>{" "}
-//                   {user.name}
-//                 </p>
-//               )}
-//               {user.email && (
-//                 <p className="flex items-center text-base font-normal">
-//                   <span className="font-medium mr-2">User Email:</span>{" "}
-//                   <span className="text-blue-600">{user.email}</span>
-//                 </p>
-//               )}
-//             </div>
-//             <div>
-//               <p className="text-base text-gray-800 mt-1">
-//                 <span>Note: </span>
-//                 <span className="italic text-sm">
-//                   Part of your portfolio details will be merged together with
-//                   this cover letter to form your full application.
-//                 </span>
-//               </p>
-//               {banners.length !== 0 && (
-//                 <div className="mb-4">
-//                   <h2 className="text-lg font-semibold">
-//                     Required Assessment(s)
-//                   </h2>
-//                   <p className="text-sm mb-2">
-//                     Please note that this job requires you to complete the
-//                     following assessment(s) before submitting your application.
-//                   </p>
-//                   <AllAssessments
-//                     jobId={job.id}
-//                     banners={banners}
-//                     acceptedAssessments={acceptedAssessments}
-//                   />
-//                 </div>
-//               )}
-//             </div>
-//           </div>
-//         </div>
+            <p className="tracking-normal text-base flex items-start gap-2">
+              <CheckSquare className="h-5 w-5 shrink-0" />
+              <span>
+                Our system streamlines the job application process, ensuring
+                that all applications submitted through this platform are
+                directly delivered to the employer.
+              </span>
+            </p>
 
-//         <div className="mt-4 lg:row-span-3 lg:mt-0">
-//           <div className="hidden lg:block pt-4 lg:pb-5 lg:space-y-3 lg:bg-slate-200 lg:border border-slate-200 lg:rounded-md lg:shadow-sm lg:-mx-3 lg:pt-5 lg:px-3">
-//             <h2 className="text-xl text-primary flex justify-center">
-//               <Megaphone className="h-12 w-12" />
-//             </h2>
+            <p className="tracking-normal text-base flex items-start gap-2">
+              <CheckSquare className="h-5 w-5 shrink-0" />
+              <span>
+                Feedback on your job application will be communicated to you via
+                email or our messaging system. Please note that applying is free
+                of charge.
+              </span>
+            </p>
+          </div>
 
-//             <p className="tracking-normal text-base flex items-start gap-2">
-//               <CheckSquare className="h-5 w-5 shrink-0" />
-//               <span>
-//                 Our system streamlines the job application process, ensuring
-//                 that all applications submitted through this platform are
-//                 directly delivered to the employer.
-//               </span>
-//             </p>
+          <div className="mt-12 hidden lg:block pt-4 lg:pb-5 lg:space-y-3 lg:bg-slate-200 lg:border border-slate-200 lg:rounded-md lg:shadow-sm lg:-mx-3 lg:pt-5 lg:px-3">
+            <h2 className="text-xl text-primary flex justify-center">
+              <FolderOpen className="h-12 w-12" />
+            </h2>
 
-//             <p className="tracking-normal text-base flex items-start gap-2">
-//               <CheckSquare className="h-5 w-5 shrink-0" />
-//               <span>
-//                 Feedback on your job application will be communicated to you via
-//                 email or our messaging system. Please note that applying is free
-//                 of charge.
-//               </span>
-//             </p>
-//           </div>
+            <p className="tracking-normal text-base flex items-start gap-2">
+              <CheckSquare className="h-5 w-5 shrink-0" />
+              <span>
+                Before submitting your job application, please ensure your
+                portfolio and profile is up to date. Our system will also
+                automatically generate a resume for you.
+              </span>
+            </p>
 
-//           <div className="mt-12 hidden lg:block pt-4 lg:pb-5 lg:space-y-3 lg:bg-slate-200 lg:border border-slate-200 lg:rounded-md lg:shadow-sm lg:-mx-3 lg:pt-5 lg:px-3">
-//             <h2 className="text-xl text-primary flex justify-center">
-//               <FolderOpen className="h-12 w-12" />
-//             </h2>
+            <p className="tracking-normal text-base flex items-start gap-2">
+              <CheckSquare className="h-5 w-5 shrink-0" />
+              <span>
+                If the employer requires you to take a test, please ensure that
+                the necessary assessment is completed before submitting your job
+                application.
+              </span>
+            </p>
+          </div>
+        </div>
 
-//             <p className="tracking-normal text-base flex items-start gap-2">
-//               <CheckSquare className="h-5 w-5 shrink-0" />
-//               <span>
-//                 Before submitting your job application, please ensure your
-//                 portfolio and profile is up to date. Our system will also
-//                 automatically generate a resume for you.
-//               </span>
-//             </p>
+        <div className="py-4 -mt-5 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-8 lg:pr-3">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                control={form.control}
+                name="whyMostQualified"
+                disabled={isSubmitting || isLoading}
+                render={({ field }) => (
+                  <FormItem className="text-gray-800 text-base">
+                    <div className="flex flex-col">
+                      <FormLabel className="text-lg font-semibold">
+                        Application Justification Statement
+                        <span className="text-red-600 pl-1">*</span>
+                      </FormLabel>
+                      <FormLabel className="font-normal text-base text-gray-800">
+                        <span className="font-bold">Q: </span>Based on you
+                        qualifications, experiences, skills and the
+                        understanding of this job role, why do you think you are
+                        the most suitable candidate for this position?
+                      </FormLabel>
+                    </div>
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        required
+                        className="resize-none text-sm placeholder:text-sm placeholder:text-gray-500"
+                        minRows={6}
+                        rows={6}
+                        disabled={isLoading || isSubmitting}
+                        placeholder="Write your message here..."
+                        maxLength={maxCharacters}
+                      />
+                    </FormControl>
+                    <FormMessage className="font-normal text-base">
+                      {remainingCharacters >= 0 ? (
+                        <span className="text-gray-800">
+                          Max Characters:{" "}
+                          <b className="text-gray-800">
+                            {remainingCharacters}/{maxCharacters}
+                          </b>
+                        </span>
+                      ) : (
+                        <span className="flex flex-col">
+                          <span className="text-red-600">
+                            You have reached maximum characters
+                          </span>
+                          <span className="-mt-0.5 text-gray-800">
+                            Excess Characters:{" "}
+                            <b className="text-red-600">{excessCharacters}</b>
+                          </span>
+                        </span>
+                      )}
+                    </FormMessage>
+                  </FormItem>
+                )}
+              />
 
-//             <p className="tracking-normal text-base flex items-start gap-2">
-//               <CheckSquare className="h-5 w-5 shrink-0" />
-//               <span>
-//                 If the employer requires you to take a test, please ensure that
-//                 the necessary assessment is completed before submitting your job
-//                 application.
-//               </span>
-//             </p>
-//           </div>
-//         </div>
+              <FormField
+                control={form.control}
+                name="useGeneratedResume"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col mt-3">
+                    <FormLabel className="font-normal text-base">
+                      Would you like to use a system-generated resume?
+                    </FormLabel>
+                    <div className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <label className="font-normal">
+                        Yes, I want to use the system-generated resume.
+                      </label>
+                    </div>
+                    <FormMessage className="text-red-500 font-normal text-base" />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                size="lg"
+                variant="default"
+                className="hover:bg-primary mt-2 hover:opacity-90 w-full py-3 text-base rounded-sm font-normal sm:w-[200px]"
+                disabled={isLoading || isSubmitting || isSubmitDisabled}
+              >
+                {isLoading || isSubmitting ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : (
+                  <>Submit Application</>
+                )}
+              </Button>
+            </form>
+          </Form>
+        </div>
+      </div>
+    </>
+  );
+};
 
-//         <div className="py-4 -mt-5 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-8 lg:pr-3">
-//           <Form {...form}>
-//             <form onSubmit={form.handleSubmit(onSubmit)}>
-//               <FormField
-//                 control={form.control}
-//                 name="whyMostQualified"
-//                 disabled={isSubmitting || isLoading}
-//                 render={({ field }) => (
-//                   <FormItem className="text-gray-800 text-base">
-//                     <div className="flex flex-col">
-//                       <FormLabel className="text-lg font-semibold">
-//                         Application Justification Statement
-//                         <span className="text-red-600 pl-1">*</span>
-//                       </FormLabel>
-//                       <FormLabel className="font-normal text-base text-gray-800">
-//                         <span className="font-bold">Q: </span>Based on you
-//                         qualifications, experiences, skills and the
-//                         understanding of this job role, why do you think you are
-//                         the most suitable candidate for this position?
-//                       </FormLabel>
-//                     </div>
-//                     <FormControl>
-//                       <Editor
-//                         disabled={isLoading || isSubmitting}
-//                         {...field}
-//                         ref={editorRef}
-//                       />
-//                     </FormControl>
-//                     <FormMessage className="font-normal text-base">
-//                       {remainingCharacters >= 0 ? (
-//                         <span className="text-gray-800">
-//                           Max Characters:{" "}
-//                           <b className="text-gray-800">
-//                             {remainingCharacters}/{maxCharacters}
-//                           </b>
-//                         </span>
-//                       ) : (
-//                         <span className="flex flex-col">
-//                           <span className="text-red-600">
-//                             You have reached maximum characters
-//                           </span>
-//                           <span className="-mt-0.5 text-gray-800">
-//                             Excess Characters:{" "}
-//                             <b className="text-red-600">{excessCharacters}</b>
-//                           </span>
-//                         </span>
-//                       )}
-//                     </FormMessage>
-//                   </FormItem>
-//                 )}
-//               />
-
-//               <FormField
-//                 control={form.control}
-//                 name="useGeneratedResume"
-//                 render={({ field }) => (
-//                   <FormItem className="flex flex-col">
-//                     <FormLabel className="font-normal text-base">
-//                       Would you like to use a system-generated resume?
-//                     </FormLabel>
-//                     <div className="flex flex-row items-start space-x-3 space-y-0">
-//                       <FormControl>
-//                         <Checkbox
-//                           checked={field.value}
-//                           onCheckedChange={field.onChange}
-//                         />
-//                       </FormControl>
-//                       <label className="font-normal">
-//                         Yes, I want to use the system-generated resume.
-//                       </label>
-//                     </div>
-//                     <FormMessage className="text-red-500 font-normal text-base" />
-//                   </FormItem>
-//                 )}
-//               />
-//               <Button
-//                 type="submit"
-//                 size="lg"
-//                 variant="default"
-//                 className="hover:bg-primary mt-2 hover:opacity-90 w-full py-3 text-base rounded-sm font-normal sm:w-[200px]"
-//                 disabled={isLoading || isSubmitting || isSubmitDisabled}
-//               >
-//                 {isLoading || isSubmitting ? (
-//                   <Loader2 className="h-5 w-5 animate-spin" />
-//                 ) : (
-//                   <>Submit Application</>
-//                 )}
-//               </Button>
-//             </form>
-//           </Form>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default ApplyJob;
+export default NewApplyJob;

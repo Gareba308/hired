@@ -17264,13 +17264,22 @@ export const appRouter = router({
         matchScore: z.number().default(0),
         companyId: z.string(),
         isEmployerID: z.string(),
+        generatedResumeUrl: z.string().optional(),
+        coverLetterUrl: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const { userId, email } = ctx;
 
-      const { whyMostQualified, jobId, companyId, isEmployerID, matchScore } =
-        input;
+      const {
+        whyMostQualified,
+        jobId,
+        companyId,
+        isEmployerID,
+        matchScore,
+        generatedResumeUrl,
+        coverLetterUrl,
+      } = input;
 
       const dbUser = await db.user.findFirst({
         where: {
@@ -17521,6 +17530,8 @@ export const appRouter = router({
           about: aboutExists.about,
           company: company as [],
           uploadedResumeUrl: resume,
+          generatedResumeUrl,
+          coverLetterUrl,
         },
       });
     }),

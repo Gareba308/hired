@@ -1,7 +1,6 @@
 "use client";
 
 import { trpc } from "@/app/_trpc/client";
-import { Editor } from "@/components/Editor";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -11,13 +10,25 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Job,
-  User,
   AssessmentBanner,
   AcceptToBeAssessed,
+  About,
+  Award,
+  CertificationLicense,
+  Experience,
+  Resume,
+  SecondaryEducation,
+  Skills,
+  TertiaryEducation,
+  User,
+  Company,
+  WorkerBio,
+  WorkerContact,
 } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
@@ -32,12 +43,27 @@ type FormSchemaTypes = z.infer<typeof formSchema>;
 export const formSchema = z.object({
   whyMostQualified: z.string(),
 });
+interface DocumentsRenderItems {
+  dbUser: User;
+  myAbout: About | null;
+  myExperiences: Experience[];
+  secondaryEducation: SecondaryEducation | null;
+  myAcademicQualification: TertiaryEducation[];
+  workerBio: WorkerBio | null;
+  myCertificates: CertificationLicense[];
+  myAwards: Award[];
+  contact: WorkerContact | null;
+  resume: Resume | null;
+  skills: Skills | null;
+}
 interface ApplyJobProps {
   job: Job;
   user: User;
   banners: AssessmentBanner[];
   acceptedAssessments: AcceptToBeAssessed[];
   assessmentIds: string[];
+  document: DocumentsRenderItems;
+  company: Company
 }
 
 const maxCharacters = 2000;
@@ -48,6 +74,8 @@ const ApplyJob = ({
   banners,
   acceptedAssessments,
   assessmentIds,
+  document,
+  company,
 }: ApplyJobProps) => {
   const { toast } = useToast();
 
@@ -202,8 +230,8 @@ const ApplyJob = ({
               <CheckSquare className="h-5 w-5 shrink-0" />
               <span>
                 Feedback on your job application will be communicated to you via
-                email or our messaging system. Please note that applying is
-                free of charge.
+                email or our messaging system. Please note that applying is free
+                of charge.
               </span>
             </p>
           </div>
@@ -255,10 +283,15 @@ const ApplyJob = ({
                       </FormLabel>
                     </div>
                     <FormControl>
-                      <Editor
-                        disabled={isLoading || isSubmitting}
+                    <Textarea
                         {...field}
-                        ref={editorRef}
+                        required
+                        className="resize-none text-sm placeholder:text-sm placeholder:text-gray-500"
+                        minRows={6}
+                        rows={6}
+                        disabled={isLoading || isSubmitting}
+                        placeholder="Write your message here..."
+                        maxLength={maxCharacters}
                       />
                     </FormControl>
                     <FormMessage className="font-normal text-base">

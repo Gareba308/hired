@@ -1376,7 +1376,7 @@ export default function AllCandidates({
                                                 )
                                               }
                                             >
-                                              <Clock className="h-4 w-4 text-gray-400 mr-1" />
+                                              <Clock className="h-4 w-4 text-gray-400 shrink-0 mr-1" />
                                               <span className="line-clamp-1">
                                                 {suggestion}
                                               </span>
@@ -1401,7 +1401,7 @@ export default function AllCandidates({
                                                 )
                                               }
                                             >
-                                              <Clock className="h-4 w-4 text-gray-400 mr-1" />
+                                              <Clock className="h-4 w-4 text-gray-400 shrink-0 mr-1" />
                                               <span className="line-clamp-1">
                                                 {suggestion}
                                               </span>
@@ -1646,7 +1646,7 @@ export default function AllCandidates({
                                                 )
                                               }
                                             >
-                                              <Clock className="h-4 w-4 text-gray-400 mr-1" />
+                                              <Clock className="h-4 w-4 text-gray-400 shrink-0 mr-1" />
                                               <span className="line-clamp-1">
                                                 {suggestion}
                                               </span>
@@ -1671,7 +1671,7 @@ export default function AllCandidates({
                                                 )
                                               }
                                             >
-                                              <Clock className="h-4 w-4 text-gray-400 mr-1" />
+                                              <Clock className="h-4 w-4 text-gray-400 shrink-0 mr-1" />
                                               <span className="line-clamp-1">
                                                 {suggestion}
                                               </span>

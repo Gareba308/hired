@@ -78,6 +78,7 @@ const useScreenSize2 = () => {
 
 const pageSize = 20;
 const sortByOptions = [
+  {label: "Rank: Top to Bottom", value: "Rank: Top to Bottom"},
   { label: "Posted: New to Old", value: "createdAt_desc" },
   { label: "Posted: Old to New", value: "createdAt_asc" },
   { label: "Deadline: Later to Sooner", value: "deadline_desc" },
@@ -583,7 +584,12 @@ const HomeCompaniesNavBar = ({
       return true;
     })
     .sort((a, b) => {
-      if (sortBy === "createdAt_asc") {
+      if (sortBy === "Rank: Top to Bottom") {
+        if (a.rankTop === b.rankTop) {
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        }
+        return a.rankTop ? -1 : 1;
+      } else if (sortBy === "createdAt_asc") {
         return (
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
         );
@@ -645,11 +651,11 @@ const HomeCompaniesNavBar = ({
     )
     .reverse();
 
-    const firstJob = jobsForCurrentPage.length > 0 ? jobsForCurrentPage[0] : null;
+  const firstJob = jobsForCurrentPage.length > 0 ? jobsForCurrentPage[0] : null;
   const firstJobCategory = firstJob?.category;
   const resultantSimilarJobs = firstJob
-  ? jobs.filter((job) => job.category === firstJobCategory).slice(0, 3)
-  : [];
+    ? jobs.filter((job) => job.category === firstJobCategory).slice(0, 3)
+    : [];
 
   const companyProfile =
     companyProfiles.find((company) => company.id === firstJob?.companyId) ||
@@ -1365,7 +1371,7 @@ const HomeCompaniesNavBar = ({
                                       handleSuggestionClick1(suggestion)
                                     }
                                   >
-                                    <Clock className="h-4 w-4 text-gray-400 mr-1" />
+                                    <Clock className="h-4 w-4 text-gray-400 shrink-0 mr-1" />
                                     <span className="line-clamp-1">
                                       {suggestion}
                                     </span>
@@ -1388,7 +1394,7 @@ const HomeCompaniesNavBar = ({
                                       handleSuggestionClick1(suggestion)
                                     }
                                   >
-                                    <Clock className="h-4 w-4 text-gray-400 mr-1" />
+                                    <Clock className="h-4 w-4 text-gray-400 shrink-0 mr-1" />
                                     <span className="line-clamp-1">
                                       {suggestion}
                                     </span>
@@ -2070,7 +2076,7 @@ const HomeCompaniesNavBar = ({
             </div>
             {firstJob ? (
               <div className="hidden md:flex w-full md:sticky md:top-2 md:border md:shadow-sm md:border-gray-200 md:rounded-lg md:max-h-[calc(100vh-2rem)]">
-                <div key={firstJob.id} className='w-full'>
+                <div key={firstJob.id} className="w-full">
                   <JobDetails
                     job={firstJob}
                     viewID={viewID}
