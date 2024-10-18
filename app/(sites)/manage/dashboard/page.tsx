@@ -355,7 +355,7 @@ const pendingLength= myPendingApplication.length
       }
     },
     orderBy: {
-      createdAt: "asc",
+      createdAt: "desc",
     },
   });
 

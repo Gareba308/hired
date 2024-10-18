@@ -34,6 +34,9 @@ export async function generateStaticParams() {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
+    orderBy: {
+      createdAt: "desc"
+    }
   });
 
   return jobs.map((job) => ({ jobID: job.id }));

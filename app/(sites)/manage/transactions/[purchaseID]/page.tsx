@@ -10,20 +10,6 @@ interface PurchaseProps {
   };
 }
 
-export const revalidate = 60;
-export async function generateStaticParams() {
-  const currentDate = new Date();
-  const purchases = await db.purchaseJobPlan.findMany({
-    where: {
-      createdAt: {
-        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
-      },
-    },
-  });
-
-  return purchases.map((purchase) => ({ purchaseID: purchase.id }));
-}
-
 const Page = async ({ params }: PurchaseProps) => {
   const { purchaseID } = params;
   const purchaseExists = await db.purchaseJobPlan.findFirst({

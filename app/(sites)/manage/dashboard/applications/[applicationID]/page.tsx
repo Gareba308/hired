@@ -11,21 +11,6 @@ interface ApplicationsDetailsProps {
   };
 }
 
-export const revalidate = 60;
-export async function generateStaticParams() {
-  const currentDate = new Date();
-  const applications = await db.application.findMany({
-    where: {
-      createdAt: {
-        gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
-      },
-    },
-  });
-
-  return applications.map((application) => ({
-    applicationID: application.id.slice(0, 500),
-  }));
-}
 
 const Page = async ({ params }: ApplicationsDetailsProps) => {
   const applicationID = params.applicationID;

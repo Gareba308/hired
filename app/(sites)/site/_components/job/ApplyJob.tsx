@@ -184,8 +184,8 @@ const ApplyJob = ({
               )}
             </div>
             <div>
-              <p className="text-base text-gray-800 mt-1">
-                <span>Note: </span>
+              <p className="text-xs sm:text-base text-gray-800 mt-1">
+                <b>Note: </b>
                 <span className="italic text-sm">
                   Part of your portfolio details will be merged together with
                   this cover letter to form your full application.

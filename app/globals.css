@@ -116,8 +116,8 @@
 
 .shining-border {
   position: relative;
-  border: 2px solid transparent;
-  border-radius: 4px;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
   z-index: 1;
   overflow: hidden;
 }

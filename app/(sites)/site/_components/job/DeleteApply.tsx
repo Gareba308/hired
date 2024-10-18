@@ -117,7 +117,7 @@ const NewApplyJob = ({
     const formData = new FormData();
     formData.append("file", blob);
     formData.append("upload_preset", `${presetName}`);
-
+  
     try {
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
@@ -127,7 +127,8 @@ const NewApplyJob = ({
         }
       );
       const data = await response.json();
-      return data.secure_url;
+      console.log("Cloudinary response:", data);
+      return data.secure_url || null;
     } catch (error) {
       console.error("Error uploading to Cloudinary:", error);
       return null;
@@ -201,27 +202,31 @@ const NewApplyJob = ({
       },
     });
 
-  const onSubmit = async (value: FormSchemaTypes) => {
-    try {
-      if (value.useGeneratedResume) {
-        const resumeUrl = await handleResumeGeneration();
-        setGeneratedResumeUrl(resumeUrl || null);
-
-        const coverLetterUrl = await handleCoverLetterGeneration();
-        setGeneratedCoverLetterUrl(coverLetterUrl || null);
-      }
-      createApplication({
-        ...value,
-        jobId: job.id,
-        companyId: job.companyId,
-        isEmployerID: job.isEmployerID,
-        generatedResumeUrl: generatedResumeUrl || "",
-        coverLetterUrl: generatedCoverLetterUrl || "",
-      });
-    } catch (error) {
-      console.error("Failed to generate and upload documents:", error);
-    }
-  };
+    const onSubmit = async (value: FormSchemaTypes) => {
+        try {
+          let resumeUrl = '';
+          let coverLetterUrl = '';
+      
+          if (value.useGeneratedResume) {
+            resumeUrl = await handleResumeGeneration() || '';
+            setGeneratedResumeUrl(resumeUrl);
+    
+            coverLetterUrl = await handleCoverLetterGeneration() || '';
+            setGeneratedCoverLetterUrl(coverLetterUrl);
+          }
+    
+          createApplication({
+            ...value,
+            jobId: job.id,
+            companyId: job.companyId,
+            isEmployerID: job.isEmployerID,
+            generatedResumeUrl: resumeUrl,
+            coverLetterUrl: coverLetterUrl,
+          });
+        } catch (error) {
+          console.error("Failed to generate and upload documents:", error);
+        }
+      };
   const isSubmitDisabled = assessmentIds.some((id) => {
     const assessment = acceptedAssessments.find((a) => a.testId === id);
     return !assessment || assessment.status === "UNINITIATED";
@@ -263,11 +268,11 @@ const NewApplyJob = ({
               )}
             </div>
             <div>
-              <p className="text-base text-gray-800 mt-1">
-                <span>Note: </span>
+              <p className="text-xs sm:text-base text-gray-800 mt-1">
+                <b>Note: </b>
                 <span className="italic text-sm">
                   Part of your portfolio details will be merged together with
-                  this cover letter to form your full application.
+                  this cover letter to form your full application. Below just write the body.
                 </span>
               </p>
               {banners.length !== 0 && (
@@ -351,7 +356,7 @@ const NewApplyJob = ({
                   <FormItem className="text-gray-800 text-base">
                     <div className="flex flex-col">
                       <FormLabel className="text-lg font-semibold">
-                        Application Justification Statement
+                        Cover Letter Body
                         <span className="text-red-600 pl-1">*</span>
                       </FormLabel>
                       <FormLabel className="font-normal text-base text-gray-800">
@@ -369,7 +374,7 @@ const NewApplyJob = ({
                         minRows={6}
                         rows={6}
                         disabled={isLoading || isSubmitting}
-                        placeholder="Write your message here..."
+                        placeholder="Write the cover letter body here..."
                         maxLength={maxCharacters}
                       />
                     </FormControl>
@@ -405,16 +410,16 @@ const NewApplyJob = ({
                     <FormLabel className="font-normal text-base">
                       Would you like to use a system-generated resume?
                     </FormLabel>
-                    <div className="flex flex-row items-start space-x-3 space-y-0">
+                    <div className="flex flex-row items-center space-x-2 space-y-0">
                       <FormControl>
                         <Checkbox
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <label className="font-normal">
+                      <FormLabel className="font-normal text-base">
                         Yes, I want to use the system-generated resume.
-                      </label>
+                      </FormLabel>
                     </div>
                     <FormMessage className="text-red-500 font-normal text-base" />
                   </FormItem>

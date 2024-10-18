@@ -11,20 +11,6 @@ interface InstantResultsProps {
   };
 }
 
-export const revalidate = 60;
-export async function generateStaticParams() {
-  const instantAssess = await db.acceptToBeAssessed.findMany({
-    where: {
-      acceptBeTested: {
-        equals: true,
-      },
-    },
-  });
-
-  return instantAssess.map((assess) => ({
-    instantID: assess.id,
-  }));
-}
 const Page = async ({ params }: InstantResultsProps) => {
   const { instantID } = params;
   const session = await getServerSession(authOptions);
