@@ -129,7 +129,7 @@ const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger>
-                              <span className="inline-flex items-center rounded-sm bg-red-100 px-1.5 sm:px-2 py-[2.5px] text-xs font-normal text-red-900">
+                              <span className="inline-flex items-center rounded-sm bg-red-100 px-1.5 sm:px-2 py-[2px] text-xs font-normal text-red-900">
                                 <span className="animate-shake">Hot</span>
                               </span>
                             </TooltipTrigger>

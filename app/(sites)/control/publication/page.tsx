@@ -29,9 +29,11 @@ const Page = async () => {
   if (!isAdmin) redirect("/home/login?origin=control/publication");
 
   const myJobs = await db.job.findMany({
-    orderBy: {
-      createdAt: "desc"
-    }
+    orderBy: [
+      {published: 'desc'},
+      { rankTop: 'desc' },
+      { createdAt: 'desc' },
+    ]
   });
 
   if (myJobs.length === 0) {

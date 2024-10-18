@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import {
   Tooltip,
   TooltipContent,
@@ -37,7 +38,10 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
           return (
             <li
               key={item.id}
-              className="flex items-end px-2.5 w-full sm:px-4 pb-4 pt-3 sm:py-5 duration-150 border border-gray-300 rounded-lg"
+              className={cn(
+                "relative flex items-end px-2.5 w-full sm:px-4 pb-4 pt-3 sm:py-5 duration-150 border border-gray-300 rounded-lg",
+                item.rankTop === true && "shining-border"
+              )}
             >
               <div className="mr-3 sm:mr-4">
                 {item.companyLogo ? (
@@ -147,7 +151,10 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
                         </TooltipProvider>
                       ) : (
                         <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
-                          <span suppressHydrationWarning className="line-clamp-1">
+                          <span
+                            suppressHydrationWarning
+                            className="line-clamp-1"
+                          >
                             {formatDistanceToNowStrict(item.createdAt, {
                               addSuffix: true,
                             })}
@@ -188,7 +195,10 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
                       orientation="vertical"
                       className="text-gray-500"
                     />
-                    <p suppressHydrationWarning className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1">
+                    <p
+                      suppressHydrationWarning
+                      className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1"
+                    >
                       {formatDistanceToNowStrict(item.createdAt, {
                         addSuffix: true,
                       })}

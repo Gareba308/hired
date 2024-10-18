@@ -114,6 +114,38 @@
   animation: shake 0.5s ease infinite;
 }
 
+.shining-border {
+  position: relative;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.shining-border::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(90deg, #ff0066, #00ccff, #ffcc00, #ff0066);
+  background-size: 400% 400%;
+  animation: rotate-border 4s linear infinite;
+  z-index: -1;
+}
+
+@keyframes rotate-border {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
 .simplebar-scrollbar::before {
   background-color: #6b7280!important;
   width: calc(100% + 1px) !important;
