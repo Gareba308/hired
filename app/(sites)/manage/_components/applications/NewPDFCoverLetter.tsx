@@ -8,6 +8,7 @@ import {
 } from "@react-pdf/renderer";
 import { format } from "date-fns";
 import { Application } from "@prisma/client";
+import parse from "html-react-parser";
 
 interface CoverLetterProps {
   application: Application;
@@ -68,8 +69,137 @@ const styles = StyleSheet.create({
     marginBottom: 3,
     fontFamily: "Times-BoldItalic",
   },
+  listItemSkills: {
+    fontSize: 11.5,
+    fontFamily: "Times-Roman",
+  },
+  bold: {
+    fontFamily: "Times-Bold",
+  },
+  italic: {
+    fontFamily: "Times-Italic",
+  },
+  gridContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    fontFamily: "Times-Roman",
+    justifyContent: "space-between",
+  },
+  gridItem: {
+    width: "48%",
+    fontFamily: "Times-Roman",
+    marginBottom: 2,
+  },
+  paragraphContainer: {
+    marginBottom: 3,
+    fontFamily: "Times-Roman",
+  },
+  paragraph: {
+    fontSize: 11.5,
+    fontFamily: "Times-Roman",
+    color: "#000",
+  },
+  list: {
+    marginLeft: 10,
+    fontFamily: "Times-Roman",
+    marginBottom: 2,
+  },
+  listItemContainer: {
+    flexDirection: "row",
+    marginBottom: 2,
+  },
+  bullet: {
+    marginRight: 5,
+    fontSize: 12,
+  },
+  listItem: {
+    fontSize: 11.5,
+    color: "#000",
+    fontFamily: "Times-Roman",
+    flex: 1,
+  },
+  headerContainer: {
+    marginTop: 3,
+    marginBottom: 3,
+  },
+  lineBreak: {
+    height: 5,
+  },
 });
 
+const renderContent = (htmlContent: string) => {
+  let listIndex = 1;
+  const parsedContent = parse(htmlContent, {
+    replace: (domNode: any) => {
+      if (domNode.type === "tag") {
+        switch (domNode.name) {
+          case "p":
+            return (
+              <View style={styles.paragraphContainer}>
+                <Text style={styles.paragraph}>
+                  {domNode.children.map((child: any) => child.data)}
+                </Text>
+              </View>
+            );
+          case "ul":
+            return (
+              <View style={styles.list}>
+                {domNode.children
+                  .filter((child: any) => child.name === "li")
+                  .map((child: any, index: number) => (
+                    <View key={index} style={styles.listItemContainer}>
+                      <Text style={styles.bullet}>•</Text>
+                      <Text style={styles.listItem}>
+                        {child.children.map(
+                          (grandchild: any) => grandchild.data
+                        )}
+                      </Text>
+                    </View>
+                  ))}
+              </View>
+            );
+          case "ol":
+            return (
+              <View style={styles.list}>
+                {domNode.children
+                  .filter((child: any) => child.name === "li")
+                  .map((child: any, index: number) => (
+                    <View key={index} style={styles.listItemContainer}>
+                      <Text style={styles.bullet}>{`${listIndex++}.`}</Text>
+                      <Text style={styles.listItem}>
+                        {child.children.map(
+                          (grandchild: any) => grandchild.data
+                        )}
+                      </Text>
+                    </View>
+                  ))}
+              </View>
+            );
+          case "h1":
+          case "h2":
+          case "h3":
+          case "h4":
+          case "h5":
+          case "h6":
+            return (
+              <View style={styles.headerContainer}>
+                <Text style={styles.header}>
+                  {domNode.children.map((child: any) => child.data)}
+                </Text>
+              </View>
+            );
+          case "br":
+            return <View style={styles.lineBreak} />;
+
+          default:
+            return null;
+        }
+      }
+    },
+  });
+
+  return parsedContent;
+};
 const NewPDFCoverLetter = ({ application }: CoverLetterProps) => {
   return (
     <PDFViewer style={{ width: "100%", height: "100%" }}>
@@ -175,12 +305,12 @@ const NewPDFCoverLetter = ({ application }: CoverLetterProps) => {
                   {application.jobTitle} Application
                 </Text>
               </Text>
-              <Text style={styles.text}>{application.whyMostQualified}</Text>
+              <View>{renderContent(application.whyMostQualified)}</View>
             </View>
             <View
               style={[
                 styles.section,
-                { flexDirection: "column", marginTop: 20 },
+                { flexDirection: "column", marginTop: 10 },
               ]}
             >
               <Text style={styles.text}>Yours faithfully,</Text>

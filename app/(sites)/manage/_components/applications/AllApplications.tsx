@@ -34,7 +34,6 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  CornerUpLeft,
   ExternalLink,
   ListTodo,
   MoreHorizontal,
@@ -47,7 +46,9 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Download } from "lucide-react";
+import { pdf } from "@react-pdf/renderer";
+import { saveAs } from "file-saver";
 import { format } from "date-fns";
 import {
   DropdownMenu,
@@ -430,6 +431,40 @@ export function AllApplications({
 
         return <div className="text-sm font-normal">{formatted}</div>;
       },
+    },
+    {
+      accessorKey: "finalScore",
+      header: ({ column }) => {
+        return (
+          <div
+            className="flex justify-center items-center"
+          >
+            Resume
+          </div>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="text-sm font-normal flex justify-center items-center">
+          {row.getValue("finalScore")}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "finalScore",
+      header: ({ column }) => {
+        return (
+          <div
+            className="flex justify-center items-center"
+          >
+            Cover Letter
+          </div>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="text-sm font-normal flex justify-center items-center">
+          {row.getValue("finalScore")}
+        </div>
+      ),
     },
     {
       id: "actions",

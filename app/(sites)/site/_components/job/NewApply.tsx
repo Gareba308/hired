@@ -16,20 +16,10 @@ import {
   Job,
   AssessmentBanner,
   AcceptToBeAssessed,
-  About,
-  Award,
-  CertificationLicense,
-  Experience,
-  Resume,
-  SecondaryEducation,
-  Skills,
-  TertiaryEducation,
   User,
-  Company,
-  WorkerBio,
-  WorkerContact,
 } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { Editor } from "@/components/Editor";
 import { useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import ReactQuill from "react-quill-new";
@@ -37,10 +27,6 @@ import { z } from "zod";
 import { CheckSquare, FolderOpen, Loader2, Megaphone } from "lucide-react";
 import AllAssessments from "./AllAssessments";
 import { Checkbox } from "@/components/ui/checkbox";
-import { pdf } from "@react-pdf/renderer";
-import { Textarea } from "@/components/ui/textarea";
-import CreatePDFResume from "@/components/CreatePDFResume";
-import CreatePDFCoverLetter from "@/components/CreatePDFCoverLetter";
 
 type FormSchemaTypes = z.infer<typeof formSchema>;
 
@@ -48,27 +34,12 @@ export const formSchema = z.object({
   whyMostQualified: z.string(),
   useGeneratedResume: z.boolean(),
 });
-interface DocumentsRenderItems {
-  dbUser: User;
-  myAbout: About | null;
-  myExperiences: Experience[];
-  secondaryEducation: SecondaryEducation | null;
-  myAcademicQualification: TertiaryEducation[];
-  workerBio: WorkerBio | null;
-  myCertificates: CertificationLicense[];
-  myAwards: Award[];
-  contact: WorkerContact | null;
-  resume: Resume | null;
-  skills: Skills | null;
-}
 interface ApplyJobProps {
   job: Job;
   user: User;
   banners: AssessmentBanner[];
   acceptedAssessments: AcceptToBeAssessed[];
   assessmentIds: string[];
-  document: DocumentsRenderItems;
-  company: Company;
 }
 
 const maxCharacters = 2000;
@@ -79,20 +50,9 @@ const NewApplyJob = ({
   banners,
   acceptedAssessments,
   assessmentIds,
-  document,
-  company,
 }: ApplyJobProps) => {
   const { toast } = useToast();
-  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_UPLOAD_NAME_REAL;
-  const presetName =
-    process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_UPLOAD_PRESET_NAME;
   const router = useRouter();
-  const [generatedResumeUrl, setGeneratedResumeUrl] = useState<string | null>(
-    null
-  );
-  const [generatedCoverLetterUrl, setGeneratedCoverLetterUrl] = useState<
-    string | null
-  >(null);
   const form = useForm<FormSchemaTypes>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -104,7 +64,7 @@ const NewApplyJob = ({
   const { isSubmitting } = form.formState;
 
   const { control } = form;
-
+  const editorRef = useRef<ReactQuill | null>(null);
   const text = useWatch({ control, name: "whyMostQualified" }) || "";
 
   const cleanText = text.replace(/<[^>]*>/g, "");
@@ -112,63 +72,6 @@ const NewApplyJob = ({
   const remainingCharacters = maxCharacters - cleanText.length;
 
   const excessCharacters = nilCharacters - remainingCharacters;
-
-  const uploadToCloudinary = async (blob: Blob): Promise<string | null> => {
-    const formData = new FormData();
-    formData.append("file", blob);
-    formData.append("upload_preset", `${presetName}`);
-  
-    try {
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      const data = await response.json();
-      console.log("Cloudinary response:", data);
-      return data.secure_url || null;
-    } catch (error) {
-      console.error("Error uploading to Cloudinary:", error);
-      return null;
-    }
-  };
-
-  const handleResumeGeneration = async (): Promise<string | null> => {
-    try {
-      const blob = await pdf(<CreatePDFResume document={document} />).toBlob();
-      if (blob) {
-        return await uploadToCloudinary(blob);
-      } else {
-        throw new Error("Failed to generate resume PDF");
-      }
-    } catch (error) {
-      console.error("Error generating resume:", error);
-      return null;
-    }
-  };
-
-  const handleCoverLetterGeneration = async (): Promise<string | null> => {
-    try {
-      const blob = await pdf(
-        <CreatePDFCoverLetter
-          document={document}
-          company={company}
-          job={job}
-          whyMostQualified={cleanText}
-        />
-      ).toBlob();
-      if (blob) {
-        return await uploadToCloudinary(blob);
-      } else {
-        throw new Error("Failed to generate cover letter PDF");
-      }
-    } catch (error) {
-      console.error("Error generating cover letter:", error);
-      return null;
-    }
-  };
 
   const { mutate: createApplication, isLoading } =
     trpc.workerCreateApplication.useMutation({
@@ -202,31 +105,14 @@ const NewApplyJob = ({
       },
     });
 
-    const onSubmit = async (value: FormSchemaTypes) => {
-        try {
-          let resumeUrl = '';
-          let coverLetterUrl = '';
-      
-          if (value.useGeneratedResume) {
-            resumeUrl = await handleResumeGeneration() || '';
-            setGeneratedResumeUrl(resumeUrl);
-    
-            coverLetterUrl = await handleCoverLetterGeneration() || '';
-            setGeneratedCoverLetterUrl(coverLetterUrl);
-          }
-    
-          createApplication({
-            ...value,
-            jobId: job.id,
-            companyId: job.companyId,
-            isEmployerID: job.isEmployerID,
-            generatedResumeUrl: resumeUrl,
-            coverLetterUrl: coverLetterUrl,
-          });
-        } catch (error) {
-          console.error("Failed to generate and upload documents:", error);
-        }
-      };
+  const onSubmit = async (value: FormSchemaTypes) => {
+    createApplication({
+      ...value,
+      jobId: job.id,
+      companyId: job.companyId,
+      isEmployerID: job.isEmployerID,
+    });
+  };
   const isSubmitDisabled = assessmentIds.some((id) => {
     const assessment = acceptedAssessments.find((a) => a.testId === id);
     return !assessment || assessment.status === "UNINITIATED";
@@ -270,9 +156,10 @@ const NewApplyJob = ({
             <div>
               <p className="text-xs sm:text-base text-gray-800 mt-1">
                 <b>Note: </b>
-                <span className="italic text-sm">
+                <span className="italic text-xs sm:text-base">
                   Part of your portfolio details will be merged together with
-                  this cover letter to form your full application. Below just write the body.
+                  this cover letter to form your full application. Below just
+                  write the body.
                 </span>
               </p>
               {banners.length !== 0 && (
@@ -367,15 +254,10 @@ const NewApplyJob = ({
                       </FormLabel>
                     </div>
                     <FormControl>
-                      <Textarea
+                      <Editor
+                        disabled={isLoading}
                         {...field}
-                        required
-                        className="resize-none text-sm placeholder:text-sm placeholder:text-gray-500"
-                        minRows={6}
-                        rows={6}
-                        disabled={isLoading || isSubmitting}
-                        placeholder="Write the cover letter body here..."
-                        maxLength={maxCharacters}
+                        ref={(editor) => (editorRef.current = editor)}
                       />
                     </FormControl>
                     <FormMessage className="font-normal text-base">
@@ -433,7 +315,7 @@ const NewApplyJob = ({
                 disabled={isLoading || isSubmitting || isSubmitDisabled}
               >
                 {isLoading || isSubmitting ? (
-                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <Loader2 className="h-5 w-5 shrink-0 animate-spin" />
                 ) : (
                   <>Submit Application</>
                 )}

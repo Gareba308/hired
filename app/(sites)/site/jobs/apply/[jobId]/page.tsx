@@ -7,7 +7,7 @@ import NoProfile from "../../../_components/profile/Unavailable";
 import NoPortfolio from "../../../_components/portfolio/NoPortfolio";
 import { differenceInMonths, differenceInYears, parse } from "date-fns";
 import { Metadata } from "next";
-import NewApplyJob from "../../../_components/job/DeleteApply";
+import NewApplyJob from "../../../_components/job/NewApply";
 
 export const metadata: Metadata = {
   title: "Submit Job Application",
@@ -168,12 +168,6 @@ const Page = async ({ params }: ApplyJobProps) => {
       </>
     );
   }
-
-  const resume = await db.resume.findFirst({
-    where: {
-      userId,
-    },
-  });
 
   const skills = await db.skills.findFirst({
     where: {
@@ -496,20 +490,6 @@ const Page = async ({ params }: ApplyJobProps) => {
     },
   });
 
-  const combinedData = {
-    dbUser,
-    myAbout,
-    myExperiences,
-    secondaryEducation,
-    myAcademicQualification,
-    workerBio,
-    contact,
-    resume,
-    skills,
-    myAwards,
-    myCertificates,
-  };
-
 const companyOfJob= await db.company.findFirst({
     where: {
       id: jobExists.companyId
@@ -525,8 +505,6 @@ if(!companyOfJob) redirect('/site/jobs')
         banners={assessmentsPicked}
         assessmentIds={assessmentIds}
         acceptedAssessments={myAcceptedAssessments}
-        document={combinedData}
-        company={companyOfJob}
       />
     </div>
   );

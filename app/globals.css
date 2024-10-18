@@ -116,7 +116,7 @@
 
 .shining-border {
   position: relative;
-  border: 1.5px solid transparent;
+  border: 1px solid transparent;
   border-radius: 8px;
   z-index: 1;
   overflow: hidden;
@@ -130,7 +130,7 @@
   right: 0;
   bottom: 0;
   border-radius: inherit;
-  padding: 2px;
+  padding: 1px;
   background: linear-gradient(90deg, #ff0066, #00ccff, #ffcc00, #ff0066);
   background-size: 400% 400%;
   animation: rotate-border 4s linear infinite;

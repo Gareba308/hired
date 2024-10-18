@@ -17260,12 +17260,11 @@ export const appRouter = router({
     .input(
       z.object({
         whyMostQualified: z.string(),
+        useGeneratedResume: z.boolean(),
         jobId: z.string(),
         matchScore: z.number().default(0),
         companyId: z.string(),
         isEmployerID: z.string(),
-        generatedResumeUrl: z.string().optional(),
-        coverLetterUrl: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -17277,8 +17276,7 @@ export const appRouter = router({
         companyId,
         isEmployerID,
         matchScore,
-        generatedResumeUrl,
-        coverLetterUrl,
+        useGeneratedResume,
       } = input;
 
       const dbUser = await db.user.findFirst({
@@ -17530,8 +17528,7 @@ export const appRouter = router({
           about: aboutExists.about,
           company: company as [],
           uploadedResumeUrl: resume,
-          generatedResumeUrl,
-          coverLetterUrl,
+          useGeneratedResume
         },
       });
     }),
