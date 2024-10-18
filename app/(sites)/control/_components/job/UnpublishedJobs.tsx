@@ -3,10 +3,8 @@
 import { Job } from "@prisma/client";
 import UnpublishedJobCard from "./UnpublishedJobCard";
 import { Briefcase, Rocket } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
-import Link from "next/link";
 
 const pageSize = 20;
 interface AllMyJobsProps {
@@ -14,7 +12,6 @@ interface AllMyJobsProps {
 }
 
 export default function UnpublishedJobs({ myJobs }: AllMyJobsProps) {
-  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;

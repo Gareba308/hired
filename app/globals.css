@@ -116,10 +116,10 @@
 
 .shining-border {
   position: relative;
-  padding: 20px;
-  border-radius: 8px;
+  border-radius: 4px;
   z-index: 1;
   overflow: hidden;
+  border: 1px solid transparent;
 }
 
 .shining-border::before {
@@ -135,6 +135,7 @@
   background-size: 400% 400%;
   animation: rotate-border 4s linear infinite;
   z-index: -1;
+  border-radius: 4px;
 }
 
 @keyframes rotate-border {
@@ -145,6 +146,7 @@
     background-position: 100% 50%;
   }
 }
+
 
 .simplebar-scrollbar::before {
   background-color: #6b7280!important;

@@ -30,7 +30,6 @@ const Page = async () => {
 
   const myJobs = await db.job.findMany({
     orderBy: [
-      {published: 'desc'},
       { rankTop: 'desc' },
       { createdAt: 'desc' },
     ]

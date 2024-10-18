@@ -34,7 +34,6 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
     <section className="max-w-screen-lg mx-auto">
       <ul className="space-y-3 lg:space-y-4">
         {allJobs.map((item) => {
-          const isPublished = allJobs.some((mine) => mine.published === true);
           return (
             <li
               key={item.id}
