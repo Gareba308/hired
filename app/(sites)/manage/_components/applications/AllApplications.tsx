@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -43,13 +43,15 @@ import {
   TrendingDown,
   TrendingUp,
   Undo,
+  Loader2,
 } from "lucide-react";
-
+import NewPDFApplicationDetails from "./NewPDFApplicationDetails";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { pdf } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
 import { format } from "date-fns";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -67,6 +69,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Application } from "@prisma/client";
+
 import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import {
@@ -217,6 +220,7 @@ export function AllApplications({
     router.refresh();
   };
 
+
   const { mutate: updateReject, isLoading: rejectLoading } =
     trpc.employerUpdateReject.useMutation({
       onSuccess: () => {
@@ -348,7 +352,11 @@ export function AllApplications({
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
 
-        return <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>;
+        return (
+          <div suppressHydrationWarning className="font-normal text-sm">
+            {format(date, "PPP")}
+          </div>
+        );
       },
     },
     {
@@ -433,31 +441,69 @@ export function AllApplications({
       },
     },
     {
-      accessorKey: "finalScore",
-      header: ({ column }) => {
-        return (
-          <div
-            className="flex justify-center items-center"
+      id: "resume",
+      header: "Resume",
+      cell: ({ row }) => {
+        const application = row.original;
+        const handleDownloadUploadedResume = async (url: string | null) => {
+          if (!url) {
+            alert("Resume not available.");
+            return;
+          }
+        
+          try {
+            const response = await fetch(url);
+            if (!response.ok) {
+              throw new Error("Failed to fetch the resume.");
+            }
+            const blob = await response.blob();
+            const filename = decodeURIComponent(url.split("/").pop()?.split("?")[0] || "resume.pdf");
+            saveAs(blob, filename);
+          } catch (error) {
+            console.error("Error downloading file:", error);
+            alert("An error occurred while downloading the resume.");
+          }
+        };
+        
+        return application.useGeneratedResume  ? (
+          <PDFDownloadLink
+            document={
+              <NewPDFApplicationDetails
+                application={application}
+              />
+            }
+            fileName={`${application.applicantName || "resume"}.pdf`}
+            className="bg-white text-primary hover:bg-gray-100 py-1.5 px-2 rounded-sm"
           >
-            Resume
-          </div>
+            {/*@ts-ignore*/}
+            {({ loading }: { loading: boolean }): React.ReactNode =>
+              loading ? (
+                <span className="text-base flex flex-row items-center">
+                  <Loader2 className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />
+                  <span>Loading...</span>
+                </span>
+              ) : (
+                <span className="text-base flex items-center flex-row"><Download className="h-4 w-4 shrink-0 mr-1"/>Download</span>
+              )
+            }
+          </PDFDownloadLink>
+        ) : (
+          <button
+            onClick={() =>
+              handleDownloadUploadedResume(application.uploadedResumeUrl)
+            }
+            className="bg-white text-primary flex items-center flex-row hover:bg-gray-100 py-1.5 px-2 rounded-sm"
+          >
+            <Download className="h-4 w-4 shrink-0 mr-1"/>Download
+          </button>
         );
       },
-      cell: ({ row }) => (
-        <div className="text-sm font-normal flex justify-center items-center">
-          {row.getValue("finalScore")}
-        </div>
-      ),
     },
     {
       accessorKey: "finalScore",
       header: ({ column }) => {
         return (
-          <div
-            className="flex justify-center items-center"
-          >
-            Cover Letter
-          </div>
+          <div className="flex justify-center items-center">Cover Letter</div>
         );
       },
       cell: ({ row }) => (

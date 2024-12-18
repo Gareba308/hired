@@ -37,10 +37,7 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
           return (
             <li
               key={item.id}
-              className={cn(
-                "relative flex items-end px-2.5 w-full sm:px-4 pb-4 pt-3 sm:py-5 duration-150 border border-gray-300 rounded-lg",
-                item.rankTop === true && "shining-border"
-              )}
+              className="flex items-end px-2.5 w-full sm:px-4 pb-4 pt-3 sm:py-5 duration-150 border border-gray-300 rounded-lg"
             >
               <div className="mr-3 sm:mr-4">
                 {item.companyLogo ? (
@@ -136,8 +133,8 @@ const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger>
-                              <span className="inline-flex items-center rounded-sm px-1.5 sm:px-2 text-xs font-normal text-red-900">
-                                Unlisted
+                              <span className="inline-flex items-center rounded-sm px-1.5 sm:px-2 text-xs font-semibold text-red-900">
+                                Misc
                               </span>
                             </TooltipTrigger>
                             <TooltipContent className="text-gray-600 text-sm tracking-normal">

@@ -2,7 +2,7 @@
 
 import { Job } from "@prisma/client";
 import MyJobCard from "./MyJobCard";
-import { Briefcase,  Rocket } from "lucide-react";
+import { Briefcase, Rocket } from "lucide-react";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 
@@ -79,15 +79,15 @@ export default function AllMyJobs({ myJobs }: AllMyJobsProps) {
 
                     <p className="flex items-start gap-2 text-gray-600">
                       <span className="text-base">
-                        A job will only be visible here as long as it
-                        hasn&apos;t reached the application deadline.
+                        Jobs in &apos;All Jobs&apos; remain visible until the
+                        deadline or for a maximum of 30 days
                       </span>
                     </p>
 
                     <p className="flex items-start mt-3 gap-2 text-gray-600">
                       <span className="text-base">
-                        Submitting application or manually undoing the save will
-                        remove this job from this section.
+                        &apos;Unlisted&apos; indicates the job is unpublished;
+                        it will be listed after admin verification
                       </span>
                     </p>
                   </div>
@@ -100,15 +100,15 @@ export default function AllMyJobs({ myJobs }: AllMyJobsProps) {
 
                       <p className="flex items-start gap-2 text-gray-600">
                         <span className="text-base">
-                          A job will only be visible here as long as it
-                          hasn&apos;t reached the application deadline.
+                          Our system securely collects applications, viewable in
+                          your dashboard for easy access
                         </span>
                       </p>
 
                       <p className="flex items-start mt-3 gap-2 text-gray-600">
                         <span className="text-base">
-                          Submitting application or manually undoing the save
-                          will remove this job from this section.
+                          Easily update your listed job to correct or amend any
+                          details as needed
                         </span>
                       </p>
                     </div>

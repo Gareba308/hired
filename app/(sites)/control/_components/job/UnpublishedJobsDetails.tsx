@@ -257,20 +257,20 @@ export default function UnpublishedJobsDetails({
                 {job.job_title}
               </h2>
               <p className="flex items-center text-gray-600 shrink-0 text-lg font-medium">
-                <Building2 className="h-5 w-5 mr-1.5" />{" "}
+                <Building2 className="sm:h-5 h-4 sm:w-5 w-4 mr-1.5 shrink-0" />{" "}
                 <span className="text-primary hover:underline">
                   {job.company_name}
                 </span>
               </p>
               <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
-                <Briefcase className="h-5 w-5 mr-1.5" />
+                <Briefcase className="sm:h-5 h-4 sm:w-5 w-4 mr-1.5 shrink-0" />
                 {job.category}
               </p>
               <p
                 suppressHydrationWarning
                 className="flex items-center text-gray-600 shrink-0 text-base font-normal"
               >
-                <Calendar className="h-5 w-5 mr-1.5" />
+                <Calendar className="sm:h-5 h-4 sm:w-5 w-4 mr-1.5 shrink-0" />
                 {formatDistanceToNowStrict(job.createdAt, {
                   addSuffix: true,
                 })}

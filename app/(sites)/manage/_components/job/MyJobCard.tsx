@@ -127,7 +127,7 @@ const MyJobCard = ({ allJobs }: MyJobCardProps) => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="inline-flex items-center rounded-sm px-1.5 sm:px-2 text-xs font-normal text-red-900">
+                            <span className="inline-flex items-center rounded-sm px-1.5 sm:px-2 text-xs font-semibold text-red-900">
                               Unlisted
                             </span>
                           </TooltipTrigger>

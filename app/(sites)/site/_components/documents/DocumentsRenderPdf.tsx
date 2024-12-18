@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Printer } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import {
@@ -40,7 +38,9 @@ interface DocumentsRenderProps {
   document: DocumentsRenderItems;
 }
 
-const DocumentsRenderPdf = ({ document: application }: DocumentsRenderProps) => {
+const DocumentsRenderPdf = ({
+  document: application,
+}: DocumentsRenderProps) => {
   const router = useRouter();
   const { toast } = useToast();
   const searchParams = useSearchParams();
@@ -76,7 +76,7 @@ const DocumentsRenderPdf = ({ document: application }: DocumentsRenderProps) => 
 
   return (
     <>
-    <MyPdfDocument document={application} />
+      <MyPdfDocument document={application} />
     </>
   );
 };

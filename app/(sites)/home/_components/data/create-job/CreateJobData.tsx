@@ -59,7 +59,7 @@ export const availabilities = [
 
 export const counties = [
   {label: "--Not in Kenya--", value: "Not in Kenya"},
-  { label: "--Multiple Counties--", value: "Multiple Counties" },
+  { label: "--Multiple--", value: "Multiple" },
   { label: "Mombasa", value: "Mombasa" },
   { label: "Kwale", value: "Kwale" },
   { label: "Kilifi", value: "Kilifi" },

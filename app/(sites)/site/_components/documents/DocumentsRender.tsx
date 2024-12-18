@@ -96,7 +96,7 @@ const DocumentsRender = ({ document: application }: DocumentsRenderProps) => {
                     fileName="clean-resume.pdf"
                     className="bg-primary text-primary-foreground hover:bg-primary py-1.5 px-2 rounded-sm"
                   >
-                    {/* @ts-ignore */}
+                    {/*@ts-ignore*/}
                     {({ loading }: { loading: boolean }): React.ReactNode =>
                       loading ? (
                         <span className="text-base flex flex-row items-center">

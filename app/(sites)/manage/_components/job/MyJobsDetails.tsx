@@ -48,14 +48,14 @@ const MyJobsDetails = ({ job, companyProfile }: MyJobsDetailsProps) => {
               </h2>
               <p className="text-lg font-semibold">By: {job.company_name}</p>
               <p className="flex items-center text-base font-normal">
-                <Briefcase className="h-5 w-5 mr-1.5" />
+                <Briefcase className="sm:h-5 h-4 sm:w-5 w-4 mr-1.5 shrink-0" />
                 {job?.category}
               </p>
               <p
                 suppressHydrationWarning
                 className="flex items-center text-base font-normal"
               >
-                <Calendar className="h-5 w-5 mr-1.5" />
+                <Calendar className="sm:h-5 h-4 sm:w-5 w-4 mr-1.5 shrink-0" />
                 {formatDistanceToNowStrict(job.createdAt, {
                   addSuffix: true,
                 })}
