@@ -11,6 +11,14 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import {
+  PDFViewer,
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+} from "@react-pdf/renderer";
+import {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
@@ -80,6 +88,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+// import DeletePDF from "./DeletePDF";
 
 interface AllApplicationsProps {
   myApplication: Application[];
@@ -220,7 +229,6 @@ export function AllApplications({
     router.refresh();
   };
 
-
   const { mutate: updateReject, isLoading: rejectLoading } =
     trpc.employerUpdateReject.useMutation({
       onSuccess: () => {
@@ -335,13 +343,13 @@ export function AllApplications({
 
   const columns: ColumnDef<Application>[] = [
     {
-      accessorKey: "jobTitle",
-      header: "Job Title",
+      accessorKey: "job_id",
+      header: "Job ID",
       cell: ({ row }) => {
-        const jobTitle = row.getValue("jobTitle");
+        const job_id = row.getValue("job_id");
         return (
           <div className="capitalize text-sm font-normal">
-            {typeof jobTitle === "string" ? jobTitle.toLowerCase() : ""}
+            {job_id}
           </div>
         );
       },
@@ -365,41 +373,6 @@ export function AllApplications({
       cell: ({ row }) => (
         <div className="capitalize text-sm font-normal">
           {row.getValue("applicantName")}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "userEmail",
-      header: "Applicant Email",
-      cell: ({ row }) => {
-        const status = row.getValue("status");
-        return (
-          <div className="font-normal text-sm">
-            {status === "INTERVIEW" ||
-            status === "OFFERED" ||
-            status === "REVIEWING"
-              ? row.getValue("userEmail")
-              : hideEmail(row.getValue("userEmail"))}
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "finalScore",
-      header: ({ column }) => {
-        return (
-          <div
-            className="flex justify-center items-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Score
-            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
-          </div>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="text-sm font-normal flex justify-center items-center">
-          {row.getValue("finalScore")}%
         </div>
       ),
     },
@@ -450,42 +423,50 @@ export function AllApplications({
             alert("Resume not available.");
             return;
           }
-        
+
           try {
             const response = await fetch(url);
             if (!response.ok) {
               throw new Error("Failed to fetch the resume.");
             }
             const blob = await response.blob();
-            const filename = decodeURIComponent(url.split("/").pop()?.split("?")[0] || "resume.pdf");
+            const filename = decodeURIComponent(
+              url.split("/").pop()?.split("?")[0] || "resume.pdf"
+            );
             saveAs(blob, filename);
           } catch (error) {
             console.error("Error downloading file:", error);
             alert("An error occurred while downloading the resume.");
           }
         };
-        
-        return application.useGeneratedResume  ? (
+
+        return application.useGeneratedResume ? (
+          // <PDFDownloadLink
+          //   document={
+          //     <NewPDFApplicationDetails
+          //       application={application}
+          //     />
+          //   }
+          //   fileName={`${application.applicantName || "resume"}.pdf`}
+          //   className="bg-white text-primary hover:bg-gray-100 py-1.5 px-2 rounded-sm"
+          // >
+          //   {/*@ts-ignore*/}
+          //   {({ loading }: { loading: boolean }): React.ReactNode =>
+          //     loading ? (
+          //       <span className="text-base flex flex-row items-center">
+          //         <Loader2 className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />
+          //         <span>Loading...</span>
+          //       </span>
+          //     ) : (
+          //       <span className="text-base flex items-center flex-row"><Download className="h-4 w-4 shrink-0 mr-1"/>Download</span>
+          //     )
+          //   }
+          // </PDFDownloadLink>
           <PDFDownloadLink
-            document={
-              <NewPDFApplicationDetails
-                application={application}
-              />
-            }
-            fileName={`${application.applicantName || "resume"}.pdf`}
-            className="bg-white text-primary hover:bg-gray-100 py-1.5 px-2 rounded-sm"
+            document={<NewPDFApplicationDetails application={application} />}
+            fileName="test.pdf"
           >
-            {/*@ts-ignore*/}
-            {({ loading }: { loading: boolean }): React.ReactNode =>
-              loading ? (
-                <span className="text-base flex flex-row items-center">
-                  <Loader2 className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />
-                  <span>Loading...</span>
-                </span>
-              ) : (
-                <span className="text-base flex items-center flex-row"><Download className="h-4 w-4 shrink-0 mr-1"/>Download</span>
-              )
-            }
+            Download Test PDF
           </PDFDownloadLink>
         ) : (
           <button
@@ -494,23 +475,11 @@ export function AllApplications({
             }
             className="bg-white text-primary flex items-center flex-row hover:bg-gray-100 py-1.5 px-2 rounded-sm"
           >
-            <Download className="h-4 w-4 shrink-0 mr-1"/>Download
+            <Download className="h-4 w-4 shrink-0 mr-1" />
+            Download
           </button>
         );
       },
-    },
-    {
-      accessorKey: "finalScore",
-      header: ({ column }) => {
-        return (
-          <div className="flex justify-center items-center">Cover Letter</div>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="text-sm font-normal flex justify-center items-center">
-          {row.getValue("finalScore")}
-        </div>
-      ),
     },
     {
       id: "actions",
