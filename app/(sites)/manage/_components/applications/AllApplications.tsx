@@ -346,10 +346,9 @@ export function AllApplications({
       accessorKey: "job_id",
       header: "Job ID",
       cell: ({ row }) => {
-        const job_id = row.getValue("job_id");
         return (
           <div className="capitalize text-sm font-normal">
-            {job_id}
+            {row.getValue("job_id ")}
           </div>
         );
       },
