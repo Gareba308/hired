@@ -202,7 +202,6 @@ const renderContent = (htmlContent: string) => {
 };
 const NewPDFCoverLetter = ({ application }: CoverLetterProps) => {
   return (
-    <PDFViewer style={{ width: "100%", height: "100%" }}>
       <Document>
         <Page size="A4" style={styles.page}>
           <View style={styles.mainSection}>
@@ -312,6 +311,7 @@ const NewPDFCoverLetter = ({ application }: CoverLetterProps) => {
                 styles.section,
                 { flexDirection: "column", marginTop: 10 },
               ]}
+              
             >
               <Text style={styles.text}>Yours faithfully,</Text>
               <Text style={styles.text}>(Signed)</Text>
@@ -320,7 +320,6 @@ const NewPDFCoverLetter = ({ application }: CoverLetterProps) => {
           </View>
         </Page>
       </Document>
-    </PDFViewer>
   );
 };
 

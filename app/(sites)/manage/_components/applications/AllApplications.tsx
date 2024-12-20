@@ -53,7 +53,7 @@ import {
   Undo,
   Loader2,
 } from "lucide-react";
-import NewPDFApplicationDetails from "./NewPDFApplicationDetails";
+import NewPDFCoverLetter from "./NewPDFCoverLetter";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { pdf } from "@react-pdf/renderer";
@@ -88,7 +88,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import DeletePDF from "./DeletePDF";
+import DownloadPDF from "./DownloadPDF";
 
 interface AllApplicationsProps {
   myApplication: Application[];
@@ -343,17 +343,6 @@ export function AllApplications({
 
   const columns: ColumnDef<Application>[] = [
     {
-      accessorKey: "job_id",
-      header: "Job ID",
-      cell: ({ row }) => {
-        return (
-          <div className="capitalize text-sm font-normal">
-            {row.getValue("job_id ")}
-          </div>
-        );
-      },
-    },
-    {
       accessorKey: "createdAt",
       header: "Applied",
       cell: ({ row }) => {
@@ -440,39 +429,20 @@ export function AllApplications({
         };
 
         return application.useGeneratedResume ? (
-          // <PDFDownloadLink
-          //   document={
-          //     <NewPDFApplicationDetails
-          //       application={application}
-          //     />
-          //   }
-          //   fileName={`${application.applicantName || "resume"}.pdf`}
-          //   className="bg-white text-primary hover:bg-gray-100 py-1.5 px-2 rounded-sm"
-          // >
-          //   {/*@ts-ignore*/}
-          //   {({ loading }: { loading: boolean }): React.ReactNode =>
-          //     loading ? (
-          //       <span className="text-base flex flex-row items-center">
-          //         <Loader2 className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />
-          //         <span>Loading...</span>
-          //       </span>
-          //     ) : (
-          //       <span className="text-base flex items-center flex-row"><Download className="h-4 w-4 shrink-0 mr-1"/>Download</span>
-          //     )
-          //   }
-          // </PDFDownloadLink>
           <PDFDownloadLink
-            document={<NewPDFApplicationDetails application={application} />}
-            fileName="test.pdf"
+            document={<DownloadPDF application={application} />}
+            fileName={`${application.applicantName || "resume"}.pdf`}
+            className="flex items-center text-primary flex-row"
           >
-            Download Test PDF
+            <Download className="h-4 w-4 shrink-0 mr-1" />
+            Download
           </PDFDownloadLink>
         ) : (
           <button
             onClick={() =>
               handleDownloadUploadedResume(application.uploadedResumeUrl)
             }
-            className="bg-white text-primary flex items-center flex-row hover:bg-gray-100 py-1.5 px-2 rounded-sm"
+            className="text-primary cursor-pointer flex items-center flex-row"
           >
             <Download className="h-4 w-4 shrink-0 mr-1" />
             Download
@@ -481,9 +451,27 @@ export function AllApplications({
       },
     },
     {
+      id: "cover",
+      header: "Cover Letter",
+      cell: ({ row }) => {
+        const application = row.original;
+
+        return (
+          <PDFDownloadLink
+            document={<NewPDFCoverLetter application={application} />}
+            fileName="cover-letter.pdf"
+            className="flex items-center text-primary flex-row"
+          >
+            <Download className="h-4 w-4 shrink-0 mr-1" />
+            Download
+          </PDFDownloadLink>
+        );
+      },
+    },
+    {
       id: "actions",
       header: () => (
-        <div className=" flex justify-center items-center">Actions</div>
+        <div className=" flex justify-center items-center">Tests & More</div>
       ),
       enableHiding: false,
       cell: ({ row }) => {
