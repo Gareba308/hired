@@ -170,6 +170,15 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
 
   const columns: ColumnDef<Job>[] = [
     {
+      accessorKey: "createdAt",
+      header: "Published",
+      cell: ({ row }) => {
+        const date: Date = row.getValue("createdAt");
+
+        return <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>;
+      },
+    },
+    {
       accessorKey: "job_id",
       header: "Job ID",
       cell: ({ row }) => (
@@ -182,19 +191,10 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
       cell: ({ row }) => {
         const jobTitle = row.getValue("job_title");
         return (
-          <div className="capitalize text-sm font-normal">
+          <div className="capitalize text-sm line-clamp-1 font-normal">
             {typeof jobTitle === "string" ? jobTitle.toLowerCase() : ""}
           </div>
         );
-      },
-    },
-    {
-      accessorKey: "createdAt",
-      header: "Published",
-      cell: ({ row }) => {
-        const date: Date = row.getValue("createdAt");
-
-        return <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>;
       },
     },
     {

@@ -134,9 +134,6 @@ export function AllApplications({
   const [currentlyDeletingID, setCurrentlyDeletingID] = React.useState<
     string | null
   >(null);
-  const [currentlyOpeningID, setCurrentlyOpeningID] = React.useState<
-    string | null
-  >(null);
   const [currentlyRejectingID, setCurrentlyRejectingID] = React.useState<
     string | null
   >(null);
@@ -155,8 +152,6 @@ export function AllApplications({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const [loadingPending, setLoadingPending] = React.useState(false);
-  const [forwardApplication, setForwardApplication] = React.useState(false);
 
   const { mutate: deleteApplication, isLoading } =
     trpc.employerHideApplication.useMutation({
@@ -198,35 +193,6 @@ export function AllApplications({
 
   const deleted = (applicationId: string) => {
     deleteApplication({ applicationID: applicationId });
-  };
-  const { mutate: updatePending } = trpc.employerUpdatePending.useMutation({
-    onMutate: ({ applicationID }) => {
-      setCurrentlyOpeningID(applicationID);
-      setLoadingPending(true);
-    },
-    onSettled: () => {
-      if (currentlyOpeningID) {
-        setLoadingPending(true);
-        const navigatePromise = new Promise<void>((resolve, reject) => {
-          router.push(`/manage/dashboard/applications/${currentlyOpeningID}`);
-          router.refresh();
-        });
-        navigatePromise
-          .then(() => {
-            setLoadingPending(false);
-          })
-          .catch((error) => {
-            console.error("Error navigating:", error);
-          });
-      }
-    },
-  });
-
-  const forwardApp = (appID: string) => {
-    setCurrentlyForwardID(appID);
-    setForwardApplication(true);
-    router.push(`/manage/dashboard/applications/${appID}`);
-    router.refresh();
   };
 
   const { mutate: updateReject, isLoading: rejectLoading } =
@@ -366,7 +332,9 @@ export function AllApplications({
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: () => (
+        <div className="flex justify-center items-center">Status</div>
+      ),
       cell: ({ row }) => {
         const status = row.getValue("status");
 
@@ -398,12 +366,18 @@ export function AllApplications({
             </div>
           );
 
-        return <div className="text-sm font-normal">{formatted}</div>;
+        return (
+          <div className="text-sm font-normal flex justify-center items-center">
+            {formatted}
+          </div>
+        );
       },
     },
     {
       id: "resume",
-      header: "Resume",
+      header: () => (
+        <div className="flex justify-center items-center">Resume</div>
+      ),
       cell: ({ row }) => {
         const application = row.original;
         const handleDownloadUploadedResume = async (url: string | null) => {
@@ -428,43 +402,51 @@ export function AllApplications({
           }
         };
 
-        return application.useGeneratedResume ? (
-          <PDFDownloadLink
-            document={<DownloadPDF application={application} />}
-            fileName={`${application.applicantName || "resume"}.pdf`}
-            className="flex items-center text-primary flex-row"
-          >
-            <Download className="h-4 w-4 shrink-0 mr-1" />
-            Download
-          </PDFDownloadLink>
-        ) : (
-          <button
-            onClick={() =>
-              handleDownloadUploadedResume(application.uploadedResumeUrl)
-            }
-            className="text-primary cursor-pointer flex items-center flex-row"
-          >
-            <Download className="h-4 w-4 shrink-0 mr-1" />
-            Download
-          </button>
+        return (
+          <div className="flex justify-center items-center">
+            {application.useGeneratedResume ? (
+              <PDFDownloadLink
+                document={<DownloadPDF application={application} />}
+                fileName={`${application.applicantName || "resume"}.pdf`}
+                className="flex items-center text-primary hover:bg-emerald-700 flex-row"
+              >
+                <Download className="h-4 w-4 shrink-0 mr-1 text-primary hover:bg-emerald-700" />
+                Download
+              </PDFDownloadLink>
+            ) : (
+              <button
+                onClick={() =>
+                  handleDownloadUploadedResume(application.uploadedResumeUrl)
+                }
+                className="text-primary hover:bg-emerald-700 cursor-pointer flex items-center flex-row"
+              >
+                <Download className="h-4 w-4 shrink-0 mr-1 text-primary hover:bg-emerald-700" />
+                Download
+              </button>
+            )}
+          </div>
         );
       },
     },
     {
       id: "cover",
-      header: "Cover Letter",
+      header: () => (
+        <div className="flex justify-center items-center">Cover Letter</div>
+      ),
       cell: ({ row }) => {
         const application = row.original;
 
         return (
-          <PDFDownloadLink
-            document={<NewPDFCoverLetter application={application} />}
-            fileName="cover-letter.pdf"
-            className="flex items-center text-primary flex-row"
-          >
-            <Download className="h-4 w-4 shrink-0 mr-1" />
-            Download
-          </PDFDownloadLink>
+          <div className="flex justify-center items-center">
+            <PDFDownloadLink
+              document={<NewPDFCoverLetter application={application} />}
+              fileName="cover-letter.pdf"
+              className="flex items-center text-primary hover:bg-blue-700 flex-row"
+            >
+              <Download className="h-4 w-4 shrink-0 mr-1 text-primary hover:bg-blue-700" />
+              Download
+            </PDFDownloadLink>
+          </div>
         );
       },
     },
@@ -485,7 +467,6 @@ export function AllApplications({
                   className="h-5 w-8 p-0 rounded-sm"
                   disabled={
                     currentlyDeletingID === application.id ||
-                    currentlyOpeningID === application.id ||
                     currentlyForwardID === application.id ||
                     currentlyRejectingID === application.id ||
                     currentlyOfferingID === application.id ||
@@ -493,9 +474,7 @@ export function AllApplications({
                     interviewLoading ||
                     offerLoading ||
                     rejectLoading ||
-                    isLoading ||
-                    loadingPending ||
-                    forwardApplication
+                    isLoading
                   }
                 >
                   <span className="sr-only">Open menu</span>
@@ -503,18 +482,6 @@ export function AllApplications({
                     <>
                       <RefreshCw className="h-5 w-5 animate-spin text-destructive-foreground" />
                     </>
-                  ) : currentlyOpeningID === application.id &&
-                    loadingPending ? (
-                    <span className="text-gray-600 text-xs flex items-center shrink-0">
-                      <RefreshCw className="h-4 w-4 animate-spin shrink-0 text-gray-600 mr-1" />
-                      Opening...
-                    </span>
-                  ) : currentlyForwardID === application.id &&
-                    forwardApplication ? (
-                    <span className="text-gray-600 text-xs flex items-center shrink-0">
-                      <RefreshCw className="h-4 w-4 animate-spin shrink-0 text-gray-600 mr-1" />
-                      Opening...
-                    </span>
                   ) : currentlyRejectingID === application.id &&
                     rejectLoading ? (
                     <span className="text-gray-600 text-xs flex items-center shrink-0">
@@ -542,32 +509,17 @@ export function AllApplications({
                   Application Actions
                 </DropdownMenuLabel>
                 <DropdownMenuItem className="text-sm">
-                  {application.status === "PENDING" ? (
-                    <>
-                      <span
-                        className="text-gray-600 flex text-sm items-center shrink-0"
-                        onClick={() =>
-                          updatePending({ applicationID: application.id })
-                        }
-                      >
-                        <ExternalLink className="h-4 w-4 mr-1.5 shrink-0 text-gray-500" />
-                        Full Application
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <span
-                        onClick={() => forwardApp(application.id)}
-                        className="text-gray-600 flex text-sm items-center shrink-0"
-                      >
-                        <ExternalLink className="h-4 w-4 mr-1.5 shrink-0 text-gray-500" />
-                        Full Application
-                      </span>
-                    </>
-                  )}
+                  <span
+                    onClick={() => {}}
+                    className="text-gray-600 flex text-sm items-center shrink-0"
+                  >
+                    <ExternalLink className="h-4 w-4 mr-1.5 shrink-0 text-gray-500" />
+                    Assessment Test
+                  </span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
+                
                   className={`text-sm ${
                     application.status === "DECLINED" ||
                     application.status === "OFFERED"

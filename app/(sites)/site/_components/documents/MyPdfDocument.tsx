@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   boldText: {
     fontSize: 12,
     fontFamily: "Times-Bold",
-    color: "666",
+    color: "000",
     marginBottom: 3,
   },
   text: {
@@ -155,7 +155,6 @@ const styles = StyleSheet.create({
 });
 
 const renderContent = (htmlContent: string) => {
-  let listIndex = 1;
   const parsedContent = parse(htmlContent, {
     replace: (domNode: any) => {
       if (domNode.type === "tag") {
@@ -192,7 +191,7 @@ const renderContent = (htmlContent: string) => {
                   .filter((child: any) => child.name === "li")
                   .map((child: any, index: number) => (
                     <View key={index} style={styles.listItemContainer}>
-                      <Text style={styles.bullet}>{`${listIndex++}.`}</Text>
+                      <Text style={styles.bullet}>{`${index + 1}.`}</Text>
                       <Text style={styles.listItem}>
                         {child.children.map(
                           (grandchild: any) => grandchild.data
@@ -217,7 +216,6 @@ const renderContent = (htmlContent: string) => {
             );
           case "br":
             return <View style={styles.lineBreak} />;
-
           default:
             return null;
         }
@@ -227,6 +225,7 @@ const renderContent = (htmlContent: string) => {
 
   return parsedContent;
 };
+
 
 const MyPdfDocument = ({ document }: { document: DocumentsRenderItems }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);

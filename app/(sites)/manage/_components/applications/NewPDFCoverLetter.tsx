@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   boldText: {
     fontSize: 12,
     fontFamily: "Times-Bold",
-    color: "#666",
+    color: "#000",
     marginBottom: 3,
   },
   text: {
@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
 });
 
 const renderContent = (htmlContent: string) => {
-  let listIndex = 1;
   const parsedContent = parse(htmlContent, {
     replace: (domNode: any) => {
       if (domNode.type === "tag") {
@@ -165,7 +164,7 @@ const renderContent = (htmlContent: string) => {
                   .filter((child: any) => child.name === "li")
                   .map((child: any, index: number) => (
                     <View key={index} style={styles.listItemContainer}>
-                      <Text style={styles.bullet}>{`${listIndex++}.`}</Text>
+                      <Text style={styles.bullet}>{`${index + 1}.`}</Text>
                       <Text style={styles.listItem}>
                         {child.children.map(
                           (grandchild: any) => grandchild.data
@@ -190,7 +189,6 @@ const renderContent = (htmlContent: string) => {
             );
           case "br":
             return <View style={styles.lineBreak} />;
-
           default:
             return null;
         }
@@ -200,13 +198,14 @@ const renderContent = (htmlContent: string) => {
 
   return parsedContent;
 };
+
 const NewPDFCoverLetter = ({ application }: CoverLetterProps) => {
   return (
       <Document>
         <Page size="A4" style={styles.page}>
           <View style={styles.mainSection}>
-            <View style={styles.section}>
-              <View style={{ flexDirection: "column", marginBottom: 10 }}>
+            <View style={[styles.section, { alignItems: "flex-end" }]}>
+              <View style={{ flexDirection: "column", marginBottom: 6 }}>
                 <Text style={styles.boldText}>{application.applicantName}</Text>
                 <Text style={styles.text}>{application.userEmail},</Text>
                 {application.workerContact?.map((contact, index) => {
@@ -220,10 +219,17 @@ const NewPDFCoverLetter = ({ application }: CoverLetterProps) => {
                   } | null;
 
                   if (contactData) {
-                    const { postal, zip, town, county, email, phone } =
+                    const { postal, zip, town, county, phone } =
                       contactData;
                     return (
                       <View key={index}>
+                        <View style={{ flexDirection: "row" }}>
+                          {typeof phone === "string" && (
+                            <Text style={[styles.text, { marginLeft: 4 }]}>
+                              {phone}
+                            </Text>
+                          )}
+                        </View>
                         {postal && (
                           <Text style={styles.text}>
                             P.O Box {postal}
@@ -236,17 +242,6 @@ const NewPDFCoverLetter = ({ application }: CoverLetterProps) => {
                             {county ? `, ${county}` : ""}.
                           </Text>
                         )}
-                        <View style={{ flexDirection: "row" }}>
-                          {typeof email === "string" && (
-                            <Text style={styles.text}>{email}</Text>
-                          )}
-                          {email && phone && <Text style={styles.text}>,</Text>}
-                          {typeof phone === "string" && (
-                            <Text style={[styles.text, { marginLeft: 4 }]}>
-                              {phone}
-                            </Text>
-                          )}
-                        </View>
                       </View>
                     );
                   }
@@ -296,7 +291,7 @@ const NewPDFCoverLetter = ({ application }: CoverLetterProps) => {
               <Text
                 style={[
                   styles.text,
-                  { fontSize: 14, fontWeight: "bold", marginBottom: 5 },
+                  { fontSize: 12.5, fontWeight: "bold", marginBottom: 5 },
                 ]}
               >
                 RE:{" "}
