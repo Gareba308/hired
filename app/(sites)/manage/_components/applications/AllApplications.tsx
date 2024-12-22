@@ -296,7 +296,7 @@ export function AllApplications({
   const columns: ColumnDef<Application>[] = [
     {
       accessorKey: "createdAt",
-      header: "Applied",
+      header: "Applied Date",
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
 

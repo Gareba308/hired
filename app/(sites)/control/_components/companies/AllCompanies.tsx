@@ -54,14 +54,14 @@ const AllCompanies = ({ companies }: TopCompaniesProps) => {
         <Button
           onClick={() => router.push("/control/companies/stats")}
           type="button"
-          size="default"
+          size="sm"
           variant="default"
           className="hover:bg-primary hover:opacity-90"
         >
           Statistics <ArrowRight className="h-4 w-4 mr-1.5 shrink-0" />
         </Button>
       </div>
-      <div className="mt-4 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-3 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {companies
           .sort((a, b) => b.numberOfOccurrence - a.numberOfOccurrence)
           .map((company, index) => (

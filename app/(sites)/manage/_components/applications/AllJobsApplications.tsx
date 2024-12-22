@@ -171,7 +171,7 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
   const columns: ColumnDef<Job>[] = [
     {
       accessorKey: "createdAt",
-      header: "Published",
+      header: "Published Date",
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
 
@@ -364,7 +364,8 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
       </div>
       <p className="text-sm text-gray-600 -mt-1">
         Click on <span className="font-bold">Open</span> to open and view each
-        job&apos;s application.
+        job&apos;s application. <span className="text-orange-800">Outs</span>{" "}
+        means application platform is <b>External</b>
       </p>
       <div className="flex items-center justify-between gap-x-4 py-1">
         <Input

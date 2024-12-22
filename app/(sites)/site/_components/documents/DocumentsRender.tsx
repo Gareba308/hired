@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Printer, Loader2 } from "lucide-react";
+import { ArrowRight, Printer, Loader2, Download } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
@@ -22,7 +22,7 @@ import {
 import Link from "next/link";
 import DocumentDetails from "./DocumentDetails";
 import { useToast } from "@/components/ui/use-toast";
-import PdfResume from "./PdfResume";
+import DownloadPDFSeeker from "./DownloadPDFSeeker";
 
 interface DocumentsRenderItems {
   dbUser: User;
@@ -92,21 +92,11 @@ const DocumentsRender = ({ document: application }: DocumentsRenderProps) => {
                     </h3>
                   </div>
                   <PDFDownloadLink
-                    document={<PdfResume document={application} />}
+                    document={<DownloadPDFSeeker document={application} />}
                     fileName="clean-resume.pdf"
-                    className="bg-primary text-primary-foreground hover:bg-primary py-1.5 px-2 rounded-sm"
+                    className="bg-primary flex items-center flex-row text-primary-foreground hover:bg-primary hover:bg-opacity-90 py-1 px-1.5 rounded-sm"
                   >
-                    {/*@ts-ignore*/}
-                    {({ loading }: { loading: boolean }): React.ReactNode =>
-                      loading ? (
-                        <span className="text-base flex flex-row items-center">
-                          <Loader2 className="h-4 w-4 mr-1.5 shrink-0 animate-spin" />
-                          <span>Loading...</span>
-                        </span>
-                      ) : (
-                        <span className="text-base">Download PDF</span>
-                      )
-                    }
+                    <Download className="h-4 w-4 shrink-0 mr-1" /> Download
                   </PDFDownloadLink>
                 </div>
                 <div>
@@ -114,7 +104,7 @@ const DocumentsRender = ({ document: application }: DocumentsRenderProps) => {
                     <p className="text-xs">
                       <span>Note: </span>Below is a preliminary draft of your
                       resume. For a polished and high-quality version, please
-                      use the download button above.
+                      use the <b>Download</b> button above.
                     </p>
                   </div>
 
