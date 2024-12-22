@@ -209,7 +209,7 @@ const NewPDFCoverLetter = ({ application }: CoverLetterProps) => {
                       <View key={index}>
                         <View style={{ flexDirection: "row" }}>
                           {typeof phone === "string" && (
-                            <Text style={[styles.text, { marginLeft: 4 }]}>
+                            <Text style={styles.text}>
                               {phone}
                             </Text>
                           )}
