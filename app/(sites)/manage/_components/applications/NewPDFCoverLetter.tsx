@@ -185,120 +185,114 @@ const renderContent = (htmlContent: string) => {
 
 const NewPDFCoverLetter = ({ application }: CoverLetterProps) => {
   return (
-      <Document>
-        <Page size="A4" style={styles.page}>
-          <View style={styles.mainSection}>
-            <View style={[styles.section, { alignItems: "flex-end" }]}>
-              <View style={{ flexDirection: "column", marginBottom: 6 }}>
-                <Text style={styles.boldText}>{application.applicantName}</Text>
-                <Text style={styles.text}>{application.userEmail},</Text>
-                {application.workerContact?.map((contact, index) => {
-                  const contactData = contact as {
-                    postal?: string;
-                    zip?: string;
-                    town?: string;
-                    county?: string;
-                    email?: string;
-                    phone?: string;
-                  } | null;
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.mainSection}>
+          <View style={[styles.section, { alignItems: "flex-end" }]}>
+            <View style={{ flexDirection: "column", marginBottom: 6 }}>
+              <Text style={styles.boldText}>{application.applicantName}</Text>
+              <Text style={styles.text}>{application.userEmail},</Text>
+              {application.workerContact?.map((contact, index) => {
+                const contactData = contact as {
+                  postal?: string;
+                  zip?: string;
+                  town?: string;
+                  county?: string;
+                  email?: string;
+                  phone?: string;
+                } | null;
 
-                  if (contactData) {
-                    const { postal, zip, town, county, phone } =
-                      contactData;
-                    return (
-                      <View key={index}>
-                        <View style={{ flexDirection: "row" }}>
-                          {typeof phone === "string" && (
-                            <Text style={styles.text}>
-                              {phone}
-                            </Text>
-                          )}
-                        </View>
-                        {postal && (
-                          <Text style={styles.text}>
-                            P.O Box {postal}
-                            {zip ? `-${zip}` : ""}
-                          </Text>
-                        )}
-                        {town && (
-                          <Text style={styles.text}>
-                            {town}
-                            {county ? `, ${county}` : ""}.
-                          </Text>
+                if (contactData) {
+                  const { postal, zip, town, county, phone } = contactData;
+                  return (
+                    <View key={index}>
+                      <View style={{ flexDirection: "row" }}>
+                        {typeof phone === "string" && (
+                          <Text style={styles.text}>{phone},</Text>
                         )}
                       </View>
-                    );
-                  }
-                  return null;
-                })}
-                <Text style={styles.text}>
-                  {format(application.createdAt, "PPP")}.
-                </Text>
-              </View>
-            </View>
-            <View style={styles.section}>
-              <View style={{ flexDirection: "column", marginBottom: 10 }}>
-                <Text style={styles.boldText}>{application.companyName},</Text>
-                {application.company?.map((company, index) => {
-                  const companyData = company as {
-                    postal?: string;
-                    zip?: string;
-                    town?: string;
-                    county?: string;
-                  } | null;
-
-                  if (companyData) {
-                    const { postal, zip, town, county } = companyData;
-                    return (
-                      <View key={index}>
-                        {typeof postal === "string" && (
-                          <Text style={styles.text}>
-                            P.O Box {postal}
-                            {zip ? `-${zip}` : ""}
-                          </Text>
-                        )}
-                        {typeof town === "string" && (
-                          <Text style={styles.text}>
-                            {town}
-                            {typeof county === "string" ? `, ${county}` : ""}.
-                          </Text>
-                        )}
-                      </View>
-                    );
-                  }
-                  return null;
-                })}
-              </View>
-            </View>
-            <View style={styles.section}>
-              <Text style={styles.text}>Dear Sir/Madam,</Text>
-              <Text
-                style={[
-                  styles.text, styles.bold,
-                  { fontSize: 12, fontWeight: "bold", marginBottom: 5 },
-                ]}
-              >
-                RE:{" "}
-                <Text style={{ textDecoration: "underline" }}>
-                  {application.jobTitle} Application
-                </Text>
+                      {postal && (
+                        <Text style={styles.text}>
+                          P.O Box {postal}
+                          {zip ? `-${zip}` : ""},
+                        </Text>
+                      )}
+                      {town && (
+                        <Text style={styles.text}>
+                          {town}
+                          {county ? `, ${county}` : ""}.
+                        </Text>
+                      )}
+                    </View>
+                  );
+                }
+                return null;
+              })}
+              <Text style={styles.text}>
+                {format(application.createdAt, "PPP")}.
               </Text>
-              <View>{renderContent(application.whyMostQualified)}</View>
-            </View>
-            <View
-              style={[
-                styles.section,
-                { flexDirection: "column", marginTop: 10 },
-              ]}
-              
-            >
-              <Text style={styles.text}>Yours faithfully,</Text>
-              <Text style={styles.text}>(Signed)</Text>
-              <Text style={styles.text}>{application.applicantName}.</Text>
             </View>
           </View>
-        </Page>
-      </Document>
+          <View style={styles.section}>
+            <View style={{ flexDirection: "column", marginBottom: 10 }}>
+              <Text style={styles.boldText}>{application.companyName},</Text>
+              {application.company?.map((company, index) => {
+                const companyData = company as {
+                  postal?: string;
+                  zip?: string;
+                  town?: string;
+                  county?: string;
+                } | null;
+
+                if (companyData) {
+                  const { postal, zip, town, county } = companyData;
+                  return (
+                    <View key={index}>
+                      {typeof postal === "string" && (
+                        <Text style={styles.text}>
+                          P.O Box {postal}
+                          {zip ? `-${zip}` : ""}
+                        </Text>
+                      )}
+                      {typeof town === "string" && (
+                        <Text style={styles.text}>
+                          {town}
+                          {typeof county === "string" ? `, ${county}` : ""}.
+                        </Text>
+                      )}
+                    </View>
+                  );
+                }
+                return null;
+              })}
+            </View>
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.text}>Dear Sir/Madam,</Text>
+            <Text
+              style={[
+                styles.text,
+                styles.bold,
+                { fontSize: 12, fontWeight: "bold", marginBottom: 5 },
+              ]}
+            >
+              RE:{" "}
+              <Text style={{ textDecoration: "underline" }}>
+                {application.jobTitle} Application
+              </Text>
+            </Text>
+            <View>{renderContent(application.whyMostQualified)}</View>
+          </View>
+          <View
+            style={[styles.section, { flexDirection: "column", marginTop: 10 }]}
+          >
+            <Text style={styles.text}>Yours faithfully,</Text>
+            <Text style={styles.text}>(Signed)</Text>
+            <Text style={styles.text}>{application.applicantName}.</Text>
+          </View>
+        </View>
+      </Page>
+    </Document>
   );
 };
 

@@ -98,8 +98,15 @@ export default function DashboardPage({
                           </TooltipTrigger>
                           <TooltipContent className="text-gray-500 tracking-normal">
                             <p className="text-gray-500 leading-tight text-xs font-normal">
-                              Total of <span className="font-semibold">{totalApplications}</span> application(s), the
-                              month of <span className="font-semibold">{fullMonthName}</span> accounts for{" "}
+                              Total of{" "}
+                              <span className="font-semibold">
+                                {totalApplications}
+                              </span>{" "}
+                              application(s), the month of{" "}
+                              <span className="font-semibold">
+                                {fullMonthName}
+                              </span>{" "}
+                              accounts for{" "}
                               <span className="font-semibold">
                                 {thisMonthCount}
                               </span>{" "}
@@ -141,14 +148,16 @@ export default function DashboardPage({
                           </span>
                         )}
                       </span>
-                      <span className="tracking-tighter leading-tight">vs. last month</span>
+                      <span className="tracking-tighter leading-tight">
+                        vs. last month
+                      </span>
                     </p>
                   </CardContent>
                 </Card>
                 <Card className="border border-gray-200 rounded-md p-2 sm:p-6">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0">
                     <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
-                    <span className="hidden sm:flex">Week Applications</span>
+                      <span className="hidden sm:flex">Week Applications</span>
                       <span className="flex sm:hidden">Week Applications</span>
                       <TooltipProvider>
                         <Tooltip>
@@ -205,15 +214,21 @@ export default function DashboardPage({
                           </span>
                         )}
                       </span>
-                      <span className="tracking-tighter leading-tight">vs. last week</span>
+                      <span className="tracking-tighter leading-tight">
+                        vs. last week
+                      </span>
                     </p>
                   </CardContent>
                 </Card>
                 <Card className="border border-gray-200 rounded-md p-2 sm:p-6">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0">
                     <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
-                    <span className="hidden sm:flex">Offered Applications</span>
-                      <span className="flex sm:hidden">Offered Applications</span>
+                      <span className="hidden sm:flex">
+                        Offered Applications
+                      </span>
+                      <span className="flex sm:hidden">
+                        Offered Applications
+                      </span>
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
@@ -268,16 +283,18 @@ export default function DashboardPage({
                           </span>
                         )}
                       </span>
-                      <span className="tracking-tighter leading-tight">vs. last month</span>
+                      <span className="tracking-tighter leading-tight">
+                        vs. last month
+                      </span>
                     </p>
                   </CardContent>
                 </Card>
-                
+
                 <Card className="border border-gray-200 rounded-md p-2 sm:p-6">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0">
                     <CardTitle className="text-base flex items-center sm:text-sm font-medium text-gray-600">
-                    <span className="hidden sm:flex">New Applications</span>
-                      <span className="flex sm:hidden">New Applications</span>
+                      <span className="hidden sm:flex">Pending Applied</span>
+                      <span className="flex sm:hidden">Pending Applied</span>
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
@@ -285,8 +302,11 @@ export default function DashboardPage({
                           </TooltipTrigger>
                           <TooltipContent className="text-gray-500 tracking-normal">
                             <p className="text-gray-500 text-xs leading-tight font-normal">
-                              Total of <span className="font-semibold">{pendingLength}</span> new application(s), today{" "}
-                              {day} has{" "}
+                              Total of{" "}
+                              <span className="font-semibold">
+                                {pendingLength}
+                              </span>{" "}
+                              application(s), today {day} are pending, being{" "}
                               <span className="font-semibold">
                                 {countPending}
                               </span>{" "}
@@ -328,7 +348,9 @@ export default function DashboardPage({
                           </span>
                         )}
                       </span>
-                      <span className="tracking-tighter leading-tight">vs. yesterday</span>
+                      <span className="tracking-tighter leading-tight">
+                        vs. yesterday
+                      </span>
                     </p>
                   </CardContent>
                 </Card>

@@ -408,9 +408,9 @@ export function AllApplications({
               <PDFDownloadLink
                 document={<DownloadPDF application={application} />}
                 fileName={`${application.applicantName || "resume"}.pdf`}
-                className="flex items-center text-primary hover:text-emerald-700 flex-row"
+                className="flex items-center text-gray-600 hover:text-emerald-700 flex-row"
               >
-                <Download className="h-4 w-4 shrink-0 mr-1 text-gray-600 hover:text-inherit" />
+                <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
                 Download
               </PDFDownloadLink>
             ) : (
@@ -418,9 +418,9 @@ export function AllApplications({
                 onClick={() =>
                   handleDownloadUploadedResume(application.uploadedResumeUrl)
                 }
-                className="text-primary hover:text-emerald-700 cursor-pointer flex items-center flex-row"
+                className="text-gray-600 hover:text-emerald-700 cursor-pointer flex items-center flex-row"
               >
-                <Download className="h-4 w-4 shrink-0 mr-1 text-gray-600 hover:text-inherit" />
+                <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
                 Download
               </button>
             )}
@@ -441,9 +441,9 @@ export function AllApplications({
             <PDFDownloadLink
               document={<NewPDFCoverLetter application={application} />}
               fileName="cover-letter.pdf"
-              className="flex items-center text-primary hover:text-blue-700 flex-row"
+              className="flex items-center text-gray-600 hover:text-blue-700 flex-row"
             >
-              <Download className="h-4 w-4 shrink-0 text-gray-600 hover:text-inherit mr-1" />
+              <Download className="h-4 w-4 shrink-0 text-inherit hover:text-inherit mr-1" />
               Download
             </PDFDownloadLink>
           </div>

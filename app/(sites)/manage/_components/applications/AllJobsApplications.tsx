@@ -31,7 +31,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { isAfter, isBefore, addDays } from "date-fns";
 import { format } from "date-fns";
 import {
   DropdownMenu,
@@ -175,7 +175,11 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
 
-        return <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>;
+        return (
+          <div suppressHydrationWarning className="font-normal text-sm">
+            {format(date, "PPP")}
+          </div>
+        );
       },
     },
     {
@@ -210,28 +214,49 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
           </div>
         );
       },
-      cell: ({ row }) => (
-        <div className="font-normal text-sm flex justify-center items-center">
-          {row.getValue("applied")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const ownPlatformMethod = row.original.ownPlatformMethod;
+
+        return (
+          <div
+            className={`font-normal text-sm flex justify-center items-center ${
+              ownPlatformMethod === "own"
+                ? "text-orange-800"
+                : ownPlatformMethod === "here"
+                ? "text-purple-800"
+                : ""
+            }`}
+          >
+            {ownPlatformMethod === "own" ? "Outs" : row.getValue("applied")}
+          </div>
+        );
+      },
     },
     {
-      accessorKey: "filled",
+      accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
-        const filled = row.getValue("filled");
+        const { deadline, createdAt } = row.original;
 
-        const formatted =
-          filled === false ? (
-            <div className="inline-flex items-center rounded-sm bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-              <span>Active</span>
-            </div>
-          ) : (
-            <div className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-              <span>Closed</span>
-            </div>
-          );
+        const now = new Date();
+        const isPastDeadline = deadline
+          ? isBefore(new Date(deadline), now)
+          : false;
+        const isPastCreatedAtLimit = createdAt
+          ? isBefore(new Date(createdAt), addDays(now, -30))
+          : false;
+
+        const isActive = !isPastDeadline && !isPastCreatedAtLimit;
+
+        const formatted = isActive ? (
+          <div className="inline-flex items-center rounded-sm bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
+            <span>Active</span>
+          </div>
+        ) : (
+          <div className="inline-flex items-center rounded-md bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 ring-1 ring-inset ring-orange-600/20">
+            <span>Closed</span>
+          </div>
+        );
 
         return <div className="text-sm font-normal">{formatted}</div>;
       },
