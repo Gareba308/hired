@@ -11,14 +11,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import {
-  PDFViewer,
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-} from "@react-pdf/renderer";
-import {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
@@ -50,13 +42,10 @@ import {
   Trash,
   TrendingDown,
   TrendingUp,
-  Undo,
-  Loader2,
 } from "lucide-react";
 import NewPDFCoverLetter from "./NewPDFCoverLetter";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-import { pdf } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
 import { format } from "date-fns";
 import { PDFDownloadLink } from "@react-pdf/renderer";
@@ -328,6 +317,25 @@ export function AllApplications({
       ),
     },
     {
+      accessorKey: "finalScore",
+      header: ({ column }) => {
+        return (
+          <div
+            className="flex justify-center items-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Score
+            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+          </div>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="text-sm font-normal flex justify-center items-center">
+          {row.getValue("finalScore")}%
+        </div>
+      ),
+    },
+    {
       accessorKey: "status",
       header: () => (
         <div className="flex justify-center items-center">Status</div>
@@ -337,14 +345,9 @@ export function AllApplications({
 
         const formatted =
           status === "PENDING" ? (
-            <div className="inline-flex items-center rounded-sm bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-              <span className="h-[6px] w-[6px] rounded-full bg-blue-700 mr-1" />
+            <div className="inline-flex items-center rounded-sm bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
+              <span className="h-[6px] w-[6px] rounded-full bg-indigo-700 mr-1" />
               <span>Pending</span>
-            </div>
-          ) : status === "REVIEWING" ? (
-            <div className="inline-flex items-center rounded-sm bg-violet-50 px-2 py-1 text-xs font-medium text-violet-700 ring-1 ring-inset ring-violet-700/10">
-              <span className="h-[6px] w-[6px] rounded-full bg-violet-700 mr-1" />
-              <span>Reviewing</span>
             </div>
           ) : status === "INTERVIEW" ? (
             <div className="inline-flex items-center rounded-sm bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
@@ -407,7 +410,7 @@ export function AllApplications({
                 fileName={`${application.applicantName || "resume"}.pdf`}
                 className="flex items-center text-primary hover:text-emerald-700 flex-row"
               >
-                <Download className="h-4 w-4 shrink-0 mr-1 text-primary hover:text-emerald-700" />
+                <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
                 Download
               </PDFDownloadLink>
             ) : (
@@ -417,7 +420,7 @@ export function AllApplications({
                 }
                 className="text-primary hover:text-emerald-700 cursor-pointer flex items-center flex-row"
               >
-                <Download className="h-4 w-4 shrink-0 mr-1 text-primary hover:text-emerald-700" />
+                <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
                 Download
               </button>
             )}
@@ -440,7 +443,7 @@ export function AllApplications({
               fileName="cover-letter.pdf"
               className="flex items-center text-primary hover:text-blue-700 flex-row"
             >
-              <Download className="h-4 w-4 shrink-0 mr-1 text-primary hover:text-blue-700" />
+              <Download className="h-4 w-4 shrink-0 text-inherit hover:text-inherit mr-1" />
               Download
             </PDFDownloadLink>
           </div>
@@ -515,7 +518,6 @@ export function AllApplications({
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                
                   className={`text-sm ${
                     application.status === "DECLINED" ||
                     application.status === "OFFERED"

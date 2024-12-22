@@ -1093,53 +1093,41 @@ enum ApplicationStatus {
 }
 
 model Application {
-  id                   String            @id @default(cuid())
-  userId               String
-  isWorkerID           String
-  userEmail            String?
-  applicantName        String?
-  about                String?           @db.Text
-  experience           Json[]            @default([])
-  tertiaryEducation    Json[]            @default([])
-  secondaryEducation   Json[]            @default([])
-  userSkills           Json[]            @default([])
-  award                Json[]            @default([])
-  certificateLicense   Json[]            @default([])
-  language             Json[]            @default([])
-  workerBio            Json[]            @default([])
-  workerContact        Json[]            @default([])
-  uploadedResumeUrl    String?
-  generatedResumeUrl   String?
-  coverLetterUrl       String?
-  useGeneratedResume   Boolean           @default(false)
-  matchScore           Int               @default(0)
-  jobId                String
-  job_id               Int?
-  ratingLetter         Int               @default(0)
-  ratingGenerated      Int               @default(0)
-  ratingOverall        Int               @default(0)
-  aboutRating          Int               @default(0)
-  experienceRating     Int               @default(0)
-  educationRating      Int               @default(0)
-  skillsRating         Int               @default(0)
-  awardsRating         Int               @default(0)
-  certificationRating  Int               @default(0)
-  rateResumeProfile    Int               @default(0)
-  rateResumeTotal      Int               @default(0)
-  finalScore           Int               @default(0)
-  rateWithUploadResume Boolean           @default(false)
-  hide                 Boolean?          @default(false)
-  jobTitle             String?
-  companyId            String
-  companyName          String?
-  company              Json[]            @default([])
-  isEmployerID         String
-  whyMostQualified     String            @db.Text
-  status               ApplicationStatus @default(PENDING)
-  createdAt            DateTime          @default(now())
-  updatedAt            DateTime          @updatedAt
-  worker               Workers           @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  job                  Job               @relation(fields: [jobId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id                 String            @id @default(cuid())
+  userId             String
+  isWorkerID         String
+  userEmail          String?
+  applicantName      String?
+  about              String?           @db.Text
+  experience         Json[]            @default([])
+  tertiaryEducation  Json[]            @default([])
+  secondaryEducation Json[]            @default([])
+  userSkills         Json[]            @default([])
+  award              Json[]            @default([])
+  certificateLicense Json[]            @default([])
+  language           Json[]            @default([])
+  workerBio          Json[]            @default([])
+  workerContact      Json[]            @default([])
+  uploadedResumeUrl  String?
+  useUploadedCover   Boolean           @default(false)
+  coverLetterUrl     String?
+  useGeneratedResume Boolean           @default(false)
+  matchScore         Int               @default(0)
+  jobId              String
+  job_id             Int?
+  finalScore         Int               @default(0)
+  hide               Boolean?          @default(false)
+  jobTitle           String?
+  companyId          String
+  companyName        String?
+  company            Json[]            @default([])
+  isEmployerID       String
+  whyMostQualified   String            @db.Text
+  status             ApplicationStatus @default(PENDING)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  worker             Workers           @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  job                Job               @relation(fields: [jobId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([isWorkerID])
   @@index([jobId])

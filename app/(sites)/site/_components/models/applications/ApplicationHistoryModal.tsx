@@ -48,41 +48,6 @@ export const ApplicationHistoryAlertModal: React.FC<
               </ul>
               <Separator className="my-2" />
               <ul className="grid gap-3">
-                <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">
-                    Cover Letter Score
-                  </span>
-                  <span>{application.ratingLetter * 4}/20</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">About Score</span>
-                  <span>{application.aboutRating * 2}/10</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Experience</span>
-                  <span>{application.experienceRating * 2}/10</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Education</span>
-                  <span>{application.educationRating}/10</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Skills Score</span>
-                  <span>{application.skillsRating * 2}/10</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Awards Score</span>
-                  <span>{application.awardsRating * 2}/10</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Certification</span>
-                  <span>{application.certificationRating * 2}/10</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Profile Score</span>
-                  <span>{application.ratingGenerated * 4}/20</span>
-                </li>
-                <Separator className="mt-2.5" />
                 <li className="flex items-center justify-between font-semibold">
                   <span className="text-muted-foreground">Final Score</span>
                   <span>{application.finalScore}/100</span>

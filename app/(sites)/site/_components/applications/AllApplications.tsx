@@ -85,31 +85,22 @@ export function AllApplications({ myApplication }: AllApplicationsProps) {
       ),
     },
     {
-      accessorKey: "companyName",
-      header: "Company Name",
+      accessorKey: "job_id",
+      header: "Job ID",
       cell: ({ row }) => (
-        <div className="font-normal text-sm">{row.getValue("companyName")}</div>
-      ),
-    },
-    {
-      accessorKey: "finalScore",
-      header: ({ column }) => {
-        return (
-          <div
-            className="flex justify-center items-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            AI Match
-            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
-          </div>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="text-sm font-normal flex justify-center items-center">
-          {row.getValue("finalScore")}%
+        <div className="capitalize text-sm font-normal">
+          {row.getValue("job_id")}
         </div>
       ),
     },
+    {
+      accessorKey: "companyName",
+      header: "Company Name",
+      cell: ({ row }) => (
+        <div className="font-normal text-sm line-clamp-1">{row.getValue("companyName")}</div>
+      ),
+    },
+    
     {
       accessorKey: "finalScore",
       header: ({ column }) => {
@@ -131,39 +122,40 @@ export function AllApplications({ myApplication }: AllApplicationsProps) {
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: () => (
+        <div className="flex justify-center items-center">Status</div>
+      ),
       cell: ({ row }) => {
         const status = row.getValue("status");
 
         const formatted =
           status === "PENDING" ? (
-            <div className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-              <span className="h-[6px] w-[6px] rounded-full bg-blue-700 mr-1" />
+            <div className="inline-flex items-center rounded-sm bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
+              <span className="h-[6px] w-[6px] rounded-full bg-indigo-700 mr-1" />
               <span>Pending</span>
             </div>
-          ) : status === "REVIEWING" ? (
-            <div className="inline-flex items-center rounded-md bg-violet-50 px-2 py-1 text-xs font-medium text-violet-700 ring-1 ring-inset ring-violet-700/10">
-              <span className="h-[6px] w-[6px] rounded-full bg-violet-700 mr-1" />
-              <span>Reviewing</span>
-            </div>
           ) : status === "INTERVIEW" ? (
-            <div className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+            <div className="inline-flex items-center rounded-sm bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
               <span className="h-[6px] w-[6px] rounded-full bg-yellow-700 mr-1" />
               <span>Interview</span>
             </div>
           ) : status === "OFFERED" ? (
-            <div className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
+            <div className="inline-flex items-center rounded-sm bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
               <span className="h-[6px] w-[6px] rounded-full bg-green-700 mr-1" />
               <span>Offered</span>
             </div>
           ) : (
-            <div className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-700/10">
+            <div className="inline-flex items-center rounded-sm bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-700/10">
               <span className="h-[6px] w-[6px] rounded-full bg-red-700 mr-1" />
               <span>Declined</span>
             </div>
           );
 
-        return <div className="text-sm font-normal">{formatted}</div>;
+        return (
+          <div className="text-sm font-normal flex justify-center items-center">
+            {formatted}
+          </div>
+        );
       },
     },
     {
