@@ -143,9 +143,6 @@ export function AllApplications({
   const [currentlyInterviewID, setCurrentlyInterviewID] = React.useState<
     string | null
   >(null);
-  const [currentlyForwardID, setCurrentlyForwardID] = React.useState<
-    string | null
-  >(null);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
@@ -467,7 +464,6 @@ export function AllApplications({
                   className="h-5 w-8 p-0 rounded-sm"
                   disabled={
                     currentlyDeletingID === application.id ||
-                    currentlyForwardID === application.id ||
                     currentlyRejectingID === application.id ||
                     currentlyOfferingID === application.id ||
                     currentlyInterviewID === application.id ||
