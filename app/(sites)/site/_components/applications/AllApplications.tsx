@@ -69,7 +69,10 @@ export function AllApplications({ myApplication }: AllApplicationsProps) {
         const date: Date = row.getValue("createdAt");
 
         return (
-          <div suppressHydrationWarning className="font-normal text-gray-700 text-sm">
+          <div
+            suppressHydrationWarning
+            className="font-normal text-gray-700 text-sm"
+          >
             {format(date, "PPP")}
           </div>
         );
@@ -97,10 +100,12 @@ export function AllApplications({ myApplication }: AllApplicationsProps) {
       accessorKey: "companyName",
       header: "Company Name",
       cell: ({ row }) => (
-        <div className="font-normal text-sm line-clamp-1">{row.getValue("companyName")}</div>
+        <div className="font-normal text-sm line-clamp-1">
+          {row.getValue("companyName")}
+        </div>
       ),
     },
-    
+
     {
       accessorKey: "finalScore",
       header: ({ column }) => {
@@ -129,7 +134,7 @@ export function AllApplications({ myApplication }: AllApplicationsProps) {
         const status = row.getValue("status");
 
         const formatted =
-          status === "PENDING" ? (
+          status === "PENDING" || status === "REVIEWING" ? (
             <div className="inline-flex items-center rounded-sm bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
               <span className="h-[6px] w-[6px] rounded-full bg-indigo-700 mr-1" />
               <span>Pending</span>

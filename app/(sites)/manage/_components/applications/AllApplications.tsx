@@ -344,7 +344,7 @@ export function AllApplications({
         const status = row.getValue("status");
 
         const formatted =
-          status === "PENDING" ? (
+          status === "PENDING" || status === "REVIEWING" ? (
             <div className="inline-flex items-center rounded-sm bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
               <span className="h-[6px] w-[6px] rounded-full bg-indigo-700 mr-1" />
               <span>Pending</span>
@@ -410,7 +410,7 @@ export function AllApplications({
                 fileName={`${application.applicantName || "resume"}.pdf`}
                 className="flex items-center text-primary hover:text-emerald-700 flex-row"
               >
-                <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
+                <Download className="h-4 w-4 shrink-0 mr-1 text-gray-600 hover:text-inherit" />
                 Download
               </PDFDownloadLink>
             ) : (
@@ -420,7 +420,7 @@ export function AllApplications({
                 }
                 className="text-primary hover:text-emerald-700 cursor-pointer flex items-center flex-row"
               >
-                <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
+                <Download className="h-4 w-4 shrink-0 mr-1 text-gray-600 hover:text-inherit" />
                 Download
               </button>
             )}
@@ -443,7 +443,7 @@ export function AllApplications({
               fileName="cover-letter.pdf"
               className="flex items-center text-primary hover:text-blue-700 flex-row"
             >
-              <Download className="h-4 w-4 shrink-0 text-inherit hover:text-inherit mr-1" />
+              <Download className="h-4 w-4 shrink-0 text-gray-600 hover:text-inherit mr-1" />
               Download
             </PDFDownloadLink>
           </div>

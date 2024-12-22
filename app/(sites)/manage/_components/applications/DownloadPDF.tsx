@@ -140,22 +140,6 @@ const renderContent = (htmlContent: string) => {
               </View>
             );
           case "ul":
-            return (
-              <View style={styles.list}>
-                {domNode.children
-                  .filter((child: any) => child.name === "li")
-                  .map((child: any, index: number) => (
-                    <View key={index} style={styles.listItemContainer}>
-                      <Text style={styles.bullet}>•</Text>
-                      <Text style={styles.listItem}>
-                        {child.children.map(
-                          (grandchild: any) => grandchild.data
-                        )}
-                      </Text>
-                    </View>
-                  ))}
-              </View>
-            );
           case "ol":
             return (
               <View style={styles.list}>
@@ -163,7 +147,7 @@ const renderContent = (htmlContent: string) => {
                   .filter((child: any) => child.name === "li")
                   .map((child: any, index: number) => (
                     <View key={index} style={styles.listItemContainer}>
-                      <Text style={styles.bullet}>{`${index + 1}.`}</Text>
+                      <Text style={styles.bullet}>•</Text>
                       <Text style={styles.listItem}>
                         {child.children.map(
                           (grandchild: any) => grandchild.data
