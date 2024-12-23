@@ -31,7 +31,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { isAfter, isBefore, addDays } from "date-fns";
+import { isBefore, addDays } from "date-fns";
 import { format } from "date-fns";
 import {
   DropdownMenu,
@@ -171,7 +171,17 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
   const columns: ColumnDef<Job>[] = [
     {
       accessorKey: "createdAt",
-      header: "Published Date",
+      header: ({ column }) => {
+        return (
+          <div
+            className="flex justify-center items-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Published Date
+            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+          </div>
+        );
+      },
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
 
@@ -364,8 +374,8 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
       </div>
       <p className="text-sm text-gray-600 -mt-1">
         Click on <span className="font-bold">Open</span> to open and view each
-        job&apos;s application. <span className="text-orange-800">Outs</span>{" "}
-        means application platform is <b>External</b>
+        job&apos;s application. <b className="text-orange-800">Outs</b> means
+        application platform is <b>External</b>
       </p>
       <div className="flex items-center justify-between gap-x-4 py-1">
         <Input

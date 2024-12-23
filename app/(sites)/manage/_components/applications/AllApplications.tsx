@@ -296,10 +296,20 @@ export function AllApplications({
   const columns: ColumnDef<Application>[] = [
     {
       accessorKey: "createdAt",
-      header: "Applied Date",
+      header: ({ column }) => {
+        return (
+          <div
+            className="flex justify-center items-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Applied Date
+            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+          </div>
+        );
+      },
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
-
+    
         return (
           <div suppressHydrationWarning className="font-normal text-sm">
             {format(date, "PPP")}

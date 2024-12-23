@@ -14,12 +14,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { endOfWeek, startOfWeek } from "date-fns";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Activity,
   BarChartBig,
@@ -47,6 +42,7 @@ import {
   Loader2,
   MoreHorizontal,
   Trash,
+  ArrowUpDown,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -296,10 +292,25 @@ export function ReceivedReports({
   const columns: ColumnDef<CombinedDataItems, keyof CombinedDataItems>[] = [
     {
       accessorKey: "createdAt",
-      header: "Report Date",
+      header: ({ column }) => {
+        return (
+          <div
+            className="flex justify-center items-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Report Date
+            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+          </div>
+        );
+      },
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
-        return <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>;
+
+        return (
+          <div suppressHydrationWarning className="font-normal text-sm">
+            {format(date, "PPP")}
+          </div>
+        );
       },
     },
     {
@@ -308,24 +319,6 @@ export function ReceivedReports({
       cell: ({ row }) => (
         <div className="capitalize text-sm font-normal">
           {row.getValue("userName")}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "jobName",
-      header: "Job Name",
-      cell: ({ row }) => (
-        <div className="capitalize text-sm font-normal">
-          {row.getValue("jobName")}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "employerName",
-      header: "Employer Company",
-      cell: ({ row }) => (
-        <div className="capitalize text-sm font-normal">
-          {row.getValue("employerName")}
         </div>
       ),
     },
@@ -509,13 +502,17 @@ export function ReceivedReports({
                     <TooltipContent className="text-gray-500 tracking-normal">
                       <p className="text-gray-500 leading-tight text-xs font-normal">
                         Total of{" "}
-                        <span className="font-semibold">{combinedData.length}</span>{" "}
+                        <span className="font-semibold">
+                          {combinedData.length}
+                        </span>{" "}
                         report(s), the month of{" "}
                         <span className="font-semibold">{fullMonthName}</span>{" "}
                         accounts for{" "}
                         <span className="font-semibold">{countReports}</span>{" "}
                         report(s) received leading to{" "}
-                        <span className="font-semibold">{percentageReports}</span>{" "}
+                        <span className="font-semibold">
+                          {percentageReports}
+                        </span>{" "}
                         change comparing to last month!
                       </p>
                     </TooltipContent>
@@ -532,7 +529,8 @@ export function ReceivedReports({
               </div>
               <p className="text-xs tracking-tight flex items-center gap-x-1 text-muted-foreground">
                 <span>
-                  {parseInt(percentageReports) > 0 || percentageReports === "∞" ? (
+                  {parseInt(percentageReports) > 0 ||
+                  percentageReports === "∞" ? (
                     <span className="inline-flex items-center rounded-sm bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                       <TrendingUp className="h-4 w-4 mr-0.5" />
                       {percentageReports}
@@ -568,8 +566,13 @@ export function ReceivedReports({
                     <TooltipContent className="text-gray-500 tracking-normal">
                       <p className="text-gray-500 text-xs leading-tight font-normal">
                         This week starting{" "}
-                        <span className="font-semibold">{formattedStartDate}</span>{" "}ending
-                        <span className="font-semibold">{formattedEndDate}</span>{" "}
+                        <span className="font-semibold">
+                          {formattedStartDate}
+                        </span>{" "}
+                        ending
+                        <span className="font-semibold">
+                          {formattedEndDate}
+                        </span>{" "}
                         has{" "}
                         <span className="font-semibold">{countReportWeek}</span>{" "}
                         report(s) representing{" "}
@@ -632,12 +635,11 @@ export function ReceivedReports({
                         <span className="font-semibold">
                           {countReportSuccess}
                         </span>{" "}
-                        report(s) sorted, this month of{" "}
-                        {fullMonthName} has{" "}
+                        report(s) sorted, this month of {fullMonthName} has{" "}
                         <span className="font-semibold">
                           {countReportSuccess}
                         </span>{" "}
-                        report(s) sort success{" "} representing
+                        report(s) sort success representing
                         <span className="font-semibold">
                           {percentageReportSuccess}
                         </span>{" "}
@@ -694,9 +696,13 @@ export function ReceivedReports({
                     <TooltipContent className="text-gray-500 tracking-normal">
                       <p className="text-gray-500 text-xs leading-tight font-normal">
                         Total of{" "}
-                        <span className="font-semibold">{countReportPending}</span>{" "}
+                        <span className="font-semibold">
+                          {countReportPending}
+                        </span>{" "}
                         new report(s), today {day} has{" "}
-                        <span className="font-semibold">{countReportPending}</span>{" "}
+                        <span className="font-semibold">
+                          {countReportPending}
+                        </span>{" "}
                         report(s) representing{" "}
                         <span className="font-semibold">
                           {percentageReportPending}

@@ -98,10 +98,25 @@ export function AllPending({ pending }: AllPendingProps) {
   const columns: ColumnDef<AllPendingItems, keyof AllPendingItems>[] = [
     {
       accessorKey: "createdAt",
-      header: "Purchase Date",
+      header: ({ column }) => {
+        return (
+          <div
+            className="flex justify-center items-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Purchase Date
+            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+          </div>
+        );
+      },
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
-        return <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>;
+
+        return (
+          <div suppressHydrationWarning className="font-normal text-sm">
+            {format(date, "PPP")}
+          </div>
+        );
       },
     },
     {
@@ -112,18 +127,14 @@ export function AllPending({ pending }: AllPendingProps) {
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
         return (
-          <div suppressHydrationWarning className="text-sm font-normal flex justify-center items-center">
+          <div
+            suppressHydrationWarning
+            className="text-sm font-normal flex justify-center items-center"
+          >
             {format(date, "HH:mm")}h
           </div>
         );
       },
-    },
-    {
-      accessorKey: "companyName",
-      header: "Company Name",
-      cell: ({ row }) => (
-        <div className="text-sm font-normal">{row.getValue("companyName")}</div>
-      ),
     },
     {
       accessorKey: "fullName",

@@ -64,15 +64,22 @@ export function AllApplications({ myApplication }: AllApplicationsProps) {
   const columns: ColumnDef<Application>[] = [
     {
       accessorKey: "createdAt",
-      header: "Applied",
-      cell: ({ row }) => {
-        const date: Date = row.getValue("createdAt");
-
+      header: ({ column }) => {
         return (
           <div
-            suppressHydrationWarning
-            className="font-normal text-gray-700 text-sm"
+            className="flex justify-center items-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
+            Applied Date
+            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+          </div>
+        );
+      },
+      cell: ({ row }) => {
+        const date: Date = row.getValue("createdAt");
+    
+        return (
+          <div suppressHydrationWarning className="font-normal text-sm">
             {format(date, "PPP")}
           </div>
         );
@@ -84,15 +91,6 @@ export function AllApplications({ myApplication }: AllApplicationsProps) {
       cell: ({ row }) => (
         <div className="capitalize text-sm font-normal">
           {row.getValue("jobTitle")}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "job_id",
-      header: "Job ID",
-      cell: ({ row }) => (
-        <div className="capitalize text-sm font-normal">
-          {row.getValue("job_id")}
         </div>
       ),
     },

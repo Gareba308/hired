@@ -98,10 +98,25 @@ export function AllAccounts({ purchases }: AllAccountsProps) {
   const columns: ColumnDef<AllAccountsItems, keyof AllAccountsItems>[] = [
     {
       accessorKey: "createdAt",
-      header: "Purchase Date",
+      header: ({ column }) => {
+        return (
+          <div
+            className="flex justify-center items-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Purchase Date
+            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+          </div>
+        );
+      },
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
-        return <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>;
+
+        return (
+          <div suppressHydrationWarning className="font-normal text-sm">
+            {format(date, "PPP")}
+          </div>
+        );
       },
     },
     {
@@ -112,7 +127,10 @@ export function AllAccounts({ purchases }: AllAccountsProps) {
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
         return (
-          <div suppressHydrationWarning className="text-sm font-normal flex justify-center items-center">
+          <div
+            suppressHydrationWarning
+            className="text-sm font-normal flex justify-center items-center"
+          >
             {format(date, "HH:mm")}h
           </div>
         );
@@ -194,14 +212,14 @@ export function AllAccounts({ purchases }: AllAccountsProps) {
         return (
           <div className="font-normal text-sm flex justify-center items-center">
             {currentlyOpeningPaymentID === purchase.id && (
-                <TransactionMessageAlertModal
-                  isOpen={messagingOpen}
-                  onClose={messageClose}
-                  onConfirm={messageConfirm}
-                  companyID={purchase.companyID}
-                  companyName={purchase.companyName}
-                />
-              )}
+              <TransactionMessageAlertModal
+                isOpen={messagingOpen}
+                onClose={messageClose}
+                onConfirm={messageConfirm}
+                companyID={purchase.companyID}
+                companyName={purchase.companyName}
+              />
+            )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-5 w-8 p-0 rounded-sm">

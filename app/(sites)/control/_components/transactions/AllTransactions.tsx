@@ -141,11 +141,26 @@ export function AllTransactions({
     [
       {
         accessorKey: "createdAt",
-        header: "Transaction Date",
+        header: ({ column }) => {
+          return (
+            <div
+              className="flex justify-center items-center"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
+              Transaction Date
+              <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+            </div>
+          );
+        },
         cell: ({ row }) => {
           const date: Date = row.getValue("createdAt");
+
           return (
-            <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>
+            <div suppressHydrationWarning className="font-normal text-sm">
+              {format(date, "PPP")}
+            </div>
           );
         },
       },
@@ -157,7 +172,10 @@ export function AllTransactions({
         cell: ({ row }) => {
           const date: Date = row.getValue("createdAt");
           return (
-            <div suppressHydrationWarning className="text-sm font-normal flex justify-center items-center">
+            <div
+              suppressHydrationWarning
+              className="text-sm font-normal flex justify-center items-center"
+            >
               {format(date, "HH:mm")}h
             </div>
           );
@@ -168,27 +186,6 @@ export function AllTransactions({
         header: "Full Name",
         cell: ({ row }) => (
           <div className="text-sm font-normal">{row.getValue("fullName")}</div>
-        ),
-      },
-      {
-        accessorKey: "userEmail",
-        header: ({ column }) => {
-          return (
-            <div
-              className="flex justify-start items-center"
-              onClick={() =>
-                column.toggleSorting(column.getIsSorted() === "asc")
-              }
-            >
-              Email Address
-              <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
-            </div>
-          );
-        },
-        cell: ({ row }) => (
-          <div className="text-sm font-normal flex justify-start items-center">
-            {row.getValue("userEmail")}
-          </div>
         ),
       },
       {
@@ -251,7 +248,7 @@ export function AllTransactions({
           return (
             <div className="font-normal text-sm flex justify-center items-center">
               {currentlyOpeningPaymentID === receipt.id && (
-                <TransactionMessageAlertModal 
+                <TransactionMessageAlertModal
                   isOpen={messagingOpen}
                   onClose={messageClose}
                   onConfirm={messageConfirm}
