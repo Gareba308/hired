@@ -233,7 +233,7 @@ export function AllJobsApplications({
       header: ({ column }) => {
         return (
           <div
-            className="flex justify-center items-center"
+            className="flex justify-start items-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Published Date
