@@ -1,7 +1,7 @@
 "use client";
 
 import { Job, PickAssessCandidate } from "@prisma/client";
-import { CornerUpLeft, Loader2, Trash } from "lucide-react";
+import { Loader2, Trash } from "lucide-react";
 import TitleEdit from "./TitleEdit";
 import DescriptionEdit from "./DescriptionEdit";
 import CountyEdit from "./CountyEdit";
@@ -18,7 +18,7 @@ import BenefitsEdit from "./BenefitsEdit";
 import { useState } from "react";
 import { DeleteAlertModal } from "../models/job/DeleteAlertModal";
 import { trpc } from "@/app/_trpc/client";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import {
@@ -36,6 +36,7 @@ import AssessmentOneIDEdit from "./AssessmentOneIDEdit";
 import AssessmentTwoIDEdit from "./AssessmentTwoIDEdit";
 import SubCategoryEdit from "./SubCategoryEdit";
 import SeniorityEdit from "./SeniorityEdit";
+import LogoEdit from "./LogoEdit";
 
 interface EditJobPageProps {
   job: Job | null;
@@ -134,7 +135,8 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
           <CategoryEdit job={job} jobId={job?.id as string} />
           <SubCategoryEdit job={job} jobId={job?.id as string} />
           <EmploymentTypeEdit job={job} jobId={job?.id as string} />
-          <SeniorityEdit  job={job} jobId={job?.id as string} />
+          <SeniorityEdit job={job} jobId={job?.id as string} />
+          <LogoEdit job={job} jobId={job?.id as string} />
           <DescriptionEdit job={job} jobId={job?.id as string} />
           <DeadlineEdit job={job} jobId={job?.id as string} />
           <ResponsibilitiesEdit job={job} jobId={job?.id as string} />

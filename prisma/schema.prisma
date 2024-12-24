@@ -262,7 +262,7 @@ model Job {
   assessmentOneID             String?
   assessmentTwoID             String?
   bonusTestID                 String?
-  logo2                       String?   @default("https://res.cloudinary.com/dflvibeo6/image/upload/v1684840873/My_project_1_eadinu.png")
+  logo2                       String?   @default("https://res.cloudinary.com/dgirxstq9/image/upload/v1735059678/New_Logo_aur3j1_fmyw0a.png")
   createdAt                   DateTime  @default(now())
   updatedAt                   DateTime  @updatedAt
 
@@ -1200,7 +1200,7 @@ model Company {
   special             Boolean  @default(false)
   verified            Boolean? @default(false)
   logo                String?
-  logo2               String?  @default("https://res.cloudinary.com/dflvibeo6/image/upload/v1684840873/My_project_1_eadinu.png")
+  logo2               String?  @default("https://res.cloudinary.com/dgirxstq9/image/upload/v1735059678/New_Logo_aur3j1_fmyw0a.png")
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   jobs                Job[]

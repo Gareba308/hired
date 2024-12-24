@@ -3685,6 +3685,7 @@ export const appRouter = router({
           website: true,
           category: true,
           company_description: true,
+          logo: true,
         },
       });
 
@@ -3816,6 +3817,7 @@ export const appRouter = router({
               companyId,
               company_name,
               company_description,
+              companyLogo: employerProfile?.logo as string,
               companyCategory: employerProfile?.category as string,
               companyWebsite: employerProfile?.website as string,
               companyEmail: dbUser.email,
@@ -3865,6 +3867,7 @@ export const appRouter = router({
             job_title,
             job_description,
             companyCategory: employerProfile?.category as string,
+            companyLogo: employerProfile?.logo as string,
             companyWebsite: employerProfile?.website as string,
             companyEmail: dbUser.email,
             summaryDescription: shortDescription(job_description),
@@ -3907,6 +3910,7 @@ export const appRouter = router({
           company_name,
           company_description,
           companyCategory: employerProfile?.category as string,
+          companyLogo: employerProfile?.logo as string,
           companyEmail: dbUser.email,
           companyWebsite: employerProfile?.website as string,
           job_type,
@@ -7396,6 +7400,7 @@ export const appRouter = router({
         addAssessment: z.boolean().optional(),
         assessmentOneID: z.string().optional(),
         assessmentTwoID: z.string().optional(),
+        companyLogo: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -7430,6 +7435,7 @@ export const appRouter = router({
         academicDesired,
         seniority,
         subCategory,
+        companyLogo
       } = input;
 
       const dbUser = await db.user.findFirst({
@@ -7511,6 +7517,7 @@ export const appRouter = router({
             academicDesired,
             seniority,
             subCategory,
+            companyLogo
           },
         });
       }
@@ -7601,6 +7608,7 @@ export const appRouter = router({
           academicDesired,
           seniority,
           subCategory,
+          companyLogo
         };
         if (!jobExists.bonusTestID) {
           updatedJobData.bonusTestID = randomBannerId;
@@ -7700,6 +7708,7 @@ export const appRouter = router({
           academicDesired,
           seniority,
           subCategory,
+          companyLogo
         };
 
         if (!jobExists.bonusTestID && randomBannerId) {
@@ -7747,6 +7756,7 @@ export const appRouter = router({
           academicDesired,
           seniority,
           subCategory,
+          companyLogo
         },
       });
     }),
@@ -13641,7 +13651,6 @@ export const appRouter = router({
         status,
       } = applicationExists;
 
-
       if (status === "DECLINED" || status === "OFFERED")
         throw new TRPCError({
           code: "BAD_REQUEST",
@@ -13786,7 +13795,6 @@ export const appRouter = router({
         companyName,
         status,
       } = applicationExists;
-
 
       if (status === "INTERVIEW")
         throw new TRPCError({
@@ -16003,6 +16011,8 @@ export const appRouter = router({
       z.object({
         whyMostQualified: z.string(),
         useGeneratedResume: z.boolean(),
+        useUploadedCover: z.boolean().default(false),
+        coverLetterUrl: z.string(),
         jobId: z.string(),
         matchScore: z.number().default(0),
         companyId: z.string(),
@@ -16019,6 +16029,8 @@ export const appRouter = router({
         isEmployerID,
         matchScore,
         useGeneratedResume,
+        useUploadedCover,
+        coverLetterUrl,
       } = input;
 
       const dbUser = await db.user.findFirst({
@@ -16053,6 +16065,12 @@ export const appRouter = router({
         });
 
       const { id: isWorkerID } = isWorker;
+      if (useUploadedCover === true && !coverLetterUrl)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message:
+            "You have to upload a cover letter based on your selection of an uploaded one",
+        });
       const bioExists = await db.workerBio.findMany({
         where: {
           userId,
@@ -16270,7 +16288,9 @@ export const appRouter = router({
           about: aboutExists.about,
           company: company as [],
           uploadedResumeUrl: resume,
-          useGeneratedResume
+          useGeneratedResume,
+          useUploadedCover,
+          coverLetterUrl,
         },
       });
     }),

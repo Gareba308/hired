@@ -433,8 +433,8 @@ export function AllJobsApplications({
           <Card className="border border-gray-200 rounded-md p-2 sm:p-6">
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base sm:text-sm flex items-center font-medium text-gray-600">
-                <span className="hidden sm:flex">Total Jobs</span>
-                <span className="flex sm:hidden">Total Jobs</span>
+                <span className="hidden sm:flex">Active Jobs</span>
+                <span className="flex sm:hidden">Active Jobs</span>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
