@@ -167,9 +167,16 @@ const NewApplyJob = ({
               <p className="text-xs sm:text-base text-gray-800 mt-1">
                 <b>Note: </b>
                 <span className="italic text-xs sm:text-base">
-                  This is a cover letter section. You can choose to upload yours
-                  or let us generate one for you. For a generated one
-                  you&apos;ll <b>ONLY</b> write the <b>body</b>
+                  You can choose to upload a cover letter or let us generate one
+                  for you. For a generated one you&apos;ll <b>ONLY</b> write the{" "}
+                  <b>body</b>
+                </span>
+              </p>
+              <p className="text-xs sm:text-base text-gray-800 mt-2">
+                <b>Hint: </b>
+                <span className="italic text-xs sm:text-base">
+                  Our system generates a professional resume from your
+                  portfolio, ready for application submission.
                 </span>
               </p>
               {banners.length !== 0 && (
@@ -253,7 +260,7 @@ const NewApplyJob = ({
                     <FormLabel className="text-base">
                       Would you like to use your own uploaded resume?
                     </FormLabel>
-                    <div className="flex flex-row items-center -mt-0.5 space-x-2 space-y-0">
+                    <div className="flex flex-row items-center space-x-2 -space-y-1">
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -283,7 +290,7 @@ const NewApplyJob = ({
                     <FormLabel className="text-base">
                       Do you prefer to upload your own cover letter?
                     </FormLabel>
-                    <div className="flex flex-row items-center -mt-0.5 space-x-2 space-y-0">
+                    <div className="flex flex-row items-center space-x-2 -space-y-1">
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -332,14 +339,14 @@ const NewApplyJob = ({
                     <FormItem className="text-gray-800 mt-2 text-base">
                       <div className="flex flex-col">
                         <FormLabel className="text-lg font-semibold">
-                          Cover Letter Body
+                          Justify Why You&apos;re Qualified
                           <span className="text-red-600 pl-1">*</span>
                         </FormLabel>
                         <FormLabel className="font-normal text-base text-gray-800">
-                          <span className="font-bold">Q: </span>Based on you
-                          qualifications, experiences, skills and the
-                          understanding of this job role, why do you think you
-                          are the most suitable candidate for this position?
+                          <span className="font-bold">Q: </span>Considering your
+                          qualifications, experience, skills, and understanding
+                          of this role, explain why you are the ideal candidate
+                          for this position.
                         </FormLabel>
                       </div>
                       <FormControl>
