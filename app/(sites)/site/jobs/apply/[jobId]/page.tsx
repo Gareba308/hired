@@ -46,7 +46,7 @@ export async function generateStaticParams() {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
@@ -99,23 +99,32 @@ const Page = async ({ params }: ApplyJobProps) => {
     );
   }
 
+  const uploadedResume = await db.resume.findFirst({
+    where: {
+      userId,
+    },
+    select: {
+      resume: true,
+    },
+  });
+
   const myExperiences = await db.experience.findMany({
     where: {
       userId,
     },
     orderBy: [
       {
-        stillWorking: 'desc',
+        stillWorking: "desc",
       },
       {
-        startYear: 'desc',
+        startYear: "desc",
       },
       {
-        startMonth: 'desc',
+        startMonth: "desc",
       },
       {
-        createdAt: 'desc',
-      }
+        createdAt: "desc",
+      },
     ],
   });
 
@@ -189,10 +198,10 @@ const Page = async ({ params }: ApplyJobProps) => {
     },
     orderBy: [
       {
-        validStartYear: 'desc',
+        validStartYear: "desc",
       },
       {
-        validStartMonth: 'desc',
+        validStartMonth: "desc",
       },
     ],
   });
@@ -203,11 +212,11 @@ const Page = async ({ params }: ApplyJobProps) => {
     },
     orderBy: [
       {
-        awardedYear: 'desc',
+        awardedYear: "desc",
       },
       {
-        awardedMonth: 'desc',
-      }
+        awardedMonth: "desc",
+      },
     ],
   });
 
@@ -217,14 +226,14 @@ const Page = async ({ params }: ApplyJobProps) => {
     },
     orderBy: [
       {
-        stillStudying: 'desc',
+        stillStudying: "desc",
       },
       {
-        startYear: 'desc',
+        startYear: "desc",
       },
       {
-        startMonth: 'desc',
-      }
+        startMonth: "desc",
+      },
     ],
   });
 
@@ -246,7 +255,7 @@ const Page = async ({ params }: ApplyJobProps) => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
@@ -490,21 +499,24 @@ const Page = async ({ params }: ApplyJobProps) => {
     },
   });
 
-const companyOfJob= await db.company.findFirst({
+  const companyOfJob = await db.company.findFirst({
     where: {
-      id: jobExists.companyId
-    }
-  })
-if(!companyOfJob) redirect('/site/jobs')
+      id: jobExists.companyId,
+    },
+  });
+  if (!companyOfJob) redirect("/site/jobs");
 
+  const resumeUrl =
+    uploadedResume && uploadedResume.resume ? uploadedResume.resume : null;
   return (
-    <div className="space-y-6  pb-2 max-w-7xl mx-auto bg-white px-4 md:px-6 text-gray-700 rounded-lg shadow-sm">
+    <div className="space-y-6 pb-2 max-w-7xl mx-auto min-h-[calc(100vh-80px)] bg-white px-4 md:px-6 text-gray-700 rounded-lg shadow-sm">
       <NewApplyJob
         job={jobExists}
         user={dbUser}
         banners={assessmentsPicked}
         assessmentIds={assessmentIds}
         acceptedAssessments={myAcceptedAssessments}
+        resume={resumeUrl}
       />
     </div>
   );
