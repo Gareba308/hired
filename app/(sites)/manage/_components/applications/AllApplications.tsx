@@ -309,7 +309,7 @@ export function AllApplications({
       },
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
-    
+
         return (
           <div suppressHydrationWarning className="font-normal text-sm">
             {format(date, "PPP")}
@@ -392,7 +392,12 @@ export function AllApplications({
         const application = row.original;
         const handleDownloadUploadedResume = async (url: string | null) => {
           if (!url) {
-            alert("Resume not available.");
+            toast({
+              title: "Something went wrong",
+              description: "This user has not uploaded a resume",
+              variant: "destructive",
+              duration: 3000,
+            });
             return;
           }
 
@@ -414,16 +419,7 @@ export function AllApplications({
 
         return (
           <div className="flex justify-center items-center">
-            {application.useGeneratedResume ? (
-              <PDFDownloadLink
-                document={<DownloadPDF application={application} />}
-                fileName={`${application.applicantName || "resume"}.pdf`}
-                className="flex items-center text-gray-600 hover:text-emerald-700 flex-row"
-              >
-                <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
-                Download
-              </PDFDownloadLink>
-            ) : (
+            {application.useGeneratedResume && application.uploadedResumeUrl ? (
               <button
                 onClick={() =>
                   handleDownloadUploadedResume(application.uploadedResumeUrl)
@@ -433,6 +429,15 @@ export function AllApplications({
                 <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
                 Download
               </button>
+            ) : (
+              <PDFDownloadLink
+                document={<DownloadPDF application={application} />}
+                fileName={`${application.applicantName || "resume"}.pdf`}
+                className="flex items-center text-gray-600 hover:text-emerald-700 flex-row"
+              >
+                <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
+                Download
+              </PDFDownloadLink>
             )}
           </div>
         );
@@ -445,19 +450,56 @@ export function AllApplications({
       ),
       cell: ({ row }) => {
         const application = row.original;
+        const handleDownloadUploadedCoverLetter = async (
+          url: string | null
+        ) => {
+          if (!url) {
+            toast({
+              title: "Something went wrong",
+              description: "This user has not uploaded a cover letter",
+              variant: "destructive",
+              duration: 3000,
+            });
+            return;
+          }
 
-        return (
-          <div className="flex justify-center items-center">
+          try {
+            const response = await fetch(url);
+            if (!response.ok) {
+              throw new Error("Failed to fetch the cover letter.");
+            }
+            const blob = await response.blob();
+            const filename = decodeURIComponent(
+              url.split("/").pop()?.split("?")[0] || "cover-letter.pdf"
+            );
+            saveAs(blob, filename);
+          } catch (error) {
+            console.error("Error downloading file:", error);
+            alert("An error occurred while downloading the cover letter.");
+          }
+        };
+        <div className="flex justify-center items-center">
+          {application.useUploadedCover && application.coverLetterUrl ? (
+            <button
+              onClick={() =>
+                handleDownloadUploadedCoverLetter(application.coverLetterUrl)
+              }
+              className="text-gray-600 hover:text-blue-700 cursor-pointer flex items-center flex-row"
+            >
+              <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
+              Download
+            </button>
+          ) : (
             <PDFDownloadLink
               document={<NewPDFCoverLetter application={application} />}
               fileName="cover-letter.pdf"
               className="flex items-center text-gray-600 hover:text-blue-700 flex-row"
             >
-              <Download className="h-4 w-4 shrink-0 text-inherit hover:text-inherit mr-1" />
+              <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
               Download
             </PDFDownloadLink>
-          </div>
-        );
+          )}
+        </div>;
       },
     },
     {
