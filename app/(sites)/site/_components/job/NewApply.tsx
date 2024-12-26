@@ -28,6 +28,7 @@ import { z } from "zod";
 import { CheckSquare, FolderOpen, Loader2, Megaphone } from "lucide-react";
 import AllAssessments from "./AllAssessments";
 import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
 
 type FormSchemaTypes = z.infer<typeof formSchema>;
 
@@ -275,7 +276,7 @@ const NewApplyJob = ({
                       {watchResume === true && !resume && (
                         <span>
                           You haven&apos;t uploaded your resume in{" "}
-                          <b>Portfolio</b> section
+                          <b>Portfolio Section</b>. <Link href="/site/portfolio">Upload Now</Link>
                         </span>
                       )}
                     </FormMessage>
@@ -385,7 +386,7 @@ const NewApplyJob = ({
                 size="lg"
                 variant="default"
                 className="hover:bg-primary mt-2 hover:opacity-90 w-full py-3 text-base rounded-sm font-normal sm:w-[200px]"
-                disabled={isLoading || isSubmitting || isSubmitDisabled}
+                disabled={isLoading || isSubmitting || isSubmitDisabled || watchResume === true && !resume}
               >
                 {isLoading || isSubmitting ? (
                   <Loader2 className="h-5 w-5 shrink-0 animate-spin" />

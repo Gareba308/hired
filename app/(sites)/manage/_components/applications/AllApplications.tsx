@@ -92,6 +92,44 @@ interface AllApplicationsProps {
   percentagePending: string;
 }
 
+export const downloadPDF = async (pdfUrl: string) => {
+  if (!pdfUrl) {
+    console.error("PDF URL is required");
+    return;
+  }
+
+  try {
+    const response = await fetch(pdfUrl, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch PDF. Status: ${response.status}`);
+    }
+
+    const blob = await response.blob();
+
+    const filename = decodeURIComponent(
+      pdfUrl.split("/").pop()?.split("?")[0] || "document.pdf"
+    );
+
+    const blobUrl = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(blobUrl);
+
+    console.log("PDF downloaded successfully");
+  } catch (error) {
+    console.error("Error downloading PDF:", error);
+  }
+};
+
 export function AllApplications({
   myApplication,
   jobTitle,
@@ -390,40 +428,15 @@ export function AllApplications({
       ),
       cell: ({ row }) => {
         const application = row.original;
-        const handleDownloadUploadedResume = async (url: string | null) => {
-          if (!url) {
-            toast({
-              title: "Something went wrong",
-              description: "This user has not uploaded a resume",
-              variant: "destructive",
-              duration: 3000,
-            });
-            return;
-          }
-
-          try {
-            const response = await fetch(url);
-            if (!response.ok) {
-              throw new Error("Failed to fetch the resume.");
-            }
-            const blob = await response.blob();
-            const filename = decodeURIComponent(
-              url.split("/").pop()?.split("?")[0] || "resume.pdf"
-            );
-            saveAs(blob, filename);
-          } catch (error) {
-            console.error("Error downloading file:", error);
-            alert("An error occurred while downloading the resume.");
-          }
+        const handleDownload = () => {
+          const pdfUrl = application.uploadedResumeUrl as string;
+          downloadPDF(pdfUrl);
         };
-
         return (
           <div className="flex justify-center items-center">
             {application.useGeneratedResume && application.uploadedResumeUrl ? (
               <button
-                onClick={() =>
-                  handleDownloadUploadedResume(application.uploadedResumeUrl)
-                }
+                onClick={handleDownload}
                 className="text-gray-600 hover:text-emerald-700 cursor-pointer flex items-center flex-row"
               >
                 <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
@@ -450,40 +463,14 @@ export function AllApplications({
       ),
       cell: ({ row }) => {
         const application = row.original;
-        const handleDownloadUploadedCoverLetter = async (
-          url: string | null
-        ) => {
-          if (!url) {
-            toast({
-              title: "Something went wrong",
-              description: "This user has not uploaded a cover letter",
-              variant: "destructive",
-              duration: 3000,
-            });
-            return;
-          }
-
-          try {
-            const response = await fetch(url);
-            if (!response.ok) {
-              throw new Error("Failed to fetch the cover letter.");
-            }
-            const blob = await response.blob();
-            const filename = decodeURIComponent(
-              url.split("/").pop()?.split("?")[0] || "cover-letter.pdf"
-            );
-            saveAs(blob, filename);
-          } catch (error) {
-            console.error("Error downloading file:", error);
-            alert("An error occurred while downloading the cover letter.");
-          }
+        const handleDownload = () => {
+          const pdfUrl = application.coverLetterUrl as string;
+          downloadPDF(pdfUrl);
         };
         <div className="flex justify-center items-center">
           {application.useUploadedCover && application.coverLetterUrl ? (
             <button
-              onClick={() =>
-                handleDownloadUploadedCoverLetter(application.coverLetterUrl)
-              }
+              onClick={handleDownload}
               className="text-gray-600 hover:text-blue-700 cursor-pointer flex items-center flex-row"
             >
               <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
