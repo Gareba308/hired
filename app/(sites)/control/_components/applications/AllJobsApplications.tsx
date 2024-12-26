@@ -39,7 +39,6 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
 import {
   DropdownMenu,
@@ -76,7 +75,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Job } from "@prisma/client";
 import { isBefore, addDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import {
@@ -91,35 +89,49 @@ import { trpc } from "@/app/_trpc/client";
 import { BarCharts } from "./BarChart";
 import { TheLineCharts } from "./LineChart";
 
+interface MyJobsItemsProps {
+  id: string;
+  createdAt: Date;
+  job_id: number;
+  job_title: string;
+  ownPlatformMethod: string | null;
+  applied: number;
+  deadline: Date | null;
+}
+interface AllJobsItemsProps {
+  id: string;
+  createdAt: Date;
+  ownPlatformMethod: string | null;
+}
 interface AllJobsProps {
-  myJobs: Job[];
+  myJobs: MyJobsItemsProps[];
 
-  // myUnexpiredJobs: number;
-  // countJobs: number;
-  // percentageJobs: string;
-  // countJobSuccess: number;
-  // percentageJobSuccess: string;
-  // countJobUnsuccess: number;
-  // percentageJobUnsuccess: string;
-  // countJobWeek: number;
-  // percentageJobWeek: string;
-  // countJobPending: number;
-  // percentageJobPending: string;
-  // jobs: Job[];
+  myUnexpiredJobs: number;
+  countJobs: number;
+  percentageJobs: string;
+  countJobSuccess: number;
+  percentageJobSuccess: string;
+  countJobUnsuccess: number;
+  percentageJobUnsuccess: string;
+  countJobWeek: number;
+  percentageJobWeek: string;
+  countJobPending: number;
+  percentageJobPending: string;
+  jobs: AllJobsItemsProps[];
 }
 
 export function AllJobsApplications({
   myJobs,
-  // jobs,
-  // myUnexpiredJobs,
-  // countJobs,
-  // percentageJobs,
-  // countJobSuccess,
-  // percentageJobSuccess,
-  // countJobUnsuccess,
-  // percentageJobUnsuccess,
-  // countJobPending,
-  // percentageJobPending,
+  jobs,
+  myUnexpiredJobs,
+  countJobs,
+  percentageJobs,
+  countJobSuccess,
+  percentageJobSuccess,
+  countJobUnsuccess,
+  percentageJobUnsuccess,
+  countJobPending,
+  percentageJobPending,
 }: AllJobsProps) {
   const data = myJobs;
   const date = new Date();
@@ -127,6 +139,8 @@ export function AllJobsApplications({
   const startWeek = startOfWeek(date);
   const endWeek = endOfWeek(date);
   const day = format(date, "dd/MMMM");
+  const formattedStartDate = format(startWeek, "dd/MMM");
+  const formattedEndDate = format(endWeek, "dd/MMM");
   const router = useRouter();
   const { toast } = useToast();
   function classNames(...classes: string[]) {
@@ -225,7 +239,7 @@ export function AllJobsApplications({
       },
     });
 
-  const columns: ColumnDef<Job>[] = [
+  const columns: ColumnDef<MyJobsItemsProps>[] = [
     {
       accessorKey: "createdAt",
       header: ({ column }) => {
@@ -300,7 +314,7 @@ export function AllJobsApplications({
       },
     },
     {
-      accessorKey: "status",
+      id: "status",
       header: "Status",
       cell: ({ row }) => {
         const { deadline, createdAt } = row.original;
@@ -429,7 +443,7 @@ export function AllJobsApplications({
           Jobs Published
         </h2>
       </div>
-      {/* <div className="mt-3 mb-6">
+      <div className="mt-3 mb-6">
         <div className="grid gap-2 sm:gap-4 grid-cols-2 xl:grid-cols-4">
           <Card className="border border-gray-200 rounded-md p-2 sm:p-6">
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
@@ -676,7 +690,7 @@ export function AllJobsApplications({
             </CardContent>
           </Card>
         </div>
-      </div> */}
+      </div>
       <p className="text-sm text-gray-600 mt-2">
         Tabular representation of the applications and views of jobs posted on
         this platform.
@@ -872,7 +886,7 @@ export function AllJobsApplications({
         </div>
       </div>
 
-      {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <Card className="col-span-4 border border-gray-200 rounded-md pt-2 pb-4 px-2">
           <CardHeader className="mb-4">
             <CardTitle className="text-gray-600 text-xl">
@@ -901,7 +915,7 @@ export function AllJobsApplications({
             <TheLineCharts jobs={jobs} />
           </CardContent>
         </Card>
-      </div> */}
+      </div>
     </div>
   );
 }

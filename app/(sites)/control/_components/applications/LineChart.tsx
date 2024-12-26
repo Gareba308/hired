@@ -12,14 +12,19 @@ import {
   CartesianGrid,
 } from "recharts";
 import { format, subYears } from "date-fns";
-import { Job } from "@prisma/client";
+
+interface AllJobsItemsProps {
+  id: string;
+  createdAt: Date;
+  ownPlatformMethod: string | null;
+}
 
 interface LineChartsProps {
-  jobs: Job[];
+  jobs: AllJobsItemsProps[];
 }
 
 const generateLineChartData = (
-  jobs: Job[]
+  jobs: AllJobsItemsProps[]
 ): { name: string; here: number; own: number }[] => {
   const data: {
     name: string;

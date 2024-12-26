@@ -298,9 +298,24 @@ const Page = async () => {
     orderBy: {
       createdAt: "asc",
     },
+    select: {
+      id: true,
+      createdAt: true,
+      job_id: true,
+      job_title: true,
+      ownPlatformMethod: true,
+      applied: true,
+      deadline: true,
+    }
   });
 
-  const allJobs= await db.job.findMany()
+  const allJobs= await db.job.findMany({
+    select: {
+      id: true,
+      createdAt: true,
+      ownPlatformMethod: true,
+    }
+  })
 
   const allUnexpiredJobs = await db.job.findMany({
     where: {
@@ -628,18 +643,18 @@ const Page = async () => {
       />
       <AllJobsApplications
         myJobs={myJobs}
-        // myUnexpiredJobs={myUnexpiredJobs}
-        // countJobs={countJobs}
-        // percentageJobs={percentageJobs}
-        // countJobSuccess={countJobSuccess}
-        // percentageJobSuccess={percentageJobSuccess}
-        // countJobUnsuccess={countJobUnsuccess}
-        // percentageJobUnsuccess={percentageJobUnsuccess}
-        // countJobWeek={countJobWeek}
-        // percentageJobWeek={percentageJobWeek}
-        // countJobPending={countJobPending}
-        // percentageJobPending={percentageJobPending}
-        // jobs={allJobs}
+        myUnexpiredJobs={myUnexpiredJobs}
+        countJobs={countJobs}
+        percentageJobs={percentageJobs}
+        countJobSuccess={countJobSuccess}
+        percentageJobSuccess={percentageJobSuccess}
+        countJobUnsuccess={countJobUnsuccess}
+        percentageJobUnsuccess={percentageJobUnsuccess}
+        countJobWeek={countJobWeek}
+        percentageJobWeek={percentageJobWeek}
+        countJobPending={countJobPending}
+        percentageJobPending={percentageJobPending}
+        jobs={allJobs}
       />
     </div>
   );

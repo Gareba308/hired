@@ -11,13 +11,17 @@ import {
   CartesianGrid,
 } from "recharts";
 import { format, subYears } from "date-fns";
-import {Job } from "@prisma/client";
 
+interface AllJobsItemsProps {
+  id: string;
+  createdAt: Date;
+  ownPlatformMethod: string | null;
+}
 interface BarChartsProps {
-  jobs: Job[];
+  jobs: AllJobsItemsProps[];
 }
 const generateBarChartData = (
-  jobs: Job[]
+  jobs:AllJobsItemsProps[]
 ): { name: string; total: number }[] => {
   const data: { name: string; total: number }[] = [];
   const currentDate = new Date();
