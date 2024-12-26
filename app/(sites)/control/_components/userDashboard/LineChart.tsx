@@ -12,14 +12,20 @@ import {
   CartesianGrid,
 } from "recharts";
 import { format, subYears } from "date-fns";
-import { Application, ApplicationStatus } from "@prisma/client";
+import { ApplicationStatus } from "@prisma/client";
+
+interface ApplicationDataItem {
+  createdAt: Date;
+  id: string;
+  status: ApplicationStatus;
+}
 
 interface LineChartsProps {
-  applications: Application[];
+  applications: ApplicationDataItem[];
 }
 
 const generateLineChartData = (
-  applications: Application[]
+  applications: ApplicationDataItem[]
 ): { name: string; offered: number; declined: number; active: number }[] => {
   const data: {
     name: string;

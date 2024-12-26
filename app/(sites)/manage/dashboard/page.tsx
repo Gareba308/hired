@@ -71,6 +71,9 @@ const Page = async () => {
           lte: endOfMonthDate,
         },
       },
+      select: {
+        id: true
+      }
     });
     return applications.length;
   }
@@ -92,6 +95,9 @@ const Page = async () => {
           lte: endOfMonthDate,
         },
       },
+      select: {
+        id: true
+      }
     });
     return applications.length;
   }
@@ -151,6 +157,9 @@ const Page = async () => {
           lte: endOfMonthDate,
         },
       },
+      select: {
+        id: true
+      }
     });
     return successApplications.length;
   }
@@ -210,6 +219,9 @@ const Page = async () => {
           lte: endDate,
         },
       },
+      select: {
+        id: true
+      }
     });
     return weekApplications.length;
   }
@@ -283,6 +295,9 @@ const Page = async () => {
 
     const activeApplications = await db.application.findMany({
       where: queryFilters,
+      select: {
+        id: true
+      }
     });
     return activeApplications.length;
   }
@@ -335,6 +350,9 @@ const Page = async () => {
         in: ["PENDING"],
       },
     },
+    select: {
+      id: true
+    }
   });
 const pendingLength= myPendingApplication.length
 
@@ -343,6 +361,11 @@ const pendingLength= myPendingApplication.length
       companyId: companyID,
       isEmployerID,
     },
+    select: {
+      createdAt: true,
+      id: true,
+      status: true
+    }
   });
 
   const myJobs = await db.job.findMany({
@@ -356,6 +379,15 @@ const pendingLength= myPendingApplication.length
     },
     orderBy: {
       createdAt: "desc",
+    },
+    select: {
+      id: true,
+      createdAt: true,
+      job_id: true,
+      job_title: true,
+      ownPlatformMethod: true,
+      applied: true,
+      deadline: true,
     },
   });
 

@@ -66,6 +66,9 @@ const Page = async () => {
           lte: endOfMonthDate,
         },
       },
+      select: {
+        id: true
+      }
     });
     return workers.length;
   }
@@ -117,6 +120,9 @@ const Page = async () => {
           lte: endOfMonthDate,
         },
       },
+      select: {
+        id: true
+      }
     });
     return successWorkers.length;
   }
@@ -173,6 +179,9 @@ const Page = async () => {
           lte: endDate,
         },
       },
+      select: {
+        id: true
+      }
     });
     return weekWorkers.length;
   }
@@ -230,6 +239,9 @@ const Page = async () => {
           lt: endOfDate,
         },
       },
+      select: {
+        id: true
+      }
     });
     return activeWorkers.length;
   }
@@ -263,18 +275,7 @@ const Page = async () => {
       percentageWorkerPending: percentagePending,
     };
   }
-  const { countWorkerPending, percentageWorkerPending } =
-    await getPendingWorkerCountAndPercentage();
-
-  const allWorkers = await db.user.findMany({
-    where: {
-      role: {
-        equals: "worker",
-      },
-    },
-  });
-
-  const applications= await db.application.findMany()
+ 
   return (
     <>
       <div className="bg-white min-h-[calc(100vh-90px)] sm:rounded-md sm:shadow-sm max-w-7xl mx-auto px-4 pt-2 md:px-5">

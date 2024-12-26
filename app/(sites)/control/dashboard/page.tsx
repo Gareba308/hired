@@ -53,6 +53,9 @@ const Page = async () => {
           lte: endOfMonthDate,
         },
       },
+      select: {
+        id: true,
+      },
     });
     return applications.length;
   }
@@ -68,6 +71,9 @@ const Page = async () => {
           gte: startOfMonthDate,
           lte: endOfMonthDate,
         },
+      },
+      select: {
+        id: true,
       },
     });
     return applications.length;
@@ -118,6 +124,9 @@ const Page = async () => {
           gte: startOfMonthDate,
           lte: endOfMonthDate,
         },
+      },
+      select: {
+        id: true,
       },
     });
     return successApplications.length;
@@ -171,6 +180,9 @@ const Page = async () => {
           gte: startDate,
           lte: endDate,
         },
+      },
+      select: {
+        id: true,
       },
     });
     return weekApplications.length;
@@ -240,6 +252,9 @@ const Page = async () => {
 
     const activeApplications = await db.application.findMany({
       where: queryFilters,
+      select: {
+        id: true,
+      },
     });
     return activeApplications.length;
   }
@@ -284,10 +299,19 @@ const Page = async () => {
         in: ["PENDING"],
       },
     },
+    select: {
+      id: true,
+    },
   });
   const pendingLength = myPendingApplication.length;
 
-  const myApplication = await db.application.findMany();
+  const myApplication = await db.application.findMany({
+    select: {
+      createdAt: true,
+      id: true,
+      status: true
+    }
+  });
 
   const myJobs = await db.job.findMany({
     where: {
@@ -306,16 +330,16 @@ const Page = async () => {
       ownPlatformMethod: true,
       applied: true,
       deadline: true,
-    }
+    },
   });
 
-  const allJobs= await db.job.findMany({
+  const allJobs = await db.job.findMany({
     select: {
       id: true,
       createdAt: true,
       ownPlatformMethod: true,
-    }
-  })
+    },
+  });
 
   const allUnexpiredJobs = await db.job.findMany({
     where: {
@@ -331,7 +355,7 @@ const Page = async () => {
     },
   });
 
-  const myUnexpiredJobs= allUnexpiredJobs.length
+  const myUnexpiredJobs = allUnexpiredJobs.length;
 
   const totalActiveApplications = await db.application.findMany({
     where: {
@@ -376,6 +400,9 @@ const Page = async () => {
           gte: startOfMonthDate,
           lte: endOfMonthDate,
         },
+      },
+      select: {
+        id: true,
       },
     });
     return jobs.length;
@@ -423,6 +450,9 @@ const Page = async () => {
           gte: startOfMonthDate,
           lte: endOfMonthDate,
         },
+      },
+      select: {
+        id: true,
       },
     });
     return successJobs.length;
@@ -479,6 +509,9 @@ const Page = async () => {
           lte: endOfMonthDate,
         },
       },
+      select: {
+        id: true,
+      },
     });
     return unsuccessJobs.length;
   }
@@ -531,6 +564,9 @@ const Page = async () => {
           gte: startDate,
           lte: endDate,
         },
+      },
+      select: {
+        id: true,
       },
     });
     return weekJobs.length;
@@ -585,6 +621,9 @@ const Page = async () => {
           gte: startOfDate,
           lt: endOfDate,
         },
+      },
+      select: {
+        id: true,
       },
     });
     return activeJobs.length;

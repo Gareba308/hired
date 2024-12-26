@@ -19,7 +19,7 @@ import {
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
-import { Application } from "@prisma/client";
+import { ApplicationStatus } from "@prisma/client";
 import {
   Tooltip,
   TooltipContent,
@@ -27,6 +27,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+interface MyApplicationItemsProps {
+  createdAt: Date;
+  id: string;
+  status: ApplicationStatus;
+}
 interface DashboardPageProps {
   thisMonthApplications: number;
   totalApplications: number;
@@ -42,7 +47,7 @@ interface DashboardPageProps {
   currentSuccessful: number;
   pendingLength: number;
   currentUnsuccessful: number;
-  applications: Application[];
+  applications: MyApplicationItemsProps[];
 }
 export const metadata: Metadata = {
   title: "Dashboard",

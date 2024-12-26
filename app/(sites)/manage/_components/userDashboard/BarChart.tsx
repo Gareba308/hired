@@ -11,13 +11,19 @@ import {
   CartesianGrid,
 } from "recharts";
 import { format, subYears } from "date-fns";
-import { Application } from "@prisma/client";
+import { ApplicationStatus } from "@prisma/client";
+
+interface MyApplicationItemsProps {
+  createdAt: Date;
+  id: string;
+  status: ApplicationStatus;
+}
 
 interface BarChartsProps {
-  applications: Application[];
+  applications: MyApplicationItemsProps[];
 }
 const generateBarChartData = (
-  applications: Application[]
+  applications: MyApplicationItemsProps[]
 ): { name: string; total: number }[] => {
   const data: { name: string; total: number }[] = [];
   const currentDate = new Date();

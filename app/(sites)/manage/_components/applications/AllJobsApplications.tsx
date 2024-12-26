@@ -52,7 +52,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Job } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import {
   Select,
@@ -64,8 +63,18 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { trpc } from "@/app/_trpc/client";
 
+interface MyJobsItemsProps {
+  id: string;
+  createdAt: Date;
+  job_id: number;
+  job_title: string;
+  ownPlatformMethod: string | null;
+  applied: number;
+  deadline: Date | null;
+}
+
 interface AllJobsProps {
-  myJobs: Job[];
+  myJobs: MyJobsItemsProps[];
 }
 
 export function AllJobsApplications({ myJobs }: AllJobsProps) {
@@ -168,7 +177,7 @@ export function AllJobsApplications({ myJobs }: AllJobsProps) {
       },
     });
 
-  const columns: ColumnDef<Job>[] = [
+  const columns: ColumnDef<MyJobsItemsProps>[] = [
     {
       accessorKey: "createdAt",
       header: ({ column }) => {

@@ -10,7 +10,7 @@ const Page = async () => {
   if (!session) redirect("/home/login?origin=control/publication");
   const userId = session.id;
   const userEmail = session.user?.email as string;
-
+  const currentDate= new Date()
   const dbUser = await db.user.findFirst({
     where: {
       id: userId,
@@ -29,10 +29,16 @@ const Page = async () => {
   if (!isAdmin) redirect("/home/login?origin=control/publication");
 
   const myJobs = await db.job.findMany({
+    where : {
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+      },
+    },
     orderBy: [
       { rankTop: 'desc' },
       { createdAt: 'desc' },
-    ]
+    ],
+    take: 200
   });
 
   if (myJobs.length === 0) {
