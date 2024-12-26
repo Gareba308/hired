@@ -261,11 +261,14 @@ export function AllJobsApplications({
     {
       accessorKey: "job_title",
       header: "Job Title",
-      cell: ({ row }) => (
-        <div className="capitalize text-sm font-normal">
-          {row.getValue("job_title")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const jobTitle = row.getValue("job_title");
+        return (
+          <div className="capitalize text-sm line-clamp-1 font-normal">
+            {typeof jobTitle === "string" ? jobTitle.toLowerCase() : ""}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "applied",
