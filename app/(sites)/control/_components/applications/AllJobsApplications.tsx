@@ -94,32 +94,32 @@ import { TheLineCharts } from "./LineChart";
 interface AllJobsProps {
   myJobs: Job[];
 
-  myUnexpiredJobs: number;
-  countJobs: number;
-  percentageJobs: string;
-  countJobSuccess: number;
-  percentageJobSuccess: string;
-  countJobUnsuccess: number;
-  percentageJobUnsuccess: string;
-  countJobWeek: number;
-  percentageJobWeek: string;
-  countJobPending: number;
-  percentageJobPending: string;
-  jobs: Job[];
+  // myUnexpiredJobs: number;
+  // countJobs: number;
+  // percentageJobs: string;
+  // countJobSuccess: number;
+  // percentageJobSuccess: string;
+  // countJobUnsuccess: number;
+  // percentageJobUnsuccess: string;
+  // countJobWeek: number;
+  // percentageJobWeek: string;
+  // countJobPending: number;
+  // percentageJobPending: string;
+  // jobs: Job[];
 }
 
 export function AllJobsApplications({
   myJobs,
-  jobs,
-  myUnexpiredJobs,
-  countJobs,
-  percentageJobs,
-  countJobSuccess,
-  percentageJobSuccess,
-  countJobUnsuccess,
-  percentageJobUnsuccess,
-  countJobPending,
-  percentageJobPending,
+  // jobs,
+  // myUnexpiredJobs,
+  // countJobs,
+  // percentageJobs,
+  // countJobSuccess,
+  // percentageJobSuccess,
+  // countJobUnsuccess,
+  // percentageJobUnsuccess,
+  // countJobPending,
+  // percentageJobPending,
 }: AllJobsProps) {
   const data = myJobs;
   const date = new Date();
@@ -127,8 +127,6 @@ export function AllJobsApplications({
   const startWeek = startOfWeek(date);
   const endWeek = endOfWeek(date);
   const day = format(date, "dd/MMMM");
-  const formattedStartDate = format(startWeek, "dd/MMM");
-  const formattedEndDate = format(endWeek, "dd/MMM");
   const router = useRouter();
   const { toast } = useToast();
   function classNames(...classes: string[]) {
@@ -874,7 +872,7 @@ export function AllJobsApplications({
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+      {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <Card className="col-span-4 border border-gray-200 rounded-md pt-2 pb-4 px-2">
           <CardHeader className="mb-4">
             <CardTitle className="text-gray-600 text-xl">
@@ -903,7 +901,7 @@ export function AllJobsApplications({
             <TheLineCharts jobs={jobs} />
           </CardContent>
         </Card>
-      </div>
+      </div> */}
     </div>
   );
 }

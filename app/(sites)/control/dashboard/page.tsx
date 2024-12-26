@@ -628,18 +628,18 @@ const Page = async () => {
       />
       <AllJobsApplications
         myJobs={myJobs}
-        myUnexpiredJobs={myUnexpiredJobs}
-        countJobs={countJobs}
-        percentageJobs={percentageJobs}
-        countJobSuccess={countJobSuccess}
-        percentageJobSuccess={percentageJobSuccess}
-        countJobUnsuccess={countJobUnsuccess}
-        percentageJobUnsuccess={percentageJobUnsuccess}
-        countJobWeek={countJobWeek}
-        percentageJobWeek={percentageJobWeek}
-        countJobPending={countJobPending}
-        percentageJobPending={percentageJobPending}
-        jobs={allJobs}
+        // myUnexpiredJobs={myUnexpiredJobs}
+        // countJobs={countJobs}
+        // percentageJobs={percentageJobs}
+        // countJobSuccess={countJobSuccess}
+        // percentageJobSuccess={percentageJobSuccess}
+        // countJobUnsuccess={countJobUnsuccess}
+        // percentageJobUnsuccess={percentageJobUnsuccess}
+        // countJobWeek={countJobWeek}
+        // percentageJobWeek={percentageJobWeek}
+        // countJobPending={countJobPending}
+        // percentageJobPending={percentageJobPending}
+        // jobs={allJobs}
       />
     </div>
   );
