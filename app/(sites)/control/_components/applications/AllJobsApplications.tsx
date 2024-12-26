@@ -431,7 +431,7 @@ export function AllJobsApplications({
           Jobs Published
         </h2>
       </div>
-      <div className="mt-3 mb-6">
+      {/* <div className="mt-3 mb-6">
         <div className="grid gap-2 sm:gap-4 grid-cols-2 xl:grid-cols-4">
           <Card className="border border-gray-200 rounded-md p-2 sm:p-6">
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
@@ -678,7 +678,7 @@ export function AllJobsApplications({
             </CardContent>
           </Card>
         </div>
-      </div>
+      </div> */}
       <p className="text-sm text-gray-600 mt-2">
         Tabular representation of the applications and views of jobs posted on
         this platform.
