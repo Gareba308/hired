@@ -626,7 +626,7 @@ const Page = async () => {
         percentagePending={percentagePending}
         pendingLength={pendingLength}
       />
-      <AllJobsApplications
+      {/* <AllJobsApplications
         myJobs={myJobs}
         myUnexpiredJobs={myUnexpiredJobs}
         countJobs={countJobs}
@@ -640,7 +640,7 @@ const Page = async () => {
         countJobPending={countJobPending}
         percentageJobPending={percentageJobPending}
         jobs={allJobs}
-      />
+      /> */}
     </div>
   );
 };

@@ -467,26 +467,28 @@ export function AllApplications({
           const pdfUrl = application.coverLetterUrl as string;
           downloadPDF(pdfUrl);
         };
-        <div className="flex justify-center items-center">
-          {application.useUploadedCover && application.coverLetterUrl ? (
-            <button
-              onClick={handleDownload}
-              className="text-gray-600 hover:text-blue-700 cursor-pointer flex items-center flex-row"
-            >
-              <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
-              Download
-            </button>
-          ) : (
-            <PDFDownloadLink
-              document={<NewPDFCoverLetter application={application} />}
-              fileName="cover-letter.pdf"
-              className="flex items-center text-gray-600 hover:text-blue-700 flex-row"
-            >
-              <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
-              Download
-            </PDFDownloadLink>
-          )}
-        </div>;
+        return (
+          <div className="flex justify-center items-center">
+            {application.useUploadedCover && application.coverLetterUrl ? (
+              <button
+                onClick={handleDownload}
+                className="text-gray-600 hover:text-blue-700 cursor-pointer flex items-center flex-row"
+              >
+                <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
+                Download
+              </button>
+            ) : (
+              <PDFDownloadLink
+                document={<NewPDFCoverLetter application={application} />}
+                fileName="cover-letter.pdf"
+                className="flex items-center text-gray-600 hover:text-blue-700 flex-row"
+              >
+                <Download className="h-4 w-4 shrink-0 mr-1 text-inherit hover:text-inherit" />
+                Download
+              </PDFDownloadLink>
+            )}
+          </div>
+        );
       },
     },
     {
