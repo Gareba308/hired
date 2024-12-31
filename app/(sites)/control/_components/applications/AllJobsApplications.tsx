@@ -31,11 +31,9 @@ import {
   ChevronsRight,
   Copy,
   ExternalLink,
-  Grip,
   GripVertical,
   Loader2,
   MoreHorizontal,
-  MoreVertical,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";

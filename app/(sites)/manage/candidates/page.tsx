@@ -30,18 +30,84 @@ const Page = async () => {
     }
   });
   if (!isEmployer) redirect("/home/login/enterprises?origin=manage/candidates");
-  const {id:isEmployerID}= isEmployer;
-  const workersBio = await db.workerBio.findMany();
-  const workersAbout = await db.about.findMany();
-  const workersDesire = await db.workerDesires.findMany();
-  const workersContact = await db.workerContact.findMany();
-  const workersSkills = await db.skills.findMany();
-  const workersCertification = await db.certificationLicense.findMany();
-  const workersAward = await db.award.findMany();
-  const workersLanguage = await db.language.findMany();
-  const workersExperience = await db.experience.findMany();
-  const workersSecondary = await db.secondaryEducation.findMany();
-  const workersTertiary = await db.tertiaryEducation.findMany();
+   const count = await db.workerBio.count();
+    const randomOffset = Math.max(0, Math.floor(Math.random() * (count - 50)));
+  
+    const workersBio = await db.workerBio.findMany({
+      skip: randomOffset,
+      take: 50,
+    });
+    const bioUserIDS = workersBio.flatMap((user) => user.userId);
+    const workersAbout = await db.about.findMany({
+      where: {
+        userId: {
+          in: bioUserIDS,
+        },
+      },
+    });
+    const workersDesire = await db.workerDesires.findMany({
+      where: {
+        userId: {
+          in: bioUserIDS,
+        },
+      },
+    });
+    const workersContact = await db.workerContact.findMany({
+      where: {
+        userId: {
+          in: bioUserIDS,
+        },
+      },
+    });
+    const workersSkills = await db.skills.findMany({
+      where: {
+        userId: {
+          in: bioUserIDS,
+        },
+      },
+    });
+    const workersCertification = await db.certificationLicense.findMany({
+      where: {
+        userId: {
+          in: bioUserIDS,
+        },
+      },
+    });
+    const workersAward = await db.award.findMany({
+      where: {
+        userId: {
+          in: bioUserIDS,
+        },
+      },
+    });
+    const workersLanguage = await db.language.findMany({
+      where: {
+        userId: {
+          in: bioUserIDS,
+        },
+      },
+    });
+    const workersExperience = await db.experience.findMany({
+      where: {
+        userId: {
+          in: bioUserIDS,
+        },
+      },
+    });
+    const workersSecondary = await db.secondaryEducation.findMany({
+      where: {
+        userId: {
+          in: bioUserIDS,
+        },
+      },
+    });
+    const workersTertiary = await db.tertiaryEducation.findMany({
+      where: {
+        userId: {
+          in: bioUserIDS,
+        },
+      },
+    });
 
   const myProfileViews = await db.profileView.findMany();
 

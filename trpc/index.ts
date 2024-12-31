@@ -11137,6 +11137,164 @@ export const appRouter = router({
         },
       });
     }),
+
+  adminDeleteAccount: privateProcedure
+    .input(z.object({
+      accountId: z.string(),
+      accountEmail: z.string(),
+    }))
+    .mutation(async ({input, ctx})=>{
+      const {accountId, accountEmail}= input;
+      const {userId, email}= ctx;
+
+      const dbUser= await db.user.findFirst({
+        where: {
+          id: userId,
+          email
+        }
+      });
+
+      if(!dbUser) throw new TRPCError({code:"UNAUTHORIZED", message: "You are unauthorized, login and try again"})
+      
+      const isAdmin= await db.admin.findFirst({
+        where: {
+          adminEmail: email
+        },
+        select: {
+          id: true
+        }
+      });
+
+      if(!isAdmin) throw new TRPCError({code: "BAD_REQUEST", message: "This is an admin only section"})
+
+      const accountExists= await db.user.findFirst({
+        where: {
+          id: accountId,
+          email: accountEmail
+        }
+      });
+
+      if(!accountExists) throw new TRPCError({code: "BAD_REQUEST", message: "A user by account details does not exist"})
+      
+      return await db.user.delete({
+        where: {
+          id: accountExists.id,
+          email: accountExists.email
+        }
+      })
+    }),
+
+  adminUpdatePendingAccount: privateProcedure
+    .input(z.object({
+      accountId: z.string(),
+      accountEmail: z.string(),
+    }))
+    .mutation(async ({input, ctx})=>{
+      const {accountId, accountEmail}= input;
+      const {userId, email}= ctx;
+      const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
+      const dbUser= await db.user.findFirst({
+        where: {
+          id: userId,
+          email
+        }
+      });
+
+      if(!dbUser) throw new TRPCError({code:"UNAUTHORIZED", message: "You are unauthorized, login and try again"})
+      
+      const isAdmin= await db.admin.findFirst({
+        where: {
+          adminEmail: email
+        },
+        select: {
+          id: true
+        }
+      });
+
+      if(!isAdmin) throw new TRPCError({code: "BAD_REQUEST", message: "This is an admin only section"})
+
+      const accountExists= await db.user.findFirst({
+        where: {
+          id: accountId,
+          email: accountEmail
+        }
+      });
+
+      if(!accountExists) throw new TRPCError({code: "BAD_REQUEST", message: "A user by account details does not exist"})
+      
+      const expiredSignup= await db.user.findFirst({
+        where: {
+          id: accountExists.id,
+          createdAt: {
+            lt: twoHoursAgo
+          }
+        }
+      })
+
+      if(!expiredSignup) throw new TRPCError({code: "BAD_REQUEST", message: "This account is not qualified for res-signup, deletion"})
+      
+        const transporter = nodemailer.createTransport({
+          port: 587,
+          host: "smtp.gmail.com",
+          auth: {
+            user: "gethiredinkenya@gmail.com",
+            pass: emailPassword,
+          },
+          secure: false,
+        });
+  
+        await new Promise((resolve, reject) => {
+          transporter.verify(function (error, success) {
+            if (error) {
+              console.log(error);
+              reject(error);
+            } else {
+              console.log("Server is ready to take our message");
+              resolve(success);
+            }
+          });
+        });
+        const mailOptions = {
+          from: {
+            name: "Hired Jobs Team",
+            address: "gethiredinkenya@gmail.com",
+          },
+          replyTo: "gethiredinkenya@gmail.com",
+          to: expiredSignup.email,
+          subject: "Pending Account Signup",
+          html: `
+          <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa;'>
+            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
+              <p>Dear ${expiredSignup.name as string},</p>
+              <p>Your registration on <a href="https://www.hired.co.ke">hired.co.ke</a> is currently pending as your email address has not been confirmed. If you did not receive it including in <b>spam folder</b>, we kindly request you to retry the signup process.</p>
+              <p>Please ignore this email if you did not sign up at <a href="https://www.hired.co.ke">hired.co.ke</a></p>
+              <hr>
+              <p style='text-align:center; font-size:12.5px; line-height:22.22px;'>Copyright © Hired. All rights reserved.</p>
+            </div>
+          </div>
+        `,
+          priority: "high" as const,
+        };
+        
+  
+        await new Promise((resolve, reject) => {
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+              console.error(err);
+              reject(err);
+            } else {
+              console.log(info);
+              resolve(info);
+            }
+          });
+        });
+
+        return await db.user.delete({
+          where: {
+            id: expiredSignup.id,
+          }
+        });
+    }),
   updateWorkerBio: privateProcedure
     .input(
       z.object({

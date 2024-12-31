@@ -30,27 +30,84 @@ const Page = async () => {
     },
   });
   if (!dbUser) redirect("/home/login?origin=control/candidates");
-  const workersBio = await db.workerBio.findMany();
+  const count = await db.workerBio.count();
+  const randomOffset = Math.max(0, Math.floor(Math.random() * (count - 100)));
+
+  const workersBio = await db.workerBio.findMany({
+    skip: randomOffset,
+    take: 100,
+  });
   const bioUserIDS = workersBio.flatMap((user) => user.userId);
-  const usersWithBio = await db.user.findMany({
+  const workersAbout = await db.about.findMany({
     where: {
-      id: {
+      userId: {
         in: bioUserIDS,
       },
     },
   });
-  const workersAbout = await db.about.findMany();
-  const workersDesire = await db.workerDesires.findMany();
-  const workersContact = await db.workerContact.findMany();
-  const workersSkills = await db.skills.findMany();
-  const workersCertification = await db.certificationLicense.findMany();
-  const workersAward = await db.award.findMany();
-  const workersLanguage = await db.language.findMany();
-  const workersExperience = await db.experience.findMany();
-  const workersSecondary = await db.secondaryEducation.findMany();
-  const workersTertiary = await db.tertiaryEducation.findMany();
-
-  //ensure that user has both workersBio, workersAbout, workersDesire, workersContact, workersExperience, if non return null meaning they will not appear
+  const workersDesire = await db.workerDesires.findMany({
+    where: {
+      userId: {
+        in: bioUserIDS,
+      },
+    },
+  });
+  const workersContact = await db.workerContact.findMany({
+    where: {
+      userId: {
+        in: bioUserIDS,
+      },
+    },
+  });
+  const workersSkills = await db.skills.findMany({
+    where: {
+      userId: {
+        in: bioUserIDS,
+      },
+    },
+  });
+  const workersCertification = await db.certificationLicense.findMany({
+    where: {
+      userId: {
+        in: bioUserIDS,
+      },
+    },
+  });
+  const workersAward = await db.award.findMany({
+    where: {
+      userId: {
+        in: bioUserIDS,
+      },
+    },
+  });
+  const workersLanguage = await db.language.findMany({
+    where: {
+      userId: {
+        in: bioUserIDS,
+      },
+    },
+  });
+  const workersExperience = await db.experience.findMany({
+    where: {
+      userId: {
+        in: bioUserIDS,
+      },
+    },
+  });
+  const workersSecondary = await db.secondaryEducation.findMany({
+    where: {
+      userId: {
+        in: bioUserIDS,
+      },
+    },
+  });
+  const workersTertiary = await db.tertiaryEducation.findMany({
+    where: {
+      userId: {
+        in: bioUserIDS,
+      },
+    },
+  });
 
   // To find percentage improvement in Workers per month
   async function countWorkersInMonth(month: Date): Promise<number> {
@@ -67,8 +124,8 @@ const Page = async () => {
         },
       },
       select: {
-        id: true
-      }
+        id: true,
+      },
     });
     return workers.length;
   }
@@ -121,8 +178,8 @@ const Page = async () => {
         },
       },
       select: {
-        id: true
-      }
+        id: true,
+      },
     });
     return successWorkers.length;
   }
@@ -180,8 +237,8 @@ const Page = async () => {
         },
       },
       select: {
-        id: true
-      }
+        id: true,
+      },
     });
     return weekWorkers.length;
   }
@@ -240,8 +297,8 @@ const Page = async () => {
         },
       },
       select: {
-        id: true
-      }
+        id: true,
+      },
     });
     return activeWorkers.length;
   }
@@ -275,7 +332,7 @@ const Page = async () => {
       percentageWorkerPending: percentagePending,
     };
   }
- 
+
   return (
     <>
       <div className="bg-white min-h-[calc(100vh-90px)] sm:rounded-md sm:shadow-sm max-w-7xl mx-auto px-4 pt-2 md:px-5">

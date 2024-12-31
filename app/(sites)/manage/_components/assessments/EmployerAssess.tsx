@@ -136,7 +136,7 @@ const EmployerAssess = ({ banners, demoBanners }: EmployerAssessProps) => {
     <section className="relative max-w-screen-xl mx-auto pb-4">
       <div className="border-b border-gray-200 pb-1 flex items-center">
         <Link href="/control/assessments" className="hover:text-[#005580]">
-          <CornerUpLeft className="h-6 w-6 mr-2.5" />
+          <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
         </Link>
         <h3 className="text-3xl text-center lg:text-start tracking-tight text-gray-600 font-bold md:text-3xl">
           Candidate&apos;s <span className="font-bold">Assessments</span>

@@ -648,8 +648,6 @@ const CreateJob = ({
                               </PopoverTrigger>
                               <PopoverContent className="p-0 max-h-[400px] overflow-y-scroll">
                                 <Command>
-                                  <CommandInput placeholder="Search unregistered company..." />
-                                  <CommandEmpty>No company found.</CommandEmpty>
                                   <CommandGroup>
                                     {unregisteredCompanies
                                       .sort((a, b) =>

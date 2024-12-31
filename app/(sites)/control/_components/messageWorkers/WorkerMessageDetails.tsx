@@ -181,7 +181,7 @@ const WorkerMessageDetails = ({
                 href={"/control/messages/workers"}
                 className="hover:text-[#005580] text-gray-700"
               >
-                <CornerUpLeft className="h-6 w-6 shrink-0" />
+                <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
               </Link>
               <div className="flex items-center flex-row gap-x-2">
                 <div className="w-10 h-10 border relative border-gray-100 shrink-0 rounded-full  flex justify-center">

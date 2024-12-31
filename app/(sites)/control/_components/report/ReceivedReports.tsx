@@ -479,7 +479,7 @@ export function ReceivedReports({
             href={origin ? `/${origin}` : "/control"}
             className="hover:text-[#005580]"
           >
-            <CornerUpLeft className="h-6 w-6 mr-2 shrink-0" />
+            <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
           </Link>
           <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
             Worker Job Reports

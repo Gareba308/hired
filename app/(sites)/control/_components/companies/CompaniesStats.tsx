@@ -21,19 +21,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { trpc } from "@/app/_trpc/client";
 import {
-  ArrowUpDown,
+  CircleEllipsis,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
   CornerUpLeft,
-  ExternalLink,
-  MoreHorizontal,
+  Trash,
+  MoreVertical,
+  Loader2,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
 import {
   DropdownMenu,
@@ -51,6 +52,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 import {
   Activity,
   BarChartBig,
@@ -80,14 +82,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { BarCharts } from "./BarChart";
 import { TheLineCharts } from "./LineChart";
 import Link from "next/link";
+import { DeletePendingAlertModal } from "../models/companies/DeletePending";
+import { DeleteAccountAlertModal } from "../models/companies/DeleteAccount";
 
-interface UserWithJobsCount extends User {
-  jobCount: number;
-  companyName: string;
-}
 interface CompaniesStatsProps {
-  combinedData: UserWithJobsCount[];
-
+  combinedData: User[];
   countEmployers: number;
   percentageEmployers: string;
   countEmployerSuccess: number;
@@ -125,6 +124,7 @@ export function CompaniesStats({
   const formattedStartDate = format(startWeek, "dd/MMM");
   const formattedEndDate = format(endWeek, "dd/MMM");
   const router = useRouter();
+  const { toast } = useToast();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -133,6 +133,90 @@ export function CompaniesStats({
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  const [currentlyPendingID, setCurrentlyPendingID] = React.useState<
+    string | null
+  >(null);
+  const [currentlyDeletingID, setCurrentlyDeletingID] = React.useState<
+    string | null
+  >(null);
+  const [pendingOpen, setPendingOpen] = React.useState<boolean>(false);
+  const pendingClose = () => {
+    setPendingOpen((prev) => !prev);
+    setCurrentlyPendingID(null);
+  };
+
+  const [deleteOpen, setDeleteOpen] = React.useState<boolean>(false);
+  const deleteClose = () => {
+    setDeleteOpen((prev) => !prev);
+    setCurrentlyDeletingID(null);
+  };
+
+  const { mutate: pendingUpdate, isLoading: pendingLoading } =
+    trpc.adminUpdatePendingAccount.useMutation({
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "You successfully updated account's re-signup",
+          variant: "default",
+          duration: 3000,
+        });
+        router.refresh();
+      },
+      onError: (err) => {
+        toast({
+          title: "Something went wrong",
+          description:
+            err.message || "There was a problem updating account's re-signup",
+          variant: "destructive",
+          duration: 3000,
+        });
+      },
+      onMutate: ({ accountId }) => {
+        setCurrentlyPendingID(accountId);
+      },
+      onSettled: () => {
+        setCurrentlyPendingID(null);
+      },
+    });
+
+  const pendingConfirm = (pendingID: string, pendingEmail: string) => {
+    setCurrentlyPendingID(pendingID);
+    pendingUpdate({ accountEmail: pendingEmail, accountId: pendingID });
+    pendingClose();
+  };
+
+  const { mutate: deleteAccount, isLoading: deleteLoading } =
+    trpc.adminDeleteAccount.useMutation({
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "You successfully deleted this user account",
+          variant: "default",
+          duration: 3000,
+        });
+        router.refresh();
+      },
+      onError: (err) => {
+        toast({
+          title: "Something went wrong",
+          description:
+            err.message || "There was a problem deleting this user account",
+          variant: "destructive",
+          duration: 3000,
+        });
+      },
+      onMutate: ({ accountId }) => {
+        setCurrentlyDeletingID(accountId);
+      },
+      onSettled: () => {
+        setCurrentlyDeletingID(null);
+      },
+    });
+
+  const deleteConfirm = (accountId: string, accountEmail: string) => {
+    setCurrentlyDeletingID(accountId);
+    deleteAccount({ accountId, accountEmail });
+  };
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: "createdAt",
@@ -140,7 +224,11 @@ export function CompaniesStats({
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
 
-        return <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>;
+        return (
+          <div suppressHydrationWarning className="font-normal text-sm">
+            {format(date, "PPP")}
+          </div>
+        );
       },
     },
     {
@@ -160,20 +248,13 @@ export function CompaniesStats({
       ),
     },
     {
-      accessorKey: "companyName",
-      header: "Company Name",
-      cell: ({ row }) => (
-        <div className="text-sm font-normal">{row.getValue("companyName")}</div>
-      ),
-    },
-    {
-      accessorKey: "jobCount",
+      accessorKey: "referralCode",
       header: () => (
-        <div className=" flex justify-center items-center">Jobs</div>
+        <div className=" flex justify-center items-center">Referral Code</div>
       ),
       cell: ({ row }) => (
         <div className="font-normal text-sm flex justify-center items-center">
-          {row.getValue("jobCount")}
+          {row.getValue("referralCode")}
         </div>
       ),
     },
@@ -233,6 +314,81 @@ export function CompaniesStats({
         );
       },
     },
+    {
+      id: "actions",
+      header: () => (
+        <div className=" flex justify-center items-center">Actions</div>
+      ),
+      enableHiding: false,
+      cell: ({ row }) => {
+        const user = row.original;
+        return (
+          <div className="font-normal text-sm flex justify-center items-center">
+            {currentlyPendingID === user.id && (
+              <DeletePendingAlertModal
+                isOpen={pendingOpen}
+                onClose={pendingClose}
+                loading={pendingLoading}
+                onConfirm={() => pendingConfirm(user.email, user.id)}
+              />
+            )}
+            {currentlyDeletingID === user.id && (
+              <DeleteAccountAlertModal
+                isOpen={deleteOpen}
+                loading={deleteLoading}
+                onClose={deleteClose}
+                onConfirm={() => deleteConfirm(user.id, user.email)}
+              />
+            )}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  disabled={
+                    currentlyDeletingID === user.id ||
+                    currentlyPendingID === user.id
+                  }
+                  variant="ghost"
+                  className="h-5 w-8 p-0 rounded-sm"
+                >
+                  <span className="sr-only">Open menu</span>
+                  {currentlyDeletingID === user.id && deleteLoading ? (
+                    <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
+                  ) : currentlyPendingID === user.id && pendingLoading ? (
+                    <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
+                  ) : (
+                    <MoreVertical className="h-5 w-5" />
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel className="text-gray-800">
+                  Detailed Actions
+                </DropdownMenuLabel>
+                <DropdownMenuItem>
+                  <span
+                    className="text-gray-600 flex items-center"
+                    onClick={() => {}}
+                  >
+                    <CircleEllipsis className="h-4 w-4 mr-2 text-gray-500 shrink-0" />
+                    Pending Signup
+                  </span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <span
+                    className="text-gray-600 flex items-center"
+                    onClick={() => {}}
+                  >
+                    <Trash className="h-4 w-4 mr-2 text-gray-500 shrink-0" />
+                    Delete Account
+                  </span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        );
+      },
+    },
   ];
 
   const table = useReactTable({
@@ -258,7 +414,7 @@ export function CompaniesStats({
     <div className="w-full mt-2">
       <div className=" flex flex-row items-center">
         <Link href={"/control/companies"} className="hover:text-[#005580]">
-          <CornerUpLeft className="h-6 w-6 mr-2 shrink-0" />
+          <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
         </Link>
         <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
           Employers Stats
@@ -530,6 +686,14 @@ export function CompaniesStats({
           </Card>
         </div>
       </div>
+      <Input
+        placeholder="Search for an employer"
+        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+        onChange={(event) =>
+          table.getColumn("name")?.setFilterValue(event.target.value)
+        }
+        className="w-full sm:max-w-sm"
+      />
       <div className="rounded-lg border bg-white">
         <Table>
           <TableHeader>

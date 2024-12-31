@@ -94,7 +94,7 @@ const BlogDetails = ({
                     href={"/home/blogs/employers"}
                     className="hover:text-[#005580]"
                   >
-                    <CornerUpLeft className="h-6 w-6 mr-2.5 shrink-0" />
+                    <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
                   </Link>
                   {blog.category && (
                     <span className="inline-flex items-center rounded-sm bg-green-100 px-2 py-[3px] text-xs font-medium text-green-700 ring-1 ring-inset ring-green-500/20">

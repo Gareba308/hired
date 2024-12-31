@@ -25,7 +25,7 @@ const AdminMessages = ({ workerMessages }: AdminMessagesProps) => {
                 href={"/site/jobs"}
                 className="hover:text-[#005580] text-gray-700"
               >
-                <CornerUpLeft className="h-6 w-6 shrink-0" />
+                <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
               </Link>
               <div className="flex flex-row w-full justify-between gap-x-3 items-center">
                 <h3 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl lg:text-3xl">

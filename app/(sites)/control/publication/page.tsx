@@ -38,7 +38,7 @@ const Page = async () => {
       { rankTop: 'desc' },
       { createdAt: 'desc' },
     ],
-    take: 200
+    take: 100
   });
 
   if (myJobs.length === 0) {

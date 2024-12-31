@@ -15,6 +15,14 @@ import {
 } from "@tanstack/react-table";
 import { endOfWeek, startOfWeek } from "date-fns";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Card,
   CardContent,
   CardDescription,
@@ -23,24 +31,17 @@ import {
 } from "@/components/ui/card";
 import {
   Trash,
-  ArchiveRestore,
-  ArrowUpDown,
+  CircleEllipsis,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  Copy,
   CornerUpLeft,
-  ExternalLink,
-  Grip,
-  GripVertical,
   Loader2,
-  MoreHorizontal,
   MoreVertical,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
 import {
   Table,
@@ -68,6 +69,7 @@ import {
 } from "@/components/ui/tooltip";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -78,12 +80,13 @@ import {
 import { BarCharts } from "./BarChart";
 import { TheLineCharts } from "./LineChart";
 import Link from "next/link";
+import { trpc } from "@/app/_trpc/client";
+import { useToast } from "@/components/ui/use-toast";
+import { DeletePendingAlertModal } from "../models/candidate/DeletePending";
+import { DeleteAccountAlertModal } from "../models/candidate/DeleteAccount";
 
-interface UserWithApplicationCount extends User {
-  applicationCount: number;
-}
 interface CandidatesStatsProps {
-  combinedData: UserWithApplicationCount[];
+  combinedData: User[];
   countWorkers: number;
   percentageWorkers: string;
   countWorkerSuccess: number;
@@ -117,10 +120,95 @@ export function CandidatesStats({
   const formattedStartDate = format(startWeek, "dd/MMM");
   const formattedEndDate = format(endWeek, "dd/MMM");
   const router = useRouter();
+  const { toast } = useToast();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+  const [currentlyPendingID, setCurrentlyPendingID] = React.useState<
+    string | null
+  >(null);
+  const [currentlyDeletingID, setCurrentlyDeletingID] = React.useState<
+    string | null
+  >(null);
+  const [pendingOpen, setPendingOpen] = React.useState<boolean>(false);
+  const pendingClose = () => {
+    setPendingOpen((prev) => !prev);
+    setCurrentlyPendingID(null);
+  };
+
+  const [deleteOpen, setDeleteOpen] = React.useState<boolean>(false);
+  const deleteClose = () => {
+    setDeleteOpen((prev) => !prev);
+    setCurrentlyDeletingID(null);
+  };
+
+  const { mutate: pendingUpdate, isLoading: pendingLoading } =
+    trpc.adminUpdatePendingAccount.useMutation({
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "You successfully updated account's re-signup",
+          variant: "default",
+          duration: 3000,
+        });
+        router.refresh();
+      },
+      onError: (err) => {
+        toast({
+          title: "Something went wrong",
+          description:
+            err.message || "There was a problem updating account's re-signup",
+          variant: "destructive",
+          duration: 3000,
+        });
+      },
+      onMutate: ({ accountId }) => {
+        setCurrentlyPendingID(accountId);
+      },
+      onSettled: () => {
+        setCurrentlyPendingID(null);
+      },
+    });
+
+  const pendingConfirm = (pendingID: string, pendingEmail: string) => {
+    setCurrentlyPendingID(pendingID);
+    pendingUpdate({ accountEmail: pendingEmail, accountId: pendingID });
+    pendingClose();
+  };
+
+  const { mutate: deleteAccount, isLoading: deleteLoading } =
+    trpc.adminDeleteAccount.useMutation({
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "You successfully deleted this user account",
+          variant: "default",
+          duration: 3000,
+        });
+        router.refresh();
+      },
+      onError: (err) => {
+        toast({
+          title: "Something went wrong",
+          description:
+            err.message || "There was a problem deleting this user account",
+          variant: "destructive",
+          duration: 3000,
+        });
+      },
+      onMutate: ({ accountId }) => {
+        setCurrentlyDeletingID(accountId);
+      },
+      onSettled: () => {
+        setCurrentlyDeletingID(null);
+      },
+    });
+
+  const deleteConfirm = (accountId: string, accountEmail: string) => {
+    setCurrentlyDeletingID(accountId);
+    deleteAccount({ accountId, accountEmail });
+  };
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
@@ -132,7 +220,11 @@ export function CandidatesStats({
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
 
-        return <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>;
+        return (
+          <div suppressHydrationWarning className="font-normal text-sm">
+            {format(date, "PPP")}
+          </div>
+        );
       },
     },
     {
@@ -159,17 +251,6 @@ export function CandidatesStats({
       cell: ({ row }) => (
         <div className="font-normal text-sm flex justify-center items-center">
           {row.getValue("referralCode")}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "applicationCount",
-      header: () => (
-        <div className=" flex justify-center items-center">Applied</div>
-      ),
-      cell: ({ row }) => (
-        <div className="font-normal text-sm flex justify-center items-center">
-          {row.getValue("applicationCount")}
         </div>
       ),
     },
@@ -204,9 +285,7 @@ export function CandidatesStats({
     {
       accessorKey: "suspended",
       header: () => {
-        return (
-          <div className="flex justify-center items-center">Status</div>
-        );
+        return <div className="flex justify-center items-center">Status</div>;
       },
       cell: ({ row }) => {
         const suspended = row.getValue("suspended");
@@ -225,6 +304,81 @@ export function CandidatesStats({
         return (
           <div className="font-normal text-sm flex justify-center items-center">
             {formatted}
+          </div>
+        );
+      },
+    },
+    {
+      id: "actions",
+      header: () => (
+        <div className=" flex justify-center items-center">Actions</div>
+      ),
+      enableHiding: false,
+      cell: ({ row }) => {
+        const user = row.original;
+        return (
+          <div className="font-normal text-sm flex justify-center items-center">
+            {currentlyPendingID === user.id && (
+              <DeletePendingAlertModal
+                isOpen={pendingOpen}
+                onClose={pendingClose}
+                loading={pendingLoading}
+                onConfirm={() => pendingConfirm(user.email, user.id)}
+              />
+            )}
+            {currentlyDeletingID === user.id && (
+              <DeleteAccountAlertModal
+                isOpen={deleteOpen}
+                loading={deleteLoading}
+                onClose={deleteClose}
+                onConfirm={() => deleteConfirm(user.id, user.email)}
+              />
+            )}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  disabled={
+                    currentlyDeletingID === user.id ||
+                    currentlyPendingID === user.id
+                  }
+                  variant="ghost"
+                  className="h-5 w-8 p-0 rounded-sm"
+                >
+                  <span className="sr-only">Open menu</span>
+                  {currentlyDeletingID === user.id && deleteLoading ? (
+                    <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
+                  ) : currentlyPendingID === user.id && pendingLoading ? (
+                    <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
+                  ) : (
+                    <MoreVertical className="h-5 w-5" />
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel className="text-gray-800">
+                  Detailed Actions
+                </DropdownMenuLabel>
+                <DropdownMenuItem>
+                  <span
+                    className="text-gray-600 flex items-center"
+                    onClick={() => {}}
+                  >
+                    <CircleEllipsis className="h-4 w-4 mr-2 text-gray-500 shrink-0" />
+                    Pending Signup
+                  </span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <span
+                    className="text-gray-600 flex items-center"
+                    onClick={() => {}}
+                  >
+                    <Trash className="h-4 w-4 mr-2 text-gray-500 shrink-0" />
+                    Delete Account
+                  </span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         );
       },
@@ -254,7 +408,7 @@ export function CandidatesStats({
     <div className="w-full mt-2">
       <div className=" flex flex-row items-center">
         <Link href={"/control/candidates"} className="hover:text-[#005580]">
-          <CornerUpLeft className="h-6 w-6 mr-2 shrink-0" />
+          <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
         </Link>
         <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
           Workers Stats
@@ -524,6 +678,16 @@ export function CandidatesStats({
           </Card>
         </div>
       </div>
+      <Input
+          placeholder="Search for a job seeker"
+          value={
+            (table.getColumn("name")?.getFilterValue() as string) ?? ""
+          }
+          onChange={(event) =>
+            table.getColumn("name")?.setFilterValue(event.target.value)
+          }
+          className="w-full sm:max-w-sm"
+        />
       <div className="rounded-lg border bg-white">
         <Table>
           <TableHeader>
