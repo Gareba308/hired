@@ -112,9 +112,7 @@ export function CompaniesStats({
   jobs,
   companies,
 }: CompaniesStatsProps) {
-  const data = combinedData.map((user) => ({
-    ...user,
-  }));
+  const data = combinedData;
 
   const date = new Date();
   const fullMonthName = format(date, "MMMM");
@@ -145,10 +143,20 @@ export function CompaniesStats({
     setCurrentlyPendingID(null);
   };
 
+  const toggleOpen = (pendingId: string) => {
+    setPendingOpen(true);
+    setCurrentlyPendingID(pendingId);
+  };
+
   const [deleteOpen, setDeleteOpen] = React.useState<boolean>(false);
   const deleteClose = () => {
     setDeleteOpen((prev) => !prev);
     setCurrentlyDeletingID(null);
+  };
+
+  const toggleDelete = (accountId: string) => {
+    setDeleteOpen(true);
+    setCurrentlyDeletingID(accountId);
   };
 
   const { mutate: pendingUpdate, isLoading: pendingLoading } =
@@ -367,7 +375,7 @@ export function CompaniesStats({
                 <DropdownMenuItem>
                   <span
                     className="text-gray-600 flex items-center"
-                    onClick={() => {}}
+                    onClick={() => toggleOpen(user.id)}
                   >
                     <CircleEllipsis className="h-4 w-4 mr-2 text-gray-500 shrink-0" />
                     Pending Signup
@@ -377,7 +385,7 @@ export function CompaniesStats({
                 <DropdownMenuItem>
                   <span
                     className="text-gray-600 flex items-center"
-                    onClick={() => {}}
+                    onClick={() => toggleDelete(user.id)}
                   >
                     <Trash className="h-4 w-4 mr-2 text-gray-500 shrink-0" />
                     Delete Account
@@ -692,7 +700,7 @@ export function CompaniesStats({
         onChange={(event) =>
           table.getColumn("name")?.setFilterValue(event.target.value)
         }
-        className="w-full sm:max-w-sm"
+        className="w-full mb-1 sm:max-w-sm"
       />
       <div className="rounded-lg border bg-white">
         <Table>

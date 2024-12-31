@@ -108,9 +108,7 @@ export function CandidatesStats({
   countWorkerPending,
   percentageWorkerPending,
 }: CandidatesStatsProps) {
-  const data = combinedData.map((user) => ({
-    ...user,
-  }));
+  const data = combinedData;
 
   const date = new Date();
   const fullMonthName = format(date, "MMMM");
@@ -137,12 +135,21 @@ export function CandidatesStats({
     setCurrentlyPendingID(null);
   };
 
+  const toggleOpen = (pendingId: string) => {
+    setPendingOpen(true);
+    setCurrentlyPendingID(pendingId);
+  };
+
   const [deleteOpen, setDeleteOpen] = React.useState<boolean>(false);
   const deleteClose = () => {
     setDeleteOpen((prev) => !prev);
     setCurrentlyDeletingID(null);
   };
 
+  const toggleDelete = (accountId: string) => {
+    setDeleteOpen(true);
+    setCurrentlyDeletingID(accountId);
+  };
   const { mutate: pendingUpdate, isLoading: pendingLoading } =
     trpc.adminUpdatePendingAccount.useMutation({
       onSuccess: () => {
@@ -361,7 +368,7 @@ export function CandidatesStats({
                 <DropdownMenuItem>
                   <span
                     className="text-gray-600 flex items-center"
-                    onClick={() => {}}
+                    onClick={() => toggleOpen(user.id)}
                   >
                     <CircleEllipsis className="h-4 w-4 mr-2 text-gray-500 shrink-0" />
                     Pending Signup
@@ -371,7 +378,7 @@ export function CandidatesStats({
                 <DropdownMenuItem>
                   <span
                     className="text-gray-600 flex items-center"
-                    onClick={() => {}}
+                    onClick={() => toggleDelete(user.id)}
                   >
                     <Trash className="h-4 w-4 mr-2 text-gray-500 shrink-0" />
                     Delete Account
@@ -679,15 +686,13 @@ export function CandidatesStats({
         </div>
       </div>
       <Input
-          placeholder="Search for a job seeker"
-          value={
-            (table.getColumn("name")?.getFilterValue() as string) ?? ""
-          }
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="w-full sm:max-w-sm"
-        />
+        placeholder="Search for a job seeker"
+        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+        onChange={(event) =>
+          table.getColumn("name")?.setFilterValue(event.target.value)
+        }
+        className="w-full mb-1 sm:max-w-sm"
+      />
       <div className="rounded-lg border bg-white">
         <Table>
           <TableHeader>

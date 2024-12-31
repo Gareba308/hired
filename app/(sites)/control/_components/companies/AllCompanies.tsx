@@ -47,7 +47,7 @@ const AllCompanies = ({ companies }: TopCompaniesProps) => {
   const router = useRouter();
   return (
     <>
-      <div className="w-full flex items-end sm:items-center flex-row justify-between gap-x-3 mb-4">
+      <div className="w-full flex items-center flex-row justify-between gap-x-3 mb-4">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-600">
           Companies
         </h1>
@@ -55,19 +55,11 @@ const AllCompanies = ({ companies }: TopCompaniesProps) => {
           onClick={() => router.push("/control/companies/stats")}
           type="button"
           size="sm"
-          variant="default"
-          className="hidden sm:flex hover:bg-primary hover:opacity-90"
-        >
-          Statistics <ArrowRight className="h-4 w-4 mr-1.5 shrink-0" />
-        </Button>
-        <Button
-          onClick={() => router.push("/control/companies/stats")}
-          type="button"
-          size="sm"
           variant="link"
-          className="sm:hidden"
+          className="text-[#005580] hover:text-[#005580]"
         >
-          Statistics <ArrowRight className="h-4 w-4 text-inherit hover:text-inherit mr-1.5 shrink-0" />
+          Statistics{" "}
+          <ArrowRight className="h-4 w-4 text-inherit hover:text-inherit mr-1.5 shrink-0" />
         </Button>
       </div>
       <div className="mt-3 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
