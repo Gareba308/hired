@@ -62,6 +62,7 @@ import {
   MoveRight,
   TrendingDown,
   TrendingUp,
+  ArrowUpDown,
 } from "lucide-react";
 import {
   Tooltip,
@@ -228,7 +229,17 @@ export function CompaniesStats({
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: "createdAt",
-      header: "Published",
+      header: ({ column }) => {
+        return (
+          <div
+            className="flex justify-start items-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Registered Date
+            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+          </div>
+        );
+      },
       cell: ({ row }) => {
         const date: Date = row.getValue("createdAt");
 
@@ -268,9 +279,15 @@ export function CompaniesStats({
     },
     {
       accessorKey: "emailVerified",
-      header: () => {
+      header: ({ column }) => {
         return (
-          <div className="flex justify-center items-center">Email Verified</div>
+          <div
+            className="flex justify-center items-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Verified
+            <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+          </div>
         );
       },
       cell: ({ row }) => {
@@ -294,6 +311,7 @@ export function CompaniesStats({
         );
       },
     },
+
     {
       accessorKey: "special",
       header: () => {
