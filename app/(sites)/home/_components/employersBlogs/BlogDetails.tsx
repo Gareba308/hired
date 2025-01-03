@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Preview2 } from "@/components/Preview2";
 import { useToast } from "@/components/ui/use-toast";
+import AdSenseAd from "@/components/Adsense";
 interface BlogDetailsProps {
   blog: Blogs;
   allOtherBlogs: Blogs[];
@@ -210,6 +211,7 @@ const BlogDetails = ({
                   <div className="mb-6 text-base leading-relaxed">
                     <Preview2 value={cleanBody} />
                   </div>
+                  <AdSenseAd />
                   <div
                     suppressHydrationWarning
                     className="my-2 text-base text-gray-700 line-clamp-1"
