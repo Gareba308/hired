@@ -10,9 +10,9 @@ export async function middleware(req: NextRequest) {
   const requestHeaders = new Headers(req.headers);
   const ip = req.ip || "";
 
-  const location = req.geo?.city || "Unknown";
+  const location = req.geo?.city||"Unknown";
 
-  requestHeaders.set("x-forwarded-for", ip);
+  requestHeaders.set("x-forwarded-for",ip);
 
   requestHeaders.set("x-city", location);
   const token = await getToken({
