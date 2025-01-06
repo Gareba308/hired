@@ -13,7 +13,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Preview2 } from "@/components/Preview2";
 import { useToast } from "@/components/ui/use-toast";
-import AdSenseAd from "@/components/Adsense";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 interface BlogDetailsProps {
   blog: Blogs;
   allOtherBlogs: Blogs[];
