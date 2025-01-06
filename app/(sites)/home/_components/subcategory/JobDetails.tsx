@@ -437,7 +437,7 @@ export default function JobDetails({
                 </div>
               </div>
             )}
-            <AdSenseAd />
+            {/* <AdSenseAd /> */}
             {job.responsibilities && (
               <div className="mt-5">
                 <h3 className="text-xl font-medium text-gray-700">
