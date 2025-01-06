@@ -23,7 +23,7 @@ interface BlogDetailsProps {
   topTags: string[];
   topHashtags1: string[];
 }
-const BlogDetails = ({
+const BlogDetails =({
   blog,
   allOtherBlogs,
   topCategories,

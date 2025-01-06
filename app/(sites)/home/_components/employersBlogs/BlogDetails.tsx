@@ -72,14 +72,14 @@ const BlogDetails = ({
         description:
           "The blog's URL link has been copied to clipboard. You may share around the article.",
         variant: "default",
-        duration: 4000,
+        duration: 3000,
       });
     } catch (error) {
       toast({
         title: "Something went wrong",
         description: "Was unable to copy the blog's URL link",
         variant: "destructive",
-        duration: 4000,
+        duration: 3000,
       });
     }
   };
