@@ -22,20 +22,18 @@ const AdSenseAd = () => {
 
   return (
     <>
-      {isAdLoaded && (
-        <div>
-          <b className="my-1">---Advertisement Starts---</b>
-          <ins
-            className="adsbygoogle"
-            style={{ display: "block" }}
-            data-ad-client="ca-pub-7434648314782318"
-            data-ad-slot="5848217924"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          ></ins>
-          <b className="my-1">---Advertisement Ends---</b>
-        </div>
-      )}
+      <>
+        {isAdLoaded && <b className="my-1">---Advertisement Starts---</b>}
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-client="ca-pub-7434648314782318"
+          data-ad-slot="5848217924"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></ins>
+        {isAdLoaded && <b className="my-1">---Advertisement Ends---</b>}
+      </>
       <Script
         async
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7434648314782318"
