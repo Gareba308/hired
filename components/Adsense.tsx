@@ -4,41 +4,41 @@ import { useEffect, useState } from "react";
 import Script from "next/script";
 
 const AdSenseAd = () => {
-  const [isAdLoaded, setIsAdLoaded] = useState(false); // State to track if ad is loaded
+  const [isAdLoaded, setIsAdLoaded] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.adsbygoogle) {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-      setIsAdLoaded(true);
+    if (typeof window !== "undefined") {
+      try {
+        if (window.adsbygoogle) {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+          setIsAdLoaded(true);
+        }
+      } catch (error) {
+        console.error("AdSense script error:", error);
+        setIsAdLoaded(false);
+      }
     }
   }, []);
 
   return (
     <>
-      {isAdLoaded && (
-        <div>
-          <p className="my-1 px-4">--Advertisement--</p>
-          <ins
-            className="adsbygoogle"
-            style={{ display: "block" }}
-            data-ad-client="ca-pub-7434648314782318"
-            data-ad-slot="5848217924"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          ></ins>
-        </div>
-      )}
+      <>
+        {isAdLoaded && <p className="my-1">--Advertisement Starts--</p>}
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-client="ca-pub-7434648314782318"
+          data-ad-slot="5848217924"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></ins>
+        {isAdLoaded && <p className="my-1">--Advertisement Ends--</p>}
+      </>
       <Script
         async
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7434648314782318"
         crossOrigin="anonymous"
         strategy="lazyOnload"
-        onLoad={() => {
-          if (typeof window !== "undefined" && window.adsbygoogle) {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-            setIsAdLoaded(true);
-          }
-        }}
         onError={(e) => {
           console.error("Failed to load AdSense script:", e);
           setIsAdLoaded(false);
