@@ -438,7 +438,7 @@ export default function JobDetails({
                 </div>
               </div>
             )}
-            <div className='px-4'>
+            <div>
               <AdSenseAd />
             </div>
             {job.responsibilities && (
