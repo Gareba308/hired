@@ -318,7 +318,7 @@ export default function JobDetails({
         </div>
 
         {/* Options */}
-        <div className="md:overflow-y-auto w-full px-4">
+        <div className="md:overflow-y-auto w-full md:px-4">
           <div className="mt-4">
             <div className="border-slate-100">
               <h2 className="text-xl text-gray-700 font-bold flex items-center justify-between gap-x-3">
