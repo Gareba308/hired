@@ -155,8 +155,8 @@ export default function JobDetails({
   };
   return (
     <>
-      <div className="flex flex-col px-4 mx-auto w-full h-full">
-        <div className="md:border-b md:border-gray-200 w-full md:pb-3 bg-white md:shadow-md md:sticky md:pt-4 md:top-0 md:z-10">
+      <div className="flex flex-col h-full">
+        <div className="md:border-b md:border-gray-200 w-full md:pb-3 bg-white md:shadow-md md:sticky md:px-4 md:pt-4 md:top-0 md:z-10">
           <div className="flex gap-x-4 w-full justify-between">
             <div>
               <h2
@@ -318,7 +318,7 @@ export default function JobDetails({
         </div>
 
         {/* Options */}
-        <div className="md:overflow-y-auto w-full">
+        <div className="md:overflow-y-auto w-full px-4">
           <div className="mt-4">
             <div className="border-slate-100">
               <h2 className="text-xl text-gray-700 font-bold flex items-center justify-between gap-x-3">
