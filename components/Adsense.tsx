@@ -5,15 +5,18 @@ import Script from "next/script";
 
 const AdSenseAd = () => {
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      try {
-        if (window.adsbygoogle) {
-          (window.adsbygoogle = window.adsbygoogle || []).push({});
+    const initializeAds = () => {
+      if (typeof window !== "undefined" && (window as any).adsbygoogle) {
+        try {
+          ((window as any).adsbygoogle =
+            (window as any).adsbygoogle || []).push({});
+        } catch (error: any) {
+          console.error("AdSense script error:", error);
         }
-      } catch (error) {
-        console.error("AdSense script error:", error);
       }
-    }
+    };
+
+    initializeAds();
   }, []);
 
   return (

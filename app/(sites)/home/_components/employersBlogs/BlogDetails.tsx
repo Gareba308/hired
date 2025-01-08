@@ -213,9 +213,7 @@ const BlogDetails = ({
                   <div className="mb-6 text-base leading-relaxed">
                     <Preview2 value={cleanBody} />
                   </div>
-                  <>
                     <AdSenseAd />
-                  </>
                   <div
                     suppressHydrationWarning
                     className="my-2 text-base text-gray-700 line-clamp-1"
