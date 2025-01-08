@@ -1,23 +1,48 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Script from "next/script";
 
 const AdSenseAd = () => {
+  const [retryCount, setRetryCount] = useState(0);
+
   useEffect(() => {
-    const initializeAds = () => {
+    const loadAd = () => {
       if (typeof window !== "undefined" && (window as any).adsbygoogle) {
         try {
-          ((window as any).adsbygoogle =
-            (window as any).adsbygoogle || []).push({});
+          ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
         } catch (error: any) {
           console.error("AdSense script error:", error);
         }
       }
     };
 
-    initializeAds();
-  }, []);
+    const checkAndReloadAd = () => {
+      const adElement = document.querySelector(".adsbygoogle");
+      if (adElement && adElement.childNodes.length === 0 && retryCount < 3) {
+        console.warn("Ad not loaded, retrying...");
+        setRetryCount((prev) => prev + 1);
+        loadAd();
+      }
+    };
+
+    const timeout = setTimeout(() => {
+      loadAd();
+    }, 500);
+
+    const retryInterval = setInterval(() => {
+      checkAndReloadAd();
+    }, 2000);
+
+    if (retryCount >= 3) {
+      clearInterval(retryInterval);
+    }
+
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(retryInterval);
+    };
+  }, [retryCount]);
 
   return (
     <>

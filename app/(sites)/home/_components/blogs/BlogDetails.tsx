@@ -213,7 +213,7 @@ const BlogDetails = ({
                   <div className="mb-6 text-base leading-relaxed">
                     <Preview2 value={cleanBody} />
                   </div>
-                    <AdSenseAd />
+                  <AdSenseAd />
                   <div
                     suppressHydrationWarning
                     className="my-2 text-base text-gray-700 line-clamp-1"
@@ -317,6 +317,7 @@ const BlogDetails = ({
                   </div>
                 )}
               </div>
+              <AdSenseAd />
               <div className="shadow-sm border border-gray-300 mb-4 xl:mb-10 rounded-sm bg-white">
                 <h3 className="border-b border-body-color border-opacity-10 px-5 py-3 text-lg font-semibold text-primary bg-gray-200">
                   Popular Category

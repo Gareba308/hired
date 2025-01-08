@@ -249,11 +249,6 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                   </Link>
                 </div>
               </li>
-              {index > 0 && (index + 1) % 10 === 0 && (
-                <div className="my-6">
-                  <AdSenseAd />
-                </div>
-              )}
             </div>
           );
         })}
