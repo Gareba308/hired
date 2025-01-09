@@ -58,8 +58,7 @@ const AllCompanies = ({ companies }: TopCompaniesProps) => {
           variant="link"
           className="text-[#005580] underline hover:text-emerald-800"
         >
-          Statistics{" "}
-          <ArrowRight className="h-4 w-4 text-inherit hover:text-inherit mr-1.5 shrink-0" />
+          Statistics
         </Button>
       </div>
       <div className="mt-3 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">

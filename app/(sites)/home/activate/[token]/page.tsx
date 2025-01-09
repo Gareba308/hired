@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   robots: {
     index: false,
     follow: true,
-  }
-}
+  },
+};
 
 interface ActivateProps {
   params: {
@@ -21,7 +21,7 @@ const EmailVerified = async ({ params }: ActivateProps) => {
   const { token } = params;
 
   const currentDate = new Date();
-  const emailPassword= process.env.NEXT_PUBLIC_PASSWORD
+  const emailPassword = process.env.NEXT_PUBLIC_PASSWORD;
   const user = await db.verification.findFirst({
     where: {
       verifyToken: token,
@@ -136,7 +136,7 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       }
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -160,6 +160,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
                 email
               )}) has signed up successfully. You have been credited with <b>Ksh.500</b> to use to post a job.</p>
               <p><a href='https://www.hired.co.ke/manage/referrals/my-referrals'>Visit Hired to view your credit and use your credit to post a job</a></p>
+              <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
               <hr>
               <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
@@ -182,6 +185,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
               <p>Hello ${name},</p>
               <p>Your email has been verified successfully and you have received a <b>Ksh.500</b> credit, top up and post a job on the platform.</p>
               <p><a href='https://www.hired.co.ke/manage/transaction'>Visit Hired to view your credit and use your credit to post a job</a></p>
+              <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
               <hr>
               <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
@@ -236,7 +242,7 @@ const EmailVerified = async ({ params }: ActivateProps) => {
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -260,6 +266,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
                 email
               )}) has signed up successfully. You have been credited with <b>10 credit points</b>. From a minimum of 200 approved credit point, you can redeem the points. <b>1 point</b> is equivalent to <b>Ksh.1</b>.</p>
               <p><a href='https://www.hired.co.ke/site/referrals/my-referrals'>Visit Hired to view your credit and use your credit to post a job</a></p>
+              <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
               <hr>
               <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
@@ -282,6 +291,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
               <p>Hello ${name},</p>
               <p>Your email has been verified successfully and you are all set to start using the platform to submit job applications.</p>
               <p><a href='https://www.hired.co.ke/site/jobs'>Visit Hired to view all available jobs</a></p>
+              <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
               <hr>
               <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
@@ -342,7 +354,7 @@ const EmailVerified = async ({ params }: ActivateProps) => {
 
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -364,6 +376,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
               <p>Hello ${name},</p>
               <p>Your email has been verified successfully and you have received a <b>Ksh.500</b> credit, top up and post a job on the platform.</p>
               <p><a href='https://www.hired.co.ke/manage/transaction'>Visit Hired to view your credit and use your credit to post a job</a></p>
+              <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
               <hr>
               <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
@@ -373,17 +388,17 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       };
 
       try {
-        await new Promise((resolve, reject)=> {
-          transporter.sendMail(mailOptions, (err, info)=> {
-            if(err){
+        await new Promise((resolve, reject) => {
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
               console.error(err);
               reject(err);
-            }else{
-              console.log(info)
-              resolve(info)
+            } else {
+              console.log(info);
+              resolve(info);
             }
-          })
-        })
+          });
+        });
 
         await db.user.update({
           where: {
@@ -410,7 +425,7 @@ const EmailVerified = async ({ params }: ActivateProps) => {
     if (dbRole === "worker") {
       const transporter = nodemailer.createTransport({
         port: 587,
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         auth: {
           user: "gethiredinkenya@gmail.com",
           pass: emailPassword,
@@ -432,6 +447,9 @@ const EmailVerified = async ({ params }: ActivateProps) => {
               <p>Hello ${name},</p>
               <p>Your email has been verified successfully and you are all set to start using the platform to submit job applications.</p>
               <p><a href='https://www.hired.co.ke/site/jobs'>Visit Hired to view all available jobs</a></p>
+              <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
               <hr>
               <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
@@ -441,17 +459,17 @@ const EmailVerified = async ({ params }: ActivateProps) => {
       };
 
       try {
-        await new Promise((resolve, reject)=> {
-          transporter.sendMail(mailOptions, (err, info)=> {
-            if(err){
+        await new Promise((resolve, reject) => {
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
               console.error(err);
               reject(err);
-            }else{
-              console.log(info)
-              resolve(info)
+            } else {
+              console.log(info);
+              resolve(info);
             }
-          })
-        })
+          });
+        });
 
         await db.user.update({
           where: {
@@ -496,9 +514,8 @@ const EmailVerified = async ({ params }: ActivateProps) => {
     employer: "/home/login/enterprises",
     worker: "/home/login",
   };
-  
+
   return redirect(roleRedirectMap[obtainedRole] || "/home/login");
-  
 };
 
 export default EmailVerified;

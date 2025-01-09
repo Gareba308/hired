@@ -188,9 +188,9 @@ export function CompaniesStats({
       },
     });
 
-  const pendingConfirm = (pendingID: string, pendingEmail: string) => {
+  const pendingConfirm = (pendingID: string) => {
     setCurrentlyPendingID(pendingID);
-    pendingUpdate({ accountEmail: pendingEmail, accountId: pendingID });
+    pendingUpdate({accountId: pendingID });
     pendingClose();
   };
 
@@ -222,9 +222,9 @@ export function CompaniesStats({
       },
     });
 
-  const deleteConfirm = (accountId: string, accountEmail: string) => {
+  const deleteConfirm = (accountId: string) => {
     setCurrentlyDeletingID(accountId);
-    deleteAccount({ accountId, accountEmail });
+    deleteAccount({ accountId});
   };
   const columns: ColumnDef<User>[] = [
     {
@@ -355,7 +355,7 @@ export function CompaniesStats({
                 isOpen={pendingOpen}
                 onClose={pendingClose}
                 loading={pendingLoading}
-                onConfirm={() => pendingConfirm(user.email, user.id)}
+                onConfirm={() => pendingConfirm(user.id)}
               />
             )}
             {currentlyDeletingID === user.id && (
@@ -363,7 +363,7 @@ export function CompaniesStats({
                 isOpen={deleteOpen}
                 loading={deleteLoading}
                 onClose={deleteClose}
-                onConfirm={() => deleteConfirm(user.id, user.email)}
+                onConfirm={() => deleteConfirm(user.id)}
               />
             )}
             <DropdownMenu>

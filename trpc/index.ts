@@ -327,18 +327,24 @@ export const appRouter = router({
         to: email,
         subject: "Email Address Confirmation",
         html: `
-             <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'> 
-                <p>Hello ${name},</p>
-                <p>Welcome to Hired Jobs, please verify your email address.</p>
-                <p>Use the link button below to confirm your email address. The link's token expires in 1 hour.</p>
-            <div style='cursor: pointer;'><a href='${productionBASE_URL}/home/activate/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
-                <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
-                <hr>
-                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
+             <div style="font-size: 14px; line-height: 22px; display: flex; justify-content: center; align-items: center; width: 100%; background: #f7fafa;">
+              <div style="margin: 1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem; max-width: 900px; background: #fff;">
+             <p>Hello ${name},</p>
+             <p>Welcome to Hired Jobs! Please verify your email address by clicking the button below. The link expires in 1 hour.</p>
+             <div style="text-align: center; margin: 1rem 0;">
+            <a href="${productionBASE_URL}/home/activate/${verifyToken}" style="text-decoration: none;">
+             <button style="color: white; padding: 0.5rem 1.5rem; background: #005580; font-size: 14px; border: none; border-radius: 4px; cursor: pointer;">Confirm Account</button>
+             </a>
             </div>
-            </div>
+         <p>Follow us on Twitter: 
+           <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+         </p>
+         <p>This is an automated message. Please do not reply.</p>
+         <p>If you did not sign up for Hired Jobs, kindly ignore this email.</p>
+         <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 1rem 0;">
+         <p style="text-align: center; font-size: 14px;">&copy; Hired Jobs Kenya. All rights reserved.</p>
+       </div>
+      </div>
             `,
         priority: "high" as const,
       };
@@ -625,16 +631,22 @@ export const appRouter = router({
             to: checkUserReferralExists.email,
             subject: "Suspicious Referral Activities",
             html: `
-                 <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-                <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
-                    <p>Hello ${checkUserReferralExists.fullName},</p>
-                    <p>Our system has noticed some suspicious user referral and the referral has been marked by our system as "cheat". Reach out to our team for help since more than 3 such markings, will lead to your account being suspended.</p>
-                    <p>This is an automated message. Please do NOT reply to this email.</p>
-                    <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
-                    <hr>
-                    <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
-                </div>
-                </div>
+                 <div style="font-size: 14px; line-height: 22px; display: flex; justify-content: center; align-items: center; width: 100%; background: #f7fafa;">
+  <div style="margin: 1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem; max-width: 900px; background: #fff;">
+    <p>Hello ${checkUserReferralExists.fullName},</p>
+    <p>
+      Our system has detected suspicious referral activity, and the referral has been flagged as "cheat." Please contact our support team for assistance. Note that more than three such flags may result in account suspension.
+    </p>
+    <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
+    <p>This is an automated message. Please do not reply.</p>
+    <p>If you did not sign up for Hired Jobs, kindly ignore this email.</p>
+    <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 1rem 0;">
+    <p style="text-align: center; font-size: 14px;">&copy; Hired Jobs Kenya. All rights reserved.</p>
+  </div>
+</div>
+
                 `,
             priority: "high" as const,
           };
@@ -751,18 +763,28 @@ export const appRouter = router({
         to: email,
         subject: "Email Address Confirmation",
         html: `
-             <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
-                <p>Hello ${name},</p>
-                <p>Welcome to Hired Jobs, please verify your email address.</p>
-                <p>Use the link button below to confirm your email address. The link's token expires in 1 hour.</p>
-            <div style='cursor: pointer;'><a href='${productionBASE_URL}/home/activate/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
-                <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
-                <hr>
-                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
-            </div>
-            </div>
+             <div style="font-size: 14px; line-height: 22px; display: flex; justify-content: center; align-items: center; width: 100%; background: #f7fafa;">
+  <div style="margin: 1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem; max-width: 900px; background: #fff;">
+    <p>Hello ${name},</p>
+    <p>Welcome to Hired Jobs! Please verify your email address.</p>
+    <p>Use the button below to confirm your email address. The link's token expires in 1 hour.</p>
+    <div style="cursor: pointer; text-align: center; margin: 1rem 0;">
+      <a href="${productionBASE_URL}/home/activate/${verifyToken}">
+        <button style="color: white; padding: 0.3rem 1rem; background: #005580; font-size: 14.2px; line-height: 22px; cursor: pointer; border: none; border-radius: 4px;">
+          Confirm Account
+        </button>
+      </a>
+    </div>
+    <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
+    <p>This is an automated message. Please do not reply.</p>
+    <p>If you did not sign up for Hired Jobs, kindly ignore this email.</p>
+    <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 1rem 0;">
+    <p style="text-align: center; font-size: 14px;">&copy; Hired Jobs Kenya. All rights reserved.</p>
+  </div>
+</div>
+
             `,
         priority: "high" as const,
       };
@@ -1054,6 +1076,9 @@ export const appRouter = router({
                   Click on the button link below to sign up and apply for any job that you meet the requirements.
                   </p>
                   <div style='cursor: pointer;'><a href='${productionBASE_URL}/referrals/mailed/${invitationCode}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Sign Up Now</button></a></div>
+                  <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                   <p style='margin-top:0.5rem; font-size:12.5px'>Note: This is autogenerated email, please do not reply to this email.</p>
                   <hr>
                   <p style='text-align:center; font-size:12.5px; line-height:22.22px;'>Copyright © Hired. All rights reserved.</p>
@@ -1231,10 +1256,12 @@ export const appRouter = router({
           <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
             <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
               <p>Hello ${dbUser.name as string},</p>
-              <p>We have received a request to have your <b>${availablePoints}</b> credit points redeemed to an equivalent of <b>Ksh.${totalPayable}</b>. Payments will be channeled to your mPesa <b>${
-          contactDetails?.phone as string
-        }</b> on <b>${format(paymentDate, "PPP")}</b>.</p>
-              <hr>
+              <p>We have received a request to have your <b>${availablePoints}</b> credit points redeemed to an equivalent of <b>Ksh.${totalPayable}</b>. Payments will be channeled to your mPesa <b>${contactDetails?.phone as string
+          }</b> on <b>${format(paymentDate, "PPP")}</b>.</p>
+            <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>  
+        <hr>
               <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
           </div>
@@ -2060,6 +2087,9 @@ export const appRouter = router({
                 <p>Therefore, kindly note that we will not add you credit points for this referral. Thank you.</p>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
                 <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
+                <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                 <hr>
                 <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
             </div>
@@ -2214,6 +2244,9 @@ export const appRouter = router({
                   <p>Hello ${referralDetailsExists.fullName},</p>
                   <p>Our system detected that there was a problem with a referred candidate ${referralDetailsExists.inviteeName} and the system marked the candidate as "cheat". </p>
                   <p>Therefore, kindly note that we will not add you credit points for this referral. Thank you.</p>
+                  <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                   <p>This is an automated message. Please do NOT reply to this email.</p>
                   <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                   <hr>
@@ -2582,7 +2615,10 @@ export const appRouter = router({
                 <p>Welcome to Hired Jobs, please verify your email address.</p>
                 <p>Use the link button below to confirm your email address. The link's token expires in 1 hour.</p>
             <div style='cursor: pointer;'><a href='${productionBASE_URL}/home/activate/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
-                <p>This is an automated message. Please do NOT reply to this email.</p>
+               <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p> 
+            <p>This is an automated message. Please do NOT reply to this email.</p>
                 <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
                 <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
@@ -2712,7 +2748,10 @@ export const appRouter = router({
                 <p>Following your request to have your Hired Jobs account password changed, we would like you to verify the request.</p>
                 <p>Use the link button below to change your password. The link's token expires in 30 minutes.</p>
             <div style='cursor: pointer;'><a href='${productionBASE_URL}/home/reset/${resetToken}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
-                <p>This is an automated message. Please do NOT reply to this email.</p>
+               <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
+            <p>This is an automated message. Please do NOT reply to this email.</p>
                 <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
                 <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
@@ -2955,7 +2994,10 @@ export const appRouter = router({
                 <p>Please note that we have received a request (from we hope that it's you?) to have your email changed.</p>
                 <p>Use the link button below to confirm that you would like to implement the said changes. The link's token expires in 1 hour.</p>
             <div style='cursor: pointer;'><a href='${productionBASE_URL}/new_changes/email/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
-                <p>This is an automated message. Please do NOT reply to this email.</p>
+                <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
+            <p>This is an automated message. Please do NOT reply to this email.</p>
                 <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
                 <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
@@ -2978,6 +3020,9 @@ export const appRouter = router({
                 <p>Hello ${name},</p>
                 <p>Please note that we have received a request (from we hope that it's you?) to have your email changed.</p>
                 <p>If you did NOT request to have your email changed, talk to our team or change your password. The email changes have not been made and will most likely be effected within an hour.</p>
+                <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
                 <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
@@ -3116,6 +3161,9 @@ export const appRouter = router({
                 <p>Following your request to have your email address changes, we have successfully implemented the changes.</p>
                 <p>You will be using the new email address <b>${newEmail}</b> with your current password to login to your account.</p>
                 <p>If you did not request to have your email changed, please talk to our team for assistance or change your password.</p>
+                <p>Follow us on Twitter: 
+                  <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+               </p>
                 <p>This is an automated message. Please do NOT reply to this email.</p><br/>
                 <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
@@ -3294,6 +3342,9 @@ export const appRouter = router({
                 <p>The link's token expires in 1 hour.</p>
             <div style='cursor: pointer;'><a href='${productionBASE_URL}/new_changes/password/${verifyToken}'><button style='color:white; padding:.3rem 1rem; background:#005580; font-size:14.2px; line-height:22.22px; cursor:pointer;'>Confirm Account</button></a></div>
                 <p>If you did not request to have your password changed, please talk to our team for assistance or change your password.</p>
+                <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
                 <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
@@ -3423,6 +3474,9 @@ export const appRouter = router({
                 <p>Following your request to have your password changed, we have successfully implemented the changes.</p>
                 <p>You will be using the <b>NEW PASSWORD</b> with your current email to login to your account.</p>
                 <p>If you did not request to have your password changed, please talk to our team for assistance or change your password to a much stronger password.</p>
+                <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                 <p>This is an automated message. Please do NOT reply to this email.</p><br/>
                 <p>Note: If you did not sign up to Hired Jobs, please ignore this email.</p>
                 <hr>
@@ -4218,6 +4272,9 @@ export const appRouter = router({
               <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Dear ${name},</p>
                 <div>${messageBody}</div>
+                <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
                 <hr>
                 <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
@@ -4376,6 +4433,9 @@ export const appRouter = router({
                     <div style='justify-content:center; margin:1rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                         <p>Hello ${name},</p>
                         <div>${emailContent}</div>
+                        <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                         <p>This is an automated message. Please do NOT reply to this email.</p>
                         <hr>
                         <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
@@ -4523,6 +4583,9 @@ export const appRouter = router({
               <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
                 <p>Dear ${name},</p>
                 <div>${messageBody}</div>
+                <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                 <p>This is an automated message. Please do NOT reply to this email.</p>
                 <hr>
                 <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
@@ -4763,71 +4826,71 @@ export const appRouter = router({
 
       const company_nameOld =
         jobFormNonRegisteredCompany &&
-        !unregisteredKnownExists &&
-        unregisteredKnown === false
+          !unregisteredKnownExists &&
+          unregisteredKnown === false
           ? adminCreatingCompanyName
           : jobFormNonRegisteredCompany &&
             unregisteredKnownExists &&
             unregisteredKnown === true
-          ? unregisteredKnownExists.companyName
-          : (companyExists.company_name as string);
+            ? unregisteredKnownExists.companyName
+            : (companyExists.company_name as string);
 
       const company_name = company_nameOld.trim();
 
       const company_description =
         jobFormNonRegisteredCompany &&
-        !unregisteredKnownExists &&
-        unregisteredKnown === false
+          !unregisteredKnownExists &&
+          unregisteredKnown === false
           ? adminCreatingCompanyDescription
           : jobFormNonRegisteredCompany &&
             unregisteredKnownExists &&
             unregisteredKnown === true
-          ? unregisteredKnownExists.companyDescription
-          : (companyExists.company_description as string);
+            ? unregisteredKnownExists.companyDescription
+            : (companyExists.company_description as string);
 
       const companyCategory =
         jobFormNonRegisteredCompany &&
-        !unregisteredKnownExists &&
-        unregisteredKnown === false
+          !unregisteredKnownExists &&
+          unregisteredKnown === false
           ? adminCreatingCompanyCategory
           : jobFormNonRegisteredCompany &&
             unregisteredKnownExists &&
             unregisteredKnown === true
-          ? unregisteredKnownExists.companyCategory
-          : (companyExists.category as string);
+            ? unregisteredKnownExists.companyCategory
+            : (companyExists.category as string);
 
       const companyWebsite =
         jobFormNonRegisteredCompany &&
-        !unregisteredKnownExists &&
-        unregisteredKnown === false
+          !unregisteredKnownExists &&
+          unregisteredKnown === false
           ? adminCreatingCompanyWebsite
           : jobFormNonRegisteredCompany &&
             unregisteredKnownExists &&
             unregisteredKnown === true
-          ? unregisteredKnownExists.companyWebsite
-          : (companyExists.website as string);
+            ? unregisteredKnownExists.companyWebsite
+            : (companyExists.website as string);
 
       const companyEmail =
         jobFormNonRegisteredCompany &&
-        !unregisteredKnownExists &&
-        unregisteredKnown === false
+          !unregisteredKnownExists &&
+          unregisteredKnown === false
           ? adminCreatingCompanyEmail
           : jobFormNonRegisteredCompany &&
             unregisteredKnownExists &&
             unregisteredKnown === true
-          ? unregisteredKnownExists.companyEmail
-          : (companyUser?.email as string);
+            ? unregisteredKnownExists.companyEmail
+            : (companyUser?.email as string);
 
       const logo =
         jobFormNonRegisteredCompany &&
-        !unregisteredKnownExists &&
-        unregisteredKnown === false
+          !unregisteredKnownExists &&
+          unregisteredKnown === false
           ? adminCreatingAddLogo
           : jobFormNonRegisteredCompany &&
             unregisteredKnownExists &&
             unregisteredKnown === true
-          ? unregisteredKnownExists.logo
-          : companyExists.logo;
+            ? unregisteredKnownExists.logo
+            : companyExists.logo;
 
       if (unregisteredKnown === false && jobFormNonRegisteredCompany === true) {
         await db.unregisteredCompany.create({
@@ -5304,8 +5367,7 @@ export const appRouter = router({
       ...workerBlogs.flatMap((blog) =>
         workerCategories.map(
           (category) =>
-            `${baseUrl}/home/blogs/job-seekers/${
-              blog.id
+            `${baseUrl}/home/blogs/job-seekers/${blog.id
             }/categories/${convertToSlug(category)}`
         )
       ),
@@ -5315,8 +5377,7 @@ export const appRouter = router({
       ...employerBlogs.flatMap((blog) =>
         employerCategories.map(
           (category) =>
-            `${baseUrl}/home/blogs/employers/${
-              blog.id
+            `${baseUrl}/home/blogs/employers/${blog.id
             }/categories/${convertToSlug(category)}`
         )
       ),
@@ -5324,22 +5385,22 @@ export const appRouter = router({
         const tags = blog.body.match(/#\w+/g);
         return tags
           ? tags.map(
-              (tag) =>
-                `${baseUrl}/home/blogs/job-seekers/${blog.id}/${convertToSlug(
-                  tag.replace("#", "")
-                )}`
-            )
+            (tag) =>
+              `${baseUrl}/home/blogs/job-seekers/${blog.id}/${convertToSlug(
+                tag.replace("#", "")
+              )}`
+          )
           : [];
       }),
       ...employerBlogs.flatMap((blog) => {
         const tags = blog.body.match(/#\w+/g);
         return tags
           ? tags.map(
-              (tag) =>
-                `${baseUrl}/home/blogs/employers/${blog.id}/${convertToSlug(
-                  tag.replace("#", "")
-                )}`
-            )
+            (tag) =>
+              `${baseUrl}/home/blogs/employers/${blog.id}/${convertToSlug(
+                tag.replace("#", "")
+              )}`
+          )
           : [];
       }),
     ];
@@ -7435,7 +7496,7 @@ export const appRouter = router({
         academicDesired,
         seniority,
         subCategory,
-        companyLogo
+        companyLogo,
       } = input;
 
       const dbUser = await db.user.findFirst({
@@ -7517,7 +7578,7 @@ export const appRouter = router({
             academicDesired,
             seniority,
             subCategory,
-            companyLogo
+            companyLogo,
           },
         });
       }
@@ -7608,7 +7669,7 @@ export const appRouter = router({
           academicDesired,
           seniority,
           subCategory,
-          companyLogo
+          companyLogo,
         };
         if (!jobExists.bonusTestID) {
           updatedJobData.bonusTestID = randomBannerId;
@@ -7708,7 +7769,7 @@ export const appRouter = router({
           academicDesired,
           seniority,
           subCategory,
-          companyLogo
+          companyLogo,
         };
 
         if (!jobExists.bonusTestID && randomBannerId) {
@@ -7756,7 +7817,7 @@ export const appRouter = router({
           academicDesired,
           seniority,
           subCategory,
-          companyLogo
+          companyLogo,
         },
       });
     }),
@@ -11139,161 +11200,191 @@ export const appRouter = router({
     }),
 
   adminDeleteAccount: privateProcedure
-    .input(z.object({
-      accountId: z.string(),
-      accountEmail: z.string(),
-    }))
-    .mutation(async ({input, ctx})=>{
-      const {accountId, accountEmail}= input;
-      const {userId, email}= ctx;
+    .input(
+      z.object({
+        accountId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { accountId } = input;
+      const { userId, email } = ctx;
 
-      const dbUser= await db.user.findFirst({
+      const dbUser = await db.user.findFirst({
         where: {
           id: userId,
-          email
-        }
+          email,
+        },
       });
 
-      if(!dbUser) throw new TRPCError({code:"UNAUTHORIZED", message: "You are unauthorized, login and try again"})
-      
-      const isAdmin= await db.admin.findFirst({
+      if (!dbUser)
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You are unauthorized, login and try again",
+        });
+
+      const isAdmin = await db.admin.findFirst({
         where: {
-          adminEmail: email
+          adminEmail: email,
         },
         select: {
-          id: true
-        }
+          id: true,
+        },
       });
 
-      if(!isAdmin) throw new TRPCError({code: "BAD_REQUEST", message: "This is an admin only section"})
+      if (!isAdmin)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "This is an admin only section",
+        });
 
-      const accountExists= await db.user.findFirst({
+      const accountExists = await db.user.findFirst({
         where: {
           id: accountId,
-          email: accountEmail
-        }
+        },
       });
 
-      if(!accountExists) throw new TRPCError({code: "BAD_REQUEST", message: "A user by account details does not exist"})
-      
+      if (!accountExists)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "A user by account details does not exist",
+        });
+
       return await db.user.delete({
         where: {
           id: accountExists.id,
-          email: accountExists.email
-        }
-      })
+          email: accountExists.email,
+        },
+      });
     }),
 
   adminUpdatePendingAccount: privateProcedure
-    .input(z.object({
-      accountId: z.string(),
-      accountEmail: z.string(),
-    }))
-    .mutation(async ({input, ctx})=>{
-      const {accountId, accountEmail}= input;
-      const {userId, email}= ctx;
+    .input(
+      z.object({
+        accountId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { accountId } = input;
+      const { userId, email } = ctx;
       const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
-      const dbUser= await db.user.findFirst({
+      const dbUser = await db.user.findFirst({
         where: {
           id: userId,
-          email
-        }
+          email,
+        },
       });
 
-      if(!dbUser) throw new TRPCError({code:"UNAUTHORIZED", message: "You are unauthorized, login and try again"})
-      
-      const isAdmin= await db.admin.findFirst({
+      if (!dbUser)
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You are unauthorized, login and try again",
+        });
+
+      const isAdmin = await db.admin.findFirst({
         where: {
-          adminEmail: email
+          adminEmail: email,
         },
         select: {
-          id: true
-        }
+          id: true,
+        },
       });
 
-      if(!isAdmin) throw new TRPCError({code: "BAD_REQUEST", message: "This is an admin only section"})
+      if (!isAdmin)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "This is an admin only section",
+        });
 
-      const accountExists= await db.user.findFirst({
+      const accountExists = await db.user.findFirst({
         where: {
           id: accountId,
-          email: accountEmail
-        }
+        },
       });
 
-      if(!accountExists) throw new TRPCError({code: "BAD_REQUEST", message: "A user by account details does not exist"})
-      
-      const expiredSignup= await db.user.findFirst({
+      if (!accountExists)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "A user by account details does not exist",
+        });
+
+      const expiredSignup = await db.user.findFirst({
         where: {
           id: accountExists.id,
           createdAt: {
-            lt: twoHoursAgo
-          }
-        }
-      })
+            lt: twoHoursAgo,
+          },
+        },
+      });
 
-      if(!expiredSignup) throw new TRPCError({code: "BAD_REQUEST", message: "This account is not qualified for res-signup, deletion"})
-      
-        const transporter = nodemailer.createTransport({
-          port: 587,
-          host: "smtp.gmail.com",
-          auth: {
-            user: "gethiredinkenya@gmail.com",
-            pass: emailPassword,
-          },
-          secure: false,
+      if (!expiredSignup)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "This account is not qualified for res-signup, deletion",
         });
-  
-        await new Promise((resolve, reject) => {
-          transporter.verify(function (error, success) {
-            if (error) {
-              console.log(error);
-              reject(error);
-            } else {
-              console.log("Server is ready to take our message");
-              resolve(success);
-            }
-          });
+
+      const transporter = nodemailer.createTransport({
+        port: 587,
+        host: "smtp.gmail.com",
+        auth: {
+          user: "gethiredinkenya@gmail.com",
+          pass: emailPassword,
+        },
+        secure: false,
+      });
+
+      await new Promise((resolve, reject) => {
+        transporter.verify(function (error, success) {
+          if (error) {
+            console.log(error);
+            reject(error);
+          } else {
+            console.log("Server is ready to take our message");
+            resolve(success);
+          }
         });
-        const mailOptions = {
-          from: {
-            name: "Hired Jobs Team",
-            address: "gethiredinkenya@gmail.com",
-          },
-          replyTo: "gethiredinkenya@gmail.com",
-          to: expiredSignup.email,
-          subject: "Pending Account Signup",
-          html: `
+      });
+      const mailOptions = {
+        from: {
+          name: "Hired Jobs Team",
+          address: "gethiredinkenya@gmail.com",
+        },
+        replyTo: "gethiredinkenya@gmail.com",
+        to: expiredSignup.email,
+        subject: "Pending Account Signup",
+        html: `
           <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa;'>
             <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
               <p>Dear ${expiredSignup.name as string},</p>
               <p>Your registration on <a href="https://www.hired.co.ke">hired.co.ke</a> is currently pending as your email address has not been confirmed. If you did not receive it including in <b>spam folder</b>, we kindly request you to retry the signup process.</p>
+              <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
               <p>Please ignore this email if you did not sign up at <a href="https://www.hired.co.ke">hired.co.ke</a></p>
               <hr>
               <p style='text-align:center; font-size:12.5px; line-height:22.22px;'>Copyright © Hired. All rights reserved.</p>
             </div>
           </div>
         `,
-          priority: "high" as const,
-        };
-        
-  
-        await new Promise((resolve, reject) => {
-          transporter.sendMail(mailOptions, (err, info) => {
-            if (err) {
-              console.error(err);
-              reject(err);
-            } else {
-              console.log(info);
-              resolve(info);
-            }
-          });
-        });
+        priority: "high" as const,
+      };
 
-        return await db.user.delete({
-          where: {
-            id: expiredSignup.id,
+      await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            console.log(info);
+            resolve(info);
           }
         });
+      });
+
+      return await db.user.delete({
+        where: {
+          id: expiredSignup.id,
+        },
+      });
     }),
   updateWorkerBio: privateProcedure
     .input(
@@ -12824,6 +12915,9 @@ export const appRouter = router({
                   <p>
                   Your contact message about ${subject}, has been delivered. Our team will look at it and get back to you as appropriate.
                   </p>
+                  <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                   <p style='margin-top:0.5rem; font-size:12.5px'>Note: You are receiving this message because this email was used in contact details on <a href='${productionBASE_URL}'>Hired</a>.</p>
                   <hr>
                   <p style='text-align:center; font-size:12.5px; line-height:22.22px;'>Copyright © Hired. All rights reserved.</p>
@@ -12911,6 +13005,9 @@ export const appRouter = router({
           <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
             <p>Hello there,</p>
             <p>Your subscription to Hired job alerts is successful. We will update you on available job vacancies.</p>
+            <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
             <p style='margin-top:0.5rem; font-size:12.5px'>Note: You are receiving this message because this email was used to subscribe for job alerts on <a href='${process.env.PRODUCTION_BASE_URL}'>Hired</a>.</p>
             <hr>
             <p style='text-align:center; font-size:12.5px; line-height:22.22px;'>Copyright © Hired. All rights reserved.</p>
@@ -13706,6 +13803,9 @@ export const appRouter = router({
                     <p>Hello ${name},</p>
                     <p>We regret to inform you that your recent job application for the <b>${jobTitle}</b> role at ${companyName} has been declined. We appreciate your effort and interest in joining <b>${companyName}</b> team and wish you the best in your future endeavors</p>
                     <p>Thank you for using Hired. Feel free to submit an application for any other open job meeting your qualification.</p>
+                    <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                     <p>Please do NOT reply to this email.</p><br/>
                     <p>Note: If you did not apply for a job on <b>Hired</b>- www.hired.co.ke, please ignore this email.</p>
                     <hr>
@@ -13852,6 +13952,9 @@ export const appRouter = router({
                     <p>Hello ${name},</p>
                     <p>We are pleased to inform you that your recent job application for the <b>${jobTitle}</b> role at ${companyName} has been marked as offered. We appreciate your effort and interest in joining <b>${companyName}</b> team. We wish you the best, you will receive further communication on way forward.</p>
                     <p>Thank you for using Hired. Feel free to recommend Hired.</p>
+                    <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                     <p>Note: If you did not apply for a job on <b>Hired</b>- www.hired.co.ke, please ignore this email.</p>
                     <hr>
                     <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
@@ -14004,6 +14107,9 @@ export const appRouter = router({
                       <p>Hello ${name},</p>
                       <p>We are glad to inform you that your recent job application for the <b>${jobTitle}</b> role at ${companyName} has been marked as on interview stage. We appreciate your effort and interest in joining <b>${companyName}</b> team. We wish you the best, you will receive further communication on way forward.</p>
                       <p>Thank you for using Hired. Feel free to recommend Hired.</p>
+                      <p>Follow us on Twitter: 
+      <a href="https://www.x.com/hiredKE" style="color: #005580; text-decoration: none;">@hiredKE</a>
+    </p>
                       <p>Note: If you did not apply for a job on <b>Hired</b>- www.hired.co.ke, please ignore this email.</p>
                       <hr>
                       <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>

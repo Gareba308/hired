@@ -179,9 +179,9 @@ export function CandidatesStats({
       },
     });
 
-  const pendingConfirm = (pendingID: string, pendingEmail: string) => {
+  const pendingConfirm = (pendingID: string) => {
     setCurrentlyPendingID(pendingID);
-    pendingUpdate({ accountEmail: pendingEmail, accountId: pendingID });
+    pendingUpdate({accountId: pendingID });
     pendingClose();
   };
 
@@ -213,9 +213,9 @@ export function CandidatesStats({
       },
     });
 
-  const deleteConfirm = (accountId: string, accountEmail: string) => {
+  const deleteConfirm = (accountId: string) => {
     setCurrentlyDeletingID(accountId);
-    deleteAccount({ accountId, accountEmail });
+    deleteAccount({ accountId});
   };
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -348,7 +348,7 @@ export function CandidatesStats({
                 isOpen={pendingOpen}
                 onClose={pendingClose}
                 loading={pendingLoading}
-                onConfirm={() => pendingConfirm(user.email, user.id)}
+                onConfirm={() => pendingConfirm(user.id)}
               />
             )}
             {currentlyDeletingID === user.id && (
@@ -356,7 +356,7 @@ export function CandidatesStats({
                 isOpen={deleteOpen}
                 loading={deleteLoading}
                 onClose={deleteClose}
-                onConfirm={() => deleteConfirm(user.id, user.email)}
+                onConfirm={() => deleteConfirm(user.id)}
               />
             )}
             <DropdownMenu>
