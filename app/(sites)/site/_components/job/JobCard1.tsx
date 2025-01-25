@@ -1,5 +1,5 @@
 "use client";
-import { Application, Job, SavedJobs } from "@prisma/client";
+import { Application, SavedJobs } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Bookmark } from "lucide-react";
 import {
@@ -17,12 +17,37 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
+interface JobItems {
+  id: string,
+  job_title: string,
+  personal_skills: string[],
+  category: string | null,
+  job_type: string | null,
+  deadline: Date | null,
+  county: string | null,
+  possible_pay: string | null,
+  academic: string | null,
+  ownPlatformMethod: string | null,
+  experience: string | null,
+  companyLogo: string | null,
+  companyId: string,
+  company_name: string,
+  rankTop: boolean,
+  createdAt: Date,
+}
+interface PopularJob {
+  id: string,
+  job_title: string,
+  company_name: string,
+  companyLogo: string | null,
+  createdAt: Date,
+}
 interface JobCardProps {
-  allJobs: Job[];
+  allJobs: JobItems[];
   userId: string;
   myApplications: Application[];
   mySavedJobs: SavedJobs[];
-  popular: Job[];
+  popular: PopularJob[];
 }
 const JobCard1 = ({
   allJobs,

@@ -52,13 +52,39 @@ export const formSchema = z.object({
   rankTop: z.boolean().default(false),
 });
 
+interface JobItems {
+  id: string,
+  job_title: string,
+  personal_skills: string[],
+  category: string | null,
+  job_type: string | null,
+  deadline: Date | null,
+  county: string | null,
+  possible_pay: string | null,
+  academic: string | null,
+  ownPlatformMethod: string | null,
+  experience: string | null,
+  companyLogo: string | null,
+  companyId: string,
+  company_name: string,
+  rankTop: boolean,
+  createdAt: Date,
+}
+
+interface PopularJob {
+  id: string,
+  job_title: string,
+  company_name: string,
+  companyLogo: string | null,
+  createdAt: Date,
+}
 interface JobDetailsProps {
   job: Job;
   companyProfile: Company | null;
-  similarJobs: Job[];
-  popularJobs: Job[];
+  similarJobs: PopularJob[];
+  popularJobs: PopularJob[];
   userID: string;
-  allJobs: Job[];
+  allJobs: JobItems[];
 }
 
 interface StoredJob {

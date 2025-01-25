@@ -14,8 +14,7 @@ import {
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { cn } from "@/lib/utils";
-import JobCard1 from "./JobCard1";
-import { Job, Company } from "@prisma/client";
+import { Job} from "@prisma/client";
 import {
   academics,
   categories,
@@ -30,6 +29,7 @@ import NoSearchResult from "./NoSearchResults";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import JobDetails from "./JobDetails";
 import NoHomeDetailJob from "./NoHomeDetailJob";
+import JobCard2 from "./JobCard2";
 
 const useScreenSize = () => {
   const [isLargeScreen, setIsLargeScreen] = useState<boolean>(true);
@@ -84,13 +84,38 @@ const sortByOptions = [
   { label: "Deadline: Sooner to Later", value: "deadline_asc" },
 ];
 
+interface JobItems {
+  id: string,
+  job_title: string,
+  personal_skills: string[],
+  category: string | null,
+  job_type: string | null,
+  deadline: Date | null,
+  county: string | null,
+  possible_pay: string | null,
+  academic: string | null,
+  ownPlatformMethod: string | null,
+  experience: string | null,
+  companyLogo: string | null,
+  companyId: string,
+  company_name: string,
+  rankTop: boolean,
+  createdAt: Date,
+}
+
+interface PopularJob {
+  id: string,
+  job_title: string,
+  company_name: string,
+  companyLogo: string | null,
+  createdAt: Date,
+}
 interface HomeJobsNavBarDetailsProps {
-  jobs: Job[];
+  jobs: JobItems[];
   viewID: string;
-  popular: Job[];
+  popular: PopularJob[];
   job: Job;
-  similarJobs: Job[];
-  companyProfile: Company | null;
+  similarJobs: PopularJob[];
 }
 
 const HomeJobsNavBarDetails = ({
@@ -99,7 +124,6 @@ const HomeJobsNavBarDetails = ({
   popular,
   job,
   similarJobs,
-  companyProfile,
 }: HomeJobsNavBarDetailsProps) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -2038,7 +2062,7 @@ const HomeJobsNavBarDetails = ({
           <div className="grid gap-x-4 sm:gap-x-5 w-full h-full lg:gap-x-6 md:grid-cols-2">
             <div className="hidden md:block">
               {sortedAndFilteredJobs && sortedAndFilteredJobs.length !== 0 ? (
-                <JobCard1 allJobs={jobsForCurrentPage} popular={popular} />
+                <JobCard2 allJobs={jobsForCurrentPage} popular={popular} />
               ) : (
                 <>
                   <NoSearchResult />
@@ -2087,7 +2111,6 @@ const HomeJobsNavBarDetails = ({
                   similarJobs={similarJobs}
                   popularJobs={popular}
                   allJobs={jobs}
-                  companyProfile={companyProfile}
                 />
               ) : (
                 <NoHomeDetailJob />

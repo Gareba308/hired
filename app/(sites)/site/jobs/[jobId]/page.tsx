@@ -102,13 +102,19 @@ const Page = async ({ params }: JobsProps) => {
         },
       },
     },
+    select: {
+      id: true,
+      job_title: true,
+      company_name: true,
+      companyLogo: true
+    }
   });
   const getRandomElement = (array: any[], numElement: number) => {
     const shuffledArray = array.sort(() => Math.random() - 0.5);
     return shuffledArray.slice(0, numElement);
   };
 
-  const randomElements = getRandomElement(similarJobs, 3);
+  const randomElements = getRandomElement(similarJobs, 4);
 
   //  Popular Applied Job
   const allApplications = await db.application.findMany();
@@ -146,6 +152,12 @@ const Page = async ({ params }: JobsProps) => {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
+    select: {
+      id: true,
+      job_title: true,
+      company_name: true,
+      companyLogo: true
+    }
   });
 
   const sortedPopularJobs = jobIDS
@@ -191,6 +203,24 @@ const Page = async ({ params }: JobsProps) => {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
+    select: {
+      id: true,
+      job_title: true,
+      personal_skills: true,
+      category: true,
+      job_type: true,
+      county: true,
+      deadline: true,
+      possible_pay: true,
+      academic: true,
+      ownPlatformMethod: true,
+      experience: true,
+      companyLogo: true,
+      companyId: true,
+      company_name: true,
+      rankTop: true,
+      createdAt: true,
+    }
   });
 
   const reportedThisJob = await db.reportJob.findFirst({

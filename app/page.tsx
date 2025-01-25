@@ -3,7 +3,7 @@ import HomePage from "./(sites)/home/_components/homePage/HomePage";
 import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 const getJobs = async () => {
@@ -14,7 +14,7 @@ const getJobs = async () => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
@@ -25,22 +25,22 @@ const getJobs = async () => {
     },
   });
 
-  return jobs
+  return jobs;
 };
 
 const Page = async () => {
-  const jobs = await getJobs()
+  const jobs = await getJobs();
   return (
     <div>
       <Suspense
-          fallback={
-            <p className="flex flex-col h-full items-center justify-center">
-              <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
-            </p>
-          }
-        >
+        fallback={
+          <div className="flex items-center justify-center h-full">
+            <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
+          </div>
+        }
+      >
         <HomePage jobs={jobs} />
-        </Suspense>
+      </Suspense>
     </div>
   );
 };

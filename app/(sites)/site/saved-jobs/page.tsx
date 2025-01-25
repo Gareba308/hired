@@ -48,7 +48,7 @@ const Page = async () => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
@@ -56,6 +56,25 @@ const Page = async () => {
     },
     orderBy: {
       createdAt: "desc",
+    },
+    select: {
+      id: true,
+      job_title: true,
+      personal_skills: true,
+      category: true,
+      job_type: true,
+      county: true,
+      deadline: true,
+      possible_pay: true,
+      academic: true,
+      ownPlatformMethod: true,
+      numberOfPositions: true,
+      experience: true,
+      companyLogo: true,
+      companyId: true,
+      company_name: true,
+      rankTop: true,
+      createdAt: true,
     },
   });
 
@@ -74,11 +93,30 @@ const Page = async () => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
+    },
+    select: {
+      id: true,
+      job_title: true,
+      personal_skills: true,
+      category: true,
+      job_type: true,
+      county: true,
+      deadline: true,
+      possible_pay: true,
+      academic: true,
+      ownPlatformMethod: true,
+      experience: true,
+      companyLogo: true,
+      companyId: true,
+      company_name: true,
+      rankTop: true,
+      numberOfPositions: true,
+      createdAt: true,
     },
   });
   const employersVacancies: Record<string, number> = {};
@@ -147,11 +185,17 @@ const Page = async () => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
+    },
+    select: {
+      id: true,
+      job_title: true,
+      company_name: true,
+      companyLogo: true,
     },
   });
 
@@ -160,7 +204,6 @@ const Page = async () => {
     .filter((job) => job !== undefined) as Job[];
 
   const finalSortedPopularJobs = sortedPopularJobs.slice(0, 7);
-
 
   return (
     <div className="text-base">

@@ -1,10 +1,16 @@
 "use client";
 
-import { Job } from "@prisma/client";
 import { format } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+interface PopularJob {
+  id: string,
+  job_title: string,
+  company_name: string,
+  companyLogo: string | null,
+  createdAt: Date,
+}
 const JobsSide = ({
   image,
   slug,
@@ -16,7 +22,7 @@ const JobsSide = ({
   image: string;
   slug: string;
   title: string;
-  job: Job;
+  job: PopularJob;
   company: string;
   jobID: string;
 }) => {

@@ -1,4 +1,3 @@
-import { Job } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
@@ -11,8 +10,26 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+interface JobItems {
+  id: string,
+  job_title: string,
+  personal_skills: string[],
+  category: string | null,
+  job_type: string | null,
+  deadline: Date | null,
+  county: string | null,
+  possible_pay: string | null,
+  academic: string | null,
+  ownPlatformMethod: string | null,
+  experience: string | null,
+  companyLogo: string | null,
+  companyId: string,
+  company_name: string,
+  rankTop: boolean,
+  createdAt: Date,
+}
 interface JobCardProps {
-  allJobs: Job[];
+  allJobs: JobItems[];
   userId: string;
 }
 const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
@@ -33,7 +50,6 @@ const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
     <section className="max-w-screen-lg mx-auto">
       <ul className="space-y-3 lg:space-y-4">
         {allJobs.map((item) => {
-          const isMine = allJobs.some((mine) => mine.userId === userId);
           return (
             <li
               key={item.id}

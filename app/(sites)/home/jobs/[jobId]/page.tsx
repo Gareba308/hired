@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
 import FooterJobs from "@/components/FooterJobs";
 
+
 interface JobDetailsProps {
   params: {
     jobId: string;
@@ -19,10 +20,7 @@ const getJob = cache(async (jobId: string) => {
     where: {
       id: jobId,
     },
-    orderBy: [
-      { rankTop: 'desc' },
-      { createdAt: 'desc' },
-    ]
+    orderBy: [{ rankTop: "desc" }, { createdAt: "desc" }],
   });
 
   return jobExists;
@@ -37,7 +35,7 @@ export async function generateStaticParams() {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
@@ -120,7 +118,10 @@ const Page = async ({ params }: JobDetailsProps) => {
   let viewID;
   for (const pair of cookiePairs ? cookiePairs.split(";") : []) {
     const [key, value] = pair.split("=").map((item) => item.trim());
-    if (key === "__Host-next-auth.csrf-token" || key === "next-auth.csrf-token") {
+    if (
+      key === "__Host-next-auth.csrf-token" ||
+      key === "next-auth.csrf-token"
+    ) {
       viewID = value;
       break;
     }
@@ -132,16 +133,31 @@ const Page = async ({ params }: JobDetailsProps) => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
-    orderBy: [
-      { rankTop: 'desc' },
-      { createdAt: 'desc' },
-    ]
+    orderBy: [{ rankTop: "desc" }, { createdAt: "desc" }],
+    select: {
+      id: true,
+      job_title: true,
+      personal_skills: true,
+      category: true,
+      job_type: true,
+      county: true,
+      deadline: true,
+      possible_pay: true,
+      academic: true,
+      ownPlatformMethod: true,
+      experience: true,
+      companyLogo: true,
+      companyId: true,
+      company_name: true,
+      rankTop: true,
+      createdAt: true,
+    },
   });
 
   //  Popular Hot Not Applied
@@ -172,11 +188,17 @@ const Page = async ({ params }: JobDetailsProps) => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
+    },
+    select: {
+      id: true,
+      job_title: true,
+      company_name: true,
+      companyLogo: true,
     },
   });
 
@@ -195,7 +217,7 @@ const Page = async ({ params }: JobDetailsProps) => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
@@ -206,6 +228,12 @@ const Page = async ({ params }: JobDetailsProps) => {
         },
       },
     },
+    select: {
+      id: true,
+      job_title: true,
+      company_name: true,
+      companyLogo: true,
+    },
   });
   const getRandomElement = (array: any[], numElement: number) => {
     const shuffledArray = array.sort(() => Math.random() - 0.5);
@@ -214,11 +242,6 @@ const Page = async ({ params }: JobDetailsProps) => {
 
   const randomElements = getRandomElement(similarJobs, 3);
 
-  const companyProfile= await db.company.findFirst({
-    where: {
-      id: jobExists.companyId
-    }
-  })
   return (
     <>
       <div className="mt-5 bg-white h-full min-h-[calc(100vh-70px)]">
@@ -228,7 +251,6 @@ const Page = async ({ params }: JobDetailsProps) => {
           popular={finalSortedPopularJobs}
           job={jobExists}
           similarJobs={randomElements}
-          companyProfile={companyProfile}
         />
       </div>
       <FooterJobs />

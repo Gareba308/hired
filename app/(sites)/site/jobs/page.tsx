@@ -4,8 +4,7 @@ import NoJobs from "../_components/job/NoJobs";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import { Job, Prisma } from "@prisma/client";
-import { headers } from "next/headers";
+import { Job} from "@prisma/client";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -40,7 +39,25 @@ const Page = async () => {
     orderBy: [
       { rankTop: 'desc' },
       { createdAt: 'desc' },
-    ]
+    ],
+    select: {
+      id: true,
+      job_title: true,
+      personal_skills: true,
+      category: true,
+      job_type: true,
+      county: true,
+      deadline: true,
+      possible_pay: true,
+      academic: true,
+      ownPlatformMethod: true,
+      experience: true,
+      companyLogo: true,
+      companyId: true,
+      company_name: true,
+      rankTop: true,
+      createdAt: true,
+    }
   });
   const myApplications = await db.application.findMany({
     where: {
@@ -116,6 +133,12 @@ const Page = async () => {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
+    select: {
+      id: true,
+      job_title: true,
+      company_name: true,
+      companyLogo: true
+    }
   });
 
   const sortedPopularJobs = jobIDS

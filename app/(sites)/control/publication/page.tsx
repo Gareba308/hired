@@ -38,7 +38,26 @@ const Page = async () => {
       { rankTop: 'desc' },
       { createdAt: 'desc' },
     ],
-    take: 100
+    select: {
+      id: true,
+      job_title: true,
+      personal_skills: true,
+      category: true,
+      job_type: true,
+      county: true,
+      deadline: true,
+      possible_pay: true,
+      academic: true,
+      ownPlatformMethod: true,
+      experience: true,
+      companyLogo: true,
+      companyId: true,
+      company_name: true,
+      rankTop: true,
+      published: true,
+      createdAt: true,
+    },
+    take: 100,
   });
 
   if (myJobs.length === 0) {

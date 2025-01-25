@@ -16,7 +16,6 @@ import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { cn } from "@/lib/utils";
 import JobCard1 from "./JobCard1";
-import { Job, Company } from "@prisma/client";
 import {
   academics,
   categories,
@@ -30,6 +29,7 @@ import React from "react";
 import NoSearchResult from "./NoSearchResults";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import JobDetails from "./JobDetails";
+import { Job} from "@prisma/client";
 import NoHomeDetailJob from "./NoHomeDetailJob";
 
 const useScreenSize = () => {
@@ -85,18 +85,45 @@ const sortByOptions = [
   { label: "Deadline: Sooner to Later", value: "deadline_asc" },
 ];
 
+interface JobItems {
+  id: string,
+  job_title: string,
+  personal_skills: string[],
+  category: string | null,
+  job_type: string | null,
+  deadline: Date | null,
+  county: string | null,
+  possible_pay: string | null,
+  academic: string | null,
+  ownPlatformMethod: string | null,
+  experience: string | null,
+  companyLogo: string | null,
+  companyId: string,
+  company_name: string,
+  rankTop: boolean,
+  createdAt: Date,
+}
+
+interface PopularJob {
+  id: string,
+  job_title: string,
+  company_name: string,
+  companyLogo: string | null,
+  createdAt: Date,
+}
+
 interface HomeJobsNavBarProps {
   jobs: Job[];
   viewID: string;
-  popular: Job[];
-  companyProfiles: Company[];
+  popular: PopularJob[];
+  detailedJobs: JobItems[];
 }
 
 const HomeJobsNavBar = ({
   jobs,
   viewID,
   popular,
-  companyProfiles,
+  detailedJobs,
 }: HomeJobsNavBarProps) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
@@ -655,9 +682,6 @@ const HomeJobsNavBar = ({
     ? jobs.filter((job) => job.category === firstJobCategory).slice(0, 3)
     : [];
 
-  const companyProfile =
-    companyProfiles.find((company) => company.id === firstJob?.companyId) ||
-    null;
   return (
     <>
       <div className="border-b border-gray-200 pb-3 md:pb-6">
@@ -2075,8 +2099,7 @@ const HomeJobsNavBar = ({
                     viewID={viewID}
                     similarJobs={resultantSimilarJobs}
                     popularJobs={popular}
-                    allJobs={jobs}
-                    companyProfile={companyProfile}
+                    allJobs={detailedJobs}
                   />
                 </div>
               </div>

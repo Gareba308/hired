@@ -28,7 +28,25 @@ const Page = async () => {
     orderBy: [
       { rankTop: 'desc' },
       { createdAt: 'desc' },
-    ]
+    ],
+    select: {
+      id: true,
+      job_title: true,
+      personal_skills: true,
+      category: true,
+      job_type: true,
+      county: true,
+      deadline: true,
+      possible_pay: true,
+      academic: true,
+      ownPlatformMethod: true,
+      experience: true,
+      companyLogo: true,
+      companyId: true,
+      company_name: true,
+      rankTop: true,
+      createdAt: true,
+    }
   });
 
   const session = await getServerSession(authOptions);

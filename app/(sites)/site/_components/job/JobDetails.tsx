@@ -38,13 +38,39 @@ import {
 } from "@/components/ui/breadcrumb";
 import JobsSide from "./JobsSide";
 
+interface JobItems {
+  id: string,
+  job_title: string,
+  personal_skills: string[],
+  category: string | null,
+  job_type: string | null,
+  deadline: Date | null,
+  county: string | null,
+  possible_pay: string | null,
+  academic: string | null,
+  ownPlatformMethod: string | null,
+  experience: string | null,
+  companyLogo: string | null,
+  companyId: string,
+  company_name: string,
+  rankTop: boolean,
+  createdAt: Date,
+}
+
+interface PopularJob {
+  id: string,
+  job_title: string,
+  company_name: string,
+  companyLogo: string | null,
+  createdAt: Date,
+}
 interface JobDetailsProps {
   job: Job;
   companyProfile: Company | null;
-  similarJobs: Job[];
-  popularJobs: Job[];
+  similarJobs: PopularJob[];
+  popularJobs: PopularJob[];
   userID: string;
-  allJobs: Job[];
+  allJobs: JobItems[];
   jobId: string;
   isSaved: boolean;
   thisApplication: Application | null;
@@ -76,7 +102,7 @@ export const addToRecentlyViewed = (userId: string, job: Job): void => {
     job_title,
   });
 
-  const maxItems = 3;
+  const maxItems = 4;
   recentlyViewedJobs = recentlyViewedJobs.slice(0, maxItems);
   localStorage.setItem(storageKey, JSON.stringify(recentlyViewedJobs));
 };

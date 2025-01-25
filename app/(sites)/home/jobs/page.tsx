@@ -103,10 +103,40 @@ const Page = async () => {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
-    orderBy: [
-      { rankTop: 'desc' },
-      { createdAt: 'desc' },
-    ]
+    orderBy: [{ rankTop: "desc" }, { createdAt: "desc" }],
+  });
+
+  const detailedJobs = await db.job.findMany({
+    where: {
+      deadline: {
+        gte: currentDate,
+      },
+      published: {
+        equals: true,
+      },
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+      },
+    },
+    orderBy: [{ rankTop: "desc" }, { createdAt: "desc" }],
+    select: {
+      id: true,
+      job_title: true,
+      personal_skills: true,
+      category: true,
+      job_type: true,
+      county: true,
+      deadline: true,
+      possible_pay: true,
+      academic: true,
+      ownPlatformMethod: true,
+      experience: true,
+      companyLogo: true,
+      companyId: true,
+      company_name: true,
+      rankTop: true,
+      createdAt: true,
+    }
   });
 
   //  Popular Hot Not Applied
@@ -137,12 +167,18 @@ const Page = async () => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
+    select: {
+      id: true,
+      job_title: true,
+      company_name: true,
+      companyLogo: true
+    }
   });
 
   const sortedPopularJobs = jobIDS
@@ -151,29 +187,21 @@ const Page = async () => {
 
   const finalSortedPopularJobs = sortedPopularJobs.slice(0, 4);
 
-  const liveJobsCompanyIDS = jobs.flatMap((job) => job.companyId);
-  const companyProfiles = await db.company.findMany({
-    where: {
-      id: {
-        in: liveJobsCompanyIDS,
-      },
-    },
-  });
   return (
     <>
       <section className="mt-5 bg-white h-full min-h-[calc(100vh-70px)]">
         <Suspense
           fallback={
-            <p className="flex flex-col h-full items-center justify-center">
+            <div className="flex items-center justify-center h-full">
               <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
-            </p>
+            </div>
           }
         >
           <HomeJobsNavBar
             jobs={jobs}
             viewID={viewID as string}
             popular={finalSortedPopularJobs}
-            companyProfiles={companyProfiles}
+            detailedJobs={detailedJobs}
           />
         </Suspense>
       </section>

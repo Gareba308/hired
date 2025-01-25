@@ -1,4 +1,3 @@
-import { Job } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
@@ -11,8 +10,27 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+interface JobItems {
+  id: string,
+  job_title: string,
+  personal_skills: string[],
+  category: string | null,
+  job_type: string | null,
+  deadline: Date | null,
+  published: boolean | null,
+  county: string | null,
+  possible_pay: string | null,
+  academic: string | null,
+  ownPlatformMethod: string | null,
+  experience: string | null,
+  companyLogo: string | null,
+  companyId: string,
+  company_name: string,
+  rankTop: boolean,
+  createdAt: Date,
+}
 interface MyJobCardProps {
-  allJobs: Job[];
+  allJobs: JobItems[];
 }
 const MyJobCard = ({ allJobs }: MyJobCardProps) => {
   const router = useRouter();

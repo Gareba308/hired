@@ -1,14 +1,32 @@
 "use client";
 
-import { Job } from "@prisma/client";
 import UnpublishedJobCard from "./UnpublishedJobCard";
 import { Briefcase, Rocket } from "lucide-react";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 
 const pageSize = 20;
+interface JobItems {
+  id: string,
+  job_title: string,
+  personal_skills: string[],
+  category: string | null,
+  job_type: string | null,
+  deadline: Date | null,
+  county: string | null,
+  possible_pay: string | null,
+  academic: string | null,
+  ownPlatformMethod: string | null,
+  experience: string | null,
+  companyLogo: string | null,
+  companyId: string,
+  company_name: string,
+  rankTop: boolean,
+  published: boolean | null,
+  createdAt: Date,
+}
 interface AllMyJobsProps {
-  myJobs: Job[];
+  myJobs: JobItems[];
 }
 
 export default function UnpublishedJobs({ myJobs }: AllMyJobsProps) {

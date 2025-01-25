@@ -16,7 +16,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { cn } from "@/lib/utils";
 import JobCard1 from "./JobCard1";
-import { Job, Company } from "@prisma/client";
+import { Job} from "@prisma/client";
 import {
   academics,
   categories,
@@ -85,12 +85,18 @@ const sortByOptions = [
   { label: "Deadline: Sooner to Later", value: "deadline_asc" },
 ];
 
+interface PopularJob {
+  id: string,
+  job_title: string,
+  company_name: string,
+  companyLogo: string | null,
+  createdAt: Date,
+}
 interface HomeJobsNavBarProps {
   jobs: Job[];
   viewID: string;
-  popular: Job[];
+  popular: PopularJob[];
   slug: string;
-  companyProfiles: Company[];
 }
 
 const HomeCompaniesNavBar = ({
@@ -98,7 +104,6 @@ const HomeCompaniesNavBar = ({
   viewID,
   slug,
   popular,
-  companyProfiles,
 }: HomeJobsNavBarProps) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
@@ -657,9 +662,6 @@ const HomeCompaniesNavBar = ({
   ? jobs.filter((job) => job.category === firstJobCategory).slice(0, 3)
   : [];
 
-  const companyProfile =
-    companyProfiles.find((company) => company.id === firstJob?.companyId) ||
-    null;
   return (
     <>
       <div className="border-b border-gray-200 pb-2">
@@ -2089,7 +2091,6 @@ const HomeCompaniesNavBar = ({
                     similarJobs={resultantSimilarJobs}
                     popularJobs={popular}
                     allJobs={jobs}
-                    companyProfile={companyProfile}
                   />
                 </div>
               </div>

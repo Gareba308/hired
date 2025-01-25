@@ -1,5 +1,4 @@
 "use client";
-import { Job } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Bookmark } from "lucide-react";
 import {
@@ -12,11 +11,19 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { Job} from "@prisma/client";
 import AdSenseAd from "@/components/Adsense";
 
+interface PopularJob {
+  id: string,
+  job_title: string,
+  company_name: string,
+  companyLogo: string | null,
+  createdAt: Date,
+}
 interface JobCardProps {
   allJobs: Job[];
-  popular: Job[];
+  popular: PopularJob[];
 }
 const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
   const router = useRouter();

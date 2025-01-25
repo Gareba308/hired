@@ -31,24 +31,21 @@ const getSubcategoryJobs = async (slug: string) => {
   const subcategory = convertFromSlug(slug);
   const jobs = await db.job.findMany({
     where: {
-        subCategory: {
-            equals: subcategory,
-            mode: "insensitive",
-        },
+      subCategory: {
+        equals: subcategory,
+        mode: "insensitive",
+      },
       deadline: {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
     },
-    orderBy: [
-      { rankTop: 'desc' },
-      { createdAt: 'desc' },
-    ]
+    orderBy: [{ rankTop: "desc" }, { createdAt: "desc" }],
   });
 
   return jobs;
@@ -63,7 +60,7 @@ export async function generateStaticParams() {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
@@ -73,9 +70,9 @@ export async function generateStaticParams() {
       subCategory: true,
     },
   });
-  
+
   const uniqueCompanies = new Set<string>();
-  
+
   jobs.forEach((job) => {
     if (job?.subCategory) {
       uniqueCompanies.add(job.subCategory);
@@ -86,7 +83,6 @@ export async function generateStaticParams() {
     slug: slugify(subcategory),
   }));
 }
-
 
 export async function generateMetadata({
   params,
@@ -188,9 +184,9 @@ const Page = async ({ params }: SubcategoryProps) => {
     }
   }
   const currentDate = new Date();
-  const jobs = await getSubcategoryJobs(slug)
+  const jobs = await getSubcategoryJobs(slug);
 
- //Popular job
+  //Popular job
   const allApplications = await db.application.findMany();
   const applicationsCounts: Record<string, number> = {};
   allApplications.forEach((application) => {
@@ -218,11 +214,17 @@ const Page = async ({ params }: SubcategoryProps) => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
+    },
+    select: {
+      id: true,
+      job_title: true,
+      company_name: true,
+      companyLogo: true,
     },
   });
 
@@ -232,22 +234,14 @@ const Page = async ({ params }: SubcategoryProps) => {
 
   const finalSortedPopularJobs = sortedPopularJobs.slice(0, 4);
 
-  const liveJobsCompanyIDS = jobs.flatMap((job) => job.companyId);
-  const companyProfiles = await db.company.findMany({
-    where: {
-      id: {
-        in: liveJobsCompanyIDS,
-      },
-    },
-  });
   return (
     <>
       <section className="mt-5 bg-white h-full min-h-[calc(100vh-70px)]">
         <Suspense
           fallback={
-            <p className="flex flex-col h-full items-center justify-center">
+            <div className="flex items-center justify-center h-full">
               <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
-            </p>
+            </div>
           }
         >
           <HomeJobsNavBar
@@ -255,7 +249,6 @@ const Page = async ({ params }: SubcategoryProps) => {
             viewID={viewID as string}
             subcategory={subcategory}
             popular={finalSortedPopularJobs}
-            companyProfiles={companyProfiles}
           />
         </Suspense>
       </section>

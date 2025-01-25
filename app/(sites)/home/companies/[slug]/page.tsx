@@ -40,7 +40,7 @@ const getCompanyJobs = async (slug: string) => {
     },
   });
 
-  const filteredJobs = jobs.filter(job => {
+  const filteredJobs = jobs.filter((job) => {
     const normalizedJobCompanyName = job.company_name.trim().toLowerCase();
     return normalizedJobCompanyName === trueCompanyName.toLowerCase();
   });
@@ -173,7 +173,7 @@ const Page = async ({ params }: CompanyProps) => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
@@ -200,9 +200,9 @@ const Page = async ({ params }: CompanyProps) => {
       <section className="mt-5 bg-white h-full min-h-[calc(100vh-70px)]">
         <Suspense
           fallback={
-            <p className="flex flex-col h-full items-center justify-center">
+            <div className="flex items-center justify-center h-full">
               <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
-            </p>
+            </div>
           }
         >
           <HomeCompaniesNavBar

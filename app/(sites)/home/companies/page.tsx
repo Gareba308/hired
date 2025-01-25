@@ -14,9 +14,9 @@ type CompanyJob = {
   numberOfOccurrence: number;
 };
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
-export const dynamicParams= true
+export const dynamicParams = true;
 
 const getJobs = async () => {
   const currentDate = new Date();
@@ -31,7 +31,7 @@ const getJobs = async () => {
     },
   });
 
-  return jobs
+  return jobs;
 };
 
 const currentYear = new Date().getFullYear();
@@ -39,8 +39,7 @@ export const metadata: Metadata = {
   title: {
     absolute: `Top Companies Hiring Now in Kenya | Latest Job Openings ${currentYear}`,
   },
-  description:
-    "Explore top employers hiring in Kenya with the latest job openings. Find career opportunities in leading companies actively recruiting talent for 2024.",
+  description: `Explore top employers hiring in Kenya with the latest job openings. Find career opportunities in leading companies actively recruiting talent for ${currentYear}.`,
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -48,8 +47,7 @@ export const metadata: Metadata = {
     title: {
       absolute: `Top Companies Hiring Now in Kenya | Latest Job Openings ${currentYear}`,
     },
-    description:
-      "Explore top employers hiring in Kenya with the latest job openings. Find career opportunities in leading companies actively recruiting talent for 2024.",
+    description: `Explore top employers hiring in Kenya with the latest job openings. Find career opportunities in leading companies actively recruiting talent for ${currentYear}.`,
     siteName: siteConfig.name,
     images: [
       {
@@ -85,8 +83,7 @@ export const metadata: Metadata = {
     title: {
       absolute: `Top Companies Hiring Now in Kenya | Latest Job Openings ${currentYear}`,
     },
-    description:
-      "Explore top employers hiring in Kenya with the latest job openings. Find career opportunities in leading companies actively recruiting talent for 2024.",
+    description: `Explore top employers hiring in Kenya with the latest job openings. Find career opportunities in leading companies actively recruiting talent for ${currentYear}.`,
     images: [
       {
         url: siteConfig.ogCompanies,
@@ -101,7 +98,7 @@ export const metadata: Metadata = {
 };
 
 const Page = async () => {
-  const jobs=  await getJobs()
+  const jobs = await getJobs();
 
   const companyJobs = jobs.reduce<Record<string, CompanyJob>>(
     (acc, job: Job) => {
@@ -131,9 +128,9 @@ const Page = async () => {
         </h1>
         <Suspense
           fallback={
-            <p className="flex flex-col h-full items-center justify-center">
+            <div className="flex items-center justify-center h-full">
               <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
-            </p>
+            </div>
           }
         >
           <TopCompanies companies={result} />

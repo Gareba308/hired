@@ -1,10 +1,8 @@
-import { Job } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import {
   Tooltip,
   TooltipContent,
@@ -12,8 +10,27 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+interface JobItems {
+  id: string,
+  job_title: string,
+  personal_skills: string[],
+  category: string | null,
+  job_type: string | null,
+  deadline: Date | null,
+  county: string | null,
+  possible_pay: string | null,
+  academic: string | null,
+  ownPlatformMethod: string | null,
+  experience: string | null,
+  companyLogo: string | null,
+  companyId: string,
+  company_name: string,
+  rankTop: boolean,
+  published: boolean | null,
+  createdAt: Date,
+}
 interface UnpublishedJobCardProps {
-  allJobs: Job[];
+  allJobs: JobItems[];
 }
 const UnpublishedJobCard = ({ allJobs }: UnpublishedJobCardProps) => {
   const router = useRouter();

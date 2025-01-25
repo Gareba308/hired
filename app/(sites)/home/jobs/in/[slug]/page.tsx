@@ -27,7 +27,6 @@ const slugify = (str: string): string => {
     .replace(/--+/g, "-");
 };
 
-
 const getPopularSearchesJobs = async (slug: string) => {
   const currentDate = new Date();
   let filterConditions: any = {
@@ -35,10 +34,10 @@ const getPopularSearchesJobs = async (slug: string) => {
       gte: currentDate,
     },
     published: {
-      equals: true
+      equals: true,
     },
     createdAt: {
-      gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000), 
+      gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
     },
   };
 
@@ -72,10 +71,7 @@ const getPopularSearchesJobs = async (slug: string) => {
 
   const jobs = await db.job.findMany({
     where: filterConditions,
-    orderBy: [
-      { rankTop: 'desc' },
-      { createdAt: 'desc' },
-    ]
+    orderBy: [{ rankTop: "desc" }, { createdAt: "desc" }],
   });
 
   return jobs;
@@ -89,7 +85,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: PopularProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PopularProps): Promise<Metadata> {
   const capitalize = (str: string): string => {
     return str
       .split(" ")
@@ -131,8 +129,8 @@ export async function generateMetadata({ params }: PopularProps): Promise<Metada
       break;
 
     case "internship":
-      title =  `Internship Opportunities and Vacancies in Kenya: Kickstart Your Career`,
-      description = `Explore the best internship opportunities in Kenya. Find valuable internships across industries and apply to jumpstart your career.`;
+      (title = `Internship Opportunities and Vacancies in Kenya: Kickstart Your Career`),
+        (description = `Explore the best internship opportunities in Kenya. Find valuable internships across industries and apply to jumpstart your career.`);
       keywords = [
         "Internship opportunities in Kenya",
         "Kenya internships",
@@ -177,7 +175,7 @@ export async function generateMetadata({ params }: PopularProps): Promise<Metada
 
   return {
     title: {
-      absolute: title
+      absolute: title,
     },
     description,
     keywords,
@@ -186,7 +184,7 @@ export async function generateMetadata({ params }: PopularProps): Promise<Metada
       locale: "en_US",
       url: siteConfig.url,
       title: {
-        absolute: title
+        absolute: title,
       },
       description,
       siteName: siteConfig.name,
@@ -208,7 +206,7 @@ export async function generateMetadata({ params }: PopularProps): Promise<Metada
     twitter: {
       card: "summary_large_image",
       title: {
-        absolute: title
+        absolute: title,
       },
       description,
       images: [
@@ -224,7 +222,6 @@ export async function generateMetadata({ params }: PopularProps): Promise<Metada
     },
   };
 }
-
 
 const Page = async ({ params }: PopularProps) => {
   const { slug } = params;
@@ -273,11 +270,17 @@ const Page = async ({ params }: PopularProps) => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
+    },
+    select: {
+      id: true,
+      job_title: true,
+      company_name: true,
+      companyLogo: true,
     },
   });
 
@@ -287,22 +290,14 @@ const Page = async ({ params }: PopularProps) => {
 
   const finalSortedPopularJobs = sortedPopularJobs.slice(0, 4);
 
-  const liveJobsCompanyIDS = jobs.flatMap((job) => job.companyId);
-  const companyProfiles = await db.company.findMany({
-    where: {
-      id: {
-        in: liveJobsCompanyIDS,
-      },
-    },
-  });
   return (
     <>
       <section className="mt-5 bg-white h-full min-h-[calc(100vh-70px)]">
         <Suspense
           fallback={
-            <p className="flex flex-col h-full items-center justify-center">
+            <div className="flex items-center justify-center h-full">
               <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
-            </p>
+            </div>
           }
         >
           <HomeCompaniesNavBar
@@ -310,7 +305,6 @@ const Page = async ({ params }: PopularProps) => {
             viewID={viewID as string}
             slug={trueSlugName}
             popular={finalSortedPopularJobs}
-            companyProfiles={companyProfiles}
           />
         </Suspense>
       </section>

@@ -14,7 +14,7 @@ import {
   Mail,
   Share2,
 } from "lucide-react";
-import { Job, Company } from "@prisma/client";
+import { Job} from "@prisma/client";
 import JobsSide from "./JobsSide";
 import { format, formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -25,13 +25,20 @@ import { Preview } from "@/components/Preview";
 import { useEffect, useState } from "react";
 import RecentlyViewedLoader from "@/components/RecentlyViewedLoader";
 import { useToast } from "@/components/ui/use-toast";
+interface PopularJob {
+  id: string,
+  job_title: string,
+  company_name: string,
+  companyLogo: string | null,
+  createdAt: Date,
+}
+
 interface JobDetailsProps {
   job: Job;
   similarJobs: Job[];
-  popularJobs: Job[];
+  popularJobs: PopularJob[];
   allJobs: Job[];
   viewID: string;
-  companyProfile: Company | null;
 }
 
 interface StoredJob {
@@ -78,7 +85,6 @@ export default function JobDetails({
   job,
   similarJobs,
   popularJobs,
-  companyProfile,
   allJobs,
   viewID,
 }: JobDetailsProps) {

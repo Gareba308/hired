@@ -14,7 +14,7 @@ import {
 import ReactPaginate from "react-paginate";
 import { cn } from "@/lib/utils";
 import JobCard1 from "./JobCard1";
-import { Application, Job, SavedJobs } from "@prisma/client";
+import { Application, SavedJobs } from "@prisma/client";
 import {
   academics,
   categories,
@@ -71,12 +71,38 @@ const useScreenSize2 = () => {
 };
 
 const pageSize = 20;
+
+interface JobItems {
+  id: string,
+  job_title: string,
+  personal_skills: string[],
+  category: string | null,
+  job_type: string | null,
+  deadline: Date | null,
+  county: string | null,
+  possible_pay: string | null,
+  academic: string | null,
+  ownPlatformMethod: string | null,
+  experience: string | null,
+  companyLogo: string | null,
+  companyId: string,
+  company_name: string,
+  rankTop: boolean,
+  createdAt: Date,
+}
+interface PopularJob {
+  id: string,
+  job_title: string,
+  company_name: string,
+  companyLogo: string | null,
+  createdAt: Date,
+}
 interface AllJobsProps {
-  jobs: Job[];
+  jobs: JobItems[];
   userId: string;
   myApplications: Application[];
   mySavedJobs: SavedJobs[];
-  popular: Job[];
+  popular: PopularJob[];
 }
 
 const sortByOptions = [

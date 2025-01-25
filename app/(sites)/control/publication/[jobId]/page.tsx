@@ -21,7 +21,7 @@ export async function generateStaticParams() {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
@@ -54,7 +54,7 @@ const Page = async ({ params }: UnpublishedJobsDetailsProps) => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
@@ -65,13 +65,19 @@ const Page = async ({ params }: UnpublishedJobsDetailsProps) => {
         },
       },
     },
+    select: {
+      id: true,
+      job_title: true,
+      company_name: true,
+      companyLogo: true,
+    },
   });
   const getRandomElement = (array: any[], numElement: number) => {
     const shuffledArray = array.sort(() => Math.random() - 0.5);
     return shuffledArray.slice(0, numElement);
   };
 
-  const randomElements = getRandomElement(similarJobs, 10);
+  const randomElements = getRandomElement(similarJobs, 5);
 
   //  Popular Applied Job
   const allApplications = await db.application.findMany();
@@ -103,11 +109,17 @@ const Page = async ({ params }: UnpublishedJobsDetailsProps) => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
+    },
+    select: {
+      id: true,
+      job_title: true,
+      company_name: true,
+      companyLogo: true,
     },
   });
 
@@ -115,7 +127,7 @@ const Page = async ({ params }: UnpublishedJobsDetailsProps) => {
     .map((jobId) => popularJobs.find((job) => job.id === jobId))
     .filter((job) => job !== undefined) as Job[];
 
-  const finalSortedPopularJobs = sortedPopularJobs.slice(0, 10);
+  const finalSortedPopularJobs = sortedPopularJobs.slice(0, 5);
 
   const companyProfile = await db.company.findFirst({
     where: {
@@ -127,7 +139,26 @@ const Page = async ({ params }: UnpublishedJobsDetailsProps) => {
   if (!session) redirect("/home/login");
   const userID = session.id;
 
-  const allJobs = await db.job.findMany();
+  const allJobs = await db.job.findMany({
+    select: {
+      id: true,
+      job_title: true,
+      personal_skills: true,
+      category: true,
+      job_type: true,
+      county: true,
+      deadline: true,
+      possible_pay: true,
+      academic: true,
+      ownPlatformMethod: true,
+      experience: true,
+      companyLogo: true,
+      companyId: true,
+      company_name: true,
+      rankTop: true,
+      createdAt: true,
+    },
+  });
   return (
     <div className="space-y-6  pb-5 max-w-7xl min-h-[calc(100vh-80px)] mx-auto bg-white px-4 md:px-6 text-gray-700 rounded-lg">
       <UnpublishedJobsDetails
