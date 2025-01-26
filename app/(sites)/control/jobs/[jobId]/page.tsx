@@ -66,6 +66,7 @@ const Page = async ({ params }: JobsProps) => {
       job_title: true,
       company_name: true,
       companyLogo: true,
+      createdAt: true,
     },
   });
   const getRandomElement = (array: any[], numElement: number) => {
