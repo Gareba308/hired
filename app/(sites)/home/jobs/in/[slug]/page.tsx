@@ -281,6 +281,7 @@ const Page = async ({ params }: PopularProps) => {
       job_title: true,
       company_name: true,
       companyLogo: true,
+      createdAt: true,
     },
   });
 

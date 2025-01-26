@@ -137,7 +137,8 @@ const Page = async () => {
       id: true,
       job_title: true,
       company_name: true,
-      companyLogo: true
+      companyLogo: true,
+      createdAt: true,
     }
   });
 

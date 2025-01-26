@@ -225,6 +225,7 @@ const Page = async ({ params }: SubcategoryProps) => {
       job_title: true,
       company_name: true,
       companyLogo: true,
+      createdAt: true,
     },
   });
 
