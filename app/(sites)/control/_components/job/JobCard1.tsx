@@ -9,30 +9,33 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Copy } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 interface JobItems {
-  id: string,
-  job_title: string,
-  personal_skills: string[],
-  category: string | null,
-  job_type: string | null,
-  deadline: Date | null,
-  county: string | null,
-  possible_pay: string | null,
-  academic: string | null,
-  ownPlatformMethod: string | null,
-  experience: string | null,
-  companyLogo: string | null,
-  companyId: string,
-  company_name: string,
-  rankTop: boolean,
-  createdAt: Date,
+  id: string;
+  job_title: string;
+  personal_skills: string[];
+  category: string | null;
+  job_type: string | null;
+  deadline: Date | null;
+  county: string | null;
+  possible_pay: string | null;
+  academic: string | null;
+  ownPlatformMethod: string | null;
+  experience: string | null;
+  companyLogo: string | null;
+  companyId: string;
+  company_name: string;
+  rankTop: boolean;
+  createdAt: Date;
 }
 interface JobCardProps {
   allJobs: JobItems[];
   userId: string;
 }
 const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
+  const { toast } = useToast();
   function getInitials(fullName: string): string {
     const nameParts = fullName.split(" ");
 
@@ -47,6 +50,27 @@ const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
   }
 
   const router = useRouter();
+  const handleCopyClick = async (jobId: string): Promise<void> => {
+    const jobUrl: string = `https://www.hired.co.ke/home/jobs/${jobId}`;
+
+    try {
+      await navigator.clipboard.writeText(jobUrl);
+      toast({
+        title: "Job link copied",
+        description: "The job's URL link has been copied to clipboard.",
+        variant: "default",
+        duration: 3000,
+      });
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Was unable to copy the job's URL link",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+  };
+
   return (
     <section className="max-w-screen-lg mx-auto">
       <ul className="space-y-3 lg:space-y-4">
@@ -102,7 +126,7 @@ const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="inline-flex items-center text-xs font-medium text-green-700">
+                            <span className="inline-flex items-center text-xs font-medium text-emerald-800">
                               Quick Apply
                             </span>
                           </TooltipTrigger>
@@ -118,7 +142,7 @@ const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="inline-flex items-center text-xs font-medium text-indigo-700">
+                            <span className="inline-flex items-center text-xs font-medium text-sky-800">
                               External Apply
                             </span>
                           </TooltipTrigger>
@@ -130,6 +154,15 @@ const JobCard1 = ({ allJobs, userId }: JobCardProps) => {
                         </Tooltip>
                       </TooltipProvider>
                     )}
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      title="Copy button"
+                      onClick={() => handleCopyClick(item.id)}
+                    >
+                      <Copy className="h-4 w-4 rounded-none text-gray-600 font-normal" />
+                    </button>
                   </div>
                 </div>
                 <Link

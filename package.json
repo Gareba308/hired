@@ -20,7 +20,7 @@
     "@mui/material": "^5.14.20",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@next/third-parties": "^14.2.6",
-    "@prisma/client": "^6.1.0",
+    "@prisma/client": "^6.3.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
@@ -112,6 +112,6 @@
     "@types/pdf-parse": "^1.1.4",
     "@types/sanitize-html": "^2.11.0",
     "@types/ua-parser-js": "^0.7.39",
-    "prisma": "^6.1.0"
+    "prisma": "^6.3.0"
   }
 }

@@ -10,11 +10,14 @@ import {
 } from "@/components/ui/tooltip";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Copy } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 interface JobCardProps {
   allJobs: Job[];
 }
 const JobCard3 = ({ allJobs }: JobCardProps) => {
+  const { toast } = useToast();
   function getInitials(fullName: string): string {
     const nameParts = fullName.split(" ");
 
@@ -29,6 +32,28 @@ const JobCard3 = ({ allJobs }: JobCardProps) => {
   }
 
   const router = useRouter();
+
+  const handleCopyClick = async (jobId: string): Promise<void> => {
+    const jobUrl: string = `https://www.hired.co.ke/home/jobs/${jobId}`;
+
+    try {
+      await navigator.clipboard.writeText(jobUrl);
+      toast({
+        title: "Job link copied",
+        description: "The job's URL link has been copied to clipboard.",
+        variant: "default",
+        duration: 3000,
+      });
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Was unable to copy the job's URL link",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+  };
+
   return (
     <section className="max-w-screen-lg mx-auto">
       <ul className="space-y-3 lg:space-y-4">
@@ -84,7 +109,7 @@ const JobCard3 = ({ allJobs }: JobCardProps) => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="inline-flex items-center text-xs font-medium text-green-700">
+                            <span className="inline-flex items-center text-xs font-medium text-emerald-800">
                               Quick Apply
                             </span>
                           </TooltipTrigger>
@@ -100,7 +125,7 @@ const JobCard3 = ({ allJobs }: JobCardProps) => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="inline-flex items-center text-xs font-medium text-indigo-700">
+                            <span className="inline-flex items-center text-xs font-medium text-sky-800">
                               External Apply
                             </span>
                           </TooltipTrigger>
@@ -113,62 +138,81 @@ const JobCard3 = ({ allJobs }: JobCardProps) => {
                       </TooltipProvider>
                     )}
                   </div>
-                </div>
-                <Link href={`/control/jobs/${item.id}?origin=control/jobs`} title={item.job_title}>
-                <div
-                  className="text-lg lg:text-[16.3px] w-full -mt-0.5 block cursor-pointer font-medium text-primary hover:text-[#005580]"
-                >
-                  <span className="line-clamp-1 w-full">
-                    {item.job_title}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between gap-x-4 w-full">
-                  <div className="text-[13px] lg:mb-[1px] font-medium -mt-1 text-gray-600 line-clamp-1">
-                    {item.company_name}
+                  <div>
+                    <button
+                      type="button"
+                      title="Copy button"
+                      onClick={() => handleCopyClick(item.id)}
+                    >
+                      <Copy className="h-4 w-4 rounded-none text-gray-600 font-normal" />
+                    </button>
                   </div>
-                  <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
-                    <span suppressHydrationWarning className="line-clamp-1">
+                </div>
+                <Link
+                  href={`/control/jobs/${item.id}?origin=control/jobs`}
+                  title={item.job_title}
+                >
+                  <div className="text-lg lg:text-[16.3px] w-full -mt-0.5 block cursor-pointer font-medium text-primary hover:text-[#005580]">
+                    <span className="line-clamp-1 w-full">
+                      {item.job_title}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between gap-x-4 w-full">
+                    <div className="text-[13px] lg:mb-[1px] font-medium -mt-1 text-gray-600 line-clamp-1">
+                      {item.company_name}
+                    </div>
+                    <p className="text-xs sm:flex hidden font-normal text-gray-600 line-clamp-1">
+                      <span suppressHydrationWarning className="line-clamp-1">
+                        {formatDistanceToNowStrict(item.createdAt, {
+                          addSuffix: true,
+                        })}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="flex h-4 w-full items-center space-x-1.5">
+                    <div className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-[14px] w-[14px] text-gray-500 mr-0.5 sm:mr-[3px]"
+                      >
+                        <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                      <p className="text-xs font-normal text-gray-600 line-clamp-1">
+                        {item.county}
+                      </p>
+                    </div>
+                    <Separator
+                      orientation="vertical"
+                      className="text-gray-500"
+                    />
+                    <p className="text-xs font-normal text-gray-600 line-clamp-1">
+                      {item.job_type}
+                    </p>
+                    <Separator
+                      orientation="vertical"
+                      className="text-gray-500"
+                    />
+                    <p
+                      suppressHydrationWarning
+                      className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1"
+                    >
                       {formatDistanceToNowStrict(item.createdAt, {
                         addSuffix: true,
                       })}
-                    </span>
-                  </p>
-                </div>
-                <div className="flex h-4 w-full items-center space-x-1.5">
-                  <div className="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-[14px] w-[14px] text-gray-500 mr-0.5 sm:mr-[3px]"
-                    >
-                      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
-                      <circle cx="12" cy="10" r="3" />
-                    </svg>
-                    <p className="text-xs font-normal text-gray-600 line-clamp-1">
-                      {item.county}
+                    </p>
+                    <p className="text-xs hidden sm:flex font-normal text-gray-600 line-clamp-1">
+                      {item.possible_pay}
                     </p>
                   </div>
-                  <Separator orientation="vertical" className="text-gray-500" />
-                  <p className="text-xs font-normal text-gray-600 line-clamp-1">
-                    {item.job_type}
-                  </p>
-                  <Separator orientation="vertical" className="text-gray-500" />
-                  <p suppressHydrationWarning className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1">
-                    {formatDistanceToNowStrict(item.createdAt, {
-                      addSuffix: true,
-                    })}
-                  </p>
-                  <p className="text-xs hidden sm:flex font-normal text-gray-600 line-clamp-1">
-                    {item.possible_pay}
-                  </p>
-                </div>
                 </Link>
               </div>
             </li>

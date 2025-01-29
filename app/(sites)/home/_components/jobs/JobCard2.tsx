@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { Job} from "@prisma/client";
 import AdSenseAd from "@/components/Adsense";
 
 interface JobItems {
@@ -112,7 +111,7 @@ const JobCard2 = ({ allJobs, popular }: JobCardProps) => {
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger>
-                              <span className="inline-flex items-center text-xs font-medium text-green-700">
+                              <span className="inline-flex items-center text-xs font-medium text-emerald-800">
                                 Quick Apply
                               </span>
                             </TooltipTrigger>
@@ -128,7 +127,7 @@ const JobCard2 = ({ allJobs, popular }: JobCardProps) => {
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger>
-                              <span className="inline-flex items-center text-xs font-medium text-indigo-700">
+                              <span className="inline-flex items-center text-xs font-medium text-sky-800">
                                 External Apply
                               </span>
                             </TooltipTrigger>
