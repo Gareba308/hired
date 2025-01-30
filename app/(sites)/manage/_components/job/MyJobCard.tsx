@@ -123,7 +123,7 @@ const MyJobCard = ({ allJobs }: MyJobCardProps) => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="inline-flex items-center text-xs font-medium text-emerald-800">
+                            <span className="inline-flex items-center text-xs font-medium text-green-800">
                               Quick Apply
                             </span>
                           </TooltipTrigger>
@@ -139,7 +139,7 @@ const MyJobCard = ({ allJobs }: MyJobCardProps) => {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <span className="inline-flex items-center text-xs font-medium text-sky-800">
+                            <span className="inline-flex items-center text-xs font-medium text-indigo-800">
                               External Apply
                             </span>
                           </TooltipTrigger>
