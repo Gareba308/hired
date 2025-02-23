@@ -9,7 +9,7 @@ import {
 import { TRPCError } from "@trpc/server";
 import { db } from "@/db";
 import { z } from "zod";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import { NextResponse } from "next/server";
 import cryptoRandomString from "crypto-random-string";
