@@ -816,8 +816,8 @@ export default function JobDetails({
                     <h3 className="text-lg font-medium">Instructions</h3>
                     <div className="text-base text-gray-700 -mt-2 -mb-2">
                       <Preview value={job.instructions} />
-                      <p className="mt-3 text-sm">
-                        <b className="text-red-700">Note: </b>Never pay to apply
+                      <p className="my-3 text-sm italic">
+                        <b className="text-red-700 not-italic">Note: </b>Never pay to apply
                         for a job. Report fraudulent listings using the
                         &apos;Report&apos; button above.
                       </p>
