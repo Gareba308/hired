@@ -4,7 +4,6 @@ import TopCompanies from "../_components/companies/TopCompanies";
 import { db } from "@/db";
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
-import { Job } from "@prisma/client";
 import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 
@@ -14,6 +13,10 @@ type CompanyJob = {
   numberOfOccurrence: number;
 };
 
+interface AllJobs {
+  company_name: string;
+  companyLogo: string | null;
+}
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const dynamicParams = true;
@@ -28,6 +31,11 @@ const getJobs = async () => {
       createdAt: {
         gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
       },
+    },
+
+    select: {
+      company_name: true,
+      companyLogo: true,
     },
   });
 
@@ -101,7 +109,7 @@ const Page = async () => {
   const jobs = await getJobs();
 
   const companyJobs = jobs.reduce<Record<string, CompanyJob>>(
-    (acc, job: Job) => {
+    (acc, job: AllJobs) => {
       const normalizedCompanyName = job.company_name.toLowerCase();
 
       if (acc[normalizedCompanyName]) {

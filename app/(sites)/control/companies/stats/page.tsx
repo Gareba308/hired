@@ -40,7 +40,12 @@ const Page = async () => {
     },
   });
   
-  const jobs = await db.job.findMany();
+  const jobs = await db.job.findMany({
+    select : {
+      id: true,
+      userId: true
+    }
+  });
   
   const companies = await db.company.findMany();
   
@@ -293,7 +298,6 @@ const Page = async () => {
         percentageEmployerWeek={percentageEmployerWeek}
         countEmployerPending={countEmployerPending}
         percentageEmployerPending={percentageEmployerPending}
-        jobs={jobs}
         companies={companies}
       />
     </div>

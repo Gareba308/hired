@@ -541,17 +541,34 @@ export default function JobDetails({
                     </p>
                   )}
 
-                  {job.instructions && (
-                    <div className="mt-1.5">
-                      <h3 className="text-lg font-medium">Instructions</h3>
-                      <div className="text-base text-gray-700 -mt-2 -mb-2">
-                        <Preview value={job.instructions as string} />
-                      </div>
+{job.instructions && (
+                  <div className="mt-1.5">
+                    <h3 className="text-lg font-medium">Instructions</h3>
+                    <div className="text-base text-gray-700 -mt-2 -mb-2">
+                      <Preview value={job.instructions} />
+                      <p className="mt-3 text-sm">
+                        <b className="text-red-700">Note: </b>Never pay to apply
+                        for a job. Report fraudulent listings using the
+                        &apos;Report&apos; button above.
+                      </p>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
+          )}
+
+          {job.company_description && (
+            <div className="text-gray-700">
+              <h3 className="text-lg font-medium text-gray-700">
+                <span>About Us</span>
+              </h3>
+
+              <div className="mt-1 -mb-2 line-clamp-4 text-base text-gray-700">
+                <Preview value={job.company_description} />
+              </div>
+            </div>
+          )}
 
             <div className="mt-6 border border-gray-200 rounded-md px-3 pt-3">
               <h2 className="text-xl mb-2 text-gray-600 font-semibold">

@@ -70,7 +70,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Company, Job, User } from "@prisma/client";
+import { Company, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import {
   Select,
@@ -96,7 +96,6 @@ interface CompaniesStatsProps {
   percentageEmployerWeek: string;
   countEmployerPending: number;
   percentageEmployerPending: string;
-  jobs: Job[];
   companies: Company[];
 }
 
@@ -110,7 +109,6 @@ export function CompaniesStats({
   percentageEmployerWeek,
   countEmployerPending,
   percentageEmployerPending,
-  jobs,
   companies,
 }: CompaniesStatsProps) {
   const data = combinedData;
