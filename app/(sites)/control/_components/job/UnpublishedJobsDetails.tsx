@@ -288,10 +288,10 @@ export default function UnpublishedJobsDetails({
                   {job.company_name}
                 </span>
               </p>
-              <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
+              {job.category && <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
                 <Briefcase className="sm:h-5 h-4 sm:w-5 w-4 mr-1.5 shrink-0" />
                 {job.category}
-              </p>
+              </p>}
               <p
                 suppressHydrationWarning
                 className="flex items-center text-gray-600 shrink-0 text-base font-normal"
@@ -798,9 +798,9 @@ export default function UnpublishedJobsDetails({
                     <div className="text-base text-gray-700 -mt-2 -mb-2">
                       <Preview value={job.instructions} />
                       <p className="my-3 text-sm italic">
-                        <b className="text-red-700 not-italic">Note: </b>Never pay to apply
-                        for a job. Report fraudulent listings using the
-                        &apos;Report&apos; button above.
+                        <b className="text-red-700 not-italic">Note: </b>Never
+                        pay to apply for a job. Report fraudulent listings using
+                        the &apos;Report&apos; button above.
                       </p>
                     </div>
                   </div>
@@ -810,8 +810,8 @@ export default function UnpublishedJobsDetails({
           )}
 
           {job.company_description && (
-            <div className="text-gray-700">
-              <h3 className="text-lg font-medium text-gray-700">
+            <div className="text-gray-700 mt-2">
+              <h3 className="text-xl font-medium text-gray-700">
                 <span>About Us</span>
               </h3>
 
