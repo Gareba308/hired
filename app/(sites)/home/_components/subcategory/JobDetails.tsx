@@ -25,9 +25,6 @@ import { Preview } from "@/components/Preview";
 import { useEffect, useState } from "react";
 import RecentlyViewedLoader from "@/components/RecentlyViewedLoader";
 import { useToast } from "@/components/ui/use-toast";
-import dynamic from "next/dynamic";
-
-const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 interface PopularJob {
   id: string;

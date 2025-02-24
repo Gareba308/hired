@@ -31,9 +31,6 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import JobDetails from "./JobDetails";
 import { Job} from "@prisma/client";
 import NoHomeDetailJob from "./NoHomeDetailJob";
-import dynamic from "next/dynamic";
-
-const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 const useScreenSize = () => {
   const [isLargeScreen, setIsLargeScreen] = useState<boolean>(true);
@@ -2059,9 +2056,7 @@ const HomeJobsNavBar = ({
                   <NoSearchResult />
                 </>
               )}
-              <div className='pr-4'>
-              <AdSenseAd />
-              </div>
+              
               <div className="mt-6 pb-4">
                 {totalPages > 1 && (
                   <ReactPaginate

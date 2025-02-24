@@ -25,9 +25,6 @@ import { Preview } from "@/components/Preview";
 import { useEffect, useState } from "react";
 import RecentlyViewedLoader from "@/components/RecentlyViewedLoader";
 import { useToast } from "@/components/ui/use-toast";
-import dynamic from "next/dynamic";
-
-const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 interface JobItems {
   id: string;
@@ -462,9 +459,6 @@ export default function JobDetails({
                 </div>
               </div>
             )}
-            <div className="pr-4">
-              <AdSenseAd />
-            </div>
             {job.responsibilities && (
               <div className="mt-5">
                 <h3 className="text-xl font-medium text-gray-700">

@@ -6,6 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Job } from "@prisma/client";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 interface HomePageProps {
   jobs: Job[];
@@ -578,6 +581,9 @@ const HomePage = ({ jobs }: HomePageProps) => {
               background: "#1e293b",
             }}
           ></div>
+        </section>
+        <section className="pt-10 sm max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">
+        <AdSenseAd />
         </section>
         <section className="pt-10 sm max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">
           <div className="text-gray-600 w-full md:mx-auto md:flex md:flex-col md:justify-center md:items-center">
