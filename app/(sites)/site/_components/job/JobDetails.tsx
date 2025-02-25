@@ -37,6 +37,9 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import JobsSide from "./JobsSide";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 interface JobItems {
   id: string;
@@ -706,6 +709,8 @@ export default function JobDetails({
               </div>
             </div>
           )}
+
+          <AdSenseAd />
 
           {job.responsibilities && (
             <div className="mt-5">

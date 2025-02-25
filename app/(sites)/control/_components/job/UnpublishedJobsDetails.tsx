@@ -44,6 +44,9 @@ import { trpc } from "@/app/_trpc/client";
 import Link from "next/link";
 import { Switch } from "@/components/ui/switch";
 import { z } from "zod";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -687,6 +690,8 @@ export default function UnpublishedJobsDetails({
               </div>
             </div>
           )}
+
+          <AdSenseAd />
 
           {job.responsibilities && (
             <div className="mt-5">
