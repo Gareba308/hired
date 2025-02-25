@@ -568,6 +568,8 @@ export default function JobDetails({
             </div>
           )}
 
+           <AdSenseAd />
+           
           {job.benefits.length !== 0 && (
             <div className="mt-5 text-gray-700">
               <h3 className="text-xl font-medium">Benefits</h3>

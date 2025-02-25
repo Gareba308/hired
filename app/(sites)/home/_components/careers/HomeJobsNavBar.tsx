@@ -28,6 +28,7 @@ import {
 import React from "react";
 import NoSearchResult from "./NoSearchResults";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import MaxWidthWrapper1 from "@/components/MaxWidthWrapper1";
 import JobDetails from "./JobDetails";
 import { Job} from "@prisma/client";
 import NoHomeDetailJob from "./NoHomeDetailJob";
@@ -2049,7 +2050,7 @@ const HomeJobsNavBar = ({
       </div>
 
       <div className="my-3 md:my-6">
-        <MaxWidthWrapper>
+        <MaxWidthWrapper1>
           <div className="md:grid w-full mx-auto md:gap-x-5 h-full lg:gap-x-6 md:grid-cols-2">
             <div className="w-full mx-auto">
               {sortedAndFilteredJobs && sortedAndFilteredJobs.length !== 0 ? (
@@ -2114,7 +2115,7 @@ const HomeJobsNavBar = ({
               <NoHomeDetailJob />
             )}
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthWrapper1>
       </div>
     </>
   );

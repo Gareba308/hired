@@ -291,10 +291,12 @@ export default function UnpublishedJobsDetails({
                   {job.company_name}
                 </span>
               </p>
-              {job.category && <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
-                <Briefcase className="sm:h-5 h-4 sm:w-5 w-4 mr-1.5 shrink-0" />
-                {job.category}
-              </p>}
+              {job.category && (
+                <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
+                  <Briefcase className="sm:h-5 h-4 sm:w-5 w-4 mr-1.5 shrink-0" />
+                  {job.category}
+                </p>
+              )}
               <p
                 suppressHydrationWarning
                 className="flex items-center text-gray-600 shrink-0 text-base font-normal"
@@ -739,6 +741,8 @@ export default function UnpublishedJobsDetails({
               </div>
             </div>
           )}
+
+          <AdSenseAd />
 
           {job.benefits.length !== 0 && (
             <div className="mt-5 text-gray-700">

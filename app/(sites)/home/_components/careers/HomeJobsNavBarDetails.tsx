@@ -27,6 +27,7 @@ import {
 import React from "react";
 import NoSearchResult from "./NoSearchResults";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import MaxWidthWrapper1 from "@/components/MaxWidthWrapper1";
 import JobDetails from "./JobDetails";
 import NoHomeDetailJob from "./NoHomeDetailJob";
 import JobCard2 from "./JobCard2";
@@ -2058,7 +2059,7 @@ const HomeJobsNavBarDetails = ({
       </div>
 
       <div className="mt-3 md:mt-6 w-full mb-3 md:mb-6">
-        <MaxWidthWrapper>
+        <MaxWidthWrapper1>
           <div className="md:grid md:gap-x-5 mx-auto w-full h-full lg:gap-x-6 md:grid-cols-2">
             <div className="hidden md:block md:w-full md:mx-auto">
               {sortedAndFilteredJobs && sortedAndFilteredJobs.length !== 0 ? (
@@ -2117,7 +2118,7 @@ const HomeJobsNavBarDetails = ({
               )}
             </div>
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthWrapper1>
       </div>
     </>
   );
