@@ -687,7 +687,7 @@ const HomeJobsNavBar = ({
 
   return (
     <>
-      <div className="border-b border-gray-200 pb-3 -mx-4 md:pb-6">
+      <div className="border-b border-gray-200 pb-3 md:pb-6">
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -2050,7 +2050,7 @@ const HomeJobsNavBar = ({
 
       <div className="my-3 md:my-6">
         <MaxWidthWrapper>
-          <div className="grid gap-x-4 w-full sm:gap-x-5 h-full lg:gap-x-6 md:grid-cols-2">
+          <div className="md:grid w-full mx-auto md:gap-x-5 h-full lg:gap-x-6 md:grid-cols-2">
             <div className="w-full mx-auto">
               {sortedAndFilteredJobs && sortedAndFilteredJobs.length !== 0 ? (
                 <JobCard1 allJobs={jobsForCurrentPage} popular={popular} />
@@ -2097,7 +2097,7 @@ const HomeJobsNavBar = ({
               <AdSenseAd />
             </div>
             {firstJob ? (
-              <div className="hidden w-full mx-auto md:flex md:sticky md:top-2 md:border md:shadow-sm md:border-gray-200 md:rounded-lg md:max-h-[calc(100vh-2rem)]">
+              <div className="hidden md:w-full md:mx-auto md:flex md:sticky md:top-2 md:border md:shadow-sm md:border-gray-200 md:rounded-lg md:max-h-[calc(100vh-2rem)]">
                 <div key={firstJob.id}>
                   <JobDetails
                     job={firstJob}
