@@ -26,7 +26,7 @@ import {
 } from "../data/create-job/CreateJobData";
 import React from "react";
 import NoSearchResult from "./NoSearchResults";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import MaxWidthWrapper1 from "@/components/MaxWidthWrapper1";
 import JobDetails from "./JobDetails";
 import NoHomeDetailJob from "./NoHomeDetailJob";
 import JobCard2 from "./JobCard2";
@@ -1252,7 +1252,7 @@ const HomeJobsNavBarDetails = ({
             </div>
           </Dialog>
         </Transition.Root>
-        <MaxWidthWrapper>
+        <MaxWidthWrapper1>
           {!isSmallScreen && (
             <div className="flex flex-row items-center w-full justify-center gap-x-2 sm:gap-x-3 mb-1.5 md:mb-3">
               <div className="relative w-full max-w-3xl">
@@ -2054,13 +2054,13 @@ const HomeJobsNavBarDetails = ({
               </Menu>
             </div>
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthWrapper1>
       </div>
 
       <div className="mt-3 md:mt-6 w-full mb-3 md:mb-6">
-        <MaxWidthWrapper>
-          <div className="grid gap-x-4 sm:gap-x-5 w-full h-full lg:gap-x-6 md:grid-cols-2">
-            <div className="hidden md:block">
+        <MaxWidthWrapper1>
+          <div className="md:grid md:gap-x-5 mx-auto w-full h-full lg:gap-x-6 md:grid-cols-2">
+            <div className="hidden md:block md:w-full md:mx-auto">
               {sortedAndFilteredJobs && sortedAndFilteredJobs.length !== 0 ? (
                 <JobCard2 allJobs={jobsForCurrentPage} popular={popular} />
               ) : (
@@ -2103,7 +2103,7 @@ const HomeJobsNavBarDetails = ({
                 )}
               </div>
             </div>
-            <div className="md:sticky md:top-2 w-full md:border md:shadow-sm md:border-gray-200 md:rounded-lg  md:max-h-[calc(100vh-2rem)]">
+            <div className="md:sticky md:top-2 mx-auto w-full md:border md:shadow-sm md:border-gray-200 md:rounded-lg  md:max-h-[calc(100vh-2rem)]">
               {job ? (
                   <JobDetails
                   job={job}
@@ -2117,7 +2117,7 @@ const HomeJobsNavBarDetails = ({
               )}
             </div>
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthWrapper1>
       </div>
     </>
   );

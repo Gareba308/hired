@@ -16,7 +16,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { cn } from "@/lib/utils";
 import JobCard1 from "./JobCard1";
-import { Job} from "@prisma/client";
+import { Job } from "@prisma/client";
 import {
   academics,
   categories,
@@ -28,9 +28,12 @@ import {
 } from "../data/create-job/CreateJobData";
 import React from "react";
 import NoSearchResult from "./NoSearchResults";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import MaxWidthWrapper1 from "@/components/MaxWidthWrapper1";
 import JobDetails from "./JobDetails";
 import NoHomeDetailJob from "./NoHomeDetailJob";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 const useScreenSize = () => {
   const [isLargeScreen, setIsLargeScreen] = useState<boolean>(true);
@@ -78,7 +81,7 @@ const useScreenSize2 = () => {
 
 const pageSize = 20;
 const sortByOptions = [
-  {label: "Rank: Top to Bottom", value: "Rank: Top to Bottom"},
+  { label: "Rank: Top to Bottom", value: "Rank: Top to Bottom" },
   { label: "Posted: New to Old", value: "createdAt_desc" },
   { label: "Posted: Old to New", value: "createdAt_asc" },
   { label: "Deadline: Later to Sooner", value: "deadline_desc" },
@@ -86,11 +89,11 @@ const sortByOptions = [
 ];
 
 interface PopularJob {
-  id: string,
-  job_title: string,
-  company_name: string,
-  companyLogo: string | null,
-  createdAt: Date,
+  id: string;
+  job_title: string;
+  company_name: string;
+  companyLogo: string | null;
+  createdAt: Date;
 }
 
 interface HomeJobsNavBarProps {
@@ -592,7 +595,9 @@ const HomeJobsNavBar = ({
     .sort((a, b) => {
       if (sortBy === "Rank: Top to Bottom") {
         if (a.rankTop === b.rankTop) {
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
         }
         return a.rankTop ? -1 : 1;
       } else if (sortBy === "createdAt_asc") {
@@ -660,8 +665,8 @@ const HomeJobsNavBar = ({
   const firstJob = jobsForCurrentPage.length > 0 ? jobsForCurrentPage[0] : null;
   const firstJobCategory = firstJob?.category;
   const resultantSimilarJobs = firstJob
-  ? jobs.filter((job) => job.category === firstJobCategory).slice(0, 3)
-  : [];
+    ? jobs.filter((job) => job.category === firstJobCategory).slice(0, 3)
+    : [];
 
   return (
     <>
@@ -1223,7 +1228,7 @@ const HomeJobsNavBar = ({
             </div>
           </Dialog>
         </Transition.Root>
-        <MaxWidthWrapper>
+        <MaxWidthWrapper1>
           <div className="flex flex-row items-center w-full justify-center gap-x-2 sm:gap-x-3 mb-1.5 md:mb-3">
             <div className="relative w-full max-w-3xl">
               <svg
@@ -2023,23 +2028,28 @@ const HomeJobsNavBar = ({
               </Menu>
             </div>
           </div>
-          <div className='mt-2'>
-            <h1 className='text-2xl sm:text-3xl tracking-tight font-semibold sm:text-center text-gray-600'>{subcategory}</h1>
+          <div className="mt-2">
+            <h1 className="text-2xl sm:text-3xl tracking-tight font-semibold sm:text-center text-gray-600">
+              {subcategory}
+            </h1>
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthWrapper1>
       </div>
 
       <div className="my-3 md:my-4">
-        <MaxWidthWrapper>
-          <div className="grid gap-x-4 sm:gap-x-5 h-full lg:gap-x-6 md:grid-cols-2">
-            <div>
+        <MaxWidthWrapper1>
+          <div className="md:grid w-full mx-auto md:gap-x-5 h-full lg:gap-x-6 md:grid-cols-2">
+            <div className="w-full mx-auto">
               {sortedAndFilteredJobs && sortedAndFilteredJobs.length !== 0 ? (
                 <JobCard1 allJobs={jobsForCurrentPage} popular={popular} />
               ) : (
                 <>
-                  <NoSearchResult subcategory={subcategory}/>
+                  <NoSearchResult subcategory={subcategory} />
                 </>
               )}
+              <div className="w-full mt-2 mx-auto">
+                <AdSenseAd />
+              </div>
               <div className="mt-6 pb-4">
                 {totalPages > 1 && (
                   <ReactPaginate
@@ -2076,8 +2086,8 @@ const HomeJobsNavBar = ({
               </div>
             </div>
             {firstJob ? (
-              <div className="hidden w-full md:flex md:sticky md:top-2 md:border md:shadow-sm md:border-gray-200 md:rounded-lg md:max-h-[calc(100vh-2rem)]">
-                <div key={firstJob.id} className='w-full'>
+              <div className="hidden md:w-full md:mx-auto md:flex md:sticky md:top-2 md:border md:shadow-sm md:border-gray-200 md:rounded-lg md:max-h-[calc(100vh-2rem)]">
+                <div key={firstJob.id}>
                   <JobDetails
                     job={firstJob}
                     viewID={viewID}
@@ -2091,7 +2101,7 @@ const HomeJobsNavBar = ({
               <NoHomeDetailJob />
             )}
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthWrapper1>
       </div>
     </>
   );

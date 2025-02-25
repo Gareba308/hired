@@ -28,9 +28,12 @@ import {
 } from "../data/create-job/CreateJobData";
 import React from "react";
 import NoSearchResult from "./NoSearchResults";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import MaxWidthWrapper1 from "@/components/MaxWidthWrapper1";
 import JobDetails from "./JobDetails";
 import NoHomeDetailJob from "./NoHomeDetailJob";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 const useScreenSize = () => {
   const [isLargeScreen, setIsLargeScreen] = useState<boolean>(true);
@@ -1220,7 +1223,7 @@ const HomeJobsInKenyaNavBar = ({
             </div>
           </Dialog>
         </Transition.Root>
-        <MaxWidthWrapper>
+        <MaxWidthWrapper1>
           <div className="flex flex-row items-center w-full justify-center gap-x-2 sm:gap-x-3 mb-1.5 md:mb-3">
             <div className="relative w-full max-w-3xl">
               <svg
@@ -2025,13 +2028,13 @@ const HomeJobsInKenyaNavBar = ({
               Available Jobs In Kenya
             </h1>
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthWrapper1>
       </div>
 
       <div className="my-3 md:my-4">
-        <MaxWidthWrapper>
-          <div className="grid gap-x-4 sm:gap-x-5 h-full lg:gap-x-6 md:grid-cols-2">
-            <div>
+        <MaxWidthWrapper1>
+          <div className="md:grid w-full mx-auto md:gap-x-5 h-full lg:gap-x-6 md:grid-cols-2">
+            <div  className="w-full mx-auto">
               {sortedAndFilteredJobs && sortedAndFilteredJobs.length !== 0 ? (
                 <JobCard1 allJobs={jobsForCurrentPage} popular={popular} />
               ) : (
@@ -2039,6 +2042,9 @@ const HomeJobsInKenyaNavBar = ({
                   <NoSearchResult />
                 </>
               )}
+              <div className="w-full mt-2 mx-auto">
+                <AdSenseAd />
+              </div>
               <div className="mt-6 pb-4">
                 {totalPages > 1 && (
                   <ReactPaginate
@@ -2075,8 +2081,8 @@ const HomeJobsInKenyaNavBar = ({
               </div>
             </div>
             {firstJob ? (
-              <div className="hidden md:flex w-full md:sticky md:top-2 md:border md:shadow-sm md:border-gray-200 md:rounded-lg md:max-h-[calc(100vh-2rem)]">
-                <div key={firstJob.id} className="w-full">
+              <div className="hidden md:w-full md:mx-auto md:flex md:sticky md:top-2 md:border md:shadow-sm md:border-gray-200 md:rounded-lg md:max-h-[calc(100vh-2rem)]">
+                <div key={firstJob.id}>
                   <JobDetails
                     job={firstJob}
                     viewID={viewID}
@@ -2090,7 +2096,7 @@ const HomeJobsInKenyaNavBar = ({
               <NoHomeDetailJob />
             )}
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthWrapper1>
       </div>
     </>
   );

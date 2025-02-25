@@ -25,6 +25,9 @@ import { Preview } from "@/components/Preview";
 import { useEffect, useState } from "react";
 import RecentlyViewedLoader from "@/components/RecentlyViewedLoader";
 import { useToast } from "@/components/ui/use-toast";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 interface JobItems {
   id: string;
@@ -192,10 +195,12 @@ export default function JobDetails({
                   {job.company_name}
                 </span>
               </h2>
-              {job.category && <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
-                <Briefcase className="sm:h-5 h-4 sm:w-5 w-4 mr-1.5 shrink-0" />
-                {job.category}
-              </p>}
+              {job.category && (
+                <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
+                  <Briefcase className="sm:h-5 h-4 sm:w-5 w-4 mr-1.5 shrink-0" />
+                  {job.category}
+                </p>
+              )}
               <p
                 suppressHydrationWarning
                 className="flex items-center text-gray-600 shrink-0 text-base font-normal"
@@ -459,6 +464,9 @@ export default function JobDetails({
                 </div>
               </div>
             )}
+            <div className="md:hidden mx-auto w-full">
+              <AdSenseAd />
+            </div>
             {job.responsibilities && (
               <div className="mt-5">
                 <h3 className="text-xl font-medium text-gray-700">
@@ -526,6 +534,10 @@ export default function JobDetails({
                 </div>
               </div>
             )}
+
+            <div className="md:hidden mx-auto w-full">
+              <AdSenseAd />
+            </div>
 
             {job.ownPlatformMethod === "own" && (
               <div className="mt-5 text-gray-700" id="instructionsSection">

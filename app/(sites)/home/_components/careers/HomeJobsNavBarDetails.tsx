@@ -26,7 +26,6 @@ import {
 } from "../data/create-job/CreateJobData";
 import React from "react";
 import NoSearchResult from "./NoSearchResults";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import MaxWidthWrapper1 from "@/components/MaxWidthWrapper1";
 import JobDetails from "./JobDetails";
 import NoHomeDetailJob from "./NoHomeDetailJob";
@@ -1253,7 +1252,7 @@ const HomeJobsNavBarDetails = ({
             </div>
           </Dialog>
         </Transition.Root>
-        <MaxWidthWrapper>
+        <MaxWidthWrapper1>
           {!isSmallScreen && (
             <div className="flex flex-row items-center w-full justify-center gap-x-2 sm:gap-x-3 mb-1.5 md:mb-3">
               <div className="relative w-full max-w-3xl">
@@ -2055,7 +2054,7 @@ const HomeJobsNavBarDetails = ({
               </Menu>
             </div>
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthWrapper1>
       </div>
 
       <div className="mt-3 md:mt-6 w-full mb-3 md:mb-6">
