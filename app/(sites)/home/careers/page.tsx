@@ -190,7 +190,7 @@ const Page = async () => {
 
   return (
     <>
-      <section className="mt-5 bg-white mx-4 mx-auto h-full min-h-[calc(100vh-70px)]">
+      <section className="mt-5 bg-white px-4 mx-auto h-full min-h-[calc(100vh-70px)]">
         <Suspense
           fallback={
             <div className="flex items-center justify-center h-full">

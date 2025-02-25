@@ -246,7 +246,7 @@ const Page = async ({ params }: JobDetailsProps) => {
 
   return (
     <>
-      <div className="mt-5 bg-white h-full min-h-[calc(100vh-70px)]">
+      <div className="mt-5 bg-white mx-auto px-4 h-full min-h-[calc(100vh-70px)]">
         <HomeJobsNavBarDetails
           jobs={jobs}
           viewID={viewID as string}

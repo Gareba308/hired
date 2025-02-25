@@ -2059,7 +2059,9 @@ const HomeJobsNavBar = ({
                   <NoSearchResult />
                 </>
               )}
-              
+              <div className="w-full mx-auto">
+              <AdSenseAd />
+              </div>
               <div className="mt-6 pb-4">
                 {totalPages > 1 && (
                   <ReactPaginate
@@ -2094,7 +2096,7 @@ const HomeJobsNavBar = ({
                   />
                 )}
               </div>
-              <AdSenseAd />
+              
             </div>
             {firstJob ? (
               <div className="hidden md:w-full md:mx-auto md:flex md:sticky md:top-2 md:border md:shadow-sm md:border-gray-200 md:rounded-lg md:max-h-[calc(100vh-2rem)]">

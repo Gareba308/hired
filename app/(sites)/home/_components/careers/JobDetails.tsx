@@ -464,7 +464,7 @@ export default function JobDetails({
                 </div>
               </div>
             )}
-            <div className="md:hidden">
+            <div className="md:hidden mx-auto w-full">
               <AdSenseAd />
             </div>
             {job.responsibilities && (
@@ -599,7 +599,9 @@ export default function JobDetails({
                 </div>
               </div>
             )}
-            <AdSenseAd />
+            <div className="md:hidden mx-auto w-full">
+              <AdSenseAd />
+            </div>
             <div className="mt-6 border border-gray-200 rounded-md px-3 pt-3">
               <h2 className="text-xl mb-2 text-gray-600 font-semibold">
                 Similar Jobs

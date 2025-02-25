@@ -401,6 +401,9 @@ const HomePage = ({ jobs }: HomePageProps) => {
             </div>
           </div>
         </section>
+        <section className="pt-3 sm max-w-screen-xl mx-auto pb-2 px-4 items-center sm:justify-center lg:flex md:px-4">
+        <AdSenseAd />
+        </section>
         <section className="pt-14 max-w-screen-xl mx-auto pb-4 px-4 items-center lg:flex md:px-8">
           <div className="text-gray-600">
             <div className="max-w-xl mx-auto space-y-3 sm:text-center">
@@ -582,7 +585,7 @@ const HomePage = ({ jobs }: HomePageProps) => {
             }}
           ></div>
         </section>
-        <section className="pt-10 sm max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">
+        <section className="pt-3 sm max-w-screen-xl mx-auto pb-2 px-4 items-center sm:justify-center lg:flex md:px-4">
         <AdSenseAd />
         </section>
         <section className="pt-10 sm max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">

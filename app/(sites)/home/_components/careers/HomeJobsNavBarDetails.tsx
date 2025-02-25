@@ -2059,8 +2059,8 @@ const HomeJobsNavBarDetails = ({
 
       <div className="mt-3 md:mt-6 w-full mb-3 md:mb-6">
         <MaxWidthWrapper>
-          <div className="grid gap-x-4 sm:gap-x-5 w-full h-full lg:gap-x-6 md:grid-cols-2">
-            <div className="hidden md:block">
+          <div className="md:grid md:gap-x-5 mx-auto w-full h-full lg:gap-x-6 md:grid-cols-2">
+            <div className="hidden md:block md:w-full md:mx-auto">
               {sortedAndFilteredJobs && sortedAndFilteredJobs.length !== 0 ? (
                 <JobCard2 allJobs={jobsForCurrentPage} popular={popular} />
               ) : (
@@ -2103,7 +2103,7 @@ const HomeJobsNavBarDetails = ({
                 )}
               </div>
             </div>
-            <div className="md:sticky md:top-2 w-full md:border md:shadow-sm md:border-gray-200 md:rounded-lg  md:max-h-[calc(100vh-2rem)]">
+            <div className="md:sticky md:top-2 mx-auto w-full md:border md:shadow-sm md:border-gray-200 md:rounded-lg  md:max-h-[calc(100vh-2rem)]">
               {job ? (
                   <JobDetails
                   job={job}
