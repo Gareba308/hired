@@ -20,19 +20,20 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7434648314782318"
           crossOrigin="anonymous"
           strategy="lazyOnload"
+          data-overlays="bottom"
         />
         <Script strategy="lazyOnload" id="adsense-config">
-          {`
-            (adsbygoogle = window.adsbygoogle || []).push({
+        {`
+          (adsbygoogle = window.adsbygoogle || []).push({
             google_ad_client: "ca-pub-7434648314782318",
             enable_page_level_ads: true,
             overlays: {
-              scroll: false, // Disable top anchor ads
-              bottom: true   // Enable bottom anchor ads
+              bottom: true,
+              top: false
             }
           });
-          `}
-        </Script>
+        `}
+      </Script>
         {children}
       </main>
       <GoogleAnalytics gaId="G-D94MPR6B9P" />

@@ -31,9 +31,6 @@ import NoSearchResult from "./NoSearchResults";
 import MaxWidthWrapper1 from "@/components/MaxWidthWrapper1";
 import JobDetails from "./JobDetails";
 import NoHomeDetailJob from "./NoHomeDetailJob";
-import dynamic from "next/dynamic";
-
-const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 const useScreenSize = () => {
   const [isLargeScreen, setIsLargeScreen] = useState<boolean>(true);
@@ -2042,9 +2039,6 @@ const HomeJobsInKenyaNavBar = ({
                   <NoSearchResult />
                 </>
               )}
-              <div className="w-full mt-2 mx-auto">
-                <AdSenseAd />
-              </div>
               <div className="mt-6 pb-4">
                 {totalPages > 1 && (
                   <ReactPaginate

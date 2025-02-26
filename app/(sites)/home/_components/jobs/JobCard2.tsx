@@ -11,32 +11,34 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import AdSenseAd from "@/components/Adsense";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 interface JobItems {
-  id: string,
-  job_title: string,
-  personal_skills: string[],
-  category: string | null,
-  job_type: string | null,
-  deadline: Date | null,
-  county: string | null,
-  possible_pay: string | null,
-  academic: string | null,
-  ownPlatformMethod: string | null,
-  experience: string | null,
-  companyLogo: string | null,
-  companyId: string,
-  company_name: string,
-  rankTop: boolean,
-  createdAt: Date,
+  id: string;
+  job_title: string;
+  personal_skills: string[];
+  category: string | null;
+  job_type: string | null;
+  deadline: Date | null;
+  county: string | null;
+  possible_pay: string | null;
+  academic: string | null;
+  ownPlatformMethod: string | null;
+  experience: string | null;
+  companyLogo: string | null;
+  companyId: string;
+  company_name: string;
+  rankTop: boolean;
+  createdAt: Date;
 }
 interface PopularJob {
-  id: string,
-  job_title: string,
-  company_name: string,
-  companyLogo: string | null,
-  createdAt: Date,
+  id: string;
+  job_title: string;
+  company_name: string;
+  companyLogo: string | null;
+  createdAt: Date;
 }
 interface JobCardProps {
   allJobs: JobItems[];
@@ -273,6 +275,11 @@ const JobCard2 = ({ allJobs, popular }: JobCardProps) => {
                   </Link>
                 </div>
               </li>
+              {index > 0 && (index + 1) % 10 === 0 && (
+                <div className="my-2">
+                  <AdSenseAd />
+                </div>
+              )}
             </div>
           );
         })}

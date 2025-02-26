@@ -2061,9 +2061,6 @@ const HomeJobsNavBar = ({
                   <NoSearchResult />
                 </>
               )}
-              <div className="w-full mt-2 mx-auto">
-                <AdSenseAd />
-              </div>
               <div className="mt-6 pb-4">
                 {totalPages > 1 && (
                   <ReactPaginate

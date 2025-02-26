@@ -12,7 +12,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { Job} from "@prisma/client";
-import AdSenseAd from "@/components/Adsense";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 interface PopularJob {
   id: string,
@@ -256,6 +258,11 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                   </Link>
                 </div>
               </li>
+              {index > 0 && (index + 1) % 10 === 0 && (
+                <div className="my-2">
+                  <AdSenseAd />
+                </div>
+              )}
             </div>
           );
         })}

@@ -12,14 +12,16 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import AdSenseAd from "@/components/Adsense";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 interface PopularJob {
-  id: string,
-  job_title: string,
-  company_name: string,
-  companyLogo: string | null,
-  createdAt: Date,
+  id: string;
+  job_title: string;
+  company_name: string;
+  companyLogo: string | null;
+  createdAt: Date;
 }
 interface JobCardProps {
   allJobs: Job[];
@@ -256,6 +258,11 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                   </Link>
                 </div>
               </li>
+              {index > 0 && (index + 1) % 10 === 0 && (
+                <div className="my-2">
+                  <AdSenseAd />
+                </div>
+              )}
             </div>
           );
         })}
