@@ -432,14 +432,26 @@ const GeneralEmail = ({
                             <SelectContent className="w-full max-h-[300px] overflow-y-auto text-gray-700">
                               {!profileReasonForEmail &&
                                 !portfolioReasonForEmail && (
-                                  <SelectItem value="New job available">
-                                    New job available
+                                  <SelectItem value="New Job Available">
+                                    New Job Available
                                   </SelectItem>
                                 )}
                               {!profileReasonForEmail &&
                                 !portfolioReasonForEmail && (
-                                  <SelectItem value="Check out these new jobs">
-                                    Check out these new jobs
+                                  <SelectItem value="Hired Has New Jobs">
+                                    Hired Has New Jobs
+                                  </SelectItem>
+                                )}
+                              {!profileReasonForEmail &&
+                                !portfolioReasonForEmail && (
+                                  <SelectItem value="Check Out New Jobs">
+                                    Check Out New Jobs
+                                  </SelectItem>
+                                )}
+                              {!profileReasonForEmail &&
+                                !portfolioReasonForEmail && (
+                                  <SelectItem value="Job Opportunities at Hired">
+                                    Job Opportunities at Hired
                                   </SelectItem>
                                 )}
                               {profileReasonForEmail && (

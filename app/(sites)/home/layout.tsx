@@ -12,7 +12,7 @@ const HomeLayout = ({ children }: PropsWithChildren) => {
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7434648314782318"
         crossOrigin="anonymous"
         strategy="lazyOnload"
-        
+        data-overlays="bottom"
       />
       <Script strategy="lazyOnload" id="adsense-config">
         {`

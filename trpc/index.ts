@@ -4193,6 +4193,7 @@ export const appRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       const { userId, email } = ctx;
+      const currentDate = new Date()
       const { reason, subject, message, emailedUserIds, recipientsEmail } =
         input;
 
@@ -4231,6 +4232,41 @@ export const appRouter = router({
         });
 
       const messageBody = removeHtmlTags(message);
+      const latestJobs = await db.job.findMany({
+        where: {
+          createdAt: {
+            gte: new Date(currentDate.getTime() - 24 * 60 * 60 * 1000),
+          }
+        },
+        select: {
+          job_title: true,
+          id: true
+        },
+        orderBy: {
+          createdAt: "desc"
+        },
+        take: 5
+      })
+
+      if (reason === "Jobs Opportunities" && latestJobs.length < 2) throw new TRPCError({ code: "BAD_REQUEST", message: "The minimum latest jobs to email is 2. You have less than minimum" })
+
+      const jobsList = latestJobs
+        .map(
+          (job) =>
+            `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> <a href="https://www.hired.co.ke/home/jobs/${job.id}">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`
+        )
+        .join("");
+
+      const customMessage =
+        reason === "Jobs Opportunities" && latestJobs.length > 2
+          ? `
+      <p style='font-size: 13.5px; line-height:22px;'>We have exciting new job opportunities just for you! Don't miss out—apply now and take the next step in your career.</p>
+      <p style='font-size: 13.5px; line-height:22px;'>Here are the latest openings:</p>
+      <ul style='font-size: 13.5px; line-height:22px;'>${jobsList}</ul>
+      <p style='font-size: 13.5px; line-height:22px;'>Apply now before these opportunities are gone!</p>
+      <p style='font-size: 13.5px; line-height:22px;'>Best of luck,<br>Hired Jobs Kenya Team</p>
+    `
+          : "";
       const transporter = nodemailer.createTransport({
         port: 465,
         host: "smtp.gmail.com",
@@ -4261,23 +4297,25 @@ export const appRouter = router({
         const { name } = user;
         const mailOptions = {
           from: {
-            name: "Hired",
+            name: "Hired Jobs",
             address: "gethiredinkenya@gmail.com",
           },
           replyTo: "gethiredinkenya@gmail.com",
-          to: email,
+          to: "arebsy@gmail.com",
+          // to: email,
           subject,
           html: `
-            <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
+            <div style='font-size: 13.5px; line-height:22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
               <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
-                <p>Dear ${name},</p>
-                <div>${messageBody}</div>
-                <p>This is an automated message. Please do NOT reply to this email.</p>
-                <p>Follow us on Twitter/X: 
+                <p style='font-size: 13.5px; line-height:22px;'>Dear ${name},</p>
+                ${customMessage}
+                <div style='font-size: 13.5px; line-height:22px;'>${messageBody}</div>
+                <p style='font-size: 13.5px; line-height:22px; margin-top:4px'>This is an automated message. Please do NOT reply to this email.</p>
+                <p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X: 
                   <a href="https://www.x.com/hiredKE">www.x.com/hiredKE</a>
                 </p>
                 <hr>
-                <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
+                <p style='text-align:center; font-size:13.5px; line-height:22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
               </div>
             </div>
           `,
