@@ -4187,166 +4187,181 @@ export const appRouter = router({
         reason: z.string(),
         subject: z.string(),
         message: z.string(),
-        emailedUserIds: z.array(z.string()).default([]),
-        recipientsEmail: z.array(z.string()).default([]),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const { userId, email } = ctx;
-      const currentDate = new Date()
-      const { reason, subject, message, emailedUserIds, recipientsEmail } =
-        input;
+      let { reason, subject, message } = input;
 
-      const dbUser = await db.user.findFirst({
-        where: {
-          id: userId,
-          email,
-        },
+      const dbUser = await db.user.findFirst({ where: { id: userId, email } });
+      if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized." });
+
+      const isAdmin = await db.admin.findFirst({ where: { adminEmail: email }, select: { id: true } });
+      if (!isAdmin) throw new TRPCError({ code: "BAD_REQUEST", message: "Unauthorized section" });
+
+      const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+      const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+      const emailLogs = await db.emailLog.findMany({
+        where: { adminId: isAdmin.id, createdAt: { gte: twentyFourHoursAgo } },
+        orderBy: { createdAt: "desc" },
       });
 
-      if (!dbUser)
+      if (emailLogs.length >= 5) {
         throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "You are unauthorized. Login and try again.",
+          code: "TOO_MANY_REQUESTS",
+          message: "You have exceeded the limit of 5 email requests in the last 24 hours.",
+        });
+      }
+
+      const lastEmailSent = emailLogs.length > 0 ? emailLogs[0].createdAt : null;
+      if (lastEmailSent && new Date(lastEmailSent) > oneHourAgo) {
+        throw new TRPCError({
+          code: "TOO_MANY_REQUESTS",
+          message: "You can only send one email request per hour. Please try again later.",
+        });
+      }
+
+      if (reason === "Jobs Opportunities") {
+        const dayOfWeek = format(new Date(), "EEEE");
+
+        const subjectsByDay: Record<string, string> = {
+          Monday: "Start Your Week with Top Jobs!",
+          Tuesday: "Tuesday's Best Job Openings",
+          Wednesday: "Midweek Job Picks - Apply Now!",
+          Thursday: "Thursday's Top Hiring Opportunities",
+          Friday: "End the Week Strong - Apply Today!",
+          Saturday: "Weekend Job Alert - Fresh Listings!",
+          Sunday: "Sunday's Top Jobs - Get Ready for the Week",
+        };
+
+        subject = subjectsByDay[dayOfWeek] || "Latest Job Openings - Apply Now!";
+      }
+
+      let latestRound = await db.emailRound.findFirst({ orderBy: { round: "desc" } });
+      let currentRound = latestRound ? latestRound.round : 1;
+      let sentEmails = new Set(latestRound?.emails || []);
+
+      if (!latestRound) {
+        const allUsers = await db.user.findMany({ select: { email: true }, orderBy: { createdAt: "desc" } });
+        const allUserEmails = allUsers.map((u) => u.email);
+        latestRound = await db.emailRound.create({
+          data: { round: 1, emails: [], allUsers: allUserEmails, isAdminID: isAdmin.id },
+        });
+        sentEmails = new Set();
+      }
+
+      const allUsers = await db.user.findMany({ select: { email: true } });
+      const allUserEmails = new Set(allUsers.map((u) => u.email));
+      const newUsers = Array.from(allUserEmails).filter((email) => !sentEmails.has(email));
+
+      if (newUsers.length > 0) {
+        latestRound.allUsers.push(...newUsers);
+        await db.emailRound.update({
+          where: { id: latestRound.id },
+          data: { allUsers: latestRound.allUsers },
+        });
+      }
+
+      let usersToEmail = latestRound.allUsers.filter((email) => !sentEmails.has(email)).slice(0, 100);
+
+      while (usersToEmail.length < 100) {
+        if (latestRound.allUsers.length === sentEmails.size) break;
+        currentRound += 1;
+        sentEmails = new Set();
+        await db.emailRound.create({
+          data: {
+            round: currentRound,
+            emails: [],
+            allUsers: latestRound.allUsers,
+            isAdminID: isAdmin.id,
+          },
+        });
+        usersToEmail = latestRound.allUsers.filter((email) => !sentEmails.has(email)).slice(0, 100);
+      }
+
+      if (usersToEmail.length === 0)
+        throw new TRPCError({ code: "BAD_REQUEST", message: "No users left to email." });
+
+      let jobListHTML = "";
+      if (reason === "Jobs Opportunities") {
+        const latestJobs = await db.job.findMany({
+          where: { createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } },
+          select: { job_title: true, id: true },
+          orderBy: { createdAt: "desc" },
+          take: 5,
         });
 
-      const isAdmin = await db.admin.findFirst({
-        where: {
-          adminEmail: email,
-        },
-        select: {
-          id: true,
-        },
-      });
+        if (latestJobs.length < 2) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "The minimum latest jobs to email is 2. You have less than the minimum.",
+          });
+        }
 
-      if (!isAdmin)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "You are in unauthorized section",
-        });
+        jobListHTML = latestJobs
+          .map(
+            (job) =>
+              `<li style="margin-bottom: 8px; font-size: 13.5px"><strong>${job.job_title}:</strong> 
+              <a href="https://www.hired.co.ke/home/jobs/${job.id}" style="color: #0073e6; text-decoration: none;">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`
+          )
+          .join("");
 
-      if (!recipientsEmail || recipientsEmail.length === 0)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Missing or empty emails array",
-        });
+        jobListHTML = `
+          <p style="font-size: 13.5px;">We have exciting new job opportunities just for you! Don't miss out—apply now and take the next step in your career.</p>
+          <ul>${jobListHTML}</ul>
+          <p style="font-size: 13.5px;">Apply now before these opportunities are gone!</p>`;
+      }
 
-      const messageBody = removeHtmlTags(message);
-      const latestJobs = await db.job.findMany({
-        where: {
-          createdAt: {
-            gte: new Date(currentDate.getTime() - 24 * 60 * 60 * 1000),
-          }
-        },
-        select: {
-          job_title: true,
-          id: true
-        },
-        orderBy: {
-          createdAt: "desc"
-        },
-        take: 5
-      })
+      const emailMessage = reason === "Jobs Opportunities"
+        ? jobListHTML
+        : `<div style="font-size: 13.5px;">${removeHtmlTags(message)}</div>`;
 
-      if (reason === "Jobs Opportunities" && latestJobs.length < 2) throw new TRPCError({ code: "BAD_REQUEST", message: "The minimum latest jobs to email is 2. You have less than minimum" })
-
-      const jobsList = latestJobs
-        .map(
-          (job) =>
-            `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> <a href="https://www.hired.co.ke/home/jobs/${job.id}">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`
-        )
-        .join("");
-
-      const customMessage =
-        reason === "Jobs Opportunities" && latestJobs.length > 2
-          ? `
-      <p style='font-size: 13.5px; line-height:22px;'>We have exciting new job opportunities just for you! Don't miss out—apply now and take the next step in your career.</p>
-      <p style='font-size: 13.5px; line-height:22px;'>Here are the latest openings:</p>
-      <ul style='font-size: 13.5px; line-height:22px;'>${jobsList}</ul>
-      <p style='font-size: 13.5px; line-height:22px;'>Apply now before these opportunities are gone!</p>
-      <p style='font-size: 13.5px; line-height:22px;'>Best of luck,<br>Hired Jobs Kenya Team</p>
-    `
-          : "";
       const transporter = nodemailer.createTransport({
         port: 465,
         host: "smtp.gmail.com",
-        auth: {
-          user: "gethiredinkenya@gmail.com",
-          pass: emailPassword,
-        },
+        auth: { user: "gethiredinkenya@gmail.com", pass: emailPassword },
         secure: true,
       });
 
-      const promises = recipientsEmail.map(async (email) => {
-        const user = await db.user.findFirst({
-          where: {
-            email,
-          },
-          select: {
-            name: true,
-          },
-        });
-
+      const promises = usersToEmail.map(async (email) => {
+        const user = await db.user.findFirst({ where: { email }, select: { name: true } });
         if (!user) {
           throw new TRPCError({
             code: "BAD_REQUEST",
             message: `User with email ${email} does not exist`,
           });
         }
-
         const { name } = user;
         const mailOptions = {
-          from: {
-            name: "Hired Jobs",
-            address: "gethiredinkenya@gmail.com",
-          },
+          from: { name: "Hired Jobs", address: "gethiredinkenya@gmail.com" },
           replyTo: "gethiredinkenya@gmail.com",
-          to: "arebsy@gmail.com",
-          // to: email,
+          to: email,
           subject,
           html: `
-            <div style='font-size: 13.5px; line-height:22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-              <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
-                <p style='font-size: 13.5px; line-height:22px;'>Dear ${name},</p>
-                ${customMessage}
-                <div style='font-size: 13.5px; line-height:22px;'>${messageBody}</div>
-                <p style='font-size: 13.5px; line-height:22px; margin-top:4px'>This is an automated message. Please do NOT reply to this email.</p>
-                <p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X: 
-                  <a href="https://www.x.com/hiredKE">www.x.com/hiredKE</a>
+            <div style="width:100%; background:#f7fafa; padding: 20px; display: flex; justify-content: center;">
+              <div style="max-width:600px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                <p style="font-size: 13.5px;">Dear ${name},</p>
+                ${emailMessage}
+                <p style="font-size: 13.5px; margin-top: 10px;">This is an automated message. Please do NOT reply to this email.</p>
+                <p style="font-size: 13.5px;">Follow us on Twitter/X: 
+                  <a href="https://www.x.com/hiredKE"">www.x.com/hiredKE</a>
                 </p>
-                <hr>
-                <p style='text-align:center; font-size:13.5px; line-height:22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
+                <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+                <p style="text-align: center; font-size: 12px; color: #777;">Copyright © Hired Jobs Kenya. All rights reserved.</p>
               </div>
             </div>
           `,
-          priority: "high" as const,
+          priority: "high" as "high",
         };
-
-        return new Promise<void>((resolve, reject) => {
-          transporter.sendMail(mailOptions, (err) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve();
-            }
-          });
-        });
+        return transporter.sendMail(mailOptions);
       });
 
       await Promise.all(promises);
 
-      const emailWorker = await db.emailWorkerGeneral.create({
-        data: {
-          userId,
-          isAdminID: isAdmin.id,
-          reason,
-          subject,
-          emailedUserIds,
-          message,
-        },
-      });
+      await db.emailLog.create({ data: { adminId: isAdmin.id } });
 
-      return { msg: "Emails sent successfully", emailWorker };
+      return { msg: `Emails sent successfully for round ${currentRound}` };
     }),
   adminEmailWorkersOnSkills: privateProcedure
     .input(

@@ -180,6 +180,8 @@ model Admin {
   EmailWorkerGeneral     EmailWorkerGeneral[]
   ContactWorker          ContactWorker[]
   EmployerPlans          EmployerPlans[]
+  EmailRound             EmailRound[]
+  EmailLog               EmailLog[]
 }
 
 model UserReferrals {
@@ -273,6 +275,29 @@ model Job {
 
   @@index([companyId])
   @@index([isEmployerID])
+}
+
+model EmailRound {
+  id        String   @id @default(uuid())
+  isAdminID String
+  round     Int      @unique
+  emails    String[]
+  allUsers  String[]
+  createdAt DateTime @default(now())
+
+  admin Admin @relation(fields: [isAdminID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([isAdminID])
+}
+
+model EmailLog {
+  id        String   @id @default(uuid())
+  adminId   String
+  createdAt DateTime @default(now())
+
+  admin Admin @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@index([adminId])
 }
 
 model UnregisteredCompany {
