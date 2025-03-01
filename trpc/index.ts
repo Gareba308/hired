@@ -4218,70 +4218,47 @@ export const appRouter = router({
       if (lastEmailSent && new Date(lastEmailSent) > oneHourAgo) {
         throw new TRPCError({
           code: "TOO_MANY_REQUESTS",
-          message: "You can only send one email request per hour. Please try again later.",
+          message: "You can only send one email batch per hour. Please try again later.",
         });
       }
 
-      if (reason === "Jobs Opportunities") {
-        const dayOfWeek = format(new Date(), "EEEE");
+      const previousRounds = await db.emailRound.findMany({
+        orderBy: { round: "asc" },
+      });
 
-        const subjectsByDay: Record<string, string> = {
-          Monday: "Start Your Week with Top Jobs!",
-          Tuesday: "Tuesday's Best Job Openings",
-          Wednesday: "Midweek Job Picks - Apply Now!",
-          Thursday: "Thursday's Top Hiring Opportunities",
-          Friday: "End the Week Strong - Apply Today!",
-          Saturday: "Weekend Job Alert - Fresh Listings!",
-          Sunday: "Sunday's Top Jobs - Get Ready for the Week",
-        };
+      const allSentEmails = new Set(previousRounds.flatMap((round) => round.emails));
 
-        subject = subjectsByDay[dayOfWeek] || "Latest Job Openings - Apply Now!";
+      let newBatchUsers = await db.user.findMany({
+        where: { email: { notIn: Array.from(allSentEmails) } },
+        select: { email: true },
+        orderBy: { createdAt: "desc" },
+        take: 80,
+      });
+
+      let usersToEmail = newBatchUsers.map((u) => u.email);
+
+      if (usersToEmail.length === 0) {
+        for (const round of previousRounds) {
+          const pendingEmails = round.allUsers.filter((email) => !allSentEmails.has(email)).slice(0, 80);
+          if (pendingEmails.length > 0) {
+            usersToEmail = pendingEmails;
+            break;
+          }
+        }
       }
 
-      let latestRound = await db.emailRound.findFirst({ orderBy: { round: "desc" } });
-      let currentRound = latestRound ? latestRound.round : 1;
-      let sentEmails = new Set(latestRound?.emails || []);
-
-      if (!latestRound) {
-        const allUsers = await db.user.findMany({ select: { email: true }, orderBy: { createdAt: "desc" } });
-        const allUserEmails = allUsers.map((u) => u.email);
-        latestRound = await db.emailRound.create({
-          data: { round: 1, emails: [], allUsers: allUserEmails, isAdminID: isAdmin.id },
-        });
-        sentEmails = new Set();
-      }
-
-      const allUsers = await db.user.findMany({ select: { email: true } });
-      const allUserEmails = new Set(allUsers.map((u) => u.email));
-      const newUsers = Array.from(allUserEmails).filter((email) => !sentEmails.has(email));
-
-      if (newUsers.length > 0) {
-        latestRound.allUsers.push(...newUsers);
-        await db.emailRound.update({
-          where: { id: latestRound.id },
-          data: { allUsers: latestRound.allUsers },
-        });
-      }
-
-      let usersToEmail = latestRound.allUsers.filter((email) => !sentEmails.has(email)).slice(0, 100);
-
-      while (usersToEmail.length < 100) {
-        if (latestRound.allUsers.length === sentEmails.size) break;
-        currentRound += 1;
-        sentEmails = new Set();
-        await db.emailRound.create({
-          data: {
-            round: currentRound,
-            emails: [],
-            allUsers: latestRound.allUsers,
-            isAdminID: isAdmin.id,
-          },
-        });
-        usersToEmail = latestRound.allUsers.filter((email) => !sentEmails.has(email)).slice(0, 100);
-      }
-
-      if (usersToEmail.length === 0)
+      if (usersToEmail.length === 0) {
         throw new TRPCError({ code: "BAD_REQUEST", message: "No users left to email." });
+      }
+
+      const latestRound = await db.emailRound.create({
+        data: {
+          round: (previousRounds.length || 0) + 1,
+          emails: usersToEmail,
+          allUsers: usersToEmail,
+          isAdminID: isAdmin.id,
+        },
+      });
 
       let jobListHTML = "";
       if (reason === "Jobs Opportunities") {
@@ -4302,20 +4279,17 @@ export const appRouter = router({
         jobListHTML = latestJobs
           .map(
             (job) =>
-              `<li style="margin-bottom: 8px; font-size: 13.5px"><strong>${job.job_title}:</strong> 
-              <a href="https://www.hired.co.ke/home/jobs/${job.id}" style="color: #0073e6; text-decoration: none;">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`
+              `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> 
+              <a href="https://www.hired.co.ke/home/jobs/${job.id}">Apply Here</a></li>`
           )
           .join("");
 
-        jobListHTML = `
-          <p style="font-size: 13.5px;">We have exciting new job opportunities just for you! Don't miss out—apply now and take the next step in your career.</p>
-          <ul>${jobListHTML}</ul>
-          <p style="font-size: 13.5px;">Apply now before these opportunities are gone!</p>`;
+        jobListHTML = `<p style='font-size: 13.5px; line-height:22px;'>Exciting job opportunities available now!</p><ul>${jobListHTML}</ul>`;
       }
 
       const emailMessage = reason === "Jobs Opportunities"
         ? jobListHTML
-        : `<div style="font-size: 13.5px;">${removeHtmlTags(message)}</div>`;
+        : `<p style='font-size: 13.5px; line-height:22px;'>${message}</p>`;
 
       const transporter = nodemailer.createTransport({
         port: 465,
@@ -4324,44 +4298,27 @@ export const appRouter = router({
         secure: true,
       });
 
-      const promises = usersToEmail.map(async (email) => {
-        const user = await db.user.findFirst({ where: { email }, select: { name: true } });
-        if (!user) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: `User with email ${email} does not exist`,
-          });
-        }
-        const { name } = user;
-        const mailOptions = {
-          from: { name: "Hired Jobs", address: "gethiredinkenya@gmail.com" },
-          replyTo: "gethiredinkenya@gmail.com",
-          to: email,
-          subject,
-          html: `
-            <div style="width:100%; background:#f7fafa; padding: 20px; display: flex; justify-content: center;">
-              <div style="max-width:600px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-                <p style="font-size: 13.5px;">Dear ${name},</p>
-                ${emailMessage}
-                <p style="font-size: 13.5px; margin-top: 10px;">This is an automated message. Please do NOT reply to this email.</p>
-                <p style="font-size: 13.5px;">Follow us on Twitter/X: 
-                  <a href="https://www.x.com/hiredKE"">www.x.com/hiredKE</a>
-                </p>
-                <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-                <p style="text-align: center; font-size: 12px; color: #777;">Copyright © Hired Jobs Kenya. All rights reserved.</p>
-              </div>
-            </div>
-          `,
-          priority: "high" as "high",
-        };
-        return transporter.sendMail(mailOptions);
-      });
-
-      await Promise.all(promises);
-
       await db.emailLog.create({ data: { adminId: isAdmin.id } });
 
-      return { msg: `Emails sent successfully for round ${currentRound}` };
+      await Promise.allSettled(
+        usersToEmail.map(async (email) => {
+          const user = await db.user.findFirst({ where: { email }, select: { name: true } });
+          if (!user) return Promise.reject(`User with email ${email} does not exist`);
+
+          const mailOptions = {
+            from: { name: "Hired Jobs", address: "gethiredinkenya@gmail.com" },
+            replyTo: "gethiredinkenya@gmail.com",
+            to: email,
+            subject,
+            html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear ${user.name},</p>${emailMessage}<p style='font-size: 13.5px; line-height:22px;'>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on <a href="https://www.x.com/hiredKE">Twitter/X</a></p></div>`,
+            priority: "high" as "high",
+          };
+
+          return transporter.sendMail(mailOptions);
+        })
+      );
+
+      return { msg: `Emails sent successfully for round ${latestRound.round}` };
     }),
   adminEmailWorkersOnSkills: privateProcedure
     .input(
