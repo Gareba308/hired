@@ -184,8 +184,6 @@ const GeneralEmail = ({
   const onSubmit = (values: EmailFormTypes) => {
     sendEmail({
       ...values,
-      emailedUserIds: recipientUserIds,
-      recipientsEmail: recipientUserEmails,
     });
   };
   function classNames(...classes: string[]) {

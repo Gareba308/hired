@@ -4199,6 +4199,20 @@ export const appRouter = router({
       const isAdmin = await db.admin.findFirst({ where: { adminEmail: email }, select: { id: true } });
       if (!isAdmin) throw new TRPCError({ code: "BAD_REQUEST", message: "Unauthorized section" });
 
+      if (reason === "Jobs Opportunities") {
+        const dayOfWeek = format(new Date(), "EEEE");
+
+        const subjectsByDay: Record<string, string> = {
+          Monday: "Start Your Week with Top Jobs!",
+          Tuesday: "Tuesday's Best Job Openings",
+          Wednesday: "Midweek Job Picks - Apply Now!",
+          Thursday: "Thursday's Top Hiring Opportunities",
+          Friday: "End the Week Strong - Apply Today!",
+          Saturday: "Weekend Job Alert - Fresh Listings!",
+          Sunday: "Sunday's Top Jobs - Get Ready for the Week",
+        };
+        subject = subjectsByDay[dayOfWeek] || "Latest Job Openings - Apply Now!";
+      }
       const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
       const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
@@ -4280,11 +4294,11 @@ export const appRouter = router({
           .map(
             (job) =>
               `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> 
-              <a href="https://www.hired.co.ke/home/jobs/${job.id}">Apply Here</a></li>`
+              <a href="https://www.hired.co.ke/home/jobs/${job.id}">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`
           )
           .join("");
 
-        jobListHTML = `<p style='font-size: 13.5px; line-height:22px;'>Exciting job opportunities available now!</p><ul>${jobListHTML}</ul>`;
+        jobListHTML = `<p style='font-size: 13.5px; line-height:22px;'>Exciting job opportunities available now on Hired (<a href="https://www.hired.co.ke">https://www.hired.co.ke</a>)!</p><ul>${jobListHTML}</ul>`;
       }
 
       const emailMessage = reason === "Jobs Opportunities"
@@ -4310,7 +4324,7 @@ export const appRouter = router({
             replyTo: "gethiredinkenya@gmail.com",
             to: email,
             subject,
-            html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear ${user.name},</p>${emailMessage}<p style='font-size: 13.5px; line-height:22px;'>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on <a href="https://www.x.com/hiredKE">Twitter/X</a></p></div>`,
+            html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear ${user.name},</p>${emailMessage}<p style='font-size: 13.5px; line-height:22px; margin-top: 5px;'>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X<a href="https://www.x.com/hiredKE">www.twitter.com/hiredke</a></p></div>`,
             priority: "high" as "high",
           };
 

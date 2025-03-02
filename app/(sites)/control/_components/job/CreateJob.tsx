@@ -947,6 +947,11 @@ const CreateJob = ({
                                   placeholder="www.example.com/job"
                                   className="rounded-l-none"
                                   {...field}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    const cleanedValue = value.replace(/^https?:\/\//, "");
+                                    field.onChange(cleanedValue);
+                                  }}
                                 />
                               </FormControl>
                             </div>
@@ -2698,6 +2703,11 @@ const CreateJob = ({
                                   placeholder="www.example.com/job"
                                   className="rounded-l-none"
                                   {...field}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    const cleanedValue = value.replace(/^https?:\/\//, "");
+                                    field.onChange(cleanedValue);
+                                  }}
                                 />
                               </FormControl>
                             </div>
