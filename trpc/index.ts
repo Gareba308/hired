@@ -4324,7 +4324,7 @@ export const appRouter = router({
             replyTo: "gethiredinkenya@gmail.com",
             to: email,
             subject,
-            html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear ${user.name},</p>${emailMessage}<p style='font-size: 13.5px; line-height:22px; margin-top: 5px;'>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X<a href="https://www.x.com/hiredKE">www.twitter.com/hiredke</a></p></div>`,
+            html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear ${user.name},</p>${emailMessage}<p style='font-size: 13.5px; line-height:22px; margin-top: 5px;'>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X: <a href="https://www.x.com/hiredKE">www.twitter.com/hiredke</a></p></div>`,
             priority: "high" as "high",
           };
 
