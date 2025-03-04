@@ -34,7 +34,6 @@ import NoHomeDetailJob from "./NoHomeDetailJob";
 
 const useScreenSize = () => {
   const [isLargeScreen, setIsLargeScreen] = useState<boolean>(true);
-
   useEffect(() => {
     const handleResize = () => {
       const isLarge = window.innerWidth > 768;
