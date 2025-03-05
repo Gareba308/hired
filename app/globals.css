@@ -55,10 +55,6 @@
   }
 }
 
-ins.adsbygoogle[data-anchor-status] {
-  bottom: 0 !important;
-  top: auto !important;
-}
 
 .no-scrollbar::-webkit-scrollbar{
   display: none;
