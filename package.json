@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "prisma generate && next build",
-    "start": "next start",
-    "lint": "next lint",
-    "postinstall": "prisma generate"
-  },
+  "dev": "next dev",
+  "build": "NODE_OPTIONS='--max-old-space-size=4096' prisma generate && next build",
+  "start": "next start",
+  "lint": "next lint",
+  "postinstall": "prisma generate"
+},
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^43.1.0",
     "@ckeditor/ckeditor5-react": "^9.1.0",

@@ -4,6 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 interface CompanyJob {
   company_name: string;
@@ -108,6 +111,11 @@ const TopCompanies = ({ companies }: TopCompaniesProps) => {
                 </Link>
               </div>
             </li>
+            {index > 0 && (index + 1) % 12 === 0 && (
+              <div className="my-2">
+                <AdSenseAd />
+              </div>
+            )}
           </div>
         ))}
     </div>
