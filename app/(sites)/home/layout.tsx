@@ -12,17 +12,20 @@ const HomeLayout = ({ children }: PropsWithChildren) => {
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7434648314782318"
         crossOrigin="anonymous"
         strategy="lazyOnload"
-        onLoad={() => {
-          if (typeof window !== "undefined") {
-            (window as any).adsbygoogle = (window as any).adsbygoogle || [];
-            (window as any).adsbygoogle.push({
-              google_ad_client: "ca-pub-7434648314782318",
-              enable_page_level_ads: true,
-              overlays: { bottom: true, top: false },
-            });
-          }
-        }}
+        data-overlays="bottom"
       />
+      <Script strategy="lazyOnload" id="adsense-config">
+        {`
+          (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-7434648314782318",
+            enable_page_level_ads: true,
+            overlays: {
+              bottom: true,
+              top: false
+            }
+          });
+        `}
+      </Script>
       {children}
       <GoogleAnalytics gaId="G-D94MPR6B9P" />
     </div>
