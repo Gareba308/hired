@@ -111,7 +111,7 @@ const TopCompanies = ({ companies }: TopCompaniesProps) => {
                 </Link>
               </div>
             </li>
-            {index > 0 && (index + 1) % 9 === 0 && (
+            {index > 0 && (index + 1) % 12 === 0 && (
               <div className="my-2">
                 <AdSenseAd />
               </div>
