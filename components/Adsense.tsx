@@ -71,12 +71,6 @@ const AdSenseAd = () => {
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7434648314782318"
         crossOrigin="anonymous"
         strategy="lazyOnload"
-        onLoad={() => {
-          (window as any).adsbygoogle = (window as any).adsbygoogle || [];
-          (window as any).adsbygoogle.push({
-            overlays: { bottom: true, top: false },
-          });
-        }}
         onError={(e) => {
           console.error("Failed to load AdSense script:", e);
         }}

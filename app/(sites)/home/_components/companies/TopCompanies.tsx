@@ -1,9 +1,12 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 interface CompanyJob {
   company_name: string;
@@ -37,68 +40,84 @@ const TopCompanies = ({ companies }: TopCompaniesProps) => {
     }
   }
 
-  const router= useRouter()
+  const router = useRouter();
   return (
     <div className="mt-4 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {companies
-      .sort((a, b) => b.numberOfOccurrence - a.numberOfOccurrence)
-      .map((company, index) => (
-        <li
-         key={`${slugify(company.company_name)}-${index}`}
-          className="flex items-center px-3 w-full sm:px-4 pb-4 pt-3 sm:py-5 duration-150 border border-gray-300 rounded-lg"
-        >
-          <div className="mr-3.5 sm:mr-4">
-            {company.companyLogo ? (
-              <div
-                onClick={() =>
-                  router.push(`/home/companies/${slugify(company.company_name)}?origin=home/companies`)
-                }
-                className="relative cursor-pointer flex items-center justify-center h-[54px] sm:h-[60px] w-[54px] sm:w-[60px] overflow-hidden rounded-md"
-              >
-                <Image
-                  src={company.companyLogo}
-                  alt={`${company.company_name} logo`}
-                  title={`${company.company_name}'s logo`}
-                  quality={100}
-                  fill
-                  sizes="100%"
-                  style={{ objectFit: "contain" }}
-                  priority
-                />
-              </div>
-            ) : (
-              <div
-                onClick={() =>
-                  router.push(`/home/companies/${slugify(company.company_name)}?origin=home/companies`)
-                }
-                title={`${company.company_name}'s made up logo`}
-                className="h-[54px] w-[54px] sm:h-[60px] sm:w-[60px] cursor-pointer py-1 px-0.5 shrink-0 text-gray-600 border border-gray-300  bg-gray-200 hover:bg-secondary rounded-md sm:flex items-center justify-center"
-              >
-                <div className="flex items-center justify-center shrink-0 w-full h-full">
-                  <div className="text-2xl sm:text-2xl font-semibold shrink-0">
-                    {getInitials(company.company_name)}
+        .sort((a, b) => b.numberOfOccurrence - a.numberOfOccurrence)
+        .map((company, index) => (
+          <div key={`${slugify(company.company_name)}-${index}`}>
+            <li className="flex items-center px-3 w-full sm:px-4 pb-4 pt-3 sm:py-5 duration-150 border border-gray-300 rounded-lg">
+              <div className="mr-3.5 sm:mr-4">
+                {company.companyLogo ? (
+                  <div
+                    onClick={() =>
+                      router.push(
+                        `/home/companies/${slugify(
+                          company.company_name
+                        )}?origin=home/companies`
+                      )
+                    }
+                    className="relative cursor-pointer flex items-center justify-center h-[54px] sm:h-[60px] w-[54px] sm:w-[60px] overflow-hidden rounded-md"
+                  >
+                    <Image
+                      src={company.companyLogo}
+                      alt={`${company.company_name} logo`}
+                      title={`${company.company_name}'s logo`}
+                      quality={100}
+                      fill
+                      sizes="100%"
+                      style={{ objectFit: "contain" }}
+                      priority
+                    />
                   </div>
-                </div>
+                ) : (
+                  <div
+                    onClick={() =>
+                      router.push(
+                        `/home/companies/${slugify(
+                          company.company_name
+                        )}?origin=home/companies`
+                      )
+                    }
+                    title={`${company.company_name}'s made up logo`}
+                    className="h-[54px] w-[54px] sm:h-[60px] sm:w-[60px] cursor-pointer py-1 px-0.5 shrink-0 text-gray-600 border border-gray-300  bg-gray-200 hover:bg-secondary rounded-md sm:flex items-center justify-center"
+                  >
+                    <div className="flex items-center justify-center shrink-0 w-full h-full">
+                      <div className="text-2xl sm:text-2xl font-semibold shrink-0">
+                        {getInitials(company.company_name)}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="w-full leading-tighter">
+                <Link
+                  title={company.company_name}
+                  href={`/home/companies/${slugify(
+                    company.company_name
+                  )}?origin=home/companies`}
+                >
+                  <div className="text-lg lg:text-[16.3px] w-full block cursor-pointer font-medium text-primary hover:text-[#005580]">
+                    <span className="line-clamp-1 text-gray-600 w-full">
+                      {company.company_name}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between gap-x-4 w-full">
+                    <div className="text-[13px] font-medium text-gray-600 line-clamp-1">
+                      Vacancies: {company.numberOfOccurrence}
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </li>
+            {index > 0 && (index + 1) % 6 === 0 && (
+              <div className="my-2">
+                <AdSenseAd />
               </div>
             )}
           </div>
-          <div className="w-full leading-tighter">
-            <Link
-              title={company.company_name}
-              href={`/home/companies/${slugify(company.company_name)}?origin=home/companies`}
-            >
-              <div className="text-lg lg:text-[16.3px] w-full block cursor-pointer font-medium text-primary hover:text-[#005580]">
-                <span className="line-clamp-1 text-gray-600 w-full">{company.company_name}</span>
-              </div>
-              <div className="flex items-center justify-between gap-x-4 w-full">
-                <div className="text-[13px] font-medium text-gray-600 line-clamp-1">
-                  Vacancies: {company.numberOfOccurrence}
-                </div>
-              </div>
-            </Link>
-          </div>
-        </li>
-      ))}
+        ))}
     </div>
   );
 };
