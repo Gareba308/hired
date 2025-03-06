@@ -30,6 +30,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Copy,
+  Trash,
   ExternalLink,
   GripVertical,
   Loader2,
@@ -86,6 +87,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { trpc } from "@/app/_trpc/client";
 import { BarCharts } from "./BarChart";
 import { TheLineCharts } from "./LineChart";
+import { DeleteOldJobsAlertModal } from "../models/job/DeleteOldJobs";
 
 interface MyJobsItemsProps {
   id: string;
@@ -137,8 +139,6 @@ export function AllJobsApplications({
   const startWeek = startOfWeek(date);
   const endWeek = endOfWeek(date);
   const day = format(date, "dd/MMMM");
-  const formattedStartDate = format(startWeek, "dd/MMM");
-  const formattedEndDate = format(endWeek, "dd/MMM");
   const router = useRouter();
   const { toast } = useToast();
   function classNames(...classes: string[]) {
@@ -160,6 +160,8 @@ export function AllJobsApplications({
   >(null);
 
   const [openingLoading, setOpeningLoading] = React.useState<boolean>(false);
+  const [deleteAllOpen, setDeleteAllOpen] = React.useState<boolean>(false);
+  const deleteAllOnClose = () => setDeleteAllOpen((current) => !current);
 
   const openApp = (jobId: string) => {
     setCurrentlyOpeningID(jobId);
@@ -236,6 +238,44 @@ export function AllJobsApplications({
         }
       },
     });
+  const { mutate: confirmDeleteAll, isLoading: deleteAllLoading } =
+    trpc.adminDeleteExpiredJobs.useMutation({
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description:
+            "You have successfully deleted all expired jobs from the database",
+          variant: "default",
+          duration: 3000,
+        });
+        setDeleteAllOpen(false);
+        router.refresh();
+      },
+      onError: (err) => {
+        if (err.message) {
+          toast({
+            title: "Something went wrong",
+            description: err.message,
+            variant: "destructive",
+            duration: 3000,
+          });
+          setDeleteAllOpen(false);
+        } else {
+          toast({
+            title: "something went wrong",
+            description:
+              "There was a problem trying to delete all expired jobs from database",
+            variant: "destructive",
+            duration: 3000,
+          });
+          setDeleteAllOpen(false);
+        }
+      },
+    });
+
+  const onConfirmAllDelete = () => {
+    confirmDeleteAll();
+  };
 
   const columns: ColumnDef<MyJobsItemsProps>[] = [
     {
@@ -705,6 +745,12 @@ export function AllJobsApplications({
           className="w-full sm:max-w-sm"
         />
         <div>
+          <DeleteOldJobsAlertModal
+            isOpen={deleteAllOpen}
+            onClose={deleteAllOnClose}
+            onConfirm={onConfirmAllDelete}
+            loading={deleteAllLoading}
+          />
           <Menu as="div" className="relative inline-block text-left">
             <div>
               <Menu.Button
@@ -712,6 +758,10 @@ export function AllJobsApplications({
                 className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-2 py-2 text-sm font-semibold text-gray-800 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50"
               >
                 {unarchiveLoading ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin shrink-0 text-gray-600" />
+                  </>
+                ) : deleteAllLoading ? (
                   <>
                     <Loader2 className="h-5 w-5 animate-spin shrink-0 text-gray-600" />
                   </>
@@ -748,6 +798,24 @@ export function AllJobsApplications({
                       >
                         <ArchiveRestore className="h-4 w-4 mr-2 text-gray-500 shrink-0" />
                         Unarchive Job
+                      </span>
+                    )}
+                  </Menu.Item>
+                </div>
+                <div className="py-1">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <span
+                        onClick={() => setDeleteAllOpen(true)}
+                        className={classNames(
+                          active
+                            ? "bg-gray-100 text-gray-900"
+                            : "text-gray-700",
+                          "px-4 flex items-center hover:cursor-pointer py-2 text-sm"
+                        )}
+                      >
+                        <Trash className="h-4 w-4 mr-2 text-gray-500 shrink-0" />
+                        Delete Old Job
                       </span>
                     )}
                   </Menu.Item>

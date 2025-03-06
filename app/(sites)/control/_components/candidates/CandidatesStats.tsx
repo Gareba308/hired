@@ -85,7 +85,6 @@ import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { DeletePendingAlertModal } from "../models/candidate/DeletePending";
 import { DeleteAccountAlertModal } from "../models/candidate/DeleteAccount";
-import { DeleteOldJobsAlertModal } from "../models/job/DeleteOldJobs";
 
 interface CandidatesStatsProps {
   combinedData: User[];
@@ -182,7 +181,7 @@ export function CandidatesStats({
 
   const pendingConfirm = (pendingID: string) => {
     setCurrentlyPendingID(pendingID);
-    pendingUpdate({ accountId: pendingID });
+    pendingUpdate({accountId: pendingID });
     pendingClose();
   };
 
@@ -216,51 +215,8 @@ export function CandidatesStats({
 
   const deleteConfirm = (accountId: string) => {
     setCurrentlyDeletingID(accountId);
-    deleteAccount({ accountId });
+    deleteAccount({ accountId});
   };
-
-  const [deleteAllOpen, setDeleteAllOpen] = React.useState<boolean>(false);
-  const deleteAllOnClose = () => setDeleteAllOpen((current) => !current);
-
-  const { mutate: confirmDeleteAll, isLoading: deleteAllLoading } =
-    trpc.adminDeleteExpiredJobs.useMutation({
-      onSuccess: () => {
-        toast({
-          title: "Success",
-          description:
-            "You have successfully deleted all expired jobs from the database",
-          variant: "default",
-          duration: 3000,
-        });
-        setDeleteAllOpen(false);
-        router.refresh();
-      },
-      onError: (err) => {
-        if (err.message) {
-          toast({
-            title: "Something went wrong",
-            description: err.message,
-            variant: "destructive",
-            duration: 3000,
-          });
-          setDeleteAllOpen(false);
-        } else {
-          toast({
-            title: "something went wrong",
-            description:
-              "There was a problem trying to delete all expired jobs from database",
-            variant: "destructive",
-            duration: 3000,
-          });
-          setDeleteAllOpen(false);
-        }
-      },
-    });
-
-  const onConfirmAllDelete = () => {
-    confirmDeleteAll();
-  };
-
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
@@ -747,49 +703,14 @@ export function CandidatesStats({
           </Card>
         </div>
       </div>
-      <div className="flex items-center justify-between gap-x-2">
-        <DeleteOldJobsAlertModal
-          isOpen={deleteAllOpen}
-          onClose={deleteAllOnClose}
-          onConfirm={onConfirmAllDelete}
-          loading={deleteAllLoading}
-        />
-        <Input
-          placeholder="Search for a job seeker"
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="w-full mb-1 sm:max-w-sm"
-        />
-        <Button
-          size="default"
-          type="button"
-          onClick={() => setDeleteAllOpen(true)}
-          variant="destructive"
-          className="hidden md:flex"
-        >
-          {deleteAllLoading ? (
-            <Loader2 className="h-4 w-4 mr-1 shrink-0 animate-spin" />
-          ) : (
-            <Trash className="h-4 w-4 mr-1 shrink-0" />
-          )}{" "}
-          Delete
-        </Button>
-        <Button
-          size="default"
-          type="button"
-          onClick={() => setDeleteAllOpen(true)}
-          variant="destructive"
-          className="md:hidden"
-        >
-          {deleteAllLoading ? (
-            <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
-          ) : (
-            <Trash className="h-4 w-4 shrink-0" />
-          )}
-        </Button>
-      </div>
+      <Input
+        placeholder="Search for a job seeker"
+        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+        onChange={(event) =>
+          table.getColumn("name")?.setFilterValue(event.target.value)
+        }
+        className="w-full mb-1 sm:max-w-sm"
+      />
       <div className="rounded-lg border bg-white">
         <Table>
           <TableHeader>
