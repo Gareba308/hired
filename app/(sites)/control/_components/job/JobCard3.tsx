@@ -1,4 +1,3 @@
-import { Job } from "@prisma/client";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
@@ -13,8 +12,25 @@ import { useRouter } from "next/navigation";
 import { Copy } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
+interface OurJob {
+  company_name: string;
+  updatedAt: Date;
+  company_description: string | null;
+  companyLogo: string | null;
+  companyCategory: string | null;
+  companyEmail: string | null;
+  companyWebsite: string | null;
+  id: string;
+  ownPlatformMethod: string | null;
+  job_title: string;
+  createdAt: Date;
+  county: string | null;
+  job_type: string | null;
+  possible_pay: string | null;
+}
+
 interface JobCardProps {
-  allJobs: Job[];
+  allJobs: OurJob[];
 }
 const JobCard3 = ({ allJobs }: JobCardProps) => {
   const { toast } = useToast();

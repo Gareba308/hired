@@ -16,6 +16,13 @@ interface OurJob {
   companyCategory: string | null;
   companyEmail: string | null;
   companyWebsite: string | null;
+  id: string;
+  ownPlatformMethod: string | null;
+  job_title: string;
+  createdAt: Date;
+  county: string | null;
+  job_type: string | null;
+  possible_pay: string | null;
 }
 
 type CompanyWithJobs = {
@@ -51,6 +58,13 @@ const getCompanyWithJobs = async (slug: string) => {
       companyCategory: true,
       companyEmail: true,
       companyWebsite: true,
+      id: true,
+      ownPlatformMethod: true,
+      job_title: true,
+      createdAt: true,
+      county: true,
+      job_type: true,
+      possible_pay: true,
     },
     orderBy: {
       createdAt: "desc",

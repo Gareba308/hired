@@ -16,6 +16,13 @@ interface OurJob {
   companyCategory: string | null;
   companyEmail: string | null;
   companyWebsite: string | null;
+  id: string;
+  ownPlatformMethod: string | null;
+  job_title: string;
+  createdAt: Date;
+  county: string | null;
+  job_type: string | null;
+  possible_pay: string | null;
 }
 
 interface TopCompany {

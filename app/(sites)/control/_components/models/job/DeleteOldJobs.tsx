@@ -16,8 +16,8 @@ DeleteOldJobsAlertModalProps
 > = ({ isOpen, onClose, onConfirm, loading }) => {
   return (
     <Modal
-      title="Delete this candidate's messages"
-      description="Would you like to delete all messages from this candidate? This cannot be reversed."
+      title="Delete OLD expired Jobs"
+      description="Would you like to delete OLD jobs from the database? This cannot be reversed."
       isOpen={isOpen}
       onClose={onClose}
     >
@@ -40,7 +40,7 @@ DeleteOldJobsAlertModalProps
           {loading ? (
             <Loader2 className="h-5 w-5 animate-spin" />
           ) : (
-            <>Continue</>
+            <>Delete</>
           )}
         </Button>
       </div>
