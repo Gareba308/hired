@@ -51,7 +51,7 @@ const Page = async () => {
         equals: true,
       },
       createdAt: {
-        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+        gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
       },
     },
     orderBy: {
@@ -96,7 +96,7 @@ const Page = async () => {
         equals: true,
       },
       createdAt: {
-        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+        gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
       },
     },
     select: {
@@ -188,7 +188,7 @@ const Page = async () => {
         equals: true,
       },
       createdAt: {
-        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+        gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
       },
     },
     select: {

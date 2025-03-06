@@ -5,15 +5,10 @@ import Image from "next/image";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { ArrowRight } from "lucide-react";
 
 interface CompanyJob {
   company_name: string;
   companyLogo: string | null;
-  company_description: string | null;
-  companyCategory: string | null;
-  companyEmail: string | null;
-  companyWebsite: string | null;
   numberOfOccurrence: number;
   latestUpdatedAt: Date;
 }

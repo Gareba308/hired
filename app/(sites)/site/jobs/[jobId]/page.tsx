@@ -37,7 +37,7 @@ export async function generateStaticParams() {
         equals: true
       },
       createdAt: {
-        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+        gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
       },
     },
   });
@@ -94,7 +94,7 @@ const Page = async ({ params }: JobsProps) => {
         equals: true
       },
       createdAt: {
-        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+        gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
       },
       id: {
         not: {
@@ -150,7 +150,7 @@ const Page = async ({ params }: JobsProps) => {
         equals: true
       },
       createdAt: {
-        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+        gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
       },
     },
     select: {
@@ -202,7 +202,7 @@ const Page = async ({ params }: JobsProps) => {
         equals: true
       },
       createdAt: {
-        gte: new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000),
+        gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
       },
     },
     select: {

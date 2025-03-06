@@ -16,18 +16,19 @@ interface SEOTriggerProps {
 }
 const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
   const { toast } = useToast();
-  const router= useRouter()
+  const router = useRouter();
   const { mutate: triggerIndexing, isLoading } =
     trpc.adminTriggerIndexing.useMutation({
       onSuccess: () => {
         toast({
           title: "Success indexing",
-          description: "Request to have jobs indexed has been done successfully",
+          description:
+            "Request to have jobs indexed has been done successfully",
           variant: "default",
           duration: 3000,
         });
 
-        router.refresh()
+        router.refresh();
       },
       onError: (err) => {
         toast({
@@ -46,12 +47,13 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
       onSuccess: () => {
         toast({
           title: "Success indexing",
-          description: "Request to have blogs indexed has been done successfully",
+          description:
+            "Request to have blogs indexed has been done successfully",
           variant: "default",
           duration: 3000,
         });
 
-        router.refresh()
+        router.refresh();
       },
       onError: (err) => {
         toast({
@@ -75,8 +77,8 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
         SEO & Indexing
       </h2>
       <p className="mt-4 mb-1 text-center text-gray-700 text-base">
-        This is the requests submitted to to google for indexing. The real
-        indexing happens within 48 hours.
+        This is an indexing request submitted to google. The real indexing
+        happens within 48 hours.
       </p>
       <div className="mb-6">
         <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
@@ -140,7 +142,6 @@ const SEOTrigger = ({ blogReq, jobReq }: SEOTriggerProps) => {
                     Updated Time
                   </span>
                   <span suppressHydrationWarning>
-                    
                     Last: {format(blogReq?.updatedAt ?? new Date(), "PPP")},{" "}
                     {format(blogReq?.updatedAt ?? new Date(), "HHmm")}
                   </span>
