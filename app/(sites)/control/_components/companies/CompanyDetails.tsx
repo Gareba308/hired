@@ -2,12 +2,22 @@
 
 import { Preview } from "@/components/Preview";
 import { Button } from "@/components/ui/button";
-import { Job } from "@prisma/client";
 import { Briefcase, CornerUpLeft, Lock, Globe, Mail } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import JobCard3 from "../job/JobCard3";
 import { cn } from "@/lib/utils";
+
+interface OurJob {
+  company_name: string;
+  updatedAt: Date;
+  company_description: string | null;
+  companyLogo: string | null;
+  companyCategory: string | null;
+  companyEmail: string | null;
+  companyWebsite: string | null;
+}
+
 interface TopCompany {
   company_name: string;
   companyLogo: string | null;
@@ -16,7 +26,7 @@ interface TopCompany {
   companyEmail: string | null;
   companyWebsite: string | null;
   numberOfOccurrence: number;
-  jobs: Job[];
+  jobs: OurJob[];
 }
 interface CompanyDetailsProps {
   company: TopCompany | null;

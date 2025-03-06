@@ -10816,8 +10816,52 @@ export const appRouter = router({
       });
     }),
 
-  //Workers Section
+  adminDeleteExpiredJobs: privateProcedure
+    .mutation(async ({ ctx}) => {
+      const { userId, email } = ctx;
+      const currentDate = new Date()
 
+      const dbUser = await db.user.findFirst({
+        where: {
+          id: userId
+        }
+      })
+
+      if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED", message: "You have to login and try this action" })
+
+      const isAdmin = await db.admin.findFirst({
+        where: {
+          adminEmail: email
+        }
+      });
+
+      if (!isAdmin) throw new TRPCError({ code: "BAD_REQUEST", message: "This is an admin user section" })
+
+      const jobsPast90Days = await db.job.findMany({
+        where: {
+          createdAt: {
+            lte: new Date(currentDate.getTime() - 90 * 24 * 60 * 60 * 1000),
+          },
+        },
+        select: {
+          id: true,
+        }
+      });
+
+      if(jobsPast90Days.length === 0) throw new TRPCError({code:"BAD_REQUEST", message: "There are no jobs that are past 90 days to be deleted"})
+      
+      const jobsDeleteIDs= jobsPast90Days.map((job)=> job.id)
+
+      return await db.job.deleteMany({
+        where: {
+          id: {
+            in: jobsDeleteIDs
+          }
+        }
+      })
+    }),
+
+  //Workers Section
   workerCreateBio: privateProcedure
     .input(
       z.object({

@@ -137,7 +137,7 @@ const CandidateCard = ({
             <div className="grid gap-4 xl:grid-cols-2">
               {sortedCandidates.flatMap((item) => (
                 <div
-                  onClick={() => router.push(`/manage/candidates/${item.userId}?origin=manage/candidates`)}
+                  onClick={() => router.push(`/manage/talents/${item.userId}?origin=manage/talents`)}
                   key={item.userId}
                   className="border border-gray-200 pt-1 pb-2.5 px-2.5 cursor-pointer lg:px-3 rounded-sm"
                 >

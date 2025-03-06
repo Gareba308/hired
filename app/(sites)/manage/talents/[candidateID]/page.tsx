@@ -18,6 +18,9 @@ export async function generateStaticParams() {
         equals: "worker",
       },
     },
+    select: {
+      id: true
+    }
   });
 
   return candidates.map((candidate) => ({
@@ -33,21 +36,21 @@ const Page = async ({ params }: CandidateIDProps) => {
     },
   });
 
-  if (!candidateAvailable) redirect("/manage/candidates");
+  if (!candidateAvailable) redirect("/manage/talents");
 
   const session = await getServerSession(authOptions);
   if (!session)
-    redirect(`/home/login/enterprises?origin=manage/candidates/${candidateID}`);
+    redirect(`/home/login/enterprises?origin=manage/talents/${candidateID}`);
   const userId = session.id;
   if (!userId)
-    redirect(`/home/login/enterprises?origin=manage/candidates/${candidateID}`);
+    redirect(`/home/login/enterprises?origin=manage/talents/${candidateID}`);
   const dbUser = await db.user.findFirst({
     where: {
       id: userId,
     },
   });
   if (!dbUser)
-    redirect(`/home/login/enterprises?origin=manage/candidates/${candidateID}`);
+    redirect(`/home/login/enterprises?origin=manage/talents/${candidateID}`);
 
   const workersBio = await db.workerBio.findFirst({
     where: {

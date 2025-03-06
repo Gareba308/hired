@@ -1,7 +1,6 @@
 "use client";
 import {
   Briefcase,
-  Coins,
   Combine,
   Edit,
   Gem,
@@ -9,7 +8,6 @@ import {
   HardDriveUpload,
   LineChart,
   User2,
-  Users2,
   Wallet,
 } from "lucide-react";
 import React from "react";
@@ -35,11 +33,6 @@ const guestRoute = [
     icon: Combine,
     label: "My Jobs",
     href: "/manage/my-jobs",
-  },
-  {
-    icon: Users2,
-    label: "Candidates",
-    href: "/manage/candidates",
   },
   {
     icon: Gem,

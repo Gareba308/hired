@@ -7,6 +7,9 @@ import { useToast } from "@/components/ui/use-toast";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
+import dynamic from "next/dynamic";
+
+const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 const SigninPageEmployer = () => {
   const [loading, setLoading] = useState(false);
@@ -163,6 +166,9 @@ const SigninPageEmployer = () => {
                 </Link>
               </p>
             </div>
+          </div>
+          <div className="md:hidden mt-2">
+            <AdSenseAd />
           </div>
         </section>
       </div>

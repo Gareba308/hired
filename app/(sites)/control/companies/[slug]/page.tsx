@@ -1,12 +1,21 @@
 import { db } from "@/db";
 import { redirect } from "next/navigation";
-import { Job } from "@prisma/client";
 import CompanyDetails from "../../_components/companies/CompanyDetails";
 
 interface CompanyDetailsProps {
   params: {
     slug: string;
   };
+}
+
+interface OurJob {
+  company_name: string;
+  updatedAt: Date;
+  company_description: string | null;
+  companyLogo: string | null;
+  companyCategory: string | null;
+  companyEmail: string | null;
+  companyWebsite: string | null;
 }
 
 type CompanyWithJobs = {
@@ -17,7 +26,7 @@ type CompanyWithJobs = {
   companyEmail: string | null;
   companyWebsite: string | null;
   numberOfOccurrence: number;
-  jobs: Job[];
+  jobs: OurJob[];
 };
 
 const convertFromSlug = (str: string): string => {
@@ -25,7 +34,6 @@ const convertFromSlug = (str: string): string => {
 };
 
 const getCompanyWithJobs = async (slug: string) => {
-  const currentDate = new Date();
   const trueCompanyName = convertFromSlug(slug).trim();
 
   const pickJobs = await db.job.findMany({
@@ -34,6 +42,15 @@ const getCompanyWithJobs = async (slug: string) => {
         contains: trueCompanyName,
         mode: "insensitive",
       },
+    },
+    select: {
+      company_name: true,
+      updatedAt: true,
+      companyLogo: true,
+      company_description: true,
+      companyCategory: true,
+      companyEmail: true,
+      companyWebsite: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -71,14 +88,12 @@ const Page = async ({ params }: CompanyDetailsProps) => {
   const { slug } = params;
   const company = await getCompanyWithJobs(slug);
 
-  if(!company){
-    redirect('/control/companies')
+  if (!company) {
+    redirect("/control/companies");
   }
   return (
     <div>
-      <CompanyDetails
-        company={company}
-      />
+      <CompanyDetails company={company} />
     </div>
   );
 };

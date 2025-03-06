@@ -18,6 +18,9 @@ export async function generateStaticParams() {
         equals: "worker",
       },
     },
+    select: {
+      id: true
+    }
   });
 
   return workers.map((worker) => ({ candidateID: worker.id }));
