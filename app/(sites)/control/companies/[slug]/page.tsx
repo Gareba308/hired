@@ -76,10 +76,6 @@ const getCompanyWithJobs = async (slug: string) => {
     return normalizedJobCompanyName === trueCompanyName.toLowerCase();
   });
 
-  if (jobs.length === 0) {
-    return null;
-  }
-
   const latestJob = jobs.reduce((latest, job) => {
     return new Date(job.updatedAt) > new Date(latest.updatedAt) ? job : latest;
   });

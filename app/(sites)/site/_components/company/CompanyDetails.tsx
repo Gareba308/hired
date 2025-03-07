@@ -106,24 +106,7 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
                         </div>
                       </div>
                       <div className="flex flex-row items-center mt-1.5 w-full justify-between text-base">
-                        {company?.companyEmail && (
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            type="button"
-                            onClick={() => {
-                              const mailtoLink = `mailto:${company.companyEmail}`;
-                              window.location.href = mailtoLink;
-                            }}
-                            className="rounded-sm font-normal text-sm border text-primary hover:text-primary hover:bg-secondary bg-white border-gray-200 hover:border-gray-200"
-                          >
-                            <span className="flex items-center text-sm">
-                              <Mail className="w-4 h-4 mr-1.5 font-semibold" />
-                              Email
-                            </span>
-                          </Button>
-                        )}
-                        {company?.companyWebsite && (
+                      {company?.companyWebsite && (
                           <Button
                             variant="outline"
                             size="sm"
@@ -144,6 +127,23 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
                           >
                             <Globe className="w-4 h-4 mr-1.5" />
                             Website
+                          </Button>
+                        )}
+                        {company?.companyEmail && (
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            type="button"
+                            onClick={() => {
+                              const mailtoLink = `mailto:${company.companyEmail}`;
+                              window.location.href = mailtoLink;
+                            }}
+                            className="rounded-sm font-normal text-sm border text-primary hover:text-primary hover:bg-secondary bg-white border-gray-200 hover:border-gray-200"
+                          >
+                            <span className="flex items-center text-sm">
+                              <Mail className="w-4 h-4 mr-1.5 font-semibold" />
+                              Email
+                            </span>
                           </Button>
                         )}
                       </div>

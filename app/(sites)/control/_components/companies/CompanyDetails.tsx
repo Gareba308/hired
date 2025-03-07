@@ -65,7 +65,7 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
                   className="hover:text-[#005580] cursor-pointer"
                   onClick={() => router.push("/control/companies")}
                 >
-                 <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
+                  <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
                 </a>
                 <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
                   Company&apos;s Profile
@@ -123,23 +123,6 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
                         </div>
                       </div>
                       <div className="flex flex-row items-center mt-1.5 w-full justify-between text-base">
-                        {company?.companyEmail && (
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            type="button"
-                            onClick={() => {
-                              const mailtoLink = `mailto:${company.companyEmail}`;
-                              window.location.href = mailtoLink;
-                            }}
-                            className="rounded-sm font-normal text-sm border text-primary hover:text-primary hover:bg-secondary bg-white border-gray-200 hover:border-gray-200"
-                          >
-                            <span className="flex items-center text-sm">
-                              <Mail className="w-4 h-4 mr-1.5 font-semibold" />
-                              Email
-                            </span>
-                          </Button>
-                        )}
                         {company?.companyWebsite && (
                           <Button
                             variant="outline"
@@ -163,6 +146,23 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
                             Website
                           </Button>
                         )}
+                        {company?.companyEmail && (
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            type="button"
+                            onClick={() => {
+                              const mailtoLink = `mailto:${company.companyEmail}`;
+                              window.location.href = mailtoLink;
+                            }}
+                            className="rounded-sm font-normal text-sm border text-primary hover:text-primary hover:bg-secondary bg-white border-gray-200 hover:border-gray-200"
+                          >
+                            <span className="flex items-center text-sm">
+                              <Mail className="w-4 h-4 mr-1.5 font-semibold" />
+                              Email
+                            </span>
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </>
@@ -175,12 +175,19 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
                               Company&apos;s Description
                             </h3>
                           </div>
-                          {company.company_description && (
+                          {company.company_description ? (
                             <div className="text-gray-600 text-base">
                               <Preview
                                 value={company.company_description as string}
                               />
                             </div>
+                          ) : (
+                            <p className="text-sm text-gray-700 italic">
+                              Sorry, this company has not updated the company
+                              description details. You may choose to email the
+                              company in the <b>email section</b> for the owner
+                              to update the description.
+                            </p>
                           )}
                         </div>
                       )}
@@ -192,24 +199,23 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
                         <h3 className="text-xl font-medium text-gray-700">
                           Our Latest Jobs
                         </h3>
-                        {company?.numberOfOccurrence &&
-                          company?.numberOfOccurrence > 1 && (
-                            <div className="flex flex-row items-center">
-                              <h3 className="text-3xl font-medium text-sky-700 mr-1">
-                                {company?.numberOfOccurrence ? (
-                                  <>{company.numberOfOccurrence}</>
-                                ) : (
-                                  "0"
-                                )}
-                              </h3>{" "}
-                              <h3 className="flex flex-col leading-tight text-sm">
-                                <span className="text-sky-700">
-                                  available vacancies
-                                </span>{" "}
-                                <span>in this organization</span>
-                              </h3>
-                            </div>
-                          )}
+                        {company?.numberOfOccurrence && (
+                          <div className="flex flex-row items-center">
+                            <h3 className="text-3xl font-medium text-sky-700 mr-1">
+                              {company?.numberOfOccurrence ? (
+                                <>{company.numberOfOccurrence}</>
+                              ) : (
+                                "0"
+                              )}
+                            </h3>{" "}
+                            <h3 className="flex flex-col leading-tight text-sm">
+                              <span className="text-sky-700">
+                                available vacancies
+                              </span>{" "}
+                              <span>in this organization</span>
+                            </h3>
+                          </div>
+                        )}
                       </div>
 
                       {company?.jobs.length !== 0 ? (
@@ -223,7 +229,7 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
                               <h3 className="text-xl text-center lg:text-start tracking-tight text-gray-600 font-bold sm:text-2xl">
                                 No available jobs
                               </h3>
-                              <p className="text-gray-700 text-base leading-normal mt-2">
+                              <p className="text-gray-700 text-sm leading-normal mt-2">
                                 We currently do not have any active job
                                 openings, kindly check back later if there will
                                 be an update. Or find a job by clicking{" "}

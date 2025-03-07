@@ -4236,10 +4236,7 @@ export const appRouter = router({
         });
       }
 
-      const previousRounds = await db.emailRound.findMany({
-        orderBy: { round: "asc" },
-      });
-
+      const previousRounds = await db.emailRound.findMany({ orderBy: { round: "asc" } });
       const allSentEmails = new Set(previousRounds.flatMap((round) => round.emails));
 
       let newBatchUsers = await db.user.findMany({
@@ -4251,18 +4248,16 @@ export const appRouter = router({
 
       let usersToEmail = newBatchUsers.map((u) => u.email);
 
-      if (usersToEmail.length === 0) {
+      if (usersToEmail.length < 80) {
         for (const round of previousRounds) {
-          const pendingEmails = round.allUsers.filter((email) => !allSentEmails.has(email)).slice(0, 80);
-          if (pendingEmails.length > 0) {
-            usersToEmail = pendingEmails;
-            break;
-          }
+          const pendingEmails = round.allUsers.filter((email) => !allSentEmails.has(email));
+          usersToEmail.push(...pendingEmails.slice(0, 80 - usersToEmail.length));
+          if (usersToEmail.length === 80) break;
         }
       }
 
-      if (usersToEmail.length === 0) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "No users left to email." });
+      if (usersToEmail.length < 80) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Not enough users available to create a full batch." });
       }
 
       const latestRound = await db.emailRound.create({
@@ -4291,11 +4286,8 @@ export const appRouter = router({
         }
 
         jobListHTML = latestJobs
-          .map(
-            (job) =>
-              `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> 
-              <a href="https://www.hired.co.ke/home/jobs/${job.id}">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`
-          )
+          .map((job) => `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> 
+        <a href="https://www.hired.co.ke/home/jobs/${job.id}">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`)
           .join("");
 
         jobListHTML = `<p style='font-size: 13.5px; line-height:22px;'>Exciting job opportunities available now on Hired (<a href="https://www.hired.co.ke">https://www.hired.co.ke</a>)!</p><ul>${jobListHTML}</ul>`;
@@ -4325,7 +4317,6 @@ export const appRouter = router({
             to: email,
             subject,
             html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear ${user.name},</p>${emailMessage}<p style='font-size: 13.5px; line-height:22px; margin-top: 5px;'>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X: <a href="https://www.x.com/hiredKE">www.twitter.com/hiredke</a></p></div>`,
-            priority: "high" as "high",
           };
 
           return transporter.sendMail(mailOptions);
@@ -10817,7 +10808,7 @@ export const appRouter = router({
     }),
 
   adminDeleteExpiredJobs: privateProcedure
-    .mutation(async ({ ctx}) => {
+    .mutation(async ({ ctx }) => {
       const { userId, email } = ctx;
       const currentDate = new Date()
 
@@ -10848,9 +10839,9 @@ export const appRouter = router({
         }
       });
 
-      if(jobsPast90Days.length === 0) throw new TRPCError({code:"BAD_REQUEST", message: "There are no jobs that are past 90 days to be deleted"})
-      
-      const jobsDeleteIDs= jobsPast90Days.map((job)=> job.id)
+      if (jobsPast90Days.length === 0) throw new TRPCError({ code: "BAD_REQUEST", message: "There are no jobs that are past 90 days to be deleted" })
+
+      const jobsDeleteIDs = jobsPast90Days.map((job) => job.id)
 
       return await db.job.deleteMany({
         where: {
