@@ -71,22 +71,21 @@ const getCompanyWithJobs = async (slug: string) => {
     },
   });
 
-  const jobs = pickJobs.filter((job) => {
-    const normalizedJobCompanyName = job.company_name.trim().toLowerCase();
-    return normalizedJobCompanyName === trueCompanyName.toLowerCase();
-  });
+  const jobs = pickJobs.filter((job) => 
+    job.company_name.trim().toLowerCase() === trueCompanyName.toLowerCase()
+  );
 
-  const latestJob = jobs.reduce((latest, job) => {
-    return new Date(job.updatedAt) > new Date(latest.updatedAt) ? job : latest;
-  });
+  const latestJob = jobs.length > 0
+    ? jobs.reduce((latest, job) => new Date(job.updatedAt) > new Date(latest.updatedAt) ? job : latest)
+    : null;
 
   const companyWithJobs: CompanyWithJobs = {
-    company_name: latestJob.company_name,
-    companyLogo: latestJob.companyLogo,
-    company_description: latestJob.company_description,
-    companyCategory: latestJob.companyCategory,
-    companyEmail: latestJob.companyEmail,
-    companyWebsite: latestJob.companyWebsite,
+    company_name: latestJob?.company_name || trueCompanyName,
+    companyLogo: latestJob?.companyLogo || null,
+    company_description: latestJob?.company_description || null,
+    companyCategory: latestJob?.companyCategory || null,
+    companyEmail: latestJob?.companyEmail || null,
+    companyWebsite: latestJob?.companyWebsite || null,
     numberOfOccurrence: jobs.length,
     jobs,
   };
@@ -98,9 +97,6 @@ const Page = async ({ params }: CompanyDetailsProps) => {
   const { slug } = params;
   const company = await getCompanyWithJobs(slug);
 
-  if (!company) {
-    redirect("/control/companies");
-  }
   return (
     <div>
       <CompanyDetails company={company} />

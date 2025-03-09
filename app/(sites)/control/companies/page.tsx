@@ -98,14 +98,25 @@ const Page = async () => {
   }, {});
 
   const companies: CompanyJob[] = uniqueCompanies.map((company) => {
-    const normalizedCompanyName = company.company_name.toLowerCase();
-    const jobData = companyJobs[normalizedCompanyName];
-
+    const normalizedCompanyName = company.company_name.trim().toLowerCase();
+  
+    const matchingJobs = jobs.filter(
+      (job) => job.company_name.trim().toLowerCase() === normalizedCompanyName
+    );
+  
+    const numberOfOccurrence = matchingJobs.length;
+    const latestUpdatedAt =
+      numberOfOccurrence > 0
+        ? new Date(Math.max(...matchingJobs.map((job) => new Date(job.updatedAt).getTime())))
+        : company.latestUpdatedAt;
+  
+    const companyLogo = matchingJobs.length > 0 ? matchingJobs[0].companyLogo : company.companyLogo;
+  
     return {
       company_name: company.company_name,
-      companyLogo: jobData?.companyLogo || company.companyLogo,
-      latestUpdatedAt: jobData?.latestUpdatedAt || company.latestUpdatedAt,
-      numberOfOccurrence: jobData?.numberOfOccurrence || 0,
+      companyLogo,
+      latestUpdatedAt,
+      numberOfOccurrence,
     };
   });
 
