@@ -78,8 +78,8 @@ const Page = async () => {
 
 
   const companies: CompanyJob[] = uniqueCompanies.map((company) => {
-    const normalizedCompanyName = company.company_name.trim().toLowerCase().replace(/\s+/g, "");
-
+    const normalizedCompanyName = company.company_name.trim().toLowerCase();
+  
     const matchingJobs = jobs.filter(
       (job) => job.company_name.trim().toLowerCase() === normalizedCompanyName
     );
