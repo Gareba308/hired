@@ -1,5 +1,4 @@
 import { db } from "@/db";
-import { redirect } from "next/navigation";
 import CompanyDetails from "../../_components/companies/CompanyDetails";
 
 interface CompanyDetailsProps {
@@ -43,10 +42,41 @@ const convertFromSlug = (str: string): string => {
 const getCompanyWithJobs = async (slug: string) => {
   const trueCompanyName = convertFromSlug(slug).trim();
 
-  const pickJobs = await db.job.findMany({
+  const [registeredCompany, unregisteredCompany] = await Promise.all([
+    db.company.findFirst({
+      where: { company_name: { equals: trueCompanyName, mode: "insensitive" } },
+      select: {
+        company_name: true,
+        logo: true,
+        company_description: true,
+        category: true,
+        secondaryEmail: true,
+        website: true,
+      },
+    }),
+    db.unregisteredCompany.findFirst({
+      where: { companyName: { equals: trueCompanyName, mode: "insensitive" } },
+      select: {
+        companyName: true,
+        logo: true,
+        companyDescription: true,
+        companyCategory: true,
+        companyEmail: true,
+        companyWebsite: true,
+      },
+    }),
+  ]);
+
+  const companyData = registeredCompany || unregisteredCompany;
+
+  if (!companyData) {
+    return null; 
+  }
+
+  const jobs = await db.job.findMany({
     where: {
       company_name: {
-        contains: trueCompanyName,
+        equals: trueCompanyName,
         mode: "insensitive",
       },
     },
@@ -71,27 +101,20 @@ const getCompanyWithJobs = async (slug: string) => {
     },
   });
 
-  const jobs = pickJobs.filter((job) => 
-    job.company_name.trim().toLowerCase() === trueCompanyName.toLowerCase()
-  );
-
-  const latestJob = jobs.length > 0
-    ? jobs.reduce((latest, job) => new Date(job.updatedAt) > new Date(latest.updatedAt) ? job : latest)
-    : null;
-
   const companyWithJobs: CompanyWithJobs = {
-    company_name: latestJob?.company_name || trueCompanyName,
-    companyLogo: latestJob?.companyLogo || null,
-    company_description: latestJob?.company_description || null,
-    companyCategory: latestJob?.companyCategory || null,
-    companyEmail: latestJob?.companyEmail || null,
-    companyWebsite: latestJob?.companyWebsite || null,
+    company_name: registeredCompany?.company_name || unregisteredCompany?.companyName || trueCompanyName,
+    companyLogo: registeredCompany?.logo || unregisteredCompany?.logo || null,
+    company_description: registeredCompany?.company_description || unregisteredCompany?.companyDescription || null,
+    companyCategory: registeredCompany?.category || unregisteredCompany?.companyCategory || null,
+    companyEmail: registeredCompany?.secondaryEmail || unregisteredCompany?.companyEmail || null,
+    companyWebsite: registeredCompany?.website || unregisteredCompany?.companyWebsite || null,
     numberOfOccurrence: jobs.length,
     jobs,
   };
 
   return companyWithJobs;
 };
+
 
 const Page = async ({ params }: CompanyDetailsProps) => {
   const { slug } = params;

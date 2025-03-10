@@ -76,30 +76,10 @@ const Page = async () => {
     select: { company_name: true, updatedAt: true, companyLogo: true },
   });
 
-  const companyJobs = jobs.reduce<Record<string, CompanyJob>>((acc, job) => {
-    const normalizedCompanyName = job.company_name.toLowerCase();
-
-    if (acc[normalizedCompanyName]) {
-      if (new Date(job.updatedAt) > new Date(acc[normalizedCompanyName].latestUpdatedAt)) {
-        acc[normalizedCompanyName].latestUpdatedAt = job.updatedAt;
-        acc[normalizedCompanyName].companyLogo = job.companyLogo;
-      }
-      acc[normalizedCompanyName].numberOfOccurrence += 1;
-    } else {
-      acc[normalizedCompanyName] = {
-        company_name: job.company_name,
-        companyLogo: job.companyLogo,
-        latestUpdatedAt: job.updatedAt,
-        numberOfOccurrence: 1,
-      };
-    }
-
-    return acc;
-  }, {});
 
   const companies: CompanyJob[] = uniqueCompanies.map((company) => {
-    const normalizedCompanyName = company.company_name.trim().toLowerCase();
-  
+    const normalizedCompanyName = company.company_name.trim().toLowerCase().replace(/\s+/g, "");
+
     const matchingJobs = jobs.filter(
       (job) => job.company_name.trim().toLowerCase() === normalizedCompanyName
     );
