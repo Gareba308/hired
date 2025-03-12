@@ -468,18 +468,6 @@ const GeneralEmail = ({
                               )}
                               {!profileReasonForEmail &&
                                 !portfolioReasonForEmail && (
-                                  <SelectItem value="New article published">
-                                    New article published
-                                  </SelectItem>
-                                )}
-                              {!profileReasonForEmail &&
-                                !portfolioReasonForEmail && (
-                                  <SelectItem value="Announcing new changes">
-                                    Announcing new changes
-                                  </SelectItem>
-                                )}
-                              {!profileReasonForEmail &&
-                                !portfolioReasonForEmail && (
                                   <SelectItem value="General Feedback">
                                     General Feedback
                                   </SelectItem>
@@ -561,7 +549,7 @@ const GeneralEmail = ({
                 What is on your mind?
               </h3>
               <div className="px-5 py-6 leading-relaxed">
-              <p className="text-base font-normal">
+                <p className="text-base font-normal">
                   For data on potential categories to email candidates on and
                   those recently emailed.
                 </p>
@@ -569,7 +557,11 @@ const GeneralEmail = ({
                   <Button
                     size="lg"
                     type="button"
-                    onClick={() => router.push("/control/email/analytics?origin=control/email/general")}
+                    onClick={() =>
+                      router.push(
+                        "/control/email/analytics?origin=control/email/general"
+                      )
+                    }
                     className="w-full sm:w-max lg:w-full hover:bg-primary hover:opacity-90"
                   >
                     Emailing Analytics
@@ -601,7 +593,10 @@ const GeneralEmail = ({
                             </span>
                           </div>
                           <div className="flex items-center gap-x-4 text-muted-foreground flex-wrap">
-                            <p suppressHydrationWarning className="text-xs font-medium text-body-color">
+                            <p
+                              suppressHydrationWarning
+                              className="text-xs font-medium text-body-color"
+                            >
                               &bull;{" "}
                               {formatDistanceToNowStrict(post.createdAt, {
                                 addSuffix: true,

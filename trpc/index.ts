@@ -4192,7 +4192,6 @@ export const appRouter = router({
         },
       });
     }),
-
   adminEmailWorkerOnGeneral: privateProcedure
     .input(
       z.object({
@@ -4210,6 +4209,7 @@ export const appRouter = router({
 
       const isAdmin = await db.admin.findFirst({ where: { adminEmail: adminEmail }, select: { id: true } });
       if (!isAdmin) throw new TRPCError({ code: "BAD_REQUEST", message: "Unauthorized section" });
+
       if (reason === "Jobs Opportunities") {
         const dayOfWeek = format(new Date(), "EEEE");
 
@@ -4224,50 +4224,66 @@ export const appRouter = router({
         };
         subject = subjectsByDay[dayOfWeek] || "Latest Job Openings - Apply Now!";
       }
+      const oneHourAgo = new Date(Date.now() - 30 * 60 * 1000);
+      const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-      const emailLogsToday = await db.emailLog.count({
-        where: { adminId: isAdmin.id, createdAt: { gte: startOfToday } },
-      });
-
-      if (emailLogsToday >= MAX_DAILY_EMAILS) {
-        throw new TRPCError({
-          code: "TOO_MANY_REQUESTS",
-          message: `Daily limit of ${MAX_DAILY_EMAILS} emails reached.`,
-        });
-      }
-
-      const emailLogsLastHour = await db.emailLog.count({
-        where: { adminId: isAdmin.id, createdAt: { gte: oneHourAgo } },
-      });
-
-      if (emailLogsLastHour >= MAX_HOURLY_EMAILS) {
-        throw new TRPCError({
-          code: "TOO_MANY_REQUESTS",
-          message: `Hourly limit of ${MAX_HOURLY_EMAILS} emails reached. Try again later.`,
-        });
-      }
-
-      const remainingDailyEmails = MAX_DAILY_EMAILS - emailLogsToday;
-      const remainingHourlyEmails = MAX_HOURLY_EMAILS - emailLogsLastHour;
-      const maxEmailsToSend = Math.min(remainingDailyEmails, remainingHourlyEmails, 80);
-
-      if (maxEmailsToSend <= 0) {
-        throw new TRPCError({
-          code: "TOO_MANY_REQUESTS",
-          message: "No more emails can be sent at this time.",
-        });
-      }
-
-      let usersToEmail = await db.user.findMany({
-        where: { role: "worker" },
-        select: { email: true, name: true },
+      const emailLogs = await db.emailLog.findMany({
+        where: { adminId: isAdmin.id, createdAt: { gte: twentyFourHoursAgo } },
         orderBy: { createdAt: "desc" },
-        take: maxEmailsToSend,
       });
 
-      if (usersToEmail.length === 0) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "No users available for email batch." });
+      if (emailLogs.length >= 8) {
+        throw new TRPCError({
+          code: "TOO_MANY_REQUESTS",
+          message: "You have exceeded the limit of 8 email requests in the last 24 hours.",
+        });
       }
+
+      const lastEmailSent = emailLogs.length > 0 ? emailLogs[0].createdAt : null;
+      if (lastEmailSent && new Date(lastEmailSent) > oneHourAgo) {
+        throw new TRPCError({
+          code: "TOO_MANY_REQUESTS",
+          message: "You can only send one email batch per hour. Please try again later.",
+        });
+      }
+
+      const previousRounds = await db.emailRound.findMany({ orderBy: { round: "asc" } });
+      const allSentEmails = new Set(previousRounds.flatMap((round) => round.emails));
+
+      let newBatchUsers = await db.user.findMany({
+        where: {
+          email: { notIn: Array.from(allSentEmails) },
+          role: {
+            equals: "worker"
+          }
+        },
+        select: { email: true },
+        orderBy: { createdAt: "desc" },
+        take: 80,
+      });
+
+      let usersToEmail = newBatchUsers.map((u) => u.email);
+
+      if (usersToEmail.length < 80) {
+        for (const round of previousRounds) {
+          const pendingEmails = round.allUsers.filter((email) => !allSentEmails.has(email));
+          usersToEmail.push(...pendingEmails.slice(0, 80 - usersToEmail.length));
+          if (usersToEmail.length === 80) break;
+        }
+      }
+
+      if (usersToEmail.length < 80) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Not enough users available to create a full batch." });
+      }
+
+      const latestRound = await db.emailRound.create({
+        data: {
+          round: (previousRounds.length || 0) + 1,
+          emails: usersToEmail,
+          allUsers: usersToEmail,
+          isAdminID: isAdmin.id,
+        },
+      });
 
       let jobListHTML = "";
       if (reason === "Jobs Opportunities") {
@@ -4279,17 +4295,27 @@ export const appRouter = router({
         });
 
         if (latestJobs.length < 2) {
-          throw new TRPCError({ code: "BAD_REQUEST", message: "Minimum of 2 job listings required." });
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "The minimum latest jobs to email is 2. You have less than the minimum.",
+          });
         }
 
-        jobListHTML = `<p style='font-size: 13.5px; line-height:22px;'>Exciting job opportunities on Hired:</p><ul>${latestJobs
-          .map(
-            (job) => `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> <a href="https://www.hired.co.ke/home/jobs/${job.id}">View Job</a></li>`
-          )
-          .join("")}</ul>`;
+        jobListHTML = latestJobs
+          .map((job) => `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> 
+        <a href="https://www.hired.co.ke/home/jobs/${job.id}">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`)
+          .join("");
+
+        jobListHTML = `<p style='font-size: 13.5px; line-height:22px;'>Exciting job opportunities available now on Hired (<a href="https://www.hired.co.ke">https://www.hired.co.ke</a>)!</p><ul>${jobListHTML}</ul>
+        <p style='font-size: 13.5px; line-height:22px;'>
+            Don't miss out on these and many more exciting job opportunities! Stay updated with the latest job openings by visiting our <a href="https://www.hired.co.ke/home/jobs">website</a> regularly.
+          </p>
+        `;
       }
 
-      const emailMessage = reason === "Jobs Opportunities" ? jobListHTML : `<p style='font-size: 13.5px; line-height:22px;'>${message}</p>`;
+      const emailMessage = reason === "Jobs Opportunities"
+        ? jobListHTML
+        : `<p style='font-size: 13.5px; line-height:22px;'>${message}</p>`;
 
       const transporter = nodemailer.createTransport({
         port: 465,
@@ -4298,41 +4324,24 @@ export const appRouter = router({
         secure: true,
       });
 
-      let failedEmails: string[] = [];
-      for (let i = 0; i < usersToEmail.length; i += BATCH_SIZE) {
-        const batch = usersToEmail.slice(i, i + BATCH_SIZE);
+      await db.emailLog.create({ data: { adminId: isAdmin.id } });
 
-        const results = await Promise.allSettled(
-          batch.map(async (user) => {
-            const mailOptions = {
-              from: { name: "Hired Jobs", address: "gethiredinkenya@gmail.com" },
-              replyTo: "gethiredinkenya@gmail.com",
-              to: user.email,
-              subject,
-              html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear ${user.name},</p>${emailMessage}<p style='font-size: 13.5px; line-height:22px;'>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X: <a href="https://www.x.com/hiredKE">www.twitter.com/hiredke</a></p></div>`,
-            };
-            return transporter.sendMail(mailOptions);
-          })
-        );
+      await Promise.allSettled(
+        usersToEmail.map(async (email) => {
+          const user = await db.user.findFirst({ where: { email }, select: { name: true } });
+          if (!user) return Promise.reject(`User with email ${email} does not exist`);
 
-        failedEmails.push(...batch.filter((_, index) => results[index].status === "rejected").map((user) => user.email));
-      }
+          const mailOptions = {
+            from: { name: "Hired Jobs", address: "gethiredinkenya@gmail.com" },
+            replyTo: "gethiredinkenya@gmail.com",
+            to: email,
+            subject,
+            html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear ${user.name},</p>${emailMessage}<p style='font-size: 13.5px; line-height:22px; margin-top: 5px;'>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X: <a href="https://www.x.com/hiredKE">www.twitter.com/hiredke</a></p></div>`,
+          };
 
-      if (failedEmails.length > 0) {
-        console.log(`Retrying ${failedEmails.length} failed emails...`);
-        await Promise.allSettled(
-          failedEmails.map(async (email) => {
-            const mailOptions = {
-              from: { name: "Hired Jobs", address: "gethiredinkenya@gmail.com" },
-              replyTo: "gethiredinkenya@gmail.com",
-              to: email,
-              subject,
-              html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear User,</p>${emailMessage}<p>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X: <a href="https://www.x.com/hiredKE">www.twitter.com/hiredke</a></p></div>`,
-            };
-            return transporter.sendMail(mailOptions);
-          })
-        );
-      }
+          return transporter.sendMail(mailOptions);
+        })
+      );
       await db.emailWorkerGeneral.deleteMany({
         where: {
           createdAt: { lt: subDays(new Date(), 7) }
@@ -4341,22 +4350,18 @@ export const appRouter = router({
       await db.emailLog.deleteMany({
         where: { createdAt: { lt: subDays(new Date(), 2) } },
       });
-      await db.emailLog.createMany({
-        data: usersToEmail.map((user) => ({ adminId: isAdmin.id, createdAt: new Date() })),
-      });
 
       return await db.emailWorkerGeneral.create({
         data: {
           reason,
           subject,
           message: emailMessage,
-          emailedUserIds: usersToEmail.map((user) => user.email),
+          emailedUserIds: latestRound.emails,
           isAdminID: isAdmin.id,
           userId
         }
       })
     }),
-
   adminEmailWorkersOnSkills: privateProcedure
     .input(
       z.object({
