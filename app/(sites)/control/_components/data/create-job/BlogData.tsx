@@ -102,11 +102,6 @@ export const reasonsForEmailToWorkerGeneral = [
     value: "Jobs Opportunities",
   },
   {
-    label: "Incomplete portfolio",
-    value: "Incomplete portfolio",
-  },
-  { label: "Incomplete profile", value: "Incomplete profile" },
-  {
     label: "New changes",
     value: "New changes",
   },

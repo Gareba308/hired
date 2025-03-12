@@ -23,10 +23,21 @@ import {
   addDays,
   differenceInMinutes,
   subDays,
+  startOfDay,
+  subHours
 } from "date-fns";
 import googleIndexAPI from "@/lib/indexing";
 import googleIndexBlogAPI from "@/lib/indexingBlogs";
 import { authorize } from "@/lib/indexAuth";
+
+const MAX_DAILY_EMAILS = 400;
+const MAX_HOURLY_EMAILS = 80;
+const BATCH_SIZE = 10;
+
+const now = new Date();
+const startOfToday = startOfDay(now);
+const oneHourAgo = subHours(now, 1);
+const twentyFourHoursAgo = subDays(now, 1);
 
 const generateID = () => {
   let digits = "0123456789";
@@ -4181,6 +4192,7 @@ export const appRouter = router({
         },
       });
     }),
+
   adminEmailWorkerOnGeneral: privateProcedure
     .input(
       z.object({
@@ -4190,15 +4202,14 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { userId, email } = ctx;
+      const { userId, email: adminEmail } = ctx;
       let { reason, subject, message } = input;
 
-      const dbUser = await db.user.findFirst({ where: { id: userId, email } });
+      const dbUser = await db.user.findFirst({ where: { id: userId, email: adminEmail } });
       if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized." });
 
-      const isAdmin = await db.admin.findFirst({ where: { adminEmail: email }, select: { id: true } });
+      const isAdmin = await db.admin.findFirst({ where: { adminEmail: adminEmail }, select: { id: true } });
       if (!isAdmin) throw new TRPCError({ code: "BAD_REQUEST", message: "Unauthorized section" });
-
       if (reason === "Jobs Opportunities") {
         const dayOfWeek = format(new Date(), "EEEE");
 
@@ -4213,61 +4224,50 @@ export const appRouter = router({
         };
         subject = subjectsByDay[dayOfWeek] || "Latest Job Openings - Apply Now!";
       }
-      const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-      const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-      const emailLogs = await db.emailLog.findMany({
-        where: { adminId: isAdmin.id, createdAt: { gte: twentyFourHoursAgo } },
-        orderBy: { createdAt: "desc" },
+      const emailLogsToday = await db.emailLog.count({
+        where: { adminId: isAdmin.id, createdAt: { gte: startOfToday } },
       });
 
-      if (emailLogs.length >= 5) {
+      if (emailLogsToday >= MAX_DAILY_EMAILS) {
         throw new TRPCError({
           code: "TOO_MANY_REQUESTS",
-          message: "You have exceeded the limit of 5 email requests in the last 24 hours.",
+          message: `Daily limit of ${MAX_DAILY_EMAILS} emails reached.`,
         });
       }
 
-      const lastEmailSent = emailLogs.length > 0 ? emailLogs[0].createdAt : null;
-      if (lastEmailSent && new Date(lastEmailSent) > oneHourAgo) {
+      const emailLogsLastHour = await db.emailLog.count({
+        where: { adminId: isAdmin.id, createdAt: { gte: oneHourAgo } },
+      });
+
+      if (emailLogsLastHour >= MAX_HOURLY_EMAILS) {
         throw new TRPCError({
           code: "TOO_MANY_REQUESTS",
-          message: "You can only send one email batch per hour. Please try again later.",
+          message: `Hourly limit of ${MAX_HOURLY_EMAILS} emails reached. Try again later.`,
         });
       }
 
-      const previousRounds = await db.emailRound.findMany({ orderBy: { round: "asc" } });
-      const allSentEmails = new Set(previousRounds.flatMap((round) => round.emails));
+      const remainingDailyEmails = MAX_DAILY_EMAILS - emailLogsToday;
+      const remainingHourlyEmails = MAX_HOURLY_EMAILS - emailLogsLastHour;
+      const maxEmailsToSend = Math.min(remainingDailyEmails, remainingHourlyEmails, 80);
 
-      let newBatchUsers = await db.user.findMany({
-        where: { email: { notIn: Array.from(allSentEmails) } },
-        select: { email: true },
+      if (maxEmailsToSend <= 0) {
+        throw new TRPCError({
+          code: "TOO_MANY_REQUESTS",
+          message: "No more emails can be sent at this time.",
+        });
+      }
+
+      let usersToEmail = await db.user.findMany({
+        where: { role: "worker" },
+        select: { email: true, name: true },
         orderBy: { createdAt: "desc" },
-        take: 80,
+        take: maxEmailsToSend,
       });
 
-      let usersToEmail = newBatchUsers.map((u) => u.email);
-
-      if (usersToEmail.length < 80) {
-        for (const round of previousRounds) {
-          const pendingEmails = round.allUsers.filter((email) => !allSentEmails.has(email));
-          usersToEmail.push(...pendingEmails.slice(0, 80 - usersToEmail.length));
-          if (usersToEmail.length === 80) break;
-        }
+      if (usersToEmail.length === 0) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "No users available for email batch." });
       }
-
-      if (usersToEmail.length < 80) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "Not enough users available to create a full batch." });
-      }
-
-      const latestRound = await db.emailRound.create({
-        data: {
-          round: (previousRounds.length || 0) + 1,
-          emails: usersToEmail,
-          allUsers: usersToEmail,
-          isAdminID: isAdmin.id,
-        },
-      });
 
       let jobListHTML = "";
       if (reason === "Jobs Opportunities") {
@@ -4279,23 +4279,17 @@ export const appRouter = router({
         });
 
         if (latestJobs.length < 2) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: "The minimum latest jobs to email is 2. You have less than the minimum.",
-          });
+          throw new TRPCError({ code: "BAD_REQUEST", message: "Minimum of 2 job listings required." });
         }
 
-        jobListHTML = latestJobs
-          .map((job) => `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> 
-        <a href="https://www.hired.co.ke/home/jobs/${job.id}">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`)
-          .join("");
-
-        jobListHTML = `<p style='font-size: 13.5px; line-height:22px;'>Exciting job opportunities available now on Hired (<a href="https://www.hired.co.ke">https://www.hired.co.ke</a>)!</p><ul>${jobListHTML}</ul>`;
+        jobListHTML = `<p style='font-size: 13.5px; line-height:22px;'>Exciting job opportunities on Hired:</p><ul>${latestJobs
+          .map(
+            (job) => `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> <a href="https://www.hired.co.ke/home/jobs/${job.id}">View Job</a></li>`
+          )
+          .join("")}</ul>`;
       }
 
-      const emailMessage = reason === "Jobs Opportunities"
-        ? jobListHTML
-        : `<p style='font-size: 13.5px; line-height:22px;'>${message}</p>`;
+      const emailMessage = reason === "Jobs Opportunities" ? jobListHTML : `<p style='font-size: 13.5px; line-height:22px;'>${message}</p>`;
 
       const transporter = nodemailer.createTransport({
         port: 465,
@@ -4304,27 +4298,65 @@ export const appRouter = router({
         secure: true,
       });
 
-      await db.emailLog.create({ data: { adminId: isAdmin.id } });
+      let failedEmails: string[] = [];
+      for (let i = 0; i < usersToEmail.length; i += BATCH_SIZE) {
+        const batch = usersToEmail.slice(i, i + BATCH_SIZE);
 
-      await Promise.allSettled(
-        usersToEmail.map(async (email) => {
-          const user = await db.user.findFirst({ where: { email }, select: { name: true } });
-          if (!user) return Promise.reject(`User with email ${email} does not exist`);
+        const results = await Promise.allSettled(
+          batch.map(async (user) => {
+            const mailOptions = {
+              from: { name: "Hired Jobs", address: "gethiredinkenya@gmail.com" },
+              replyTo: "gethiredinkenya@gmail.com",
+              to: user.email,
+              subject,
+              html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear ${user.name},</p>${emailMessage}<p style='font-size: 13.5px; line-height:22px;'>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X: <a href="https://www.x.com/hiredKE">www.twitter.com/hiredke</a></p></div>`,
+            };
+            return transporter.sendMail(mailOptions);
+          })
+        );
 
-          const mailOptions = {
-            from: { name: "Hired Jobs", address: "gethiredinkenya@gmail.com" },
-            replyTo: "gethiredinkenya@gmail.com",
-            to: email,
-            subject,
-            html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear ${user.name},</p>${emailMessage}<p style='font-size: 13.5px; line-height:22px; margin-top: 5px;'>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X: <a href="https://www.x.com/hiredKE">www.twitter.com/hiredke</a></p></div>`,
-          };
+        failedEmails.push(...batch.filter((_, index) => results[index].status === "rejected").map((user) => user.email));
+      }
 
-          return transporter.sendMail(mailOptions);
-        })
-      );
+      if (failedEmails.length > 0) {
+        console.log(`Retrying ${failedEmails.length} failed emails...`);
+        await Promise.allSettled(
+          failedEmails.map(async (email) => {
+            const mailOptions = {
+              from: { name: "Hired Jobs", address: "gethiredinkenya@gmail.com" },
+              replyTo: "gethiredinkenya@gmail.com",
+              to: email,
+              subject,
+              html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear User,</p>${emailMessage}<p>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X: <a href="https://www.x.com/hiredKE">www.twitter.com/hiredke</a></p></div>`,
+            };
+            return transporter.sendMail(mailOptions);
+          })
+        );
+      }
+      await db.emailWorkerGeneral.deleteMany({
+        where: {
+          createdAt: { lt: subDays(new Date(), 7) }
+        }
+      })
+      await db.emailLog.deleteMany({
+        where: { createdAt: { lt: subDays(new Date(), 2) } },
+      });
+      await db.emailLog.createMany({
+        data: usersToEmail.map((user) => ({ adminId: isAdmin.id, createdAt: new Date() })),
+      });
 
-      return { msg: `Emails sent successfully for round ${latestRound.round}` };
+      return await db.emailWorkerGeneral.create({
+        data: {
+          reason,
+          subject,
+          message: emailMessage,
+          emailedUserIds: usersToEmail.map((user) => user.email),
+          isAdminID: isAdmin.id,
+          userId
+        }
+      })
     }),
+
   adminEmailWorkersOnSkills: privateProcedure
     .input(
       z.object({

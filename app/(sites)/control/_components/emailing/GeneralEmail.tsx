@@ -130,12 +130,6 @@ const GeneralEmail = ({
     (item) => item.email
   );
 
-  const recipientUserIds = profileReasonForEmail
-    ? profileUserIds
-    : portfolioReasonForEmail
-    ? portfolioUserIds
-    : generalUserIds;
-
   const recipientUserEmails = profileReasonForEmail
     ? profileUserEmails
     : portfolioReasonForEmail
