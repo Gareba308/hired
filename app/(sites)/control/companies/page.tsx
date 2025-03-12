@@ -35,34 +35,34 @@ const Page = async () => {
       select: { companyName: true, logo: true, updatedAt: true },
     }),
   ]);
-  
+
   const allUnregisteredCompanies = allUnregisteredCompaniesRaw.filter(
     (company) => company.companyName !== null
   );
 
-  const uniqueCompaniesMap = new Map<
-    string,
-    { company_name: string; companyLogo: string | null; latestUpdatedAt: Date }
-  >();
+  const uniqueCompaniesMap = new Map<string, CompanyJob>();
 
   registeredCompanies.forEach((company) => {
-    const normalizedCompanyName = (company.company_name || "Unknown Company").toLowerCase();
+    const companyName = company.company_name?.trim() || "Unknown Company";
+    const normalizedCompanyName = companyName.toLowerCase();
 
     uniqueCompaniesMap.set(normalizedCompanyName, {
-      company_name: company.company_name || "Unknown Company",
+      company_name: companyName,
       companyLogo: company.logo,
       latestUpdatedAt: company.updatedAt,
+      numberOfOccurrence: 0,
     });
   });
 
   allUnregisteredCompanies.forEach((company) => {
-    const normalizedCompanyName = (company.companyName || "Unknown Company").toLowerCase();
+    const normalizedCompanyName = company.companyName.trim().toLowerCase();
 
     if (!uniqueCompaniesMap.has(normalizedCompanyName)) {
       uniqueCompaniesMap.set(normalizedCompanyName, {
-        company_name: company.companyName || "Unknown Company",
+        company_name: company.companyName,
         companyLogo: company.logo,
         latestUpdatedAt: company.updatedAt,
+        numberOfOccurrence: 0,
       });
     }
   });
@@ -73,36 +73,32 @@ const Page = async () => {
     where: {
       company_name: { in: uniqueCompanies.map((c) => c.company_name) },
     },
-    select: { company_name: true, updatedAt: true, companyLogo: true },
+    select: { company_name: true, updatedAt: true },
   });
 
-
-  const companies: CompanyJob[] = uniqueCompanies.map((company) => {
+  uniqueCompanies.forEach((company) => {
     const normalizedCompanyName = company.company_name.trim().toLowerCase();
-  
     const matchingJobs = jobs.filter(
       (job) => job.company_name.trim().toLowerCase() === normalizedCompanyName
     );
-  
-    const numberOfOccurrence = matchingJobs.length;
-    const latestUpdatedAt =
-      numberOfOccurrence > 0
-        ? new Date(Math.max(...matchingJobs.map((job) => new Date(job.updatedAt).getTime())))
-        : company.latestUpdatedAt;
-  
-    const companyLogo = matchingJobs.length > 0 ? matchingJobs[0].companyLogo : company.companyLogo;
-  
-    return {
-      company_name: company.company_name,
-      companyLogo,
-      latestUpdatedAt,
-      numberOfOccurrence,
-    };
+
+    company.numberOfOccurrence = matchingJobs.length;
+    if (matchingJobs.length > 0) {
+      company.latestUpdatedAt = new Date(
+        Math.max(
+          ...matchingJobs.map((job) => new Date(job.updatedAt).getTime())
+        )
+      );
+    }
   });
 
   return (
     <div className="bg-white min-h-[calc(100vh-90px)] sm:rounded-md sm:shadow-sm max-w-7xl mx-auto px-4 pt-2 pb-6 md:px-5">
-      {companies.length === 0 ? <NoCompanies /> : <AllCompanies companies={companies} />}
+      {uniqueCompanies.length === 0 ? (
+        <NoCompanies />
+      ) : (
+        <AllCompanies companies={uniqueCompanies} />
+      )}
     </div>
   );
 };
