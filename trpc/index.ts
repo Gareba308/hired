@@ -4207,7 +4207,7 @@ export const appRouter = router({
       const dbUser = await db.user.findFirst({ where: { id: userId, email: adminEmail } });
       if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized." });
 
-      const isAdmin = await db.admin.findFirst({ where: { adminEmail: adminEmail }, select: { id: true } });
+      const isAdmin = await db.admin.findFirst({ where: { adminEmail }, select: { id: true } });
       if (!isAdmin) throw new TRPCError({ code: "BAD_REQUEST", message: "Unauthorized section" });
 
       if (reason === "Jobs Opportunities") {
@@ -4224,6 +4224,7 @@ export const appRouter = router({
         };
         subject = subjectsByDay[dayOfWeek] || "Latest Job Openings - Apply Now!";
       }
+
       const oneHourAgo = new Date(Date.now() - 30 * 60 * 1000);
       const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
@@ -4239,11 +4240,10 @@ export const appRouter = router({
         });
       }
 
-      const lastEmailSent = emailLogs.length > 0 ? emailLogs[0].createdAt : null;
-      if (lastEmailSent && new Date(lastEmailSent) > oneHourAgo) {
+      if (emailLogs.length > 0 && new Date(emailLogs[0].createdAt) > oneHourAgo) {
         throw new TRPCError({
           code: "TOO_MANY_REQUESTS",
-          message: "You can only send one email batch per hour. Please try again later.",
+          message: "You can only send one email batch per half an hour. Please try again later.",
         });
       }
 
@@ -4253,9 +4253,7 @@ export const appRouter = router({
       let newBatchUsers = await db.user.findMany({
         where: {
           email: { notIn: Array.from(allSentEmails) },
-          role: {
-            equals: "worker"
-          }
+          role: "worker",
         },
         select: { email: true },
         orderBy: { createdAt: "desc" },
@@ -4270,10 +4268,6 @@ export const appRouter = router({
           usersToEmail.push(...pendingEmails.slice(0, 80 - usersToEmail.length));
           if (usersToEmail.length === 80) break;
         }
-      }
-
-      if (usersToEmail.length < 80) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "Not enough users available to create a full batch." });
       }
 
       const latestRound = await db.emailRound.create({
@@ -4302,20 +4296,22 @@ export const appRouter = router({
         }
 
         jobListHTML = latestJobs
-          .map((job) => `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> 
-        <a href="https://www.hired.co.ke/home/jobs/${job.id}">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`)
+          .map(
+            (job) =>
+              `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> 
+          <a href="https://www.hired.co.ke/home/jobs/${job.id}">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`
+          )
           .join("");
 
-        jobListHTML = `<p style='font-size: 13.5px; line-height:22px;'>Exciting job opportunities available now on Hired (<a href="https://www.hired.co.ke">https://www.hired.co.ke</a>)!</p><ul>${jobListHTML}</ul>
-        <p style='font-size: 13.5px; line-height:22px;'>
+        jobListHTML = `<p style='font-size: 13.5px; line-height:22px;'>Exciting job opportunities available now on Hired!</p><ul>${jobListHTML}</ul> <p style='font-size: 13.5px; line-height:22px;'>
             Don't miss out on these and many more exciting job opportunities! Stay updated with the latest job openings by visiting our <a href="https://www.hired.co.ke/home/jobs">website</a> regularly.
-          </p>
-        `;
+          </p>`;
       }
 
-      const emailMessage = reason === "Jobs Opportunities"
-        ? jobListHTML
-        : `<p style='font-size: 13.5px; line-height:22px;'>${message}</p>`;
+      const emailMessage =
+        reason === "Jobs Opportunities"
+          ? jobListHTML
+          : `<p style='font-size: 13.5px; line-height:22px;'>${message}</p>`;
 
       const transporter = nodemailer.createTransport({
         port: 465,
@@ -4342,25 +4338,17 @@ export const appRouter = router({
           return transporter.sendMail(mailOptions);
         })
       );
-      await db.emailWorkerGeneral.deleteMany({
-        where: {
-          createdAt: { lt: subDays(new Date(), 7) }
-        }
-      })
-      await db.emailLog.deleteMany({
-        where: { createdAt: { lt: subDays(new Date(), 2) } },
-      });
 
-      return await db.emailWorkerGeneral.create({
+      await db.emailWorkerGeneral.create({
         data: {
           reason,
           subject,
           message: emailMessage,
           emailedUserIds: latestRound.emails,
           isAdminID: isAdmin.id,
-          userId
-        }
-      })
+          userId,
+        },
+      });
     }),
   adminEmailWorkersOnSkills: privateProcedure
     .input(
