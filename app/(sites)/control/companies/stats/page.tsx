@@ -21,6 +21,7 @@ const Page = async () => {
   if (!session) redirect("/home/login?origin=control/companies/stats");
   const userId = session.id;
   if (!userId) redirect("/home/login?origin=control/companies/stats");
+  const currentDate = new Date();
   const dbUser = await db.user.findFirst({
     where: {
       id: userId,
@@ -34,38 +35,41 @@ const Page = async () => {
       role: {
         equals: "employer",
       },
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 90 * 24 * 60 * 60 * 1000),
+      },
     },
     orderBy: {
       createdAt: "desc",
     },
   });
-  
+
   const jobs = await db.job.findMany({
-    select : {
+    select: {
       id: true,
-      userId: true
-    }
+      userId: true,
+    },
   });
-  
+
   const companies = await db.company.findMany();
-  
+
   const jobCounts = new Map<string, number>();
   const companyNames = new Map<string, string | undefined>();
-  
-  allEmployers.forEach(employer => {
+
+  allEmployers.forEach((employer) => {
     jobCounts.set(employer.id, 0);
   });
-  
-  jobs.forEach(job => {
+
+  jobs.forEach((job) => {
     const count = jobCounts.get(job.userId) || 0;
     jobCounts.set(job.userId, count + 1);
   });
-  
-  companies.forEach(company => {
+
+  companies.forEach((company) => {
     companyNames.set(company.userId, company.company_name || "N/A");
   });
-  
-  const combinedData = allEmployers.map(employer => ({
+
+  const combinedData = allEmployers.map((employer) => ({
     ...employer,
     jobCount: jobCounts.get(employer.id) || 0,
     companyName: companyNames.get(employer.id) || "N/A",

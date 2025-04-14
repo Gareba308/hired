@@ -4192,6 +4192,7 @@ export const appRouter = router({
         },
       });
     }),
+
   adminEmailWorkerOnGeneral: privateProcedure
     .input(
       z.object({
@@ -4207,7 +4208,7 @@ export const appRouter = router({
       const dbUser = await db.user.findFirst({ where: { id: userId, email: adminEmail } });
       if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized." });
 
-      const isAdmin = await db.admin.findFirst({ where: { adminEmail }, select: { id: true } });
+      const isAdmin = await db.admin.findFirst({ where: { adminEmail: adminEmail }, select: { id: true } });
       if (!isAdmin) throw new TRPCError({ code: "BAD_REQUEST", message: "Unauthorized section" });
 
       if (reason === "Jobs Opportunities") {
@@ -4240,7 +4241,8 @@ export const appRouter = router({
         });
       }
 
-      if (emailLogs.length > 0 && new Date(emailLogs[0].createdAt) > oneHourAgo) {
+      const lastEmailSent = emailLogs.length > 0 ? emailLogs[0].createdAt : null;
+      if (lastEmailSent && new Date(lastEmailSent) > oneHourAgo) {
         throw new TRPCError({
           code: "TOO_MANY_REQUESTS",
           message: "You can only send one email batch per half an hour. Please try again later.",
@@ -4253,7 +4255,7 @@ export const appRouter = router({
       let newBatchUsers = await db.user.findMany({
         where: {
           email: { notIn: Array.from(allSentEmails) },
-          role: "worker",
+          role: { equals: "worker" },
         },
         select: { email: true },
         orderBy: { createdAt: "desc" },
@@ -4264,10 +4266,11 @@ export const appRouter = router({
 
       if (usersToEmail.length < 80) {
         for (const round of previousRounds) {
-          const pendingEmails = round.allUsers.filter((email) => !allSentEmails.has(email));
-          usersToEmail.push(...pendingEmails.slice(0, 80 - usersToEmail.length));
-          if (usersToEmail.length === 80) break;
+          const remainingEmails = round.emails.filter((email) => !usersToEmail.includes(email));
+          usersToEmail.push(...remainingEmails);
+          if (usersToEmail.length >= 80) break;
         }
+        usersToEmail = usersToEmail.slice(0, 80);
       }
 
       const latestRound = await db.emailRound.create({
@@ -4297,13 +4300,13 @@ export const appRouter = router({
 
         jobListHTML = latestJobs
           .map(
-            (job) =>
-              `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> 
-          <a href="https://www.hired.co.ke/home/jobs/${job.id}">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`
+            (job) => `<li style='font-size: 13.5px; line-height:22px;'><strong>${job.job_title}:</strong> 
+        <a href="https://www.hired.co.ke/home/jobs/${job.id}">https://www.hired.co.ke/home/jobs/${job.id}</a></li>`
           )
           .join("");
 
-        jobListHTML = `<p style='font-size: 13.5px; line-height:22px;'>Exciting job opportunities available now on Hired!</p><ul>${jobListHTML}</ul> <p style='font-size: 13.5px; line-height:22px;'>
+        jobListHTML = `<p style='font-size: 13.5px; line-height:22px;'>Exciting job opportunities available now on Hired (<a href="https://www.hired.co.ke">https://www.hired.co.ke</a>)!</p><ul>${jobListHTML}</ul>
+        <p style='font-size: 13.5px; line-height:22px;'>
             Don't miss out on these and many more exciting job opportunities! Stay updated with the latest job openings by visiting our <a href="https://www.hired.co.ke/home/jobs">website</a> regularly.
           </p>`;
       }
@@ -4325,11 +4328,10 @@ export const appRouter = router({
       await Promise.allSettled(
         usersToEmail.map(async (email) => {
           const user = await db.user.findFirst({ where: { email }, select: { name: true } });
-          if (!user) return Promise.reject(`User with email ${email} does not exist`);
+          if (!user) return;
 
           const mailOptions = {
             from: { name: "Hired Jobs", address: "gethiredinkenya@gmail.com" },
-            replyTo: "gethiredinkenya@gmail.com",
             to: email,
             subject,
             html: `<div><p style='font-size: 13.5px; line-height:22px;'>Dear ${user.name},</p>${emailMessage}<p style='font-size: 13.5px; line-height:22px; margin-top: 5px;'>This is an automated message. Please do NOT reply.</p><p style='font-size: 13.5px; line-height:22px;'>Follow us on Twitter/X: <a href="https://www.x.com/hiredKE">www.twitter.com/hiredke</a></p></div>`,
@@ -4339,7 +4341,17 @@ export const appRouter = router({
         })
       );
 
-      await db.emailWorkerGeneral.create({
+      await db.emailWorkerGeneral.deleteMany({
+        where: {
+          createdAt: { lt: subDays(new Date(), 7) },
+        },
+      });
+
+      await db.emailLog.deleteMany({
+        where: { createdAt: { lt: subDays(new Date(), 2) } },
+      });
+
+      return await db.emailWorkerGeneral.create({
         data: {
           reason,
           subject,

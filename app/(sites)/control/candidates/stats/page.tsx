@@ -21,6 +21,7 @@ const Page = async () => {
   if (!session) redirect("/home/login?origin=control/candidates/stats");
   const userId = session.id;
   if (!userId) redirect("/home/login?origin=control/candidates/stats");
+  const currentDate = new Date();
   const dbUser = await db.user.findFirst({
     where: {
       id: userId,
@@ -34,26 +35,29 @@ const Page = async () => {
       role: {
         equals: "worker",
       },
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 60 * 24 * 60 * 60 * 1000),
+      },
     },
     orderBy: {
       createdAt: "desc",
     },
   });
-  
+
   const applications = await db.application.findMany();
-  
+
   const applicationCounts = new Map<string, number>();
-  
-  allWorkers.forEach(worker => {
+
+  allWorkers.forEach((worker) => {
     applicationCounts.set(worker.id, 0);
   });
-  
-  applications.forEach(application => {
+
+  applications.forEach((application) => {
     const count = applicationCounts.get(application.userId) || 0;
     applicationCounts.set(application.userId, count + 1);
   });
-  
-  const combinedData = allWorkers.map(worker => ({
+
+  const combinedData = allWorkers.map((worker) => ({
     ...worker,
     applicationCount: applicationCounts.get(worker.id) || 0,
   }));

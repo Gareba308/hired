@@ -318,6 +318,9 @@ const Page = async () => {
       archived: {
         equals: false,
       },
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 60 * 24 * 60 * 60 * 1000),
+      },
     },
     orderBy: {
       createdAt: "asc",
@@ -334,6 +337,11 @@ const Page = async () => {
   });
 
   const allJobs = await db.job.findMany({
+    where: {
+      createdAt: {
+        gte: new Date(currentDate.getTime() - 60 * 24 * 60 * 60 * 1000),
+      },
+    },
     select: {
       id: true,
       createdAt: true,

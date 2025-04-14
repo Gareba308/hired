@@ -17,11 +17,11 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: {
-    default: "Latest Jobs in Kenya, Vacancies, Career Opportunities | Hired",
+    default: "Latest Jobs in Kenya, Vacancies, Career Opportunities & How to Make or Earn Money Online in Kenya | Hired",
     template: `%s | ${siteConfig.name}`,
   },
   description:
-    "Find the latest jobs in Kenya. Apply for vacancies, career opportunities & recruitment listings. Sign up free, explore top companies, and secure your future today.",
+    "Find the latest jobs in Kenya. Apply for vacancies, career opportunities & recruitment listings make money online in Kenya. Sign up free, explore top companies, and secure your future today.",
   metadataBase: new URL(siteConfig.url),
   keywords: [
     "jobs in Kenya",
@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     "latest jobs in Kenya",
     "jobs in Nairobi",
     "top companies hiring",
+    "make money online in Kenya"
   ],
   authors: [
     {
