@@ -18,26 +18,24 @@ const NoProfile = () => {
             No User Profile Available
           </p>
           <p className="text-gray-600 text-base md:text-base">
-            Sorry, we could not find what you are looking for, kindly make
-            changes to your search query or the job filter.
+            Sorry, we could not find your user profile. Create profile to post job
           </p>
           <div className="mt-4 flex flex-col w-full sm:flex-row items-center justify-center gap-4 sm:gap-6">
+          <Button
+              variant="default"
+              onClick={() => router.push("/control/profile")}
+              size="default"
+              className="w-full px-4 font-normal text-base hover:bg-primary hover:opacity-90 rounded-sm"
+            >
+              Create Profile
+            </Button>
             <Button
               variant="outline"
-              size="lg"
+              size="default"
               onClick={() => router.push('/control/jobs')}
               className="w-full font-normal text-base px-4 rounded-sm"
             >
-              <Undo2 className="h-4 w-4 mr-1" /> Go Back
-            </Button>
-            <Button
-              variant="default"
-              onClick={() => router.push("/control/dashboard")}
-              size="lg"
-              className="w-full px-4 font-normal text-base hover:bg-primary hover:opacity-90 rounded-sm"
-            >
-              Dashboard
-              <ArrowRight className="h-4 w-4 ml-1" />
+              Go Back
             </Button>
           </div>
         </div>

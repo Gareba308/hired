@@ -43,7 +43,19 @@ const Page = async () => {
       createdAt: "desc",
     },
   });
-
+  const totalWorkers = await db.user.findMany({
+    where: {
+      role: {
+        equals: "worker",
+      },
+      emailVerified: {
+        equals: true
+      }
+    },
+    select: {
+      id: true,
+    },
+  });
   const applications = await db.application.findMany();
 
   const applicationCounts = new Map<string, number>();
@@ -279,6 +291,7 @@ const Page = async () => {
   return (
     <div className="h-full min-h-[calc(100vh-95px)] sm:rounded-md bg-white sm:shadow-sm max-w-7xl px-4 pb-4 mx-auto overflow-hidden">
       <CandidatesStats
+        totalWorkers={totalWorkers}
         combinedData={combinedData}
         countWorkers={countWorkers}
         percentageWorkers={percentageWorkers}

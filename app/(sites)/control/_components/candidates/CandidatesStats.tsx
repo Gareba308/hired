@@ -86,8 +86,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { DeletePendingAlertModal } from "../models/candidate/DeletePending";
 import { DeleteAccountAlertModal } from "../models/candidate/DeleteAccount";
 
+interface TotalWorker {
+  id: string
+}
 interface CandidatesStatsProps {
   combinedData: User[];
+  totalWorkers: TotalWorker[];
   countWorkers: number;
   percentageWorkers: string;
   countWorkerSuccess: number;
@@ -100,6 +104,7 @@ interface CandidatesStatsProps {
 
 export function CandidatesStats({
   combinedData,
+  totalWorkers,
   countWorkers,
   percentageWorkers,
   countWorkerSuccess,
@@ -453,11 +458,11 @@ export function CandidatesStats({
                     </TooltipTrigger>
                     <TooltipContent className="text-gray-500 tracking-normal">
                       <p className="text-gray-500 leading-tight text-xs font-normal">
-                        Total of{" "}
+                        Total number of workers{" "}
                         <span className="font-semibold">
-                          {combinedData.length}
+                          {totalWorkers.length}
                         </span>{" "}
-                        worker(s), the month of{" "}
+                        worker(s). The month of{" "}
                         <span className="font-semibold">{fullMonthName}</span>{" "}
                         accounts for{" "}
                         <span className="font-semibold">{countWorkers}</span>{" "}
@@ -477,7 +482,7 @@ export function CandidatesStats({
             </CardHeader>
             <CardContent>
               <div className="text-2xl sm:text-3xl md:text-4xl font-bold">
-                +{combinedData.length}
+                +{totalWorkers.length}
               </div>
               <p className="text-xs tracking-tight flex items-center gap-x-1 text-muted-foreground">
                 <span>

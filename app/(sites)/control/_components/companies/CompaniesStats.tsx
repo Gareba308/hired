@@ -86,8 +86,13 @@ import Link from "next/link";
 import { DeletePendingAlertModal } from "../models/companies/DeletePending";
 import { DeleteAccountAlertModal } from "../models/companies/DeleteAccount";
 
+interface TotalEmployers {
+  id: string
+}
+
 interface CompaniesStatsProps {
   combinedData: User[];
+  totalEmployers: TotalEmployers[];
   countEmployers: number;
   percentageEmployers: string;
   countEmployerSuccess: number;
@@ -101,6 +106,7 @@ interface CompaniesStatsProps {
 
 export function CompaniesStats({
   combinedData,
+  totalEmployers,
   countEmployers,
   percentageEmployers,
   countEmployerSuccess,
@@ -458,11 +464,11 @@ export function CompaniesStats({
                     </TooltipTrigger>
                     <TooltipContent className="text-gray-500 tracking-normal">
                       <p className="text-gray-500 leading-tight text-xs font-normal">
-                        Total of{" "}
+                        Total employers are{" "}
                         <span className="font-semibold">
-                          {combinedData.length}
-                        </span>{" "}
-                        employer(s), the month of{" "}
+                          {totalEmployers.length}
+                        </span>.
+                        The month of{" "}
                         <span className="font-semibold">{fullMonthName}</span>{" "}
                         accounts for{" "}
                         <span className="font-semibold">{countEmployers}</span>{" "}
@@ -482,7 +488,7 @@ export function CompaniesStats({
             </CardHeader>
             <CardContent>
               <div className="text-2xl sm:text-3xl md:text-4xl font-bold">
-                +{combinedData.length}
+                +{totalEmployers.length}
               </div>
               <p className="text-xs tracking-tight flex items-center gap-x-1 text-muted-foreground">
                 <span>

@@ -10,14 +10,6 @@ interface RecruiterID {
   };
 }
 
-export const revalidate = 60;
-
-export async function generateStaticParams() {
-  const employerHelps = await db.helpEmployer.findMany();
-
-  return employerHelps.map((help) => ({ recruiterUserId: help.userId }));
-}
-
 const Page = async ({ params }: RecruiterID) => {
   const { recruiterUserId } = params;
 

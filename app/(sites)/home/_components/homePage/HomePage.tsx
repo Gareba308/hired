@@ -46,7 +46,6 @@ const HomePage = ({ jobs }: HomePageProps) => {
     ConsultingSubcategory: "Consulting",
   };
 
-
   const slugify = (str: string): string => {
     return str
       .toLowerCase()
@@ -402,7 +401,7 @@ const HomePage = ({ jobs }: HomePageProps) => {
           </div>
         </section>
         <section className="pt-3 sm max-w-screen-xl mx-auto pb-2 px-4 items-center sm:justify-center lg:flex md:px-4">
-        <AdSenseAd />
+          <AdSenseAd />
         </section>
         <section className="pt-14 max-w-screen-xl mx-auto pb-4 px-4 items-center lg:flex md:px-8">
           <div className="text-gray-600">
@@ -586,35 +585,37 @@ const HomePage = ({ jobs }: HomePageProps) => {
           ></div>
         </section>
         <section className="pt-3 sm max-w-screen-xl mx-auto pb-2 px-4 items-center sm:justify-center lg:flex md:px-4">
-        <AdSenseAd />
+          <AdSenseAd />
         </section>
-        <section className="pt-10 sm max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">
-          <div className="text-gray-600 w-full md:mx-auto md:flex md:flex-col md:justify-center md:items-center">
-            <div className="max-w-xl mx-auto space-y-3 sm:text-center">
-              <h2
-                className="text-gray-700 text-3xl font-bold sm:text-4xl"
-                title="Explore jobs by profession"
-              >
-                Explore Jobs by Profession
-              </h2>
+        {uniqueSubCategories.length > 0 && (
+          <section className="pt-10 sm max-w-screen-xl mx-auto pb-4 px-4 items-center sm:justify-center lg:flex md:px-4">
+            <div className="text-gray-600 w-full md:mx-auto md:flex md:flex-col md:justify-center md:items-center">
+              <div className="max-w-xl mx-auto space-y-3 sm:text-center">
+                <h2
+                  className="text-gray-700 text-3xl font-bold sm:text-4xl"
+                  title="Explore jobs by profession"
+                >
+                  Explore Jobs by Profession
+                </h2>
+              </div>
+              <div className="mt-4 sm:mx-auto grid">
+                <ul className="text-gray-600 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 sm:gap-x-8 lg:gap-x-10 gap-y-2.5">
+                  {uniqueSubCategories.map((subCategory) => (
+                    <li key={subCategory}>
+                      <Link
+                        href={`/home/jobs/subcategory/${slugify(subCategory)}`}
+                        title={`Open ${subCategory}`}
+                        className="hover:text-blue-700 line-clamp-1 text-base duration-150"
+                      >
+                        {subCategory}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div className="mt-4 sm:mx-auto grid">
-              <ul className="text-gray-600 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 sm:gap-x-8 lg:gap-x-10 gap-y-2.5">
-                {uniqueSubCategories.map((subCategory) => (
-                  <li key={subCategory}>
-                    <Link
-                      href={`/home/jobs/subcategory/${slugify(subCategory)}`}
-                      title={`Open ${subCategory}`}
-                      className="hover:text-blue-700 line-clamp-1 text-base duration-150"
-                    >
-                      {subCategory}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
         <Footer />
       </div>
     </>

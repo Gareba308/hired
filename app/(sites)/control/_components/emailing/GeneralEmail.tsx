@@ -201,7 +201,7 @@ const GeneralEmail = ({
                 >
                   <Undo className="h-6 w-6 mr-2.5 shrink-0" />
                 </Link>
-                <h1 className="mb-2 text-3xl font-bold leading-tight text-gray-700 sm:text-3xl tracking-tight">
+                <h1 className="mb-2 text-2xl font-bold leading-tight text-gray-700 sm:text-3xl tracking-tight">
                   General Emails
                 </h1>
               </div>

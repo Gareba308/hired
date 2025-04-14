@@ -1,12 +1,3 @@
-// import React from 'react'
-
-// const CategoryEmails = () => {
-//   return (
-//     <div>CategoryEmails</div>
-//   )
-// }
-
-// export default CategoryEmails
 
 "use client";
 

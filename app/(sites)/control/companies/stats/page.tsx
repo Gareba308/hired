@@ -44,6 +44,20 @@ const Page = async () => {
     },
   });
 
+  const totalEmployers = await db.user.findMany({
+      where: {
+        role: {
+          equals: "employer",
+        },
+        emailVerified: {
+          equals: true
+        }
+      },
+      select: {
+        id: true,
+      },
+    });
+
   const jobs = await db.job.findMany({
     select: {
       id: true,
@@ -294,6 +308,7 @@ const Page = async () => {
     <div className="h-fullmin-h-[calc(100vh-95px)] sm:rounded-md bg-white sm:shadow-sm max-w-7xl px-4 pb-4 mx-auto overflow-hidden">
       <CompaniesStats
         combinedData={combinedData}
+        totalEmployers= {totalEmployers}
         countEmployers={countEmployers}
         percentageEmployers={percentageEmployers}
         countEmployerSuccess={countEmployerSuccess}

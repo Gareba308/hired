@@ -107,7 +107,7 @@ const SkillsSection = ({ finalData, finalDataCounts }: EmailSectionProps) => {
     if (reasonWatch.length === 0) {
       form.setValue("subject", "");
     }
-  }, [reasonWatch.length]);
+  }, [reasonWatch.length, form]);
 
   const { mutate: sendEmail, isLoading } =
     trpc.adminEmailWorkersOnSkills.useMutation({
@@ -171,7 +171,7 @@ const SkillsSection = ({ finalData, finalDataCounts }: EmailSectionProps) => {
                 >
                   <Undo className="h-6 w-6 mr-2.5 shrink-0" />
                 </Link>
-                <h1 className="mb-2 text-3xl font-bold leading-tight text-gray-700 sm:text-3xl tracking-tight">
+                <h1 className="mb-2 text-2xl font-bold leading-tight text-gray-700 sm:text-3xl tracking-tight">
                   Email Skills
                 </h1>
               </div>
