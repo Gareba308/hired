@@ -63,7 +63,7 @@ export async function generateMetadata({
   const selectedSkills = jobSkills.slice(0, 7);
   selectedSkills.push(`jobs in ${job.county}, jobs, jobs in Kenya`);
   return {
-    title: `${job.job_title}`,
+    title: `${job.job_title} at ${job.company_name}`,
     description: job.summaryDescription,
     keywords: selectedSkills,
     openGraph: {
@@ -90,14 +90,14 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${job.job_title}`,
+      title: `${job.job_title} at ${job.company_name}`,
       description: job.summaryDescription,
       images: [
         {
           url: siteConfig.ogJobDetail,
           width: 1200,
           height: 630,
-          alt: `${job.job_title}`,
+          alt: `${job.job_title} at ${job.company_name}`,
         },
       ],
       creator: "@hiredke",

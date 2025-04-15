@@ -260,7 +260,7 @@ export function EmailCategories({ combinedData }: EmailCategoriesProps) {
         <div>
           <Menu as="div" className="relative inline-block text-left">
             <div>
-              <Menu.Button className="inline-flex font-normal w-full justify-center items-center gap-x-1.5 rounded-sm bg-primary px-3 h-[37px] text-sm text-primary-foreground hover:opacity-90">
+              <Menu.Button className="inline-flex font-normal w-full justify-center items-center gap-x-1.5 rounded-sm bg-primary px-3 h-[37px] sm:h-[38px] text-sm text-primary-foreground hover:opacity-90">
                 <span className="hidden sm:flex">More Options</span>
                 <span className="sm:hidden">Options</span>
                 <ChevronDown className="h-4 w-4 ml-0.5 shrink-0" />

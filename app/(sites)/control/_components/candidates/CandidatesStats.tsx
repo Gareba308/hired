@@ -461,8 +461,7 @@ export function CandidatesStats({
                         Total number of workers{" "}
                         <span className="font-semibold">
                           {totalWorkers.length}
-                        </span>{" "}
-                        worker(s). The month of{" "}
+                        </span>. The month of{" "}
                         <span className="font-semibold">{fullMonthName}</span>{" "}
                         accounts for{" "}
                         <span className="font-semibold">{countWorkers}</span>{" "}

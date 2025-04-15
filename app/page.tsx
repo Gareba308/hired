@@ -23,6 +23,9 @@ const getJobs = async () => {
     orderBy: {
       createdAt: "desc",
     },
+    select: {
+      subCategory: true
+    }
   });
 
   return jobs;

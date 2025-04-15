@@ -5,13 +5,15 @@ import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Job } from "@prisma/client";
 import dynamic from "next/dynamic";
 
 const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
+interface JobSubCategory {
+  subCategory: string | null
+}
 interface HomePageProps {
-  jobs: Job[];
+  jobs: JobSubCategory[];
 }
 
 const HomePage = ({ jobs }: HomePageProps) => {

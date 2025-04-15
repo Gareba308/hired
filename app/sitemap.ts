@@ -43,6 +43,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     orderBy: {
       createdAt: "desc",
     },
+    select: {
+      id: true,
+      county: true,
+      company_name: true,
+      job_type: true,
+      subCategory: true,
+      updatedAt: true
+    }
   });
 
   const workerBlogs = await db.blogs.findMany({
