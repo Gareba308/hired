@@ -30,6 +30,17 @@ const Page = async () => {
 
   if (!dbUser) redirect("/home/login?origin=control/candidates/stats");
 
+  const totalWorkers = await db.user.findMany({
+    where: {
+      role: {
+        equals: "worker",
+      }
+    },
+    select: {
+      id: true,
+    },
+  });
+
   const allWorkers = await db.user.findMany({
     where: {
       role: {
@@ -43,19 +54,7 @@ const Page = async () => {
       createdAt: "desc",
     },
   });
-  const totalWorkers = await db.user.findMany({
-    where: {
-      role: {
-        equals: "worker",
-      },
-      emailVerified: {
-        equals: true
-      }
-    },
-    select: {
-      id: true,
-    },
-  });
+ 
   const applications = await db.application.findMany();
 
   const applicationCounts = new Map<string, number>();

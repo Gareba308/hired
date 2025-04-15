@@ -30,6 +30,20 @@ const Page = async () => {
 
   if (!dbUser) redirect("/home/login?origin=control/companies/stats");
 
+  const totalEmployers = await db.user.findMany({
+    where: {
+      role: {
+        equals: "employer",
+      },
+      emailVerified: {
+        equals: true
+      }
+    },
+    select: {
+      id: true,
+    },
+  });
+  
   const allEmployers = await db.user.findMany({
     where: {
       role: {
@@ -43,20 +57,6 @@ const Page = async () => {
       createdAt: "desc",
     },
   });
-
-  const totalEmployers = await db.user.findMany({
-      where: {
-        role: {
-          equals: "employer",
-        },
-        emailVerified: {
-          equals: true
-        }
-      },
-      select: {
-        id: true,
-      },
-    });
 
   const jobs = await db.job.findMany({
     select: {
