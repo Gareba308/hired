@@ -34,11 +34,14 @@ export async function generateStaticParams() {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
       },
+    },
+    select: {
+      id: true,
     },
   });
 
@@ -91,7 +94,7 @@ const Page = async ({ params }: JobsProps) => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
@@ -108,7 +111,7 @@ const Page = async ({ params }: JobsProps) => {
       company_name: true,
       companyLogo: true,
       createdAt: true,
-    }
+    },
   });
   const getRandomElement = (array: any[], numElement: number) => {
     const shuffledArray = array.sort(() => Math.random() - 0.5);
@@ -147,7 +150,7 @@ const Page = async ({ params }: JobsProps) => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
@@ -159,7 +162,7 @@ const Page = async ({ params }: JobsProps) => {
       company_name: true,
       companyLogo: true,
       createdAt: true,
-    }
+    },
   });
 
   const sortedPopularJobs = jobIDS
@@ -199,7 +202,7 @@ const Page = async ({ params }: JobsProps) => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
@@ -222,7 +225,7 @@ const Page = async ({ params }: JobsProps) => {
       company_name: true,
       rankTop: true,
       createdAt: true,
-    }
+    },
   });
 
   const reportedThisJob = await db.reportJob.findFirst({

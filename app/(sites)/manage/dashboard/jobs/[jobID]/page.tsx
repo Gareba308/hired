@@ -35,8 +35,11 @@ export async function generateStaticParams() {
       },
     },
     orderBy: {
-      createdAt: "desc"
-    }
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+    },
   });
 
   return jobs.map((job) => ({ jobID: job.id }));

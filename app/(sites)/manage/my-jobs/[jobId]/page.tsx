@@ -20,6 +20,9 @@ export async function generateStaticParams() {
         gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
       },
     },
+    select: {
+      id: true,
+    },
   });
 
   return jobs.map((job) => ({ jobId: job.id }));
@@ -36,14 +39,14 @@ const Page = async ({ params }: MyJobDetailsProps) => {
 
   if (!job) redirect("/manage/my-jobs");
 
-  const companyProfile= await db.company.findFirst({
+  const companyProfile = await db.company.findFirst({
     where: {
-      id: job.companyId
-    }
-  })
+      id: job.companyId,
+    },
+  });
   return (
     <div className="space-y-6  pb-5 max-w-7xl min-h-[calc(100vh-80px)] mx-auto bg-white px-4 md:px-6 text-gray-700 rounded-lg">
-      <MyJobsDetails job={job} companyProfile={companyProfile}/>
+      <MyJobsDetails job={job} companyProfile={companyProfile} />
     </div>
   );
 };

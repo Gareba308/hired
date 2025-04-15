@@ -62,6 +62,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     orderBy: {
       createdAt: "desc",
     },
+    select: {
+      id: true,
+      category: true,
+      updatedAt: true
+    }
   });
 
   const employerBlogs = await db.blogs.findMany({
@@ -73,6 +78,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     orderBy: {
       createdAt: "desc",
     },
+    select: {
+      id: true,
+      category: true,
+      updatedAt: true
+    }
   });
 
   const allBlogsForWorkerTags = await db.blogs.findMany({
@@ -81,6 +91,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         in: ["Worker", "All"],
       },
     },
+    select: {
+      id: true,
+      category: true,
+      updatedAt: true,
+      body: true
+    }
   });
 
   const allBlogsForEmployerTags = await db.blogs.findMany({
@@ -89,6 +105,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         in: ["Employer", "All"],
       },
     },
+    select: {
+      id: true,
+      category: true,
+      updatedAt: true,
+      body: true,
+    }
   });
   const workerCategories = workerBlogs
     .map((blog) => blog.category)

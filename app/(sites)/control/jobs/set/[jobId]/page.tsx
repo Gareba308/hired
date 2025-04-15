@@ -21,6 +21,9 @@ export async function generateStaticParams() {
         gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
       },
     },
+    select: {
+      id: true,
+    },
   });
 
   return jobs.map((job) => ({ jobId: job.id }));

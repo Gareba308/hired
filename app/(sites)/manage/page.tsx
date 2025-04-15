@@ -28,6 +28,24 @@ const Page = async () => {
     orderBy: {
       createdAt: "desc",
     },
+    select: {
+     id: true,
+     job_title: true,
+     personal_skills: true,
+     category: true,
+     job_type: true,
+     deadline: true,
+     county: true,
+     possible_pay: true,
+     academic: true,
+     ownPlatformMethod: true,
+     experience: true,
+     companyLogo: true,
+     companyId: true,
+     company_name: true,
+     rankTop: true,
+     createdAt: true,
+   },
   });
 
   const session = await getServerSession(authOptions);

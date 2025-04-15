@@ -14,7 +14,7 @@ const Page = async () => {
         gte: currentDate,
       },
       published: {
-        equals: true
+        equals: true,
       },
       createdAt: {
         gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
@@ -22,6 +22,24 @@ const Page = async () => {
     },
     orderBy: {
       createdAt: "desc",
+    },
+    select: {
+      id: true,
+      job_title: true,
+      personal_skills: true,
+      category: true,
+      job_type: true,
+      deadline: true,
+      county: true,
+      possible_pay: true,
+      academic: true,
+      ownPlatformMethod: true,
+      experience: true,
+      companyLogo: true,
+      companyId: true,
+      company_name: true,
+      rankTop: true,
+      createdAt: true,
     },
   });
 
@@ -51,7 +69,7 @@ const Page = async () => {
 
   return (
     <div className="text-base">
-      <AllJobs jobs={jobs} userId={userId}/>
+      <AllJobs jobs={jobs} userId={userId} />
     </div>
   );
 };

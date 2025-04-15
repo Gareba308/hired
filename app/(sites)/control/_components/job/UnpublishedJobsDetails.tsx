@@ -129,6 +129,7 @@ export const getRecentlyViewedJobs = (userId: string): Job[] => {
     return [];
   }
 };
+
 export default function UnpublishedJobsDetails({
   job,
   companyProfile,
