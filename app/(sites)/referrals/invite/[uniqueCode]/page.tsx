@@ -10,7 +10,7 @@ interface InviteLinkProps {
 const Page = async ({ params }: InviteLinkProps) => {
   const { uniqueCode } = params;
   if (!uniqueCode) redirect("/");
-  const codeExists = await db.user.findFirst({
+  const codeExists =  await db.user.findFirst({
     where: {
       referralCode: uniqueCode,
     },
