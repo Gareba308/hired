@@ -49,13 +49,11 @@ const Page = async () => {
       role: {
         equals: "employer",
       },
-      createdAt: {
-        gte: new Date(currentDate.getTime() - 90 * 24 * 60 * 60 * 1000),
-      },
     },
     orderBy: {
       createdAt: "desc",
     },
+    take: 50
   });
 
   const jobs = await db.job.findMany({

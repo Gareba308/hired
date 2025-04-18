@@ -43,6 +43,7 @@ import CompanyDescriptionEdit from "./CompanyDescriptionEdit";
 import CompanyCategoryEdit from "./CompanyCategoryEdit";
 import CompanyWebsiteEdit from "./CompanyWebsiteEdit";
 import CompanyEmailEdit from "./CompanyEmailEdit";
+import CreatedAtEdit from "./CreatedAtEdit";
 
 interface EditJobPageProps {
   job: Job | null;
@@ -159,6 +160,7 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
           <EmploymentTypeEdit job={job} jobId={job?.id as string} />
           <SeniorityEdit job={job} jobId={job?.id as string} />
           <DescriptionEdit job={job} jobId={job?.id as string} />
+          <CreatedAtEdit job={job} jobId={job?.id as string} />
           <DeadlineEdit job={job} jobId={job?.id as string} />
           <ResponsibilitiesEdit job={job} jobId={job?.id as string} />
           <ExperienceEdit job={job} jobId={job?.id as string} />

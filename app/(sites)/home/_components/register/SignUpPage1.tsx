@@ -6,7 +6,6 @@ import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import Footer from "@/components/Footer";
 
 const SignUpPage1 = () => {
@@ -70,7 +69,7 @@ const SignUpPage1 = () => {
             <p className="text-gray-700 text-base sm:text-[15px] max-w-xl leading-relaxed sm:mx-auto lg:ml-0">
               This section is exclusively for employers, providing the tools to
               post job opportunities, review applications, and evaluate
-              candidates effectively.
+              candidates. <b>FREE</b> to create an account.
             </p>
           </div>
           <div className="flex items-end mt-4 lg:mt-0 lg:ml-3">
@@ -79,7 +78,7 @@ const SignUpPage1 = () => {
                 Sign up to create Hired account
               </h3>
               <p className="mb-4 sm:text-center text-base font-normal text-gray-700">
-                It&apos;s completely free to create an account.
+                Only use a <b>company</b> or <b>domain</b> email
               </p>
               <form onSubmit={onSubmit}>
                 <div className="mb-4">

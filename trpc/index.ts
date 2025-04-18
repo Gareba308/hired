@@ -30,14 +30,6 @@ import googleIndexAPI from "@/lib/indexing";
 import googleIndexBlogAPI from "@/lib/indexingBlogs";
 import { authorize } from "@/lib/indexAuth";
 
-const MAX_DAILY_EMAILS = 400;
-const MAX_HOURLY_EMAILS = 80;
-const BATCH_SIZE = 10;
-
-const now = new Date();
-const startOfToday = startOfDay(now);
-const oneHourAgo = subHours(now, 1);
-const twentyFourHoursAgo = subDays(now, 1);
 
 const generateID = () => {
   let digits = "0123456789";
@@ -67,6 +59,23 @@ const shortDescription = (htmlString: string): string => {
   }
   return cleanedString;
 };
+
+const allowedException: string[] = process.env.HIRED_EMPLOYERS
+  ? process.env.HIRED_EMPLOYERS.split(",").map(e => e.toLowerCase().trim())
+  : [];
+
+const freeEmailProviders: string[] = process.env.FREE_PROVIDERS_EMAILS
+  ? process.env.FREE_PROVIDERS_EMAILS.split(",").map(d => d.toLowerCase().trim())
+  : [];
+
+export function isEmailAllowed(email: string): boolean {
+  const lowerCasedEmail = email.toLowerCase();
+  const domain = lowerCasedEmail.split("@")[1];
+
+  if (allowedException.includes(lowerCasedEmail)) return true;
+
+  return !freeEmailProviders.includes(domain);
+}
 
 CronJob.from({
   cronTime: "0 */6 * * *",
@@ -132,6 +141,8 @@ export const appRouter = router({
           code: "BAD_REQUEST",
           message: "Your passwords does not match",
         });
+
+      if (role === "employer" && !isEmailAllowed(email)) throw new TRPCError({ code: "BAD_REQUEST", message: "Sorry, only professional or company emails are allowed. Not gmail, yahoo or personal emails" })
 
       const existsVerified = await db.user.findFirst({
         where: {
@@ -432,7 +443,7 @@ export const appRouter = router({
           code: "BAD_REQUEST",
           message: "Your passwords does not match",
         });
-
+      if (referrerRole === "employer" && !isEmailAllowed(email)) throw new TRPCError({ code: "BAD_REQUEST", message: "Sorry, only professional or company emails are allowed. Not gmail, yahoo or personal emails" })
       const existsVerified = await db.user.findFirst({
         where: {
           email,
@@ -844,6 +855,8 @@ export const appRouter = router({
       const fullName = dbUser.name as string;
       const referralCode = dbUser.referralCode as string;
       const role = dbUser.role as string;
+      
+      if (role === "employer" && !isEmailAllowed(inviteeEmail)) throw new TRPCError({ code: "BAD_REQUEST", message: "Sorry, only professional or company emails are allowed. Not gmail, yahoo or personal emails" })
 
       const isEmployer = await db.employers.findFirst({
         where: {
@@ -4778,7 +4791,7 @@ export const appRouter = router({
         seniority,
         subCategory,
       } = input;
-
+      const currentDate = new Date()
       if (!userId)
         throw new TRPCError({
           code: "UNAUTHORIZED",
@@ -4943,6 +4956,27 @@ export const appRouter = router({
             unregisteredKnown === true
             ? unregisteredKnownExists.logo
             : companyExists.logo;
+
+      const jobsPast50Days = await db.job.findMany({
+        where: {
+          createdAt: {
+            lte: new Date(currentDate.getTime() - 50 * 24 * 60 * 60 * 1000),
+          },
+        },
+        select: {
+          id: true,
+        }
+      });
+
+      const jobsDeleteIDs = jobsPast50Days.map((job) => job.id)
+
+      await db.job.deleteMany({
+        where: {
+          id: {
+            in: jobsDeleteIDs
+          }
+        }
+      })
 
       if (unregisteredKnown === false && jobFormNonRegisteredCompany === true) {
         await db.unregisteredCompany.create({
@@ -7910,6 +7944,7 @@ export const appRouter = router({
         instructions: z.string().optional(),
         academicDesired: z.string().optional(),
         deadline: z.coerce.date().optional(),
+        createdAt: z.coerce.date().optional(),
         addAssessment: z.boolean().optional(),
         assessmentOneID: z.string().optional(),
         assessmentTwoID: z.string().optional(),
@@ -7943,6 +7978,7 @@ export const appRouter = router({
         benefits,
         instructions,
         deadline,
+        createdAt,
         academicDesired,
         jobFormNonRegisteredCompany,
         addAssessment,
@@ -8035,6 +8071,7 @@ export const appRouter = router({
             benefits,
             instructions,
             deadline,
+            createdAt,
             academicDesired,
             seniority,
             subCategory,
@@ -8134,6 +8171,7 @@ export const appRouter = router({
           benefits,
           instructions,
           deadline,
+          createdAt,
           academicDesired,
           seniority,
           subCategory,
@@ -8238,6 +8276,7 @@ export const appRouter = router({
           benefits,
           instructions,
           deadline,
+          createdAt,
           academicDesired,
           seniority,
           subCategory,
@@ -8288,6 +8327,7 @@ export const appRouter = router({
           benefits,
           instructions,
           deadline,
+          createdAt,
           academicDesired,
           seniority,
           subCategory,
@@ -10865,10 +10905,10 @@ export const appRouter = router({
 
       if (!isAdmin) throw new TRPCError({ code: "BAD_REQUEST", message: "This is an admin user section" })
 
-      const jobsPast90Days = await db.job.findMany({
+      const jobsPast40Days = await db.job.findMany({
         where: {
           createdAt: {
-            lte: new Date(currentDate.getTime() - 90 * 24 * 60 * 60 * 1000),
+            lte: new Date(currentDate.getTime() - 40 * 24 * 60 * 60 * 1000),
           },
         },
         select: {
@@ -10876,9 +10916,9 @@ export const appRouter = router({
         }
       });
 
-      if (jobsPast90Days.length === 0) throw new TRPCError({ code: "BAD_REQUEST", message: "There are no jobs that are past 90 days to be deleted" })
+      if (jobsPast40Days.length === 0) throw new TRPCError({ code: "BAD_REQUEST", message: "There are no jobs that are past 40 days to be deleted" })
 
-      const jobsDeleteIDs = jobsPast90Days.map((job) => job.id)
+      const jobsDeleteIDs = jobsPast40Days.map((job) => job.id)
 
       return await db.job.deleteMany({
         where: {
