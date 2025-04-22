@@ -31,7 +31,6 @@ import {
   Eye,
   GraduationCap,
   Info,
-  CornerUpLeft,
   Mail,
   MapPinIcon,
   MoveRight,

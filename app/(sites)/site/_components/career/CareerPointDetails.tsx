@@ -3,13 +3,11 @@ import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
   CheckIcon,
-  CornerUpLeft,
   Loader2,
   Search,
   SendHorizonal,
   X,
 } from "lucide-react";
-import Link from "next/link";
 import RelatedPost from "./RelatedBlogs";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
@@ -161,12 +159,6 @@ const CareerPointDetails = ({
             <div className="w-full lg:pr-3 lg:w-2/3">
               <div>
                 <div className="flex items-center gap-x-2 sm:gap-x-2.5">
-                  <Link
-                    href={origin ? `/${origin}` : `/site/jobs`}
-                    className="hover:text-[#005580] text-gray-700"
-                  >
-                    <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-                  </Link>
                   <div className="flex flex-col">
                     <h3 className="font-bold capitalize line-clamp-1 text-gray-600 tracking-tight text-xl sm:text-2xl lg:text-3xl">
                       Career Wizard

@@ -4,7 +4,7 @@ import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { useSearchParams } from "next/navigation";
 
@@ -41,7 +41,7 @@ import { counties } from "../data/create-job/CreateJobData";
 import { useState } from "react";
 
 type ReminderFormSchemaType = z.infer<typeof reminderFormSchema>;
-
+const MAX_CREDIT_CHARACTERS = 20;
 export const reminderFormSchema = z.object({
   phone: z.string().optional(),
   secondaryPhone: z.string().optional(),
@@ -75,7 +75,9 @@ const ContactForm = ({ profileContact }: ContactProps) => {
       town: "",
     },
   });
-
+  const { control } = form;
+  const watchTown= useWatch({control, name: "town"}) || ""
+  const townLength= watchTown.length
   const { mutate: createProfile, isLoading } =
     trpc.workerCreateContact.useMutation({
       onSuccess: () => {
@@ -242,6 +244,7 @@ const ContactForm = ({ profileContact }: ContactProps) => {
                             disabled={isLoading}
                             type="text"
                             className="w-full"
+                            maxLength={10}
                             {...field}
                           />
                         </FormControl>
@@ -264,6 +267,7 @@ const ContactForm = ({ profileContact }: ContactProps) => {
                             disabled={isLoading}
                             type="text"
                             className="w-full"
+                            maxLength={10}
                             {...field}
                           />
                         </FormControl>
@@ -289,11 +293,20 @@ const ContactForm = ({ profileContact }: ContactProps) => {
                             disabled={isLoading}
                             type="text"
                             className="w-full"
+                            maxLength={MAX_CREDIT_CHARACTERS}
                             {...field}
                           />
                         </FormControl>
                         <FormDescription></FormDescription>
-                        <FormMessage className="font-normal text-red-500 text-sm" />
+                        <FormMessage className="text-red-500 font-normal text-sm">
+                          {watchTown &&
+                            townLength === MAX_CREDIT_CHARACTERS && (
+                              <>
+                                Maximum character limit of{" "}
+                                {MAX_CREDIT_CHARACTERS} reached.
+                              </>
+                            )}
+                        </FormMessage>
                       </FormItem>
                     )}
                   />

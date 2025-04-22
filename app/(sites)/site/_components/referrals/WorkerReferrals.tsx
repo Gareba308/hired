@@ -10,7 +10,6 @@ import {
 import {
   ArrowRight,
   Copy,
-  CornerUpLeft,
   Loader2,
   RefreshCw,
   Send,

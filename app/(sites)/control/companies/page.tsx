@@ -3,7 +3,6 @@ import { db } from "@/db";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import React from "react";
-import NoCompanies from "../_components/companies/NoCompanies";
 import AllCompanies from "../_components/companies/AllCompanies";
 
 type CompanyJob = {
@@ -94,11 +93,7 @@ const Page = async () => {
 
   return (
     <div className="bg-white min-h-[calc(100vh-90px)] sm:rounded-md sm:shadow-sm max-w-7xl mx-auto px-4 pt-2 pb-6 md:px-5">
-      {uniqueCompanies.length === 0 ? (
-        <NoCompanies />
-      ) : (
-        <AllCompanies companies={uniqueCompanies} />
-      )}
+      <AllCompanies companies={uniqueCompanies} />
     </div>
   );
 };

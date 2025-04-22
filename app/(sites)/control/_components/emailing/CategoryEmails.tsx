@@ -31,7 +31,6 @@ import {
   MoreHorizontal,
   MoreVertical,
   Trash,
-  Undo,
   User,
 } from "lucide-react";
 
@@ -376,12 +375,6 @@ export function CategoryEmails({
     <div className="w-full">
       <div className="flex items-center justify-between gap-x-4 mb-2 flex-row">
         <div className=" flex flex-row items-center">
-          <Link
-            href={origin ? `/${origin}` : "/control/email"}
-            className="hover:text-[#005580]"
-          >
-            <Undo className="h-6 w-6 mr-2 shrink-0" />
-          </Link>
           <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
             Categories Analytics
           </h2>

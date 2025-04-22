@@ -1,7 +1,6 @@
 import { HelpEmployer } from "@prisma/client";
 import {
   Computer,
-  CornerUpLeft,
   Loader2,
   ShieldQuestion,
   Sparkles,
@@ -78,12 +77,6 @@ const Feedback = ({ myHelpMessages, name, toggleView }: FeedbackProps) => {
             <div className="flex flex-wrap">
               <div className="w-full min-h-[calc(100vh-100px)] lg:mt-2 px-4 pt-2 pb-4 mx-auto bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
                 <div className="flex flex-row items-center border-b border-gray-200 pb-1">
-                  <a
-                    className="hover:text-[#005580] cursor-pointer"
-                    onClick={toggleView}
-                  >
-                    <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-                  </a>
                   <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
                     Help Feedback
                   </h2>

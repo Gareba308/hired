@@ -5,13 +5,11 @@ import { Company, ContactEmployer } from "@prisma/client";
 import {
   ArchiveRestore,
   ChevronDown,
-  CornerUpLeft,
   EyeOff,
   LayoutList,
   Loader2,
   Trash,
 } from "lucide-react";
-import Link from "next/link";
 import DetailRender from "./DetailRender";
 import DetailCard from "./DetailCard";
 import Image from "next/image";
@@ -172,12 +170,6 @@ const CompanyMessageDetails = ({
         <div className="flex items-baseline justify-between pb-1 pt-2 border-b border-gray-200">
           <div className="flex items-center justify-between gap-x-2 w-full">
             <div className="flex items-center gap-x-1.5 sm:gap-x-2">
-              <Link
-                href={"/control/messages"}
-                className="hover:text-[#005580] text-gray-700"
-              >
-                <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-              </Link>
               <div className="flex items-center flex-row gap-x-2">
                 <div className="w-10 h-10 border relative border-gray-100 shrink-0 rounded-full  flex justify-center">
                   <Image

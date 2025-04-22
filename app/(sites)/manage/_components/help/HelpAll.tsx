@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { trpc } from "@/app/_trpc/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { CornerUpLeft, Loader2, Mail, Send } from "lucide-react";
+import { Loader2, Mail, Send } from "lucide-react";
 import { useState } from "react";
 import { HelpEmployer } from "@prisma/client";
 import Feedback from "./Feedback";

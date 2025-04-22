@@ -18,13 +18,11 @@ import {
 import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import {
   CheckIcon,
   ChevronDown,
   GripVertical,
   Loader2,
-  CornerUpLeft,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -151,12 +149,6 @@ const CreateBlog = () => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="border-b border-gray-200 pb-1">
           <div className="flex items-center gap-x-1.5 sm:gap-x-2">
-            <Link
-              href={"/control/jobs"}
-              className="hover:text-[#005580] text-gray-700"
-            >
-              <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-            </Link>
             <div className="flex flex-col">
               <h3 className="font-bold text-gray-600 tracking-tight text-2xl lg:text-3xl">
                 Create Blog Post

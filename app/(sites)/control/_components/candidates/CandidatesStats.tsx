@@ -36,7 +36,6 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  CornerUpLeft,
   Loader2,
   MoreVertical,
 } from "lucide-react";
@@ -80,7 +79,6 @@ import {
 } from "@/components/ui/select";
 import { BarCharts } from "./BarChart";
 import { TheLineCharts } from "./LineChart";
-import Link from "next/link";
 import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { DeletePendingAlertModal } from "../models/candidate/DeletePending";
@@ -437,9 +435,6 @@ export function CandidatesStats({
   return (
     <div className="w-full mt-2">
       <div className=" flex flex-row items-center">
-        <Link href={"/control/candidates"} className="hover:text-[#005580]">
-          <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-        </Link>
         <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
           Workers Stats
         </h2>

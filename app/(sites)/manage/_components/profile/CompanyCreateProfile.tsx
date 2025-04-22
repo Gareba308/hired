@@ -100,7 +100,8 @@ const CompanyCreateProfile = () => {
   const { control } = form;
 
   const watchedCompanyName = useWatch({ control, name: "company_name" }) || "";
-
+  const watchTown = useWatch({ control, name: "town" }) || "";
+  const townLength = watchTown.length;
   const { mutate: employerCreateProfile, isLoading } =
     trpc.employerCreateProfile.useMutation({
       onSuccess: () => {
@@ -505,7 +506,10 @@ const CompanyCreateProfile = () => {
                           {...field}
                           onChange={(e) => {
                             const value = e.target.value;
-                            const cleanedValue = value.replace(/^https?:\/\//, "");
+                            const cleanedValue = value.replace(
+                              /^https?:\/\//,
+                              ""
+                            );
                             field.onChange(cleanedValue);
                           }}
                         />
@@ -551,6 +555,7 @@ const CompanyCreateProfile = () => {
                           disabled={isLoading}
                           type="text"
                           className="w-full"
+                          maxLength={10}
                           {...field}
                           required
                         />
@@ -575,6 +580,7 @@ const CompanyCreateProfile = () => {
                           disabled={isLoading}
                           type="text"
                           className="w-full"
+                          maxLength={10}
                           {...field}
                         />
                       </FormControl>
@@ -601,12 +607,20 @@ const CompanyCreateProfile = () => {
                           disabled={isLoading}
                           type="text"
                           className="w-full"
+                          maxLength={MAX_CREDIT_CHARACTERS}
                           {...field}
                           required
                         />
                       </FormControl>
                       <FormDescription></FormDescription>
-                      <FormMessage className="font-normal text-red-500 text-sm" />
+                      <FormMessage className="text-red-500 font-normal text-sm">
+                        {watchTown && townLength === MAX_CREDIT_CHARACTERS && (
+                          <>
+                            Maximum character limit of {MAX_CREDIT_CHARACTERS}{" "}
+                            reached.
+                          </>
+                        )}
+                      </FormMessage>
                     </FormItem>
                   )}
                 />

@@ -1,8 +1,7 @@
 "use client";
 
 import { EmployerContactWorker } from "@prisma/client";
-import { CornerUpLeft, MailPlus, MessageSquarePlus } from "lucide-react";
-import Link from "next/link";
+import { MailPlus, MessageSquarePlus } from "lucide-react";
 import EmployerMessageCard from "./WorkerMessageCard";
 import NoSelectedMessage from "./NoSelectedMessage";
 import { Button } from "@/components/ui/button";
@@ -38,13 +37,6 @@ const WorkerMessages = ({
         <div className="flex items-baseline justify-between pb-1 pt-2 border-b border-gray-200">
           <div className="text-2xl w-full sm:text-3xl font-bold tracking-tight text-gray-600">
             <div className="flex items-center gap-x-1.5 sm:gap-x-2">
-              <Link
-                prefetch={true}
-                href={"/manage/jobs"}
-                className="hover:text-[#005580] text-gray-700"
-              >
-                <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-              </Link>
               <div className="flex flex-row w-full justify-between gap-x-3 items-center">
                 <h3 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl lg:text-3xl">
                   Workers Message

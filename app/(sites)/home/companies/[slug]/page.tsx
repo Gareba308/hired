@@ -6,7 +6,7 @@ import { Job } from "@prisma/client";
 import { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
 import FooterJobs from "@/components/FooterJobs";
-import { Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 import HomeCompaniesNavBar from "../../_components/companies/HomeCompaniesNavBar";
 
 interface CompanyProps {
@@ -200,8 +200,8 @@ const Page = async ({ params }: CompanyProps) => {
       <section className="mt-5 bg-white h-full min-h-[calc(100vh-70px)]">
         <Suspense
           fallback={
-            <div className="flex items-center justify-center h-full">
-              <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
+            <div className="flex items-center mt-[calc(50vh-50%)] justify-center h-full">
+              <Loader className="shrink-0 animate-spin h-9 w-9 sm:h-10 sm:w-10 text-gray-600" />
             </div>
           }
         >

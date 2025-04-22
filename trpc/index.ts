@@ -7908,6 +7908,265 @@ export const appRouter = router({
       });
     }),
 
+    adminDeleteRegisteredCompany: privateProcedure
+    .input(
+      z.object({
+        companyID: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId, email } = ctx;
+
+      const { companyID } = input;
+      const currentDate = new Date()
+      const dbUser = await db.user.findFirst({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!dbUser)
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "User must login to continue",
+        });
+
+      const isAdmin = await db.admin.findFirst({
+        where: {
+          adminEmail: email,
+        },
+      });
+
+      if (!isAdmin)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not allowed to delete this company. Admin section only",
+        });
+
+      const companyRegisteredExists = await db.company.findFirst({
+        where: {
+          id: companyID,
+        },
+        select: {
+          id: true
+        }
+      });
+
+      if (!companyRegisteredExists)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Company does not exist, could have been deleted",
+        });
+
+      const jobsByCompany = await db.job.findMany({
+        where: {
+          companyId: companyRegisteredExists.id,
+          deadline: {
+            gte: currentDate,
+          },
+          published: {
+            equals: true,
+          },
+          createdAt: {
+            gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
+          },
+        },
+      });
+
+      if(jobsByCompany) throw new TRPCError({code:"BAD_REQUEST", message:"There are active jobs by this company. You cant delete the company"})
+      return await db.company.delete({
+        where: {
+          id: companyRegisteredExists.id,
+        },
+      });
+    }),
+
+  adminDeleteUnregisteredCompany: privateProcedure
+    .input(
+      z.object({
+        companyID: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId, email } = ctx;
+
+      const { companyID } = input;
+      const currentDate = new Date()
+      const dbUser = await db.user.findFirst({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!dbUser)
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "User must login to continue",
+        });
+
+      const isAdmin = await db.admin.findFirst({
+        where: {
+          adminEmail: email,
+        },
+      });
+
+      if (!isAdmin)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not allowed to delete this company. Admin section only",
+        });
+
+      const companyUnregisteredExists = await db.unregisteredCompany.findFirst({
+        where: {
+          id: companyID,
+        },
+        select: {
+          id: true,
+          companyName: true
+        }
+      });
+
+      if (!companyUnregisteredExists)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Company does not exist, could have been deleted",
+        });
+
+      const jobsByCompany = await db.job.findMany({
+        where: {
+          company_name: {
+            equals: companyUnregisteredExists.companyName,
+            mode: "insensitive"
+          },
+          deadline: {
+            gte: currentDate,
+          },
+          published: {
+            equals: true,
+          },
+          createdAt: {
+            gte: new Date(currentDate.getTime() - 20 * 24 * 60 * 60 * 1000),
+          },
+        },
+      });
+
+      if(jobsByCompany) throw new TRPCError({code:"BAD_REQUEST", message:"There are active jobs by this company. You cant delete the company"})
+      return await db.company.delete({
+        where: {
+          id: companyUnregisteredExists.id,
+        },
+      });
+    }),
+
+    adminUpdateUnregisteredCompany: privateProcedure
+    .input(z.object({
+      companyID: z.string(),
+      companyName: z.string().optional(),
+      companyDescription: z.string().optional(),
+      companyCategory: z.string().optional(),
+      companyWebsite: z.string().optional(),
+      companyEmail: z.string().optional(),
+      logo: z.string().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const { userId, email } = ctx;
+      const { companyID, companyName, companyDescription, companyCategory, companyWebsite, companyEmail, logo
+      } = input;
+
+      const dbUser = await db.user.findFirst({
+        where: {
+          id: userId,
+          email
+        }
+      })
+
+      if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED", message: "YYou must login to continue" })
+      const isAdmin = await db.admin.findFirst({
+        where: {
+          adminEmail: dbUser.email
+        }
+      })
+
+      if (!isAdmin) throw new TRPCError({ code: "BAD_REQUEST", message: "This is an admin section" })
+
+      const companyExists = await db.unregisteredCompany.findFirst({
+        where: {
+          id: companyID
+        },
+        select: {
+          id: true
+        }
+      })
+
+      if (!companyExists) throw new TRPCError({ code: "BAD_REQUEST", message: "There is no unregistered company by that ID" })
+
+      return await db.unregisteredCompany.update({
+        where: {
+          id: companyExists.id
+        },
+        data: {
+          companyName, companyDescription, companyCategory, companyWebsite, companyEmail, logo
+        }
+      })
+    }),
+
+  adminUpdateRegisteredCompany: privateProcedure
+    .input(z.object({
+      companyID: z.string(),
+      companyName: z.string().optional(),
+      companyDescription: z.string().optional(),
+      companyCategory: z.string().optional(),
+      companyWebsite: z.string().optional(),
+      companyEmail: z.string().optional(),
+      logo: z.string().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const { userId, email } = ctx;
+      const { companyID, companyName, companyDescription, companyCategory, companyWebsite, companyEmail, logo
+      } = input;
+
+      const dbUser = await db.user.findFirst({
+        where: {
+          id: userId,
+          email
+        }
+      })
+
+      if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED", message: "YYou must login to continue" })
+      const isAdmin = await db.admin.findFirst({
+        where: {
+          adminEmail: dbUser.email
+        }
+      })
+
+      if (!isAdmin) throw new TRPCError({ code: "BAD_REQUEST", message: "This is an admin section" })
+
+      const companyExists = await db.company.findFirst({
+        where: {
+          id: companyID
+        },
+        select: {
+          id: true
+        }
+      })
+
+      if (!companyExists) throw new TRPCError({ code: "BAD_REQUEST", message: "There is no registered company by that ID" })
+
+      return await db.company.update({
+        where: {
+          id: companyExists.id
+        },
+        data: {
+          company_name: companyName, 
+          company_description: companyDescription, 
+          category: companyCategory, 
+          website: companyWebsite, 
+          secondaryEmail: companyEmail, 
+          logo
+        }
+      })
+    }),
+
   adminUpdateJob: privateProcedure
     .input(
       z.object({

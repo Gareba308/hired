@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import HomePage from "./(sites)/home/_components/homePage/HomePage";
 import { Suspense } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -37,8 +37,8 @@ const Page = async () => {
     <div>
       <Suspense
         fallback={
-          <div className="flex items-center justify-center h-full">
-            <Loader2 className="shrink-0 animate-spin h-7 w-7 text-gray-600" />
+          <div className="flex items-center mt-[calc(50vh-50%)] justify-center h-full">
+            <Loader className="shrink-0 animate-spin h-9 w-9 sm:h-10 sm:w-10 text-gray-600" />
           </div>
         }
       >

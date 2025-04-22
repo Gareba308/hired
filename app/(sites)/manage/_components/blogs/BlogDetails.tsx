@@ -6,7 +6,7 @@ import TagButton from "./TagButton";
 import NewsLetterBox from "./NewsLetter";
 import Image from "next/image";
 import { Blogs } from "@prisma/client";
-import { ArrowRight, Camera, CornerUpLeft, Share2 } from "lucide-react";
+import { ArrowRight, Camera,Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -92,9 +92,6 @@ const BlogDetails = ({
             <div className="w-full xl:pr-4 xl:w-8/12">
               <div>
                 <div className=" flex items-center flex-row">
-                  <Link href={"/manage/blogs"} className="hover:text-[#005580]">
-                    <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-                  </Link>
                   {blog.category && (
                     <span className="inline-flex items-center rounded-sm bg-green-100 px-2 py-[3px] text-xs font-medium text-green-700 ring-1 ring-inset ring-green-500/20">
                       {blog.category}

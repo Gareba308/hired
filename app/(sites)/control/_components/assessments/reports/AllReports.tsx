@@ -17,7 +17,6 @@ import {
   Banknote,
   ChevronLeft,
   ChevronRight,
-  CornerUpLeft,
   ExternalLink,
   ListPlus,
   Loader2,

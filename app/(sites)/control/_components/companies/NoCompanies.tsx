@@ -15,7 +15,7 @@ const NoCompanies = () => {
             <Squirrel className="h-20 w-20 sm:h-24 sm:w-24" />
           </h3>
           <p className="text-gray-600 text-2xl font-semibold sm:text-3xl">
-            Empty Around Here
+            No Companies Listed
           </p>
           <p className="text-gray-600 text-base md:text-base">
             Sorry, there are no companies yet in this section. Could you please

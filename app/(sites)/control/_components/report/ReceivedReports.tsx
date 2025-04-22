@@ -37,7 +37,6 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  CornerUpLeft,
   ExternalLink,
   Loader2,
   MoreHorizontal,
@@ -73,7 +72,6 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { trpc } from "@/app/_trpc/client";
-import Link from "next/link";
 import { ReportHistoryAlertModal } from "../models/report/ReportHistoryModal";
 import { DeleteJobReportAlertModal } from "../models/report/DeleteAlertModal";
 
@@ -475,12 +473,6 @@ export function ReceivedReports({
     <div className="w-full">
       <div className="flex items-center justify-between gap-x-4 mb-2 flex-row">
         <div className=" flex flex-row items-center">
-          <Link
-            href={origin ? `/${origin}` : "/control"}
-            className="hover:text-[#005580]"
-          >
-            <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-          </Link>
           <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
             Worker Job Reports
           </h2>

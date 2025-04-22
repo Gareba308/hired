@@ -37,13 +37,13 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { counties } from "../../data/create-job/CreateJobData";
 import { cn } from "@/lib/utils";
 
 type FormSchemaType = z.infer<typeof formSchema>;
-
+const MAX_CREDIT_CHARACTERS = 20;
 export const formSchema = z.object({
   postal: z.string().optional(),
   zip: z.string().optional(),
@@ -71,7 +71,9 @@ const CompanyPostalAddress = ({ profile }: CompanyPostalAddressProps) => {
       county: profile.county ? profile.county : "",
     },
   });
-
+  const { control } = form;
+  const watchTown = useWatch({ control, name: "town" }) || "";
+  const townLength = watchTown.length;
   const { mutate: update, isLoading } = trpc.updateEmployerProfile.useMutation({
     onSuccess: () => {
       toast({
@@ -147,6 +149,7 @@ const CompanyPostalAddress = ({ profile }: CompanyPostalAddressProps) => {
                                   disabled={isLoading}
                                   type="text"
                                   className="w-full"
+                                  maxLength={10}
                                   {...field}
                                 />
                               </FormControl>
@@ -168,6 +171,7 @@ const CompanyPostalAddress = ({ profile }: CompanyPostalAddressProps) => {
                                   disabled={isLoading}
                                   type="text"
                                   className="w-full"
+                                  maxLength={10}
                                   {...field}
                                 />
                               </FormControl>
@@ -192,11 +196,20 @@ const CompanyPostalAddress = ({ profile }: CompanyPostalAddressProps) => {
                                   disabled={isLoading}
                                   type="text"
                                   className="w-full"
+                                  maxLength={MAX_CREDIT_CHARACTERS}
                                   {...field}
                                 />
                               </FormControl>
                               <FormDescription></FormDescription>
-                              <FormMessage className="font-normal text-red-500 text-base" />
+                              <FormMessage className="text-red-500 font-normal text-sm">
+                                {watchTown &&
+                                  townLength === MAX_CREDIT_CHARACTERS && (
+                                    <>
+                                      Maximum character limit of{" "}
+                                      {MAX_CREDIT_CHARACTERS} reached.
+                                    </>
+                                  )}
+                              </FormMessage>
                             </FormItem>
                           )}
                         />

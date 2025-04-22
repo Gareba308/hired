@@ -1,14 +1,12 @@
 "use client";
 
 import { Blogs } from "@prisma/client";
-import { CornerUpLeft } from "lucide-react";
 import HeadingEdit from "./edits/HeadingEdit";
 import CategoryEdit from "./edits/CategoryEdit";
 import TargetEdit from "./edits/TargetEdit";
 import BodyEdit from "./edits/BodyEdit";
 import ImageEdit from "./edits/ImageEdit";
 import CreditEdit from "./edits/CreditEdit";
-import Link from "next/link";
 
 interface EditBlogProps {
   blog: Blogs;
@@ -18,9 +16,6 @@ const EditBlog = ({ blog }: EditBlogProps) => {
   return (
     <>
       <div className="flex items-center flex-row mb-2">
-        <Link href={"/control/blogs/posts"} className="hover:text-[#005580]">
-          <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-        </Link>
         <h3 className="font-bold text-gray-600 tracking-tight text-2xl sm:text-3xl">
           Blog Settings
         </h3>

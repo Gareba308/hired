@@ -3,7 +3,7 @@
 import { Preview } from "@/components/Preview";
 import { Button } from "@/components/ui/button";
 import { Job } from "@prisma/client";
-import { Briefcase, CornerUpLeft, Lock, Globe, Mail } from "lucide-react";
+import { Briefcase, Lock, Globe, Mail } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import JobCard3 from "../job/JobCard3";
@@ -44,12 +44,6 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
           <div className="flex flex-wrap">
             <div className="w-full min-h-[calc(100vh-100px)] lg:mt-2 px-4 pt-2 pb-4 mx-auto bg-white sm:rounded-md sm:shadow-sm lg:w-2/3">
               <div className="flex flex-row items-center border-b border-gray-200 pb-1">
-                <a
-                  className="hover:text-[#005580] cursor-pointer"
-                  onClick={() => router.push("/site/companies")}
-                >
-                  <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-                </a>
                 <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
                   Company&apos;s Profile
                 </h2>

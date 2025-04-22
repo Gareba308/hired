@@ -28,7 +28,6 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  CornerUpLeft,
   Trash,
   MoreVertical,
   Loader2,
@@ -82,7 +81,6 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { BarCharts } from "./BarChart";
 import { TheLineCharts } from "./LineChart";
-import Link from "next/link";
 import { DeletePendingAlertModal } from "../models/companies/DeletePending";
 import { DeleteAccountAlertModal } from "../models/companies/DeleteAccount";
 
@@ -443,9 +441,6 @@ export function CompaniesStats({
   return (
     <div className="w-full mt-2">
       <div className=" flex flex-row items-center">
-        <Link href={"/control/companies"} className="hover:text-[#005580]">
-          <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-        </Link>
         <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
           Employers Stats
         </h2>

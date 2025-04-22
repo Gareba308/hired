@@ -25,7 +25,6 @@ import {
 } from "@prisma/client";
 import {
   CalendarClock,
-  CornerUpLeft,
   GraduationCap,
   Info,
   Loader2,

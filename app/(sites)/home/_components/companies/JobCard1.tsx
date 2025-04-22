@@ -51,7 +51,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                     onClick={() =>
                       router.push(`/home/jobs/${item.id}?origin=home/jobs`)
                     }
-                    className="relative cursor-pointer flex items-center justify-center h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] overflow-hidden rounded-sm"
+                    className="relative cursor-pointer flex items-center justify-center h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] overflow-hidden rounded-md"
                   >
                     <Image
                       src={item.companyLogo}

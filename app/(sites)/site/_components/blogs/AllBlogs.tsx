@@ -5,7 +5,6 @@ import { Blogs } from "@prisma/client";
 import { format } from "date-fns";
 import {
   ChevronDownIcon,
-  CornerUpLeft,
   SlidersHorizontal,
 } from "lucide-react";
 import Image from "next/image";
@@ -49,12 +48,6 @@ const AllBlogs = ({ blogs }: AllBlogsProps) => {
     <div>
       <div className="flex items-center justify-between gap-x-6 border-b border-gray-200 pb-1.5">
         <div className="flex items-center gap-x-2 sm:gap-x-2.5">
-          <Link
-            href={origin ? `/${origin}` : "/site/jobs"}
-            className="hover:text-[#005580] text-gray-700"
-          >
-            <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-          </Link>
           <div className="flex flex-col">
             <h3 className="font-bold capitalize line-clamp-1 text-gray-600 tracking-tight text-xl sm:text-2xl lg:text-3xl">
               All Blog Posts

@@ -1,8 +1,6 @@
 "use client";
 
 import { AssessmentBanner } from "@prisma/client";
-import { CornerUpLeft } from "lucide-react";
-import Link from "next/link";
 import React from "react";
 import BannerNameEdit from "./BannerNameEdit";
 import BannerCategoryEdit from "./BannerCategoryEdit";
@@ -19,12 +17,6 @@ const EditBanner = ({ banner }: EditBannerProps) => {
   return (
     <div>
       <div className="flex items-center flex-row mb-2">
-        <Link
-          href={"/control/assessments"}
-          className="hover:text-[#005580]"
-        >
-          <CornerUpLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 mr-1.5 sm:mr-2.5 shrink-0" />
-        </Link>
         <h3 className="font-bold text-gray-600 tracking-tight text-2xl sm:text-3xl">
           Banner Settings
         </h3>

@@ -31,7 +31,6 @@ import {
   Mails,
   MoveRight,
   Send,
-  Undo,
 } from "lucide-react";
 import Link from "next/link";
 import React, { Fragment, useEffect, useRef, useState } from "react";
@@ -195,12 +194,6 @@ const GeneralEmail = ({
           <div className="w-full lg:pr-4 lg:w-8/12">
             <div className="flex items-center w-full justify-between gap-x-4">
               <div className=" flex items-center flex-row">
-                <Link
-                  href={origin ? `/${origin}` : "/control/email"}
-                  className="hover:text-[#005580]"
-                >
-                  <Undo className="h-6 w-6 mr-2.5 shrink-0" />
-                </Link>
                 <h1 className="mb-2 text-2xl font-bold leading-tight text-gray-700 sm:text-3xl tracking-tight">
                   General Emails
                 </h1>
