@@ -111,7 +111,7 @@ const EditUnregisteredCompany = ({
           <h2 className="text-lg sm:text-[18px] sm:leading-[1.2rem] font-semibold">
             Company:{" "}
             <Link
-              href={`/control/company/${slug}`}
+              href={`/control/companies/${slug}`}
               className="font-bold text-gray-600 hover:underline"
             >
               {company.companyName}
