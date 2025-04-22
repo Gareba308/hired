@@ -14,7 +14,7 @@ interface TagProps {
 }
 
 export const revalidate = 30;
-
+export const dynamicParams = true;
 export async function generateStaticParams() {
   const sixtyDaysAgo = subDays(new Date(), 60);
 

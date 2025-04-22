@@ -51,7 +51,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                     onClick={() =>
                       router.push(`/home/jobs/${item.id}?origin=home/jobs`)
                     }
-                    className="relative cursor-pointer flex items-center justify-center h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] overflow-hidden rounded-md"
+                    className="relative cursor-pointer flex items-center justify-center h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] overflow-hidden rounded-lg"
                   >
                     <Image
                       src={item.companyLogo}
@@ -143,7 +143,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                       {item.company_name}
                     </div>
                     <div>
-                    {thePopular && item.rankTop === false ? (
+                      {thePopular && item.rankTop === false ? (
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger>
@@ -168,9 +168,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                               </span>
                             </TooltipTrigger>
                             <TooltipContent className="text-gray-600 text-sm tracking-normal">
-                              <p>
-                                This job is very trendy right now!
-                              </p>
+                              <p>This job is very trendy right now!</p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
@@ -183,9 +181,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                               </span>
                             </TooltipTrigger>
                             <TooltipContent className="text-gray-600 text-sm tracking-normal">
-                              <p>
-                                We recommend you checking out this job!
-                              </p>
+                              <p>We recommend you checking out this job!</p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
@@ -235,7 +231,10 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                       orientation="vertical"
                       className="text-gray-500"
                     />
-                    <p suppressHydrationWarning className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1">
+                    <p
+                      suppressHydrationWarning
+                      className="text-xs sm:hidden font-normal text-gray-600 line-clamp-1"
+                    >
                       {formatDistanceToNowStrict(item.createdAt, {
                         addSuffix: true,
                       })}

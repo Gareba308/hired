@@ -15,10 +15,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Company } from "@prisma/client";
-import { GripVertical, Loader2, PenLine} from "lucide-react";
+import { GripVertical, Loader2, PenLine } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type ReminderFormSchemaType = z.infer<typeof reminderFormSchema>;
@@ -43,41 +43,40 @@ const CompanyNameEdit = ({ company }: CompanyNameEditProps) => {
   const form = useForm<ReminderFormSchemaType>({
     resolver: zodResolver(reminderFormSchema),
     defaultValues: {
-      companyName: company?.company_name
-        ? company.company_name
-        : "",
+      companyName: company?.company_name ? company.company_name : "",
     },
   });
 
-  const { mutate: updateJob, isLoading } = trpc.adminUpdateRegisteredCompany.useMutation({
-    onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "The company name has successfully been updated",
-        variant: "default",
-        duration: 3000,
-      });
-      toggleEdit();
-      router.refresh();
-    },
-    onError: (err) => {
-      if (err.message) {
+  const { mutate: updateJob, isLoading } =
+    trpc.adminUpdateRegisteredCompany.useMutation({
+      onSuccess: () => {
         toast({
-          title: "Something went wrong",
-          description: err.message,
-          variant: "destructive",
+          title: "Success",
+          description: "The company name has successfully been updated",
+          variant: "default",
           duration: 3000,
         });
-      } else {
-        toast({
-          title: "Something went wrong",
-          description: "There was a problem updating the company name",
-          variant: "destructive",
-          duration: 3000,
-        });
-      }
-    },
-  });
+        toggleEdit();
+        router.push("/control/companies");
+      },
+      onError: (err) => {
+        if (err.message) {
+          toast({
+            title: "Something went wrong",
+            description: err.message,
+            variant: "destructive",
+            duration: 3000,
+          });
+        } else {
+          toast({
+            title: "Something went wrong",
+            description: "There was a problem updating the company name",
+            variant: "destructive",
+            duration: 3000,
+          });
+        }
+      },
+    });
 
   const onSubmit = (values: ReminderFormSchemaType) => {
     updateJob({ ...values, companyID: company.id });
@@ -124,7 +123,8 @@ const CompanyNameEdit = ({ company }: CompanyNameEditProps) => {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="font-normal text-base">
-                              Update the company name
+                              Update the company name. You&apos;ll then be
+                              redirected to companies page
                             </FormLabel>
                             <FormControl>
                               <Input

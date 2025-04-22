@@ -12,7 +12,7 @@ interface CategoryCounts {
 }
 
 export const revalidate = 60;
-
+export const dynamicParams = true;
 export async function generateStaticParams() {
   const employerBlogs = await db.blogs.findMany({
     select: {

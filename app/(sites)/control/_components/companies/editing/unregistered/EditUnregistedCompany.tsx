@@ -26,43 +26,48 @@ import CompanyEmailEdit from "./CompanyEmailEdit";
 
 interface EditRegisteredCompanyProps {
   company: UnregisteredCompany;
+  slug: string;
 }
-const EditUnregisteredCompany = ({ company }: EditRegisteredCompanyProps) => {
+const EditUnregisteredCompany = ({
+  company,
+  slug,
+}: EditRegisteredCompanyProps) => {
   const router = useRouter();
 
   const { toast } = useToast();
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const { mutate: confirmDelete, isLoading } = trpc.adminDeleteUnregisteredCompany.useMutation({
-    onSuccess: () => {
-      toast({
-        title: "Successfully deleted",
-        description: "The company has successfully been deleted",
-        variant: "default",
-        duration: 3000,
-      });
-      router.push("/control/companies");
-    },
-    onError: (err) => {
-      if (err.message) {
+  const { mutate: confirmDelete, isLoading } =
+    trpc.adminDeleteUnregisteredCompany.useMutation({
+      onSuccess: () => {
         toast({
-          title: "Something went wrong",
-          description: err.message,
-          variant: "destructive",
+          title: "Successfully deleted",
+          description: "The company has successfully been deleted",
+          variant: "default",
           duration: 3000,
         });
-      } else {
-        toast({
-          title: "Something went wrong",
-          description:
-            "There was a problem deleting this company. Please try again later",
-          variant: "destructive",
-          duration: 3000,
-        });
-      }
-    },
-  });
+        router.push("/control/companies");
+      },
+      onError: (err) => {
+        if (err.message) {
+          toast({
+            title: "Something went wrong",
+            description: err.message,
+            variant: "destructive",
+            duration: 3000,
+          });
+        } else {
+          toast({
+            title: "Something went wrong",
+            description:
+              "There was a problem deleting this company. Please try again later",
+            variant: "destructive",
+            duration: 3000,
+          });
+        }
+      },
+    });
 
   const submitDelete = () => {
     setDeleteOpen(false);
@@ -83,7 +88,7 @@ const EditUnregisteredCompany = ({ company }: EditRegisteredCompanyProps) => {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbLink href={`/control/companies/${company.id}`}>
+                  <BreadcrumbLink href={`/control/companies/${slug}`}>
                     Company Detail
                   </BreadcrumbLink>
                 </BreadcrumbItem>
@@ -106,7 +111,7 @@ const EditUnregisteredCompany = ({ company }: EditRegisteredCompanyProps) => {
           <h2 className="text-lg sm:text-[18px] sm:leading-[1.2rem] font-semibold">
             Company:{" "}
             <Link
-              href={`/control/company/${company.id}`}
+              href={`/control/company/${slug}`}
               className="font-bold text-gray-600 hover:underline"
             >
               {company.companyName}
@@ -177,7 +182,9 @@ const EditUnregisteredCompany = ({ company }: EditRegisteredCompanyProps) => {
                 <button
                   type="button"
                   disabled={isLoading}
-                  onClick={() => router.push(`/control/companies/${company.id}`)}
+                  onClick={() =>
+                    router.push(`/control/companies/${company.id}`)
+                  }
                   className="flex mt-4 w-full sm:w-[200px] rounded-sm items-center justify-center border border-gray-200 bg-gray-200 px-8 py-3 text-base font-medium text-gray-700"
                 >
                   Cancel

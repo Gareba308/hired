@@ -13,6 +13,7 @@ interface CategoryProps {
 }
 
 export const revalidate = 30;
+export const dynamicParams = true;
 export async function generateStaticParams() {
   const allBlogCategories = await db.blogs.findMany({
     select: {

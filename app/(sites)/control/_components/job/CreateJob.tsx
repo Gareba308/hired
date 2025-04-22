@@ -1010,11 +1010,9 @@ const CreateJob = ({
                     </dd>
                   </div>
                 )}
-                {unregistered && !known && (
-                  <h3 className="font-bold my-2 text-gray-600 tracking-tight text-xl sm:text-2xl">
-                    Job Details Entry
-                  </h3>
-                )}
+                <h3 className="font-bold my-2 text-gray-600 tracking-tight text-xl sm:text-2xl">
+                  Job Details Entry
+                </h3>
                 <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
                   <dt className="text-base font-medium text-gray-600">
                     <div className="flex items-center flex-row">

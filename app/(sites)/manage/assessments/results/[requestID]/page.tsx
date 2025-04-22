@@ -8,7 +8,7 @@ interface RequestAssessmentProps {
     requestID: string;
   };
 }
-
+export const dynamicParams = true;
 export const revalidate = 60;
 export async function generateStaticParams() {
   const instantAssess = await db.employerRequestAssessment.findMany();

@@ -18,31 +18,31 @@ import { useState } from "react";
 import Image from "next/image";
 
 interface JobItems {
-  id: string,
-  job_title: string,
-  personal_skills: string[],
-  category: string | null,
-  job_type: string | null,
-  deadline: Date | null,
-  county: string | null,
-  possible_pay: string | null,
-  numberOfPositions: string | null,
-  academic: string | null,
-  ownPlatformMethod: string | null,
-  experience: string | null,
-  companyLogo: string | null,
-  companyId: string,
-  company_name: string,
-  rankTop: boolean,
-  createdAt: Date,
+  id: string;
+  job_title: string;
+  personal_skills: string[];
+  category: string | null;
+  job_type: string | null;
+  deadline: Date | null;
+  county: string | null;
+  possible_pay: string | null;
+  numberOfPositions: string | null;
+  academic: string | null;
+  ownPlatformMethod: string | null;
+  experience: string | null;
+  companyLogo: string | null;
+  companyId: string;
+  company_name: string;
+  rankTop: boolean;
+  createdAt: Date;
 }
 
 interface PopularJob {
-  id: string,
-  job_title: string,
-  company_name: string,
-  companyLogo: string | null,
-  createdAt: Date,
+  id: string;
+  job_title: string;
+  company_name: string;
+  companyLogo: string | null;
+  createdAt: Date;
 }
 interface JobCardProps {
   allJobs: JobItems[];
@@ -130,7 +130,7 @@ const JobCard2 = ({ allJobs, mySavedJobs, popular }: JobCardProps) => {
                     onClick={() =>
                       router.push(`/site/jobs/${item.id}?origin=site/jobs`)
                     }
-                    className="relative cursor-pointer h-[60px] sm:h-[68px] w-[60px] flex items-center justify-center sm:w-[68px] overflow-hidden rounded-md lg:h-[74px] lg:w-[74px]"
+                    className="relative cursor-pointer h-[60px] sm:h-[68px] w-[60px] flex items-center justify-center sm:w-[68px] overflow-hidden rounded-lg lg:h-[74px] lg:w-[74px]"
                   >
                     <Image
                       src={item.companyLogo}

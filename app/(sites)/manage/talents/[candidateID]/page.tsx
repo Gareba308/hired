@@ -9,7 +9,7 @@ interface CandidateIDProps {
     candidateID: string;
   };
 }
-
+export const dynamicParams = true;
 export const revalidate = 60;
 export async function generateStaticParams() {
   const candidates = await db.user.findMany({

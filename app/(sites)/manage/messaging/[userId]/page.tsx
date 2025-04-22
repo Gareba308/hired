@@ -11,7 +11,7 @@ interface UserMessageProps {
 }
 
 export const revalidate = 60;
-
+export const dynamicParams = true;
 export async function generateStaticParams() {
   const workersMessages = await db.employerContactWorker.findMany({
     where: {

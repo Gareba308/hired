@@ -10,7 +10,7 @@ interface CandidateIDProps {
   };
 }
 export const revalidate = 60;
-
+export const dynamicParams = true;
 export async function generateStaticParams() {
   const workers = await db.user.findMany({
     where: {

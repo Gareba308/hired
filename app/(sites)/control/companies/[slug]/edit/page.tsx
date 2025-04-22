@@ -37,9 +37,9 @@ const Page = async ({ params }: AdminEditCompanyProps) => {
   return (
     <div className="space-y-2 max-w-7xl mx-auto bg-white min-h-[calc(100vh-80px)] prose pt-2 pb-8 mb-4 px-4 md:px-6 text-gray-700 text-base rounded-lg">
       {unregisteredCompany ? (
-        <EditUnregisteredCompany company={unregisteredCompany}/>
+        <EditUnregisteredCompany slug={slug} company={unregisteredCompany}/>
       ) : registeredCompany ? (
-        <EditRegisteredCompany company={registeredCompany}/>
+        <EditRegisteredCompany slug={slug} company={registeredCompany}/>
       ) : (
         <NoCompanyToEdit />
       )}

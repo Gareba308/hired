@@ -11,17 +11,17 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { Job} from "@prisma/client";
+import { Job } from "@prisma/client";
 import dynamic from "next/dynamic";
 
 const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 interface PopularJob {
-  id: string,
-  job_title: string,
-  company_name: string,
-  companyLogo: string | null,
-  createdAt: Date,
+  id: string;
+  job_title: string;
+  company_name: string;
+  companyLogo: string | null;
+  createdAt: Date;
 }
 interface JobCardProps {
   allJobs: Job[];
@@ -60,7 +60,7 @@ const JobCard1 = ({ allJobs, popular }: JobCardProps) => {
                       onClick={() =>
                         router.push(`/home/jobs/${item.id}?origin=home/jobs`)
                       }
-                      className="relative cursor-pointer flex items-center justify-center h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] overflow-hidden rounded-md"
+                      className="relative cursor-pointer flex items-center justify-center h-[60px] sm:h-[68px] w-[60px] sm:w-[68px] overflow-hidden rounded-lg"
                     >
                       <Image
                         src={item.companyLogo}

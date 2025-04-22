@@ -10,7 +10,7 @@ interface JobsProps {
     jobId: string;
   };
 }
-
+export const dynamicParams = true;
 export const revalidate = 60;
 export async function generateStaticParams() {
   const currentDate = new Date();

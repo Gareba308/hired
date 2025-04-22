@@ -12,7 +12,7 @@ interface BlogIDProps {
 interface CategoryCounts {
   [key: string]: number;
 }
-
+export const dynamicParams = true;
 export const revalidate = 60;
 export async function generateStaticParams() {
   const employerBlogs = await db.blogs.findMany({

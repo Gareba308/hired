@@ -25,7 +25,7 @@ const getJob = cache(async (jobId: string) => {
 });
 
 export const revalidate = 60;
-
+export const dynamicParams = true;
 export async function generateStaticParams() {
   const currentDate = new Date();
   const jobs = await db.job.findMany({

@@ -76,7 +76,7 @@ const getPopularSearchesJobs = async (slug: string) => {
 
   return jobs;
 };
-
+export const dynamicParams = true;
 export async function generateStaticParams() {
   const possibleSlugs = ["internship", "nairobi", "mombasa", "latest"];
 
