@@ -59,7 +59,7 @@ const AllCompanies = ({ companies }: TopCompaniesProps) => {
       </div>
       <p className="mb-2 text-sm text-gray-700">
         This is a collection of companies employing on <b>Hired</b>. We
-        currently have a total of <b>{companies.length}</b>.
+        currently have a total of <b>{companies.length}</b> companies.
       </p>
       {companies.length !== 0 ? (
         <div className="mt-3 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">

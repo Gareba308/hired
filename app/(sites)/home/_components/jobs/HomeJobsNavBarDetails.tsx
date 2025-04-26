@@ -2113,7 +2113,7 @@ const HomeJobsNavBarDetails = ({
                   allJobs={jobs}
                 />
               ) : (
-                <NoHomeDetailJob />
+                <span className="hidden md:flex"><NoHomeDetailJob /></span>
               )}
             </div>
           </div>

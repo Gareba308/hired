@@ -2088,7 +2088,7 @@ const HomeCompaniesNavBar = ({
                 </div>
               </div>
             ) : (
-              <NoHomeDetailJob />
+              <span className="hidden md:flex"><NoHomeDetailJob /></span>
             )}
           </div>
         </MaxWidthWrapper>
