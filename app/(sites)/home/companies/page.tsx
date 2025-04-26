@@ -44,17 +44,17 @@ const getJobs = async () => {
 const currentYear = new Date().getFullYear();
 export const metadata: Metadata = {
   title: {
-    absolute: `Top Companies Hiring Now in Kenya | Latest Job Openings ${currentYear}`,
+    absolute: "Companies with Latest Jobs in Kenya, Vacancies, Career Opportunities & How to Make or Earn Money Online in Kenya | Hired",
   },
-  description: `Explore top employers hiring in Kenya with the latest job openings. Find career opportunities in leading companies actively recruiting talent for ${currentYear}.`,
+  description: `Explore top employers hiring in Kenya with the latest gigs and job openings. Find career opportunities in leading companies actively recruiting talent for ${currentYear}.`,
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
     title: {
-      absolute: `Top Companies Hiring Now in Kenya | Latest Job Openings ${currentYear}`,
+      absolute: "Companies with Latest Jobs in Kenya, Vacancies, Career Opportunities & How to Make or Earn Money Online in Kenya | Hired",
     },
-    description: `Explore top employers hiring in Kenya with the latest job openings. Find career opportunities in leading companies actively recruiting talent for ${currentYear}.`,
+    description: `Explore top employers hiring in Kenya with the latest gigs and job openings. Find career opportunities in leading companies actively recruiting talent for ${currentYear}.`,
     siteName: siteConfig.name,
     images: [
       {
@@ -88,9 +88,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: {
-      absolute: `Top Companies Hiring Now in Kenya | Latest Job Openings ${currentYear}`,
+      absolute: "Companies with Latest Jobs in Kenya, Vacancies, Career Opportunities & How to Make or Earn Money Online in Kenya | Hired",
     },
-    description: `Explore top employers hiring in Kenya with the latest job openings. Find career opportunities in leading companies actively recruiting talent for ${currentYear}.`,
+    description: `Explore top employers hiring in Kenya with the latest gigs and job openings. Find career opportunities in leading companies actively recruiting talent for ${currentYear}.`,
     images: [
       {
         url: siteConfig.ogCompanies,
@@ -131,7 +131,7 @@ const Page = async () => {
     <>
       <div className="px-4 md:px-8 pb-6 pt-4 sm:pt-6 min-h-[calc(100vh-70px)] max-w-screen-xl mx-auto text-sm sm:text-[15px] text-gray-700">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-600 mb-4">
-          Top Employer Companies
+          Employer Companies
         </h1>
         <Suspense
           fallback={

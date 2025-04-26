@@ -195,7 +195,10 @@ export const countries = [
   { label: "Rwanda", value: "Rwanda" },
   { label: "Saint Kitts and Nevis", value: "Saint Kitts and Nevis" },
   { label: "Saint Lucia", value: "Saint Lucia" },
-  { label: "Saint Vincent and the Grenadines", value: "Saint Vincent and the Grenadines" },
+  {
+    label: "Saint Vincent and the Grenadines",
+    value: "Saint Vincent and the Grenadines",
+  },
   { label: "Samoa", value: "Samoa" },
   { label: "San Marino", value: "San Marino" },
   { label: "Sao Tome and Principe", value: "Sao Tome and Principe" },
@@ -242,12 +245,13 @@ export const countries = [
   { label: "Vietnam", value: "Vietnam" },
   { label: "Yemen", value: "Yemen" },
   { label: "Zambia", value: "Zambia" },
-  { label: "Zimbabwe", value: "Zimbabwe" }
+  { label: "Zimbabwe", value: "Zimbabwe" },
 ];
 
-
 export const counties = [
-  {label: "--Not in Kenya--", value: "Not in Kenya"},
+  { label: "--Not in Kenya--", value: "Not in Kenya" },
+  { label: "--Multiple--", value: "Multiple" },
+  { label: "--Remote--", value: "Remote" },
   { label: "Mombasa", value: "Mombasa" },
   { label: "Kwale", value: "Kwale" },
   { label: "Kilifi", value: "Kilifi" },
@@ -443,7 +447,6 @@ export const tertiaryResults = [
   { label: "Lower Credit", value: "Lower Credit" },
 ];
 
-
 export const proficiencies = [
   { label: "Beginner", value: "Beginner" },
   { label: "Intermediate", value: "Intermediate" },
@@ -472,4 +475,3 @@ const generateExperienceRanges = () => {
 };
 
 export const experienceRanges = generateExperienceRanges();
-

@@ -58,8 +58,9 @@ export const availabilities = [
 ];
 
 export const counties = [
-  {label: "--Not in Kenya--", value: "Not in Kenya"},
+  { label: "--Not in Kenya--", value: "Not in Kenya" },
   { label: "--Multiple--", value: "Multiple" },
+  { label: "--Remote--", value: "Remote" },
   { label: "Mombasa", value: "Mombasa" },
   { label: "Kwale", value: "Kwale" },
   { label: "Kilifi", value: "Kilifi" },
@@ -255,7 +256,6 @@ export const tertiaryResults = [
   { label: "Lower Credit", value: "Lower Credit" },
 ];
 
-
 export const proficiencies = [
   { label: "Beginner", value: "Beginner" },
   { label: "Intermediate", value: "Intermediate" },
@@ -285,21 +285,23 @@ const generateExperienceRanges = () => {
 
 export const experienceRanges = generateExperienceRanges();
 
-
 export const allSubcategories = {
-  ITSubcategory : [
+  ITSubcategory: [
     { label: "Software Developer Jobs", value: "Software Developer Jobs" },
     { label: "IT Support", value: "IT Support" },
     { label: "Mobile App Developer Jobs", value: "Mobile App Developer Jobs" },
     { label: "Network Administrator", value: "Network Administrator" },
     { label: "UX UI Designer Jobs", value: "UX UI Designer Jobs" },
-    { label: "Systems Administrator Jobs", value: "Systems Administrator Jobs" },
+    {
+      label: "Systems Administrator Jobs",
+      value: "Systems Administrator Jobs",
+    },
     { label: "DevOps Engineer Jobs", value: "DevOps Engineer Jobs" },
     { label: "Database Administrator", value: "Database Administrator" },
     { label: "Cloud Engineer", value: "Cloud Engineer" },
     { label: "Other IT Subcategory", value: "Other IT Subcategory" },
   ],
-  HealthcareSubcategory : [
+  HealthcareSubcategory: [
     { label: "Nursing Jobs", value: "Nursing Jobs" },
     { label: "Pharmacist Jobs", value: "Pharmacist Jobs" },
     { label: "Clinical Officer Jobs", value: "Clinical Officer Jobs" },
@@ -317,7 +319,7 @@ export const allSubcategories = {
       value: "Other Healthcare Subcategory",
     },
   ],
-  FinanceSubcategory : [
+  FinanceSubcategory: [
     { label: "Accountant Jobs", value: "Accountant Jobs" },
     { label: "Finance Officer Jobs", value: "Finance Officer Jobs" },
     { label: "Financial Analyst Jobs", value: "Financial Analyst Jobs" },
@@ -329,7 +331,7 @@ export const allSubcategories = {
     { label: "Business Consultant Jobs", value: "Business Consultant Jobs" },
     { label: "Other Finance Subcategory", value: "Other Finance Subcategory" },
   ],
-  SalesSubcategory : [
+  SalesSubcategory: [
     { label: "Sales Executive Jobs", value: "Sales Executive Jobs" },
     { label: "Sales Manager Jobs", value: "Sales Manager Jobs" },
     { label: "Digital Marketing Jobs", value: "Digital Marketing Jobs" },
@@ -344,23 +346,38 @@ export const allSubcategories = {
     },
     { label: "Other Sales Subcategory", value: "Other Sales Subcategory" },
   ],
-  SecuritySubcategory : [
+  SecuritySubcategory: [
     { label: "Security Officer Jobs", value: "Security Officer Jobs" },
     { label: "Risk Manager Jobs", value: "Risk Manager Jobs" },
     { label: "Security Jobs in Kenya", value: "Security Jobs in Kenya" },
     { label: "Corporate Governance Jobs", value: "Corporate Governance Jobs" },
-    { label: "Fleet Management Officer Jobs", value: "Fleet Management Officer Jobs" },
+    {
+      label: "Fleet Management Officer Jobs",
+      value: "Fleet Management Officer Jobs",
+    },
     { label: "Compliance Officer Jobs", value: "Compliance Officer Jobs" },
     { label: "Transport Manager Jobs", value: "Transport Manager Jobs" },
     { label: "Property Manager Jobs", value: "Property Manager Jobs" },
-    { label: "Loss Prevention Officer Jobs", value: "Loss Prevention Officer Jobs" },
-    { label: "Other Security Subcategory", value: "Other Security Subcategory" },
+    {
+      label: "Loss Prevention Officer Jobs",
+      value: "Loss Prevention Officer Jobs",
+    },
+    {
+      label: "Other Security Subcategory",
+      value: "Other Security Subcategory",
+    },
   ],
-  EducationSubcategory : [
+  EducationSubcategory: [
     { label: "Teaching Jobs in Kenya", value: "Teaching Jobs in Kenya" },
     { label: "Tutor Jobs in Kenya", value: "Tutor Jobs in Kenya" },
-    { label: "Public Health Officer Jobs", value: "Public Health Officer Jobs" },
-    { label: "Learning and Development Jobs", value: "Learning and Development Jobs" },
+    {
+      label: "Public Health Officer Jobs",
+      value: "Public Health Officer Jobs",
+    },
+    {
+      label: "Learning and Development Jobs",
+      value: "Learning and Development Jobs",
+    },
     { label: "Corporate Trainer Jobs", value: "Corporate Trainer Jobs" },
     { label: "Training Coordinator Jobs", value: "Training Coordinator Jobs" },
     { label: "School Administrator Jobs", value: "School Administrator Jobs" },
@@ -371,10 +388,13 @@ export const allSubcategories = {
       value: "Other Education Subcategory",
     },
   ],
-  CustomerSubcategory : [
+  CustomerSubcategory: [
     { label: "Customer Service Jobs", value: "Customer Service Jobs" },
     { label: "Customer Support Jobs", value: "Customer Support Jobs" },
-    { label: "Customer Relations Officer Jobs", value: "Customer Relations Officer Jobs" },
+    {
+      label: "Customer Relations Officer Jobs",
+      value: "Customer Relations Officer Jobs",
+    },
     {
       label: "Customer Experience Manager Jobs",
       value: "Customer Experience Manager Jobs",
@@ -387,9 +407,12 @@ export const allSubcategories = {
     },
     { label: "Client Relations Jobs", value: "Client Relations Jobs" },
     { label: "Help Desk Support", value: "Help Desk Support" },
-    { label: "Other Customer Subcategory", value: "Other Customer Subcategory" },
+    {
+      label: "Other Customer Subcategory",
+      value: "Other Customer Subcategory",
+    },
   ],
-  EngineeringSubcategory : [
+  EngineeringSubcategory: [
     { label: "Electrical Engineer Jobs", value: "Electrical Engineer Jobs" },
     { label: "Mechanical Engineer Jobs", value: "Mechanical Engineer Jobs" },
     { label: "Civil Engineer Jobs", value: "Civil Engineer Jobs" },
@@ -407,7 +430,7 @@ export const allSubcategories = {
       value: "Other Engineering Subcategory",
     },
   ],
-  AgricultureSubcategory : [
+  AgricultureSubcategory: [
     { label: "Agriculture Officer Jobs", value: "Agriculture Officer Jobs" },
     { label: "Farm Manager Jobs", value: "Farm Manager Jobs" },
     { label: "Agronomist Jobs", value: "Agronomist Jobs" },
@@ -428,8 +451,8 @@ export const allSubcategories = {
       value: "Other Agriculture Subcategory",
     },
   ],
-  
-  FishingSubcategory : [
+
+  FishingSubcategory: [
     { label: "Aquaculture Manager Jobs", value: "Aquaculture Manager Jobs" },
     { label: "Marine Biologist Jobs", value: "Marine Biologist Jobs" },
     {
@@ -450,7 +473,7 @@ export const allSubcategories = {
     { label: "Coastal Zone Manager", value: "Coastal Zone Manager" },
     { label: "Other Fishing Subcategory", value: "Other Fishing Subcategory" },
   ],
-  AdministrativeSubcategory : [
+  AdministrativeSubcategory: [
     {
       label: "Administrative Assistant Jobs",
       value: "Administrative Assistant Jobs",
@@ -474,9 +497,12 @@ export const allSubcategories = {
       value: "Other Administrative Subcategory",
     },
   ],
-  ManufacturingSubcategory : [
+  ManufacturingSubcategory: [
     { label: "Quality Control Jobs", value: "Quality Control Jobs" },
-    { label: "Production Supervisor Jobs", value: "Production Supervisor Jobs" },
+    {
+      label: "Production Supervisor Jobs",
+      value: "Production Supervisor Jobs",
+    },
     { label: "Factory Worker Jobs", value: "Factory Worker Jobs" },
     { label: "Machine Operator Jobs", value: "Machine Operator Jobs" },
     { label: "Industrial Engineer Jobs", value: "Industrial Engineer Jobs" },
@@ -489,7 +515,7 @@ export const allSubcategories = {
       value: "Other Manufacturing Subcategory",
     },
   ],
-  HRSubcategory : [
+  HRSubcategory: [
     {
       label: "Human Resource Manager Jobs",
       value: "Human Resource Manager Jobs",
@@ -513,22 +539,28 @@ export const allSubcategories = {
     },
     { label: "Wellness Officer Jobs", value: "Wellness Officer Jobs" },
     { label: "Training Coordinator Jobs", value: "Training Coordinator Jobs" },
-    { label: "Employee Relations Manager", value: "Employee Relations Manager" },
+    {
+      label: "Employee Relations Manager",
+      value: "Employee Relations Manager",
+    },
     { label: "Other HR Subcategory", value: "Other HR Subcategory" },
   ],
-  SportsSubcategory : [
+  SportsSubcategory: [
     { label: "Event Planner Jobs", value: "Event Planner Jobs" },
     { label: "Sports Coach Jobs", value: "Sports Coach Jobs" },
     { label: "Fitness Instructor Jobs", value: "Fitness Instructor Jobs" },
     { label: "Athlete Manager Jobs", value: "Athlete Manager Jobs" },
     { label: "Event Coordinator Jobs", value: "Event Coordinator Jobs" },
-    { label: "Entertainment Manager Jobs", value: "Entertainment Manager Jobs" },
+    {
+      label: "Entertainment Manager Jobs",
+      value: "Entertainment Manager Jobs",
+    },
     { label: "Actor or Actress Jobs", value: "Actor or Actress Jobs" },
     { label: "Music Producer Jobs", value: "Music Producer Jobs" },
     { label: "Sports Manager", value: "Sports Manager" },
     { label: "Other Sports Subcategory", value: "Other Sports Subcategory" },
   ],
-  BuildingSubcategory : [
+  BuildingSubcategory: [
     { label: "Construction Jobs", value: "Construction Jobs" },
     { label: "Electrician Jobs", value: "Electrician Jobs" },
     { label: "Civil Engineer Jobs", value: "Civil Engineer Jobs" },
@@ -536,14 +568,20 @@ export const allSubcategories = {
       label: "Maintenance Technician Jobs",
       value: "Maintenance Technician Jobs",
     },
-    { label: "Electrical Technician Jobs", value: "Electrical Technician Jobs" },
+    {
+      label: "Electrical Technician Jobs",
+      value: "Electrical Technician Jobs",
+    },
     { label: "Project Coordinator Jobs", value: "Project Coordinator Jobs" },
     { label: "Plumber Jobs", value: "Plumber Jobs" },
     { label: "Architect Jobs", value: "Architect Jobs" },
     { label: "Site Manager", value: "Site Manager" },
-    { label: "Other Building Subcategory", value: "Other Building Subcategory" },
+    {
+      label: "Other Building Subcategory",
+      value: "Other Building Subcategory",
+    },
   ],
-  RetailSubcategory : [
+  RetailSubcategory: [
     { label: "Retail Manager Jobs", value: "Retail Manager Jobs" },
     { label: "Sales Executive Jobs", value: "Sales Executive Jobs" },
     { label: "Sales Representative Jobs", value: "Sales Representative Jobs" },
@@ -555,7 +593,7 @@ export const allSubcategories = {
     { label: "Retail Buyer", value: "Retail Buyer" },
     { label: "Other Retail Subcategory", value: "Other Retail Subcategory" },
   ],
-  HospitalitySubcategory : [
+  HospitalitySubcategory: [
     { label: "Hotel Manager Jobs", value: "Hotel Manager Jobs" },
     { label: "Restaurant Manager Jobs", value: "Restaurant Manager Jobs" },
     { label: "Tour Guide Jobs", value: "Tour Guide Jobs" },
@@ -573,7 +611,7 @@ export const allSubcategories = {
       value: "Other Hospitality Subcategory",
     },
   ],
-  LegalSubcategory : [
+  LegalSubcategory: [
     { label: "Corporate Lawyer Jobs", value: "Corporate Lawyer Jobs" },
     { label: "Legal Officer Jobs", value: "Legal Officer Jobs" },
     { label: "Compliance Officer Jobs", value: "Compliance Officer Jobs" },
@@ -588,10 +626,13 @@ export const allSubcategories = {
     { label: "Legal Advisor", value: "Legal Advisor" },
     { label: "Other Legal Subcategory", value: "Other Legal Subcategory" },
   ],
-  ResearchSubcategory : [
+  ResearchSubcategory: [
     { label: "Data Analyst Jobs", value: "Data Analyst Jobs" },
     { label: "Research Assistant Jobs", value: "Research Assistant Jobs" },
-    { label: "Laboratory Technician Jobs", value: "Laboratory Technician Jobs" },
+    {
+      label: "Laboratory Technician Jobs",
+      value: "Laboratory Technician Jobs",
+    },
     { label: "Research Officer Jobs", value: "Research Officer Jobs" },
     { label: "Data Scientist Jobs", value: "Data Scientist Jobs" },
     { label: "Environmental Jobs", value: "Environmental Jobs" },
@@ -606,7 +647,7 @@ export const allSubcategories = {
     },
     { label: "Other Science Subcategory", value: "Other Science Subcategory" },
   ],
-  MediaSubcategory : [
+  MediaSubcategory: [
     {
       label: "Digital Content Creator Jobs",
       value: "Digital Content Creator Jobs",
@@ -621,7 +662,7 @@ export const allSubcategories = {
     { label: "Social Media Manager", value: "Social Media Manager" },
     { label: "Other Media Subcategory", value: "Other Media Subcategory" },
   ],
-  TransportationSubcategory : [
+  TransportationSubcategory: [
     { label: "Driver Logistics Jobs", value: "Driver Logistics Jobs" },
     { label: "Fleet Manager Jobs", value: "Fleet Manager Jobs" },
     { label: "Logistics Officer Jobs", value: "Logistics Officer Jobs" },
@@ -636,7 +677,7 @@ export const allSubcategories = {
       value: "Other Transportation Subcategory",
     },
   ],
-  RealEstateSubcategory : [
+  RealEstateSubcategory: [
     { label: "Property Manager Jobs", value: "Property Manager Jobs" },
     { label: "Real Estate Jobs", value: "Real Estate Jobs" },
     { label: "Estate Manager Jobs", value: "Estate Manager Jobs" },
@@ -651,7 +692,7 @@ export const allSubcategories = {
       value: "Other Real Estate Subcategory",
     },
   ],
-  SocialSubcategory : [
+  SocialSubcategory: [
     { label: "Social Worker Jobs", value: "Social Worker Jobs" },
     { label: "Humanitarian Jobs", value: "Humanitarian Jobs" },
     {
@@ -669,9 +710,12 @@ export const allSubcategories = {
       value: "Other Social Services Subcategory",
     },
   ],
-  ConsultingSubcategory : [
+  ConsultingSubcategory: [
     { label: "Business Consultant Jobs", value: "Business Consultant Jobs" },
-    { label: "Management Consultant Jobs", value: "Management Consultant Jobs" },
+    {
+      label: "Management Consultant Jobs",
+      value: "Management Consultant Jobs",
+    },
     { label: "HR Consultant Jobs", value: "HR Consultant Jobs" },
     { label: "IT Consultant Jobs", value: "IT Consultant Jobs" },
     { label: "Financial Consultant Jobs", value: "Financial Consultant Jobs" },
@@ -687,4 +731,4 @@ export const allSubcategories = {
       value: "Other Consulting Subcategory",
     },
   ],
-}
+};

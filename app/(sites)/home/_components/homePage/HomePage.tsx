@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
 const AdSenseAd = dynamic(() => import("@/components/Adsense"), { ssr: false });
 
 interface JobSubCategory {
-  subCategory: string | null
+  subCategory: string | null;
 }
 interface HomePageProps {
   jobs: JobSubCategory[];
@@ -293,15 +293,15 @@ const HomePage = ({ jobs }: HomePageProps) => {
             </div>
             <h1
               className="text-gray-700 font-extrabold text-4xl xl:text-5xl"
-              title="We connect employers and job seekers"
+              title="Connecting top talent to employers"
             >
-              Where employers and job seekers
-              <span className="text-sky-700"> connect</span>
+              Connecting<span className="text-sky-700"> Top Talent</span>{" "} To
+              Employers
             </h1>
             <p className="text-gray-700 text-base sm:text-[15px] max-w-xl leading-relaxed sm:mx-auto lg:ml-0">
-              Looking for jobs in Kenya shouldn&apos;t be dull! Our platform
-              connects job seekers with top employers through a user-friendly
-              interface. Explore career opportunities and find work easily.
+              Explore top jobs in Kenya, remote jobs, freelance opportunities,
+              and ways to earn money online with trusted employers and career
+              platforms.
             </p>
             <div>
               <p className="text-gray-700 py-3 text-base font-medium sm:text-[15px]">

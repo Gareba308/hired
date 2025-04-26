@@ -141,7 +141,7 @@ const ResumeBuild = () => {
                 <Link
                   href="/home/login"
                   title="Generate a resume"
-                  className="flex items-center justify-center  py-4 px-5 text-center w-full text-primary font-medium bg-gray-300 duration-150 hover:opacity-90 border border-gray-400 rounded-sm shadow-sm hover:shadow-none"
+                  className="flex items-center justify-center  py-4 px-5 text-center w-full text-white font-medium bg-primary duration-150 hover:opacity-90 border border-gray-400 rounded-sm shadow-sm hover:shadow-none"
                 >
                   Generate Free Resume
                 </Link>

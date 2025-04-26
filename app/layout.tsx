@@ -17,7 +17,7 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: {
-    default: "Latest Jobs in Kenya, Vacancies, Career Opportunities & How to Make or Earn Money Online in Kenya | Hired",
+    default: "Latest Jobs in Kenya, Vacancies, Career Opportunities & How to Make or Earn Money Online in Kenya with Freelance Gigs",
     template: `%s | ${siteConfig.name}`,
   },
   description:
@@ -55,8 +55,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
-    title: siteConfig.name,
-    description: siteConfig.description,
+    title: "Latest Jobs in Kenya, Vacancies, Career Opportunities & How to Make or Earn Money Online in Kenya with Freelance Gigs",
+    description:  "Find the latest jobs in Kenya. Apply for vacancies, career opportunities & recruitment listings make money online in Kenya. Sign up free, explore top companies, and secure your future today.",
     siteName: siteConfig.name,
     images: [
       {
@@ -69,8 +69,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.name,
-    description: siteConfig.description,
+    title: "Latest Jobs in Kenya, Vacancies, Career Opportunities & How to Make or Earn Money Online in Kenya with Freelance Gigs",
+    description:  "Find the latest jobs in Kenya. Apply for vacancies, career opportunities & recruitment listings make money online in Kenya. Sign up free, explore top companies, and secure your future today.",
     images: [
       {
         url: siteConfig.ogImage,

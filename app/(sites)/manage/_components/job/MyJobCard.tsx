@@ -227,7 +227,7 @@ const MyJobCard = ({ allJobs }: MyJobCardProps) => {
                       className="text-gray-500"
                     />
                     <p className="text-xs font-normal text-gray-600 line-clamp-1">
-                      {item.job_type}
+                      {item.job_type? <>{item.job_type}</>: "Full time"}
                     </p>
                     <Separator
                       orientation="vertical"
