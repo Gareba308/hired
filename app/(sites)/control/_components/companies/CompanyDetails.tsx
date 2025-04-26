@@ -68,7 +68,7 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
                   variant="outline"
                   size="sm"
                   type="button"
-                  className="text-primary hover:text-red-600 hover:opacity-90"
+                  className="text-red-600 hover:text-red-700 hover:opacity-90"
                   onClick={()=> router.push(`/control/companies/${company?.company_name}/edit`)}
                 >
                   <PenLine className="h-4 w-4 mr-1 shrink-0" /> Edit

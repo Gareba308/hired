@@ -43,7 +43,7 @@ const AllCompanies = ({ companies }: TopCompaniesProps) => {
   const router = useRouter();
   return (
     <>
-      <div className="w-full flex items-center flex-row justify-between gap-x-3 mb-4">
+      <div className="w-full flex items-center flex-row justify-between gap-x-3 mb-2">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-600">
           Companies
         </h1>
