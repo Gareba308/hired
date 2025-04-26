@@ -12,20 +12,20 @@ import { Loader } from "lucide-react";
 export const metadata: Metadata = {
   title: {
     absolute:
-      "Find all the latest jobs in Kenya, sign up free, apply for vacancies & career listings",
+      "Latest Jobs in Kenya, Vacancies, Career Opportunities & How to Make or Earn Money Online in Kenya with Freelance Gigs",
   },
   description:
-    "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
+   "Find the latest jobs in Kenya. Apply for vacancies, career opportunities & recruitment listings make money online in Kenya. Sign up free, explore top companies, and secure your future today.",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
     title: {
       absolute:
-        "Find all the latest jobs in Kenya, sign up free, apply for vacancies & career listings",
+        "Latest Jobs in Kenya, Vacancies, Career Opportunities & How to Make or Earn Money Online in Kenya with Freelance Gigs",
     },
     description:
-      "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
+     "Find the latest jobs in Kenya. Apply for vacancies, career opportunities & recruitment listings make money online in Kenya. Sign up free, explore top companies, and secure your future today.",
     siteName: siteConfig.name,
     images: [
       {
@@ -58,10 +58,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: {
       absolute:
-        "Find all the latest jobs in Kenya, sign up free, apply for vacancies & career listings",
+        "Latest Jobs in Kenya, Vacancies, Career Opportunities & How to Make or Earn Money Online in Kenya with Freelance Gigs",
     },
     description:
-      "Search for the latest jobs in Kenya. Apply for vacancies, explore career opportunities, and find recruitment listings. Sign up free today.",
+     "Find the latest jobs in Kenya. Apply for vacancies, career opportunities & recruitment listings make money online in Kenya. Sign up free, explore top companies, and secure your future today.",
     images: [
       {
         url: siteConfig.ogJobPage,

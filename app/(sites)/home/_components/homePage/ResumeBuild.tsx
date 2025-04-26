@@ -122,7 +122,7 @@ const ResumeBuild = () => {
         <section className="sm:mt-5 mt-4 mx-auto max-w-screen-xl pb-4 px-4 items-center lg:flex md:px-8">
           <div className="space-y-3 flex-1 sm:text-center lg:text-left">
             <h1
-              className="text-gray-700 font-extrabold text-4xl xl:text-5xl"
+              className="text-gray-700 font-extrabold text-3xl xl:text-4xl"
               title="Create professional resume for free"
             >
               Create professional resumes for
@@ -206,7 +206,7 @@ const ResumeBuild = () => {
                   title="Why job seekers like us"
                   className="text-gray-700 text-3xl font-bold sm:text-4xl"
                 >
-                  Why Use Resume Generator
+                  Resume Generator Tips
                 </h2>
               </div>
             </div>

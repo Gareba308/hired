@@ -57,7 +57,7 @@ const AllCompanies = ({ companies }: TopCompaniesProps) => {
           Statistics
         </Button>
       </div>
-      <p className="my-2 text-sm text-gray-700">
+      <p className="mb-2 text-sm text-gray-700">
         This is a collection of companies employing on <b>Hired</b>. We
         currently have a total of <b>{companies.length}</b>.
       </p>
