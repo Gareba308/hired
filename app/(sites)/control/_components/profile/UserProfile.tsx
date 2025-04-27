@@ -22,7 +22,7 @@ const UserProfile = ({ profile, user }: UserProfileProps) => {
   }
   return (
     <>
-      <dl className="divide-y divide-gray-100">
+      <dl className="divide-y divide-gray-200">
         <Photo profile={profile} user={user}/>
         <Summary profile={profile} />
         <PhoneNumber profile={profile} />

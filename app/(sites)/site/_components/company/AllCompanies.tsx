@@ -45,9 +45,10 @@ const AllCompanies = ({ companies }: TopCompaniesProps) => {
   const router = useRouter();
   return (
     <>
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-600 mb-4">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-600 mb-2">
         Employer Companies
       </h1>
+      <p className='text-sm mb-2 text-gray-700'>These are employer companies that are currently hiring. Browse through to find a job from your favorite company</p>
       <div className="mt-4 sm:mx-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {companies
           .sort((a, b) => b.numberOfOccurrence - a.numberOfOccurrence)

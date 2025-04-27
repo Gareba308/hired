@@ -135,7 +135,7 @@ const AssessmentBanners = ({
                     </span>
                   </span>
                 )}
-                panelClassName="absolute right-0 z-10 max-h-[calc(100vh-30vh)] overflow-y-scroll mt-1 w-64 origin-top-right divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                panelClassName="absolute right-0 z-10 max-h-[calc(100vh-30vh)] overflow-y-scroll mt-1 w-64 origin-top-right divide-y divide-gray-200 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
               >
                 {({ closeDisclosure }) => (
                   <>

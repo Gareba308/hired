@@ -23,7 +23,7 @@ const ContactFormProfile = ({ profiles }: ContactFormProps) => {
           </div>
 
           <>
-            <dl className="divide-y divide-gray-100">
+            <dl className="divide-y divide-gray-200">
               <ContactPhone profile={profile} />
               <ContactSecondaryEmail profile={profile} />
               <ContactPostalAddress profile={profile} />

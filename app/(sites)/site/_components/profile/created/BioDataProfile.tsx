@@ -27,7 +27,7 @@ const BioDataProfile = ({ profiles }: BioDataProfileProps) => {
           </div>
 
           <>
-            <dl className="divide-y divide-gray-100">
+            <dl className="divide-y divide-gray-200">
               <BioName profile={profile} />
               <BioCounty profile={profile} />
               <BioCurrentJob profile={profile} />

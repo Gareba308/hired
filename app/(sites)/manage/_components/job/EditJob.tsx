@@ -129,7 +129,7 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
         </div>
       )}
       <div className=" border-t border-gray-200">
-        <dl className="divide-y divide-gray-100">
+        <dl className="divide-y divide-gray-200">
           <TitleEdit job={job} jobId={job?.id as string} />
           <CountyEdit job={job} jobId={job?.id as string} />
           <CategoryEdit job={job} jobId={job?.id as string} />
@@ -145,7 +145,9 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
           <RequirementsEdit job={job} jobId={job?.id as string} />
           <VacanciesEdit job={job} jobId={job?.id as string} />
           <SalaryEdit job={job} jobId={job?.id as string} />
-          <BenefitsEdit job={job} jobId={job?.id as string} />
+          <span className="hidden">
+            <BenefitsEdit job={job} jobId={job?.id as string} />
+          </span>
           <ChooseMethodEdit job={job} jobId={job?.id as string} />
           <AddAssessmentEdit job={job} jobId={job?.id as string} />
           {job?.addAssessment === true && (

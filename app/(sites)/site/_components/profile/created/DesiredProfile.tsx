@@ -27,7 +27,7 @@ const DesiredProfile = ({ profiles }: DesiredProfileProps) => {
           </div>
 
           <>
-            <dl className="divide-y divide-gray-100">
+            <dl className="divide-y divide-gray-200">
               <DesiredJobCategoryEdit profile={profile} />
               <DesiredYearsExperienceEdit profile={profile} />
               <DesiredAvailability profile={profile} />

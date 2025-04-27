@@ -97,7 +97,7 @@ const AccountSecurity = ({ user, profile }: AccountSecurityProps) => {
   const mainAdmin = ourAdmins.includes(user.email);
   return (
     <>
-      <dl className="divide-y divide-gray-100">
+      <dl className="divide-y divide-gray-200">
         <AccountName user={user} />
         <AccountEmail user={user} />
         <AccountPassword user={user} />

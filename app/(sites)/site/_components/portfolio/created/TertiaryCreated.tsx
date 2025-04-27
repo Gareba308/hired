@@ -19,7 +19,7 @@ const TertiaryCreated = ({
     <>
       {selectedTertiary && (
         <div>
-          <dl className="divide-y divide-gray-100">
+          <dl className="divide-y divide-gray-200">
             <TertiaryEdit
               tertiaryDetails={selectedTertiary}
               toggleView={toggleView}

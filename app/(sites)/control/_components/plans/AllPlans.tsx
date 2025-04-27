@@ -124,7 +124,7 @@ const AllPlans = ({ plans }: AllPlansProps) => {
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="absolute divide-y divide-gray-100 top-full z-10 mt-1 w-48 origin-top-right rounded-sm bg-white shadow-bottom-md border border-gray-300 focus:outline-none right-0">
+                          <Menu.Items className="absolute divide-y divide-gray-200 top-full z-10 mt-1 w-48 origin-top-right rounded-sm bg-white shadow-bottom-md border border-gray-300 focus:outline-none right-0">
                             <div className="bg-slate-200 rounded-tl-sm rounded-tr-sm">
                               <h2 className="px-4 font-medium text-base text-gray-600 py-2">
                                 Plan Options

@@ -63,7 +63,7 @@ const NewExperienceCreated = ({
           </div>
         </div>
 
-        <div className="px-2.5 lg:px-4 divide-y divide-gray-100">
+        <div className="px-2.5 lg:px-4 divide-y divide-gray-200">
           <div className="py-3 lg:py-5 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
             <dt className="font-medium text-lg leading-6 text-gray-600">
               Job position

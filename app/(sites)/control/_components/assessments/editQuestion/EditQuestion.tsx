@@ -26,7 +26,7 @@ const EditQuestion = ({ question }: EditQuestionProps) => {
         <legend className="text-lg sm:text-xl font-semibold text-gray-600">
           Edit Question
         </legend>
-        <dl className="divide-y divide-gray-100">
+        <dl className="divide-y divide-gray-200">
           <ScenarioExplanationEdit question={question} />
           <ScenarioEdit question={question} />
           <QuestionEdit question={question} />

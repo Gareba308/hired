@@ -102,7 +102,7 @@ const SecurityForm = ({ user }: SecurityFormProps) => {
       </div>
 
       <>
-        <dl className="divide-y divide-gray-100">
+        <dl className="divide-y divide-gray-200">
           <SecurityEmail user={user} />
           <SecurityPassword user={user} />
 

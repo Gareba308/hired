@@ -135,7 +135,7 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
         </div>
       )}
       <div className=" border-t border-gray-200">
-        <dl className="divide-y divide-gray-100">
+        <dl className="divide-y divide-gray-200">
           <TitleEdit job={job} jobId={job?.id as string} />
           <NonRegisteredEdit job={job} jobId={job?.id as string} />
           {job?.jobFormNonRegisteredCompany === true && (
@@ -155,12 +155,12 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
           )}
           <LogoEdit job={job} jobId={job?.id as string} />
           <CountyEdit job={job} jobId={job?.id as string} />
+          <CreatedAtEdit job={job} jobId={job?.id as string} />
           <CategoryEdit job={job} jobId={job?.id as string} />
           <SubCategoryEdit job={job} jobId={job?.id as string} />
           <EmploymentTypeEdit job={job} jobId={job?.id as string} />
           <SeniorityEdit job={job} jobId={job?.id as string} />
           <DescriptionEdit job={job} jobId={job?.id as string} />
-          <CreatedAtEdit job={job} jobId={job?.id as string} />
           <DeadlineEdit job={job} jobId={job?.id as string} />
           <ResponsibilitiesEdit job={job} jobId={job?.id as string} />
           <ExperienceEdit job={job} jobId={job?.id as string} />
@@ -168,7 +168,9 @@ const EditJob = ({ job, myOrderedPicks }: EditJobPageProps) => {
           <RequirementsEdit job={job} jobId={job?.id as string} />
           <VacanciesEdit job={job} jobId={job?.id as string} />
           <SalaryEdit job={job} jobId={job?.id as string} />
-          <BenefitsEdit job={job} jobId={job?.id as string} />
+          <span className="hidden">
+            <BenefitsEdit job={job} jobId={job?.id as string} />
+          </span>
           <ChooseMethodEdit job={job} jobId={job?.id as string} />
           <AddAssessmentEdit job={job} jobId={job?.id as string} />
           {job?.addAssessment === true && (

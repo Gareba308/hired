@@ -172,7 +172,7 @@ const ExperienceEdit = ({ experienceDetails, toggleView }: ExperienceProps) => {
                 sensitive information private. User profile helps employer know
                 who you are.
               </p>
-              <dl className="border divide-y divide-gray-100 border-gray-200 px-2.5 sm:px-4 rounded-lg mt-4">
+              <dl className="border divide-y divide-gray-200 border-gray-200 px-2.5 sm:px-4 rounded-lg mt-4">
                 <div className="py-2 lg:py-4 pb-5 lg:px-3 lg:gap-4  lg:grid lg:grid-cols-3 text-gray-700">
                   <dt className="font-medium text-lg leading-6 text-gray-700">
                     Job position

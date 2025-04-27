@@ -26,7 +26,7 @@ const EditBanner = ({ banner }: EditBannerProps) => {
         <legend className="text-lg sm:text-xl font-semibold text-gray-600">
           Edit Banner
         </legend>
-        <dl className="divide-y divide-gray-100">
+        <dl className="divide-y divide-gray-200">
           <BannerDemoEdit banner={banner} />
           <BannerNameEdit banner={banner} />
           <BannerCompleteTime banner={banner} />

@@ -35,7 +35,7 @@ const CompanyProfile = ({ profile }: CompanyProfileProps) => {
       </div>
 
       <>
-        <dl className="divide-y divide-gray-100">
+        <dl className="divide-y divide-gray-200">
           <CompanyName profile={profile} />
           <CompanyLogo profile={profile} />
           <CompanyEstablished profile={profile} />

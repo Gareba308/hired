@@ -200,7 +200,7 @@ const TertiaryEdit = ({ tertiaryDetails, toggleView }: ExperienceProps) => {
                   Back
                 </Button>
               </div>
-              <dl className="divide-y divide-gray-100 px-2.5 lg:px-3">
+              <dl className="divide-y divide-gray-200 px-2.5 lg:px-3">
                 <div className="py-3 sm:py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
                   <dt className="font-medium text-base leading-6 text-gray-600">
                     Name of school

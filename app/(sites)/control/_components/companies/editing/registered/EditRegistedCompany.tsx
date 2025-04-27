@@ -120,7 +120,7 @@ const EditRegisteredCompany = ({
         </div>
       )}
       <div className=" border-t border-gray-200">
-        <dl className="divide-y divide-gray-100">
+        <dl className="divide-y divide-gray-200">
           <CompanyNameEdit company={company} />
           <CompanyCategoryEdit company={company} />
           <CompanyEmailEdit company={company} />

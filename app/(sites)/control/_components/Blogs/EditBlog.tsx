@@ -24,7 +24,7 @@ const EditBlog = ({ blog }: EditBlogProps) => {
         <legend className="text-lg sm:text-xl font-semibold text-gray-600">
           Edit Blog Post
         </legend>
-        <dl className="divide-y divide-gray-100">
+        <dl className="divide-y divide-gray-200">
           <HeadingEdit blog={blog} />
           <CategoryEdit blog={blog} />
           <TargetEdit blog={blog} />

@@ -95,7 +95,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute left-2 divide-y divide-gray-100 bottom-full z-10 mb-1 w-[calc(100%-8px)] origin-bottom-right rounded-lg bg-white shadow-top-md border border-gray-300 focus:outline-none">
+            <Menu.Items className="absolute left-2 divide-y divide-gray-200 bottom-full z-10 mb-1 w-[calc(100%-8px)] origin-bottom-right rounded-lg bg-white shadow-top-md border border-gray-300 focus:outline-none">
               <div className="bg-slate-200 rounded-tl-lg rounded-tr-lg">
                 <h2 className="px-4 font-medium text-base text-gray-600 py-2">
                   Marketing Options

@@ -161,7 +161,7 @@ const Experiences = ({ experiences }: ExperienceProps) => {
                 who you are.
               </p>
               <div className="border-t border-gray-100 mt-2 lg:px-2.5 px-0.5">
-                <dl className="divide-y divide-gray-100">
+                <dl className="divide-y divide-gray-200">
                   <div className="py-2 lg:py-4 pb-5 lg:gap-4  lg:grid lg:grid-cols-3 text-gray-700">
                     <dt className="font-medium text-base leading-6 text-gray-700">
                       Job position

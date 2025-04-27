@@ -114,7 +114,7 @@ const CompanyAccount = ({
       </div>
 
       <>
-        <dl className="divide-y divide-gray-100">
+        <dl className="divide-y divide-gray-200">
           <AccountName user={user} />
           <AccountPosition position={position} isEmployerID={isEmployerID} />
           <AccountEmail user={user} />

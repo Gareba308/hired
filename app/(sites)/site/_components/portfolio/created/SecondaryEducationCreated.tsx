@@ -12,7 +12,7 @@ const SecondaryEducationCreated = ({
     <>
       {secondaryEducation && (
         <div className="mt-2">
-          <dl className="divide-y divide-gray-100">
+          <dl className="divide-y divide-gray-200">
             <EditSecondaryEducation secondaryEducation={secondaryEducation}/>
           </dl>
         </div>

@@ -153,7 +153,7 @@ const NewCreateExperience = ({ toggleAdd }: ExperienceProps) => {
               information private. User profile helps employer know who you are.
             </p>
             <div className="border border-gray-200 rounded-lg mt-2">
-              <dl className="divide-y divide-gray-100 px-2.5 sm:px-4">
+              <dl className="divide-y divide-gray-200 px-2.5 sm:px-4">
                 <div className="py-2 lg:py-4 pb-5 lg:gap-4  lg:grid lg:grid-cols-3 text-gray-700">
                   <dt className="font-medium text-lg text-gray-600">
                     Job position

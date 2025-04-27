@@ -506,7 +506,7 @@ const AllAssessmentsInBanner = ({
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="absolute divide-y divide-gray-100 bottom-full z-10 mb-1 w-48 origin-bottom-left rounded-sm bg-white shadow-top-md border border-gray-300 focus:outline-none right-0">
+                          <Menu.Items className="absolute divide-y divide-gray-200 bottom-full z-10 mb-1 w-48 origin-bottom-left rounded-sm bg-white shadow-top-md border border-gray-300 focus:outline-none right-0">
                             <div className="bg-slate-200 rounded-tl-sm rounded-tr-sm">
                               <h2 className="px-4 font-medium text-base text-gray-600 py-2">
                                 Assessment Options

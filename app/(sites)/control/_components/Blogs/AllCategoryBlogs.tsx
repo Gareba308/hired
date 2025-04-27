@@ -201,7 +201,7 @@ const AllCategoryBlogs = ({
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute right-0 z-10 mt-1 w-56 max-h-[400px] overflow-y-auto origin-top-right divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="absolute right-0 z-10 mt-1 w-56 max-h-[400px] overflow-y-auto origin-top-right divide-y divide-gray-200 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 {categories.flatMap((category, index) => (
                   <div key={index}>
                     <Menu.Item>
@@ -364,7 +364,7 @@ const AllCategoryBlogs = ({
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute divide-y divide-gray-100 bottom-full z-10 mb-1 w-52 origin-bottom-left rounded-sm bg-white shadow-top-md border border-gray-300 focus:outline-none right-0">
+                      <Menu.Items className="absolute divide-y divide-gray-200 bottom-full z-10 mb-1 w-52 origin-bottom-left rounded-sm bg-white shadow-top-md border border-gray-300 focus:outline-none right-0">
                         <div className="bg-slate-200 rounded-tl-lg rounded-tr-lg">
                           <h2 className="px-4 font-medium text-base text-gray-600 py-2">
                             Blog Post Options

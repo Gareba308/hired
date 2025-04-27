@@ -415,7 +415,7 @@ const CreateJob = ({
 
           <div className="border-t border-gray-200 mt-1">
             <div>
-              <dl className="divide-y divide-gray-100">
+              <dl className="divide-y divide-gray-200">
                 <div className="py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0">
                   <dt className="font-medium text-base text-gray-700">
                     <div className="flex items-center flex-row">
@@ -2169,7 +2169,7 @@ const CreateJob = ({
                   </dd>
                 </div>
 
-                <div className="pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
+                <div className="hidden pt-2 pb-4 lg:pb-5 lg:pt-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0 text-gray-700">
                   <dt className="text-base font-medium text-gray-600">
                     <div className="flex items-center flex-row">
                       <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />

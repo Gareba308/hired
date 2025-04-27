@@ -158,7 +158,7 @@ const BioData = ({ profileBio }: BioProps) => {
             </p>
           </div>
 
-          <dl className="divide-y divide-gray-100">
+          <dl className="divide-y divide-gray-200">
             <div className="py-4 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-0">
               <dt className="font-medium leading-6 text-gray-700">
                 Current job title(optional)

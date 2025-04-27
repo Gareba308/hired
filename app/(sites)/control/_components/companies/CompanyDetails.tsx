@@ -175,7 +175,7 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
                         <div className="w-full">
                           <div className="flex items-center justify-between mb-1">
                             <h3 className="text-xl font-medium text-gray-700">
-                              Company&apos;s Description
+                              About Us
                             </h3>
                           </div>
                           {company.company_description ? (

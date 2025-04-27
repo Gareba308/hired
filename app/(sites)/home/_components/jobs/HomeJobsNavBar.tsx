@@ -1535,7 +1535,7 @@ const HomeJobsNavBar = ({
                       </span>
                     </>
                   )}
-                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 mt-1 w-48 origin-top divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 mt-1 w-48 origin-top divide-y divide-gray-200 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                   {({ closeDisclosure }) => (
                     <>
@@ -1604,7 +1604,7 @@ const HomeJobsNavBar = ({
                       </span>
                     </>
                   )}
-                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 mt-1 w-48 origin-top divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 mt-1 w-48 origin-top divide-y divide-gray-200 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                   {({ closeDisclosure }) => (
                     <>
@@ -1673,7 +1673,7 @@ const HomeJobsNavBar = ({
                       </span>
                     </>
                   )}
-                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 mt-1 w-48 origin-top divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 mt-1 w-48 origin-top divide-y divide-gray-200 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                   {({ closeDisclosure }) => (
                     <>
@@ -1742,7 +1742,7 @@ const HomeJobsNavBar = ({
                       </span>
                     </>
                   )}
-                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 mt-1  max-h-[calc(100vh-30vh)] overflow-y-scroll mt-1 w-52 origin-top divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 mt-1  max-h-[calc(100vh-30vh)] overflow-y-scroll mt-1 w-52 origin-top divide-y divide-gray-200 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                   {({ closeDisclosure }) => (
                     <>
@@ -1813,7 +1813,7 @@ const HomeJobsNavBar = ({
                       </span>
                     </>
                   )}
-                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 max-h-[calc(100vh-30vh)] overflow-y-scroll mt-1 w-72 origin-top divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 max-h-[calc(100vh-30vh)] overflow-y-scroll mt-1 w-72 origin-top divide-y divide-gray-200 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                   {({ closeDisclosure }) => (
                     <>
@@ -1886,7 +1886,7 @@ const HomeJobsNavBar = ({
                       </span>
                     </>
                   )}
-                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 max-h-[calc(100vh-30vh)] overflow-y-scroll mt-1 w-72 origin-top divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 max-h-[calc(100vh-30vh)] overflow-y-scroll mt-1 w-72 origin-top divide-y divide-gray-200 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                   {({ closeDisclosure }) => (
                     <>
@@ -1957,7 +1957,7 @@ const HomeJobsNavBar = ({
                       </span>
                     </>
                   )}
-                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 max-h-[calc(100vh-30vh)] overflow-y-scroll mt-1 w-72 origin-top divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  panelClassName="absolute left-1/2 transform -translate-x-1/2 z-10 max-h-[calc(100vh-30vh)] overflow-y-scroll mt-1 w-72 origin-top divide-y divide-gray-200 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                   {({ closeDisclosure }) => (
                     <>
