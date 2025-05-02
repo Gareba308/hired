@@ -119,7 +119,7 @@ export function AllResults({ results }: AllReportsProps) {
         const date: Date = row.getValue("completeTime");
         return (
           <div suppressHydrationWarning className="text-sm font-normal flex justify-center items-center">
-            {format(date, "HH:mm")}h
+            {format(date, "HH:mm")}
           </div>
         );
       },

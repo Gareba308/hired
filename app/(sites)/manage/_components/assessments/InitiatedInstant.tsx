@@ -94,7 +94,7 @@ const InitiatedInstant = ({
                       </h3>
                       <h2 suppressHydrationWarning>
                         Obtained: {format(instantResults.createdAt, "PPP")},{" "}
-                        {format(instantResults.createdAt, "HH:mm")}h
+                        {format(instantResults.createdAt, "HH:mm")}
                       </h2>
                       <h3>My Score: {instantResults.score}%</h3>
                     </div>

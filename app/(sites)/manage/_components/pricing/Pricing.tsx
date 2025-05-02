@@ -2,16 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
-import TopUpAlertModal from "../models/pricing/TopUp";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Wallet } from "lucide-react";
+import { Loader2} from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import MessageAdminPricingModal from "../models/pricing/NoDetailChatCompanyModal";
 import { AccountBalance, EmployerPlans, User } from "@prisma/client";
 import { trpc } from "@/app/_trpc/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import NewTopUpAlertModal from "../models/pricing/NewTopUp";
 
 interface PricingProps {
   user: User;
@@ -21,20 +19,6 @@ interface PricingProps {
 
 const Pricing = ({ user, account, plans }: PricingProps) => {
   const { toast } = useToast();
-  const router = useRouter();
-  const [topUpOpen, setTopUpOpen] = useState<boolean>(false);
-  const topUpClose = () => {
-    setTopUpOpen((prev) => !prev);
-  };
-
-  const topUpConfirm = () => {
-    setTopUpOpen((prev) => !prev);
-  };
-
-  const toggleTopUp = () => {
-    setTopUpOpen(true);
-  };
-
   const [messageOpen, setMessageOpen] = useState<boolean>(false);
   const messageClose = () => {
     setMessageOpen((prev) => !prev);
@@ -52,47 +36,38 @@ const Pricing = ({ user, account, plans }: PricingProps) => {
     string | null
   >(null);
 
-  const [purchaseOpen, setPurchaseOpen] = useState<boolean>(false);
-
-  const purchaseClose = () => {
-    setPurchaseOpen((prev) => !prev);
-  };
-  const togglePurchase = () => {
-    setPurchaseOpen(true);
-  };
-
-  const confirmPurchase = () => {
-    setPurchaseOpen((prev) => !prev);
-  };
-
   const { mutate: purchasePlan, isLoading } =
-    trpc.employerPurchasePlan.useMutation({
+    trpc.employerPayViaPayStack.useMutation({
       onSuccess: (result) => {
-        const units = result.planUnits;
         toast({
           title: "Success",
-          description: `You successfully purchased a job posting plan. You have received ${units} units`,
+          description:
+            "We are redirecting you to a page where you will safely make your payment",
           variant: "default",
           duration: 3000,
         });
         setCurrentlyPurchasingPlanID(null);
-        router.refresh();
-      },
+        const authorization_url = result?.authorization_url;
 
-      onError: (err) => {
-        if (
-          err.message ===
-          "You do not have enough account balance. Top up and try again."
-        ) {
-          togglePurchase();
+        if (authorization_url) {
+          window.location.href = authorization_url;
         } else {
           toast({
-            title: "Something went wrong",
-            description: "There was a problem trying to purchase this plan",
+            title: "Error",
+            description: "No payment link was returned. Please try again.",
             variant: "destructive",
             duration: 3000,
           });
         }
+      },
+
+      onError: (err) => {
+        toast({
+          title: "Something went wrong",
+          description: "There was a problem trying to purchase this plan",
+          variant: "destructive",
+          duration: 3000,
+        });
       },
       onMutate: ({ planID }) => {
         setCurrentlyPurchasingPlanID(planID);
@@ -107,16 +82,6 @@ const Pricing = ({ user, account, plans }: PricingProps) => {
       <div className="mx-auto text-gray-600">
         <div className="relative mx-auto sm:text-center">
           <div className="flex items-center sm:items-start flex-col sm:flex-row justify-between w-full">
-            <TopUpAlertModal
-              isOpen={topUpOpen}
-              onClose={topUpClose}
-              onConfirm={topUpConfirm}
-            />
-            <NewTopUpAlertModal
-              isOpen={purchaseOpen}
-              onClose={purchaseClose}
-              onConfirm={confirmPurchase}
-            />
             <div className="flex flex-col sm:items-start items-center">
               <h3 className="text-slate-600 text-3xl font-bold sm:text-4xl">
                 Pricing Details
@@ -138,24 +103,10 @@ const Pricing = ({ user, account, plans }: PricingProps) => {
                 </CardHeader>
                 <CardContent className="flex items-center h-5 text-primary gap-x-2">
                   <div className="text-lg font-medium">
-                    Ksh.{account.balance}
-                  </div>
-                  <Separator orientation="vertical" className="text-primary" />
-                  <div className="text-lg font-medium">
-                    Units.{account.units}
+                    Account Units. {account.units}
                   </div>
                 </CardContent>
               </Card>
-              <Button
-                onClick={() => toggleTopUp()}
-                className="hover:bg-primary rounded-md hover:opacity-90"
-                variant="default"
-                size="lg"
-                type="button"
-              >
-                <Wallet className="h-4 w-4 mr-1.5 shrink-0" />
-                MPesa Top Up
-              </Button>
             </div>
           </div>
         </div>

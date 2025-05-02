@@ -214,7 +214,7 @@ const BlogDetails = ({
                   >
                     <span className="font-medium">Updated:</span>{" "}
                     {format(blog.updatedAt, "PPP")},{" "}
-                    {format(blog.updatedAt, "HH:mm")}h
+                    {format(blog.updatedAt, "HH:mm")}
                   </div>
                   <div className="items-start gap-x-4 justify-between lg:flex">
                     <div className="mb-5">
@@ -295,7 +295,7 @@ const BlogDetails = ({
                           date={`${format(post.createdAt, "PPP")}, ${format(
                             post.createdAt,
                             "HH:mm"
-                          )}h`}
+                          )}`}
                         />
                       </li>
                     ))}

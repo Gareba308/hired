@@ -125,7 +125,6 @@ model Workers {
   HelpWorker            HelpWorker[]
   ReportJob             ReportJob[]
   WorkerCreditPoints    WorkerCreditPoints[]
-  WorkerRequestRedeem   WorkerRequestRedeem[]
   ContactWorker         ContactWorker[]
   EmployerContactWorker EmployerContactWorker[]
   CareerWizard          CareerWizard[]
@@ -150,8 +149,6 @@ model Employers {
   ContactEmployer           ContactEmployer[]
   AccountBalance            AccountBalance[]
   EmployerContactWorker     EmployerContactWorker[]
-  Payment                   Payment[]
-  TopUp                     TopUp[]
   PurchaseJobPlan           PurchaseJobPlan[]
   EmployerRequestAssessment EmployerRequestAssessment[]
   PickAssessCandidate       PickAssessCandidate[]
@@ -979,7 +976,7 @@ model PurchaseJobPlan {
   planID       String
   county       String
   town         String?
-  postal       String
+  postal       String?
   zip          String?
   companyName  String
   companyID    String
@@ -1027,48 +1024,6 @@ model AccountBalance {
   @@index([isEmployerID])
 }
 
-model Payment {
-  id           String    @id @default(cuid())
-  userId       String
-  isEmployerID String
-  userEmail    String
-  fullName     String
-  county       String
-  town         String?
-  postal       String
-  zip          String?
-  companyName  String
-  companyID    String
-  mPesaID      String
-  paymentPhone String
-  amount       Int
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  employer     Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  @@index([isEmployerID])
-}
-
-model TopUp {
-  id           String    @id @default(cuid())
-  userId       String
-  userEmail    String
-  fullName     String
-  isEmployerID String
-  county       String
-  town         String?
-  postal       String
-  zip          String?
-  companyName  String
-  companyID    String
-  paymentPhone String
-  amount       Int
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  employer     Employers @relation(fields: [isEmployerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  @@index([isEmployerID])
-}
 
 model Language {
   id          String   @id @default(cuid())
@@ -1315,31 +1270,6 @@ model WorkerCreditPoints {
   onRedeem   Int      @default(0)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-
-  worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  @@index([isWorkerID])
-}
-
-model WorkerRequestRedeem {
-  id              String   @id @default(cuid())
-  fullName        String
-  paymentID       String
-  phoneNumber     String
-  paymentPhone    String
-  paymentDate     DateTime
-  userId          String
-  isWorkerID      String
-  email           String
-  availablePoints Int
-  subtotal        Int
-  tax             Int
-  transactionFee  Int
-  paid            Boolean  @default(false)
-  hide            Boolean  @default(false)
-  totalPayable    Int
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
 
   worker Workers @relation(fields: [isWorkerID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 

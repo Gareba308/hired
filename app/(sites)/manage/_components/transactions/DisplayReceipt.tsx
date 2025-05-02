@@ -1,5 +1,5 @@
 "use client";
-import { Payment} from "@prisma/client";
+import { PurchaseJobPlan} from "@prisma/client";
 import { Printer } from "lucide-react";
 import Link from "next/link";
 import {
@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import Receipt from "./Receipt";
 interface DisplayReceiptProps {
-    receipt: Payment;
+    receipt: PurchaseJobPlan;
 }
 
 const DisplayReceipt = ({ receipt}: DisplayReceiptProps) => {
@@ -78,7 +78,7 @@ const DisplayReceipt = ({ receipt}: DisplayReceiptProps) => {
         </Button>
       </div>
       <div className="flex sm:items-center sm:justify-center flex-row mb-1.5">
-        <h3 className="font-bold text-gray-600 tracking-tight text-2xl sm:text-3xl">
+        <h3 className="font-bold text-gray-700 tracking-tight text-2xl sm:text-3xl">
           Payment Receipt
         </h3>
       </div>

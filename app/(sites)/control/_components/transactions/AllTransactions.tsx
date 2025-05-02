@@ -67,17 +67,22 @@ import {
 import TransactionMessageAlertModal from "../models/transactions/TransactionMessage";
 
 interface AllTransactionsItems {
-  id: string;
-  userId: string;
-  isEmployerID: string;
-  fullName: string;
-  userEmail: string;
-  mPesaID: string;
-  companyID: string;
-  companyName: string;
-  paymentPhone: string;
-  amount: number;
-  createdAt: Date;
+  id: string,
+  userId: string,
+  fullName: string,
+  isEmployerID: string,
+  planID: string,
+  county: string,
+  town: string | null,
+  postal: string | null,
+  zip: string | null,
+  companyName: string,
+  companyID: string,
+  invoiceID: string,
+  planName: string,
+  planPrice: number,
+  planUnits: number,
+  createdAt: Date,
 }
 
 interface AllTransactionsProps {
@@ -176,7 +181,7 @@ export function AllTransactions({
               suppressHydrationWarning
               className="text-sm font-normal flex justify-center items-center"
             >
-              {format(date, "HH:mm")}h
+              {format(date, "HH:mm")}
             </div>
           );
         },
@@ -189,35 +194,35 @@ export function AllTransactions({
         ),
       },
       {
-        accessorKey: "mPesaID",
+        accessorKey: "invoiceID",
         header: () => {
           return (
             <div className="flex justify-center items-center">
-              TransactionID
+              InvoiceID
             </div>
           );
         },
         cell: ({ row }) => (
           <div className="text-sm font-normal flex justify-center items-center">
-            {row.getValue("mPesaID")}
+            {row.getValue("invoiceID")}
           </div>
         ),
       },
       {
-        accessorKey: "paymentPhone",
+        accessorKey: "planName",
         header: () => {
           return (
-            <div className="flex justify-center items-center">Phone Number</div>
+            <div className="flex justify-center items-center">Plan Name</div>
           );
         },
         cell: ({ row }) => (
           <div className="text-sm font-normal flex justify-center items-center">
-            {row.getValue("paymentPhone")}
+            {row.getValue("planName")}
           </div>
         ),
       },
       {
-        accessorKey: "amount",
+        accessorKey: "planPrice",
         header: ({ column }) => {
           return (
             <div
@@ -233,7 +238,28 @@ export function AllTransactions({
         },
         cell: ({ row }) => (
           <div className="text-sm font-normal flex justify-center items-center">
-            {row.getValue("amount")}
+            Ksh. {row.getValue("planPrice")}
+          </div>
+        ),
+      },
+      {
+        accessorKey: "planUnits",
+        header: ({ column }) => {
+          return (
+            <div
+              className="flex justify-center items-center"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
+              Units
+              <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+            </div>
+          );
+        },
+        cell: ({ row }) => (
+          <div className="text-sm font-normal flex justify-center items-center">
+            Ksh. {row.getValue("planUnits")}
           </div>
         ),
       },

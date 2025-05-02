@@ -74,12 +74,6 @@ const WorkersReferralFirst = ({
             >
               Workers
             </Link>
-            <Link
-              href="/control/referrals/worker/payments"
-              className="border-b-[3px] border-transparent text-lg pb-0.5 transition-all duration-300"
-            >
-              Redeems
-            </Link>
           </div>
         </div>
       </div>

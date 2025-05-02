@@ -54,10 +54,19 @@ import { useToast } from "@/components/ui/use-toast";
 interface AllTransactionsItems {
   id: string;
   userId: string;
+  fullName: string;
   isEmployerID: string;
-  mPesaID: string;
-  paymentPhone: string;
-  amount: number;
+  planID: string;
+  county: string;
+  town: string | null;
+  postal: string | null;
+  zip: string | null;
+  companyName: string;
+  companyID: string;
+  invoiceID: string;
+  planName: string;
+  planPrice: number;
+  planUnits: number;
   createdAt: Date;
 }
 
@@ -101,11 +110,26 @@ export function AllTransactions({ payments }: AllTransactionsProps) {
     [
       {
         accessorKey: "createdAt",
-        header: "Transaction Date",
+        header: ({ column }) => {
+          return (
+            <div
+              className="flex justify-start items-center"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
+              Transaction Date
+              <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+            </div>
+          );
+        },
         cell: ({ row }) => {
           const date: Date = row.getValue("createdAt");
+
           return (
-            <div suppressHydrationWarning className="font-normal text-sm">{format(date, "PPP")}</div>
+            <div suppressHydrationWarning className="font-normal text-sm">
+              {format(date, "PPP")}
+            </div>
           );
         },
       },
@@ -117,49 +141,43 @@ export function AllTransactions({ payments }: AllTransactionsProps) {
         cell: ({ row }) => {
           const date: Date = row.getValue("createdAt");
           return (
-            <div suppressHydrationWarning className="text-sm font-normal flex justify-center items-center">
-              {format(date, "HH:mm")}h
+            <div
+              suppressHydrationWarning
+              className="text-sm font-normal flex justify-center items-center"
+            >
+              {format(date, "HH:mm")}
             </div>
           );
         },
       },
       {
-        accessorKey: "id",
-        header: "Payment ID",
-        cell: ({ row }) => (
-          <div className="text-sm font-normal">{row.getValue("id")}</div>
-        ),
-      },
-      {
-        accessorKey: "mPesaID",
+        accessorKey: "invoiceID",
         header: () => {
           return (
-            <div className="flex justify-center items-center">
-              TransactionID
-            </div>
+            <div className="flex justify-center items-center">InvoiceID</div>
           );
         },
         cell: ({ row }) => (
           <div className="text-sm font-normal flex justify-center items-center">
-            {row.getValue("mPesaID")}
+            {row.getValue("invoiceID")}
           </div>
         ),
       },
       {
-        accessorKey: "paymentPhone",
+        accessorKey: "planName",
         header: () => {
           return (
-            <div className="flex justify-center items-center">Phone Number</div>
+            <div className="flex justify-center items-center">Plan Name</div>
           );
         },
         cell: ({ row }) => (
           <div className="text-sm font-normal flex justify-center items-center">
-            {row.getValue("paymentPhone")}
+            {row.getValue("planName")}
           </div>
         ),
       },
       {
-        accessorKey: "amount",
+        accessorKey: "planPrice",
         header: ({ column }) => {
           return (
             <div
@@ -175,7 +193,28 @@ export function AllTransactions({ payments }: AllTransactionsProps) {
         },
         cell: ({ row }) => (
           <div className="text-sm font-normal flex justify-center items-center">
-            {row.getValue("amount")}
+            Ksh. {row.getValue("planPrice")}
+          </div>
+        ),
+      },
+      {
+        accessorKey: "planUnits",
+        header: ({ column }) => {
+          return (
+            <div
+              className="flex justify-center items-center"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
+              Units
+              <ArrowUpDown className="ml-0.5 h-4 w-4 shrink-0" />
+            </div>
+          );
+        },
+        cell: ({ row }) => (
+          <div className="text-sm font-normal flex justify-center items-center">
+            Ksh. {row.getValue("planUnits")}
           </div>
         ),
       },

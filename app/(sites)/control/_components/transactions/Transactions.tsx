@@ -15,17 +15,22 @@ import {
 import { AllTransactions } from "./AllTransactions";
 
 interface PaymentItems {
-  id: string;
-  userId: string;
-  isEmployerID: string;
-  fullName: string;
-  userEmail: string;
-  companyID: string;
-  companyName: string;
-  mPesaID: string;
-  paymentPhone: string;
-  amount: number;
-  createdAt: Date;
+  id: string,
+  userId: string,
+  fullName: string,
+  isEmployerID: string,
+  planID: string,
+  county: string,
+  town: string | null,
+  postal: string | null,
+  zip: string | null,
+  companyName: string,
+  companyID: string,
+  invoiceID: string,
+  planName: string,
+  planPrice: number,
+  planUnits: number,
+  createdAt: Date,
 }
 interface TransactionsProps {
   payments: PaymentItems[];
@@ -62,36 +67,10 @@ const Transactions = ({
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>MPesa Payments</BreadcrumbPage>
+                <BreadcrumbPage>Payments</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-        </div>
-        <div className="border-b border-gray-300 mt-2 flex flex-row items-end justify-between gap-x-2">
-          <div className="flex flex-row justify-start gap-x-4">
-            <Link
-              href="/control/transactions"
-              className={cn(
-                "border-b-[3px] text-lg border-transparent pb-0.5 transition-all duration-300",
-                isActive &&
-                  "border-b-[3px] border-sky-800 font-medium hover:border-[#005580]"
-              )}
-            >
-              Payments
-            </Link>
-            <Link
-              href="/control/transactions/account"
-              className="border-b-[3px] border-transparent text-lg pb-0.5 transition-all duration-300"
-            >
-              Purchases
-            </Link>
-            <Link
-              href="/control/transactions/pending"
-              className="border-b-[3px] border-transparent text-lg pb-0.5 transition-all duration-300"
-            >
-              Pending
-            </Link>
-          </div>
         </div>
       </div>
       <div>

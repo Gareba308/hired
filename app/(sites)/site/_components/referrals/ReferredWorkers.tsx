@@ -50,7 +50,6 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { trpc } from "@/app/_trpc/client";
 import { User, WorkerContact, WorkerCreditPoints } from "@prisma/client";
-import { RedeemReferralCreditAlertModal } from "../models/referrals/RedeemReferralCreditModal";
 import { DeleteReferralAlertModal } from "../models/referrals/DeleteReferralHistory";
 
 interface CombinedDataItems {
@@ -103,15 +102,6 @@ export function ReferredWorkers({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-
-  const [redeemOpen, setRedeemOpen] = React.useState<boolean>(false);
-  const redeemClose = () => {
-    setRedeemOpen((prev) => !prev);
-  };
-
-  const redeemConfirm = () => {
-    setRedeemOpen((prev) => !prev);
-  };
 
   const [
     currentlyDeletingReferralHistoryID,
@@ -383,27 +373,9 @@ export function ReferredWorkers({
   return (
     <div className="w-full mt-3">
       <div className="flex items-center justify-between gap-x-4 flex-row">
-        <RedeemReferralCreditAlertModal
-          isOpen={redeemOpen}
-          onClose={redeemClose}
-          onConfirm={redeemConfirm}
-          accountBalance={accountBalance}
-          contact={contact}
-          user={user}
-        />
         <h2 className="font-bold text-gray-600 tracking-tight text-xl sm:text-2xl">
           My Referred Users
         </h2>
-        <Button
-          onClick={() => setRedeemOpen(true)}
-          className="hover:bg-primary hover:opacity-90"
-          variant="default"
-          size="sm"
-          type="button"
-        >
-          <Gift className="h-4 w-4 mr-2 shrink-0" />
-          Redeem Now
-        </Button>
       </div>
       <div className="mt-1">
         <p className="text-sm text-gray-600 font-normal">

@@ -12,7 +12,7 @@ interface ReceiptProps {
 
 const Page = async ({ params }: ReceiptProps) => {
   const { receiptID } = params;
-  const receiptExists = await db.payment.findFirst({
+  const receiptExists = await db.purchaseJobPlan.findFirst({
     where: {
       id: receiptID,
     },

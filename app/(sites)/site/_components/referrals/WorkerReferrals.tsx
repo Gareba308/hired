@@ -414,7 +414,7 @@ const WorkerReferrals = ({ user, blog }: WorkerReferralsProps) => {
                       date={`${format(blog.createdAt, "PPP")}, ${format(
                         blog.createdAt,
                         "HH:mm"
-                      )}h`}
+                      )}`}
                     />
                   </li>
                 </ul>

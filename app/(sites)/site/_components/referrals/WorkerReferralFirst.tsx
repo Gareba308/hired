@@ -56,12 +56,6 @@ const WorkerReferralFirst = ({ user, blog }: WorkerReferralFirstProps) => {
             >
               My Referrals
             </Link>
-            <Link
-              href="/site/referrals/my-referrals/history"
-              className="border-b-[3px] border-transparent text-lg pb-0.5 transition-all duration-300"
-            >
-              Redeem History
-            </Link>
           </div>
         </div>
       </div>

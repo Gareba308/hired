@@ -17,17 +17,26 @@ const Page = async () => {
 
   if (!dbUser) redirect("/home/login/enterprises?origin=manage/transactions");
 
-  const allMyPayments = await db.payment.findMany({
+  const allMyPayments = await db.purchaseJobPlan.findMany({
     where: {
       userId,
     },
     select: {
       id: true,
       userId: true,
+      fullName: true,
       isEmployerID: true,
-      mPesaID: true,
-      paymentPhone: true,
-      amount: true,
+      planID: true,
+      county: true,
+      town: true,
+      postal: true,
+      zip: true,
+      companyName: true,
+      companyID: true,
+      invoiceID: true,
+      planName: true,
+      planPrice: true,
+      planUnits: true,
       createdAt: true,
     },
     orderBy: {

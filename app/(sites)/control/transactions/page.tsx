@@ -28,18 +28,23 @@ const Page = async () => {
 
   if (!dbUser) redirect("/home/login?origin=control/transactions");
 
-  const allMyPayments = await db.payment.findMany({
+  const allMyPayments = await db.purchaseJobPlan.findMany({
     select: {
       id: true,
       userId: true,
-      isEmployerID: true,
       fullName: true,
-      userEmail: true,
-      mPesaID: true,
-      companyID: true,
+      isEmployerID: true,
+      planID: true,
+      county: true,
+      town: true,
+      postal: true,
+      zip: true,
       companyName: true,
-      paymentPhone: true,
-      amount: true,
+      companyID: true,
+      invoiceID: true,
+      planName: true,
+      planPrice: true,
+      planUnits: true,
       createdAt: true,
     },
     orderBy: {
@@ -51,7 +56,7 @@ const Page = async () => {
   async function countPaymentsInMonth(month: Date): Promise<number> {
     const startOfMonthDate = startOfMonth(month);
     const endOfMonthDate = endOfMonth(month);
-    const payments = await db.payment.findMany({
+    const payments = await db.purchaseJobPlan.findMany({
       where: {
         createdAt: {
           gte: startOfMonthDate,
@@ -59,14 +64,14 @@ const Page = async () => {
         },
       },
       select: {
-        amount: true,
+        planPrice: true,
       },
     });
-    const totalAmount = payments.reduce(
-      (sum, payment) => sum + payment.amount,
+    const totalplanPrice = payments.reduce(
+      (sum, payment) => sum + payment.planPrice,
       0
     );
-    return totalAmount;
+    return totalplanPrice;
   }
 
   async function getPaymentCountAndPercentage(): Promise<{
@@ -104,9 +109,9 @@ const Page = async () => {
   async function countSuccessfulPaymentsInMonth(month: Date): Promise<number> {
     const startOfMonthDate = startOfMonth(month);
     const endOfMonthDate = endOfMonth(month);
-    const successPayments = await db.payment.findMany({
+    const successPayments = await db.purchaseJobPlan.findMany({
       where: {
-        amount: {
+        planPrice: {
           gte: 6000,
         },
         createdAt: {
@@ -160,7 +165,7 @@ const Page = async () => {
     startDate: Date,
     endDate: Date
   ): Promise<number> {
-    const weekPayments = await db.payment.findMany({
+    const weekPayments = await db.purchaseJobPlan.findMany({
       where: {
         createdAt: {
           gte: startDate,
@@ -168,14 +173,14 @@ const Page = async () => {
         },
       },
       select: {
-        amount: true,
+        planPrice: true,
       },
     });
-    const totalAmount = weekPayments.reduce(
-      (sum, payment) => sum + payment.amount,
+    const totalplanPrice = weekPayments.reduce(
+      (sum, payment) => sum + payment.planPrice,
       0
     );
-    return totalAmount;
+    return totalplanPrice;
   }
 
   async function getWeekPaymentCountAndPercentage(): Promise<{
@@ -223,7 +228,7 @@ const Page = async () => {
     const startOfDate = startOfDay(date);
     const endOfDate = endOfDay(date);
 
-    const activePayments = await db.payment.findMany({
+    const activePayments = await db.purchaseJobPlan.findMany({
       where: {
         createdAt: {
           gte: startOfDate,
@@ -231,15 +236,15 @@ const Page = async () => {
         },
       },
       select: {
-        amount: true,
+        planPrice: true,
       },
     });
 
-    const totalAmount = activePayments.reduce(
-      (sum, payment) => sum + payment.amount,
+    const totalplanPrice = activePayments.reduce(
+      (sum, payment) => sum + payment.planPrice,
       0
     );
-    return totalAmount;
+    return totalplanPrice;
   }
 
   async function getPendingPaymentCountAndPercentage(): Promise<{

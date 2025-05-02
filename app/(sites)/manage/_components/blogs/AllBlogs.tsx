@@ -125,7 +125,7 @@ const AllBlogs = ({ blogs }: AllBlogsProps) => {
                 <div className="flex items-center justify-between gap-x-4 text-xs">
                   <p suppressHydrationWarning className="text-gray-500 line-clamp-1">
                     {format(post.createdAt, "PPP")},{" "}
-                    {format(post.createdAt, "HH:mm")}h
+                    {format(post.createdAt, "HH:mm")}
                   </p>
                   <div className="relative rounded-sm bg-gray-100 border-gray-200 px-2 py-[5px] font-medium text-gray-600 hover:bg-gray-100">
                     <span className="line-clamp-1">{post.category}</span>

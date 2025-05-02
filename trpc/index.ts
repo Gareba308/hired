@@ -855,7 +855,7 @@ export const appRouter = router({
       const fullName = dbUser.name as string;
       const referralCode = dbUser.referralCode as string;
       const role = dbUser.role as string;
-      
+
       if (role === "employer" && !isEmailAllowed(inviteeEmail)) throw new TRPCError({ code: "BAD_REQUEST", message: "Sorry, only professional or company emails are allowed. Not gmail, yahoo or personal emails" })
 
       const isEmployer = await db.employers.findFirst({
@@ -1137,517 +1137,6 @@ export const appRouter = router({
       });
     }),
 
-  workerRequestRedeem: privateProcedure
-    .input(
-      z.object({
-        availablePoints: z.number().int(),
-        subTotal: z.number().int(),
-        tax: z.number().int(),
-        totalPayable: z.number().int(),
-        transactionFee: z.number().int(),
-        paymentDate: z.coerce.date(),
-      })
-    )
-    .mutation(async ({ input, ctx }) => {
-      const { userId, email } = ctx;
-      const {
-        availablePoints,
-        subTotal,
-        tax,
-        totalPayable,
-        transactionFee,
-        paymentDate,
-      } = input;
-
-      const dbUser = await db.user.findFirst({
-        where: {
-          id: userId,
-          email,
-        },
-        select: {
-          name: true,
-        },
-      });
-
-      if (!dbUser)
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "You are unauthorized, you have to login and try again.",
-        });
-
-      const isWorker = await db.workers.findFirst({
-        where: {
-          workerEmail: email,
-        },
-        select: {
-          id: true,
-        },
-      });
-      if (!isWorker)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "You are in unauthorized section",
-        });
-
-      const transporter = nodemailer.createTransport({
-        port: 587,
-        host: "smtp.gmail.com",
-        auth: {
-          user: "gethiredinkenya@gmail.com",
-          pass: emailPassword,
-        },
-        secure: false,
-      });
-
-      const paymentID =
-        "HK" +
-        cryptoRandomString({
-          length: 8,
-          type: "alphanumeric",
-        }).toUpperCase();
-
-      const contactDetails = await db.workerContact.findFirst({
-        where: {
-          userId,
-        },
-        select: {
-          phone: true,
-        },
-      });
-
-      const creditPoints = await db.workerCreditPoints.findFirst({
-        where: {
-          userEmail: email,
-        },
-        select: {
-          id: true,
-          balance: true,
-        },
-      });
-
-      if (!creditPoints)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Seems you have no credit balance details",
-        });
-
-      if (creditPoints.balance < 10)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message:
-            "Your credit points balance is less that the minimum required 200 points",
-        });
-
-      await db.workerRequestRedeem.create({
-        data: {
-          fullName: dbUser.name as string,
-          paymentID: paymentID,
-          phoneNumber: contactDetails?.phone as string,
-          paymentPhone: contactDetails?.phone as string,
-          paymentDate,
-          userId,
-          isWorkerID: isWorker.id,
-          email,
-          availablePoints,
-          subtotal: subTotal,
-          tax,
-          transactionFee,
-          totalPayable,
-        },
-      });
-
-      await new Promise((resolve, reject) => {
-        transporter.verify(function (error, success) {
-          if (error) {
-            console.log(error);
-            reject(error);
-          } else {
-            console.log("Server is ready to take our message");
-            resolve(success);
-          }
-        });
-      });
-
-      const mailOptions = {
-        from: {
-          name: "Hired",
-          address: "gethiredinkenya@gmail.com",
-        },
-        replyTo: "gethiredinkenya@gmail.com",
-        to: email,
-        subject: "Redeem credit points requested",
-        html: `
-          <div style='font-size: 14px; line-height:22.22px; display:flex; justify-content:center; align-items:center;width:100%; background:#f7fafa; '>
-            <div style='justify-content:center; margin:1.5rem auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); padding: 1rem 1rem; max-width:900px; line-height:22.22px; background:#fff;'>
-              <p>Hello ${dbUser.name as string},</p>
-              <p>We have received a request to have your <b>${availablePoints}</b> credit points redeemed to an equivalent of <b>Ksh.${totalPayable}</b>. Payments will be channeled to your mPesa <b>${contactDetails?.phone as string
-          }</b> on <b>${format(paymentDate, "PPP")}</b>.</p>
-            <p>Follow us on Twitter/X: 
-              <a href="https://www.x.com/hiredKE">www.x.com/hiredKE</a>
-            </p>  
-            <hr>
-              <p style='text-align:center; font-size:14px; line-height:22.22px;'>Copyright © Hired Jobs Kenya. All rights reserved.</p>
-            </div>
-          </div>
-        `,
-        priority: "high" as const,
-      };
-      await new Promise((resolve, reject) => {
-        transporter.sendMail(mailOptions, (err, info) => {
-          if (err) {
-            console.error(err);
-            reject(err);
-          } else {
-            console.log(info);
-            resolve(info);
-          }
-        });
-      });
-
-      return await db.workerCreditPoints.update({
-        where: {
-          id: creditPoints.id,
-          userEmail: email,
-        },
-        data: {
-          balance: {
-            decrement: subTotal,
-          },
-          onRedeem: {
-            increment: subTotal,
-          },
-        },
-      });
-    }),
-
-  employerTopUp: privateProcedure
-    .input(
-      z.object({
-        paymentPhone: z.string(),
-        amount: z.number(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      const { userId, email } = ctx;
-      const { paymentPhone, amount } = input;
-
-      const formattedPhone = paymentPhone.startsWith("0")
-        ? paymentPhone.slice(1)
-        : paymentPhone;
-
-      const dbUser = await db.user.findFirst({
-        where: {
-          id: userId,
-          email,
-        },
-      });
-
-      if (!dbUser) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "You have to login and try again",
-        });
-      }
-
-      const isEmployer = await db.employers.findFirst({
-        where: {
-          employerEmail: email,
-        },
-      });
-
-      if (!isEmployer) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "This is employers' only section",
-        });
-      }
-
-      const companyExists = await db.company.findFirst({
-        where: {
-          userId: dbUser.id,
-          isEmployerID: isEmployer.id,
-        },
-      });
-
-      if (!companyExists)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message:
-            "You have not created a user profile. Create your profile to continue.",
-        });
-
-      const currentDate = new Date();
-      const thresholdDate = subMinutes(currentDate, 3);
-      const topUpSameAmountPhoneLessFiveMinutesExists =
-        await db.topUp.findFirst({
-          where: {
-            amount,
-            paymentPhone: `254${formattedPhone}`,
-            userId,
-            createdAt: {
-              gte: thresholdDate,
-            },
-          },
-        });
-      if (topUpSameAmountPhoneLessFiveMinutesExists)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message:
-            "There is a similar request with same amount that is still pending. Give the system 3 minutes to clear it and try again.",
-        });
-
-      const getOtherPending = await db.topUp.findMany({
-        where: {
-          userId,
-          paymentPhone: `254${formattedPhone}`,
-        },
-      });
-      const pendingIDS = getOtherPending.flatMap((pending) => pending.id);
-      if (getOtherPending.length > 0) {
-        await db.topUp.deleteMany({
-          where: {
-            id: {
-              in: pendingIDS,
-            },
-          },
-        });
-      }
-      const oauthEndpoint =
-        "https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
-      const consumer_key = process.env.CONSUMER_KEY;
-      const consumer_secret = process.env.CONSUMER_SECRET;
-
-      if (!consumer_key || !consumer_secret) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Missing consumer key or secret",
-        });
-      }
-
-      const access = Buffer.from(`${consumer_key}:${consumer_secret}`).toString(
-        "base64"
-      );
-      const oauthHeaders = {
-        Authorization: `Basic ${access}`,
-      };
-
-      let access_token;
-      try {
-        const oauthResponse = await axios.get(oauthEndpoint, {
-          headers: oauthHeaders,
-        });
-        if (oauthResponse.status !== 200) {
-          throw new Error("Failed to fetch access token");
-        }
-        access_token = oauthResponse.data.access_token;
-      } catch (error) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Failed to fetch access token",
-          cause: error,
-        });
-      }
-      const date = new Date();
-      const timeStamp = format(date, "yyyyMMddHHmmss");
-
-      const shortCode = process.env.SHORT_CODE;
-      const shortCode2 = process.env.SHORT_CODE2;
-      const passkey = process.env.MPESA_PASSKEY;
-
-      if (!shortCode || !shortCode2 || !passkey) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Missing short code or passkey",
-        });
-      }
-
-      const password = Buffer.from(
-        `${shortCode}${passkey}${timeStamp}`
-      ).toString("base64");
-
-      const endPoint2 =
-        "https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest";
-      const requestBody = {
-        BusinessShortCode: shortCode,
-        Password: password,
-        Timestamp: timeStamp,
-        TransactionType: "CustomerBuyGoodsOnline",
-        Amount: amount,
-        PartyA: `254${formattedPhone}`,
-        PartyB: shortCode2,
-        PhoneNumber: `254${formattedPhone}`,
-        CallBackURL: "https://www.hired.co.ke/api/trpc/callBackDetails",
-        AccountReference: "Hired Jobs",
-        TransactionDesc: "For everyone",
-      };
-
-      const headers = {
-        Authorization: `Bearer ${access_token}`,
-        "Content-Type": "application/json",
-      };
-      try {
-        const apiResponse = await axios.post(endPoint2, requestBody, {
-          headers,
-        });
-        if (apiResponse.status !== 200) {
-          throw new Error("Failed to process payment");
-        }
-
-        const topUpData = await db.topUp.create({
-          data: {
-            userId,
-            userEmail: dbUser.email,
-            county: companyExists.county as string,
-            town: companyExists.town as string,
-            zip: companyExists.zip,
-            postal: companyExists.postal as string,
-            companyName: companyExists.company_name as string,
-            companyID: companyExists.id,
-            fullName: dbUser.name as string,
-            isEmployerID: isEmployer.id,
-            paymentPhone: `254${formattedPhone}`,
-            amount,
-          },
-        });
-
-        return {
-          ...apiResponse.data,
-          topUpData,
-        };
-      } catch (error) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Failed to initiate payment",
-          cause: error,
-        });
-      }
-    }),
-
-  callBackDetails: externalProcedure
-    .input(
-      z.object({
-        Body: z.object({
-          stkCallback: z.object({
-            MerchantRequestID: z.string(),
-            CheckoutRequestID: z.string(),
-            ResultCode: z.number(),
-            ResultDesc: z.string(),
-            CallbackMetadata: z.object({
-              Item: z.array(
-                z.object({
-                  Name: z.string(),
-                  Value: z.union([z.string(), z.number()]),
-                })
-              ),
-            }),
-          }),
-        }),
-      })
-    )
-    .mutation(async ({ input }) => {
-      const callbackData = input;
-      if (!callbackData.Body.stkCallback.CallbackMetadata) {
-        return "OK";
-      }
-      const metadataItems = callbackData.Body.stkCallback.CallbackMetadata.Item;
-      const phoneItem = metadataItems.find(
-        (item) => item.Name === "PhoneNumber"
-      );
-      const amountItem = metadataItems.find((item) => item.Name === "Amount");
-      const transactionIDItem = metadataItems.find(
-        (item) => item.Name === "MpesaReceiptNumber"
-      );
-
-      if (!phoneItem || !amountItem || !transactionIDItem) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Missing required callback metadata",
-        });
-      }
-
-      const paymentPhone = String(phoneItem.Value);
-      const amount = Number(amountItem.Value);
-      const transactionID = String(transactionIDItem.Value);
-
-      const getUserTopUp = await db.topUp.findFirst({
-        where: {
-          paymentPhone,
-          amount,
-        },
-      });
-
-      if (!getUserTopUp)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "No initiated transaction from this user",
-        });
-
-      const existingTransaction = await db.payment.findFirst({
-        where: {
-          mPesaID: transactionID,
-          amount: amount,
-          companyID: getUserTopUp.companyID,
-        },
-      });
-
-      if (existingTransaction)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "There exists a similar transaction recorded",
-        });
-      const result = await db.payment.create({
-        data: {
-          paymentPhone,
-          amount,
-          mPesaID: transactionID,
-          isEmployerID: getUserTopUp.isEmployerID,
-          companyName: getUserTopUp.companyName,
-          companyID: getUserTopUp.companyID,
-          postal: getUserTopUp.postal,
-          zip: getUserTopUp.zip,
-          town: getUserTopUp.town,
-          county: getUserTopUp.county,
-          userId: getUserTopUp.userId,
-          userEmail: getUserTopUp.userEmail,
-          fullName: getUserTopUp.fullName,
-        },
-      });
-
-      const accountExists = await db.accountBalance.findFirst({
-        where: {
-          isEmployerID: getUserTopUp.isEmployerID,
-        },
-      });
-
-      if (!accountExists)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "The user has no account balance details",
-        });
-
-      await db.accountBalance.update({
-        where: {
-          id: accountExists.id,
-        },
-        data: {
-          balance: {
-            increment: amount,
-          },
-        },
-      });
-
-      await db.topUp.delete({
-        where: {
-          id: getUserTopUp.id,
-        },
-      });
-
-      return {
-        message: "Callback processed successfully",
-        result,
-      };
-    }),
-
   adminCreateEmployerPlans: privateProcedure
     .input(
       z.object({
@@ -1829,120 +1318,125 @@ export const appRouter = router({
       });
     }),
 
-  employerPurchasePlan: privateProcedure
-    .input(
-      z.object({
-        planID: z.string(),
-      })
-    )
+  employerPayViaPayStack: privateProcedure
+    .input(z.object({
+      planID: z.string()
+    }))
     .mutation(async ({ ctx, input }) => {
       const { userId, email } = ctx;
       const { planID } = input;
-
       const dbUser = await db.user.findFirst({
         where: {
           id: userId,
-          email,
-        },
-      });
+          email
+        }
+      })
 
-      if (!dbUser)
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "You have to login to continue",
-        });
+      if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED", message: "You have to login to proceed" })
 
       const isEmployer = await db.employers.findFirst({
         where: {
-          employerEmail: email,
+          employerEmail: email
+        },
+        select: {
+          id: true
+        }
+      })
+
+      if (!isEmployer) throw new TRPCError({ code: "BAD_REQUEST", message: "This is an employer section. You are not allowed to use this section." })
+
+      const plan = await db.employerPlans.findFirst({ where: { id: planID } });
+      if (!plan) throw new TRPCError({ code: 'BAD_REQUEST', message: 'Invalid plan selected' });
+
+      const response = await fetch("https://api.paystack.co/transaction/initialize", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.PAYSTACK_TEST_SECRET_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: dbUser.email,
+          amount: plan.price * 100,
+          currency: 'KES',
+          metadata: {
+            planID,
+            userId: ctx.userId,
+            email: dbUser.email,
+          },
+          callback_url: "https://hired.co.ke/manage/payment/callback",
+        }),
+      });
+
+      const responseData = await response.json();
+      console.log("Paystack Init Response:", responseData);
+
+      if (!response.ok || !responseData.status) {
+        console.error("Paystack Error:", responseData);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Payment initialization failed",
+        });
+      }
+
+      return responseData.data;
+    }),
+
+  verifyEmployerPayment: publicProcedure
+    .input(z.object({ reference: z.string() }))
+    .mutation(async ({ input }) => {
+      const { reference } = input;
+
+      console.log("🔍 Verifying payment for reference:", reference);
+
+      const response = await fetch(`https://api.paystack.co/transaction/verify/${reference}`, {
+        headers: {
+          Authorization: `Bearer ${process.env.PAYSTACK_TEST_SECRET_KEY}`,
         },
       });
-      if (!isEmployer)
+
+      const result = await response.json();
+      console.log("🧾 Paystack Verification Result:", result);
+
+      if (!result.status || result.data.status !== 'success') {
+        console.error("❌ Payment verification failed:", result.message || "Unknown reason");
         throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "This is an employer section.",
+          code: 'BAD_REQUEST',
+          message: result.message || 'Payment not successful',
         });
+      }
 
-      const companyExists = await db.company.findFirst({
+      const { metadata, amount } = result.data;
+      const { planID, userId, email } = metadata;
+
+      console.log("✅ Verified Email:", email);
+      console.log("📦 Metadata:", metadata);
+
+      const dbUser = await db.user.findFirst({ where: { id: userId } });
+      if (!dbUser || dbUser.email !== email) {
+        console.error("❌ User email mismatch");
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: "Invalid payment data" });
+      }
+
+      const isEmployer = await db.employers.findFirst({ where: { employerEmail: email } });
+      if (!isEmployer) throw new TRPCError({ code: "BAD_REQUEST", message: "This is an employer only section" })
+      const company = await db.company.findFirst({ where: { userId, isEmployerID: isEmployer?.id } });
+      if (!company) throw new TRPCError({ code: "BAD_REQUEST", message: "You are required to create your company profile" })
+
+      const plan = await db.employerPlans.findFirst({ where: { id: planID } });
+      if (!plan) throw new TRPCError({ code: "BAD_REQUEST", message: "You selected an unrecognized plan" })
+      const accountBalanced = await db.accountBalance.findFirst({
         where: {
-          userId,
-          isEmployerID: isEmployer.id,
-        },
-      });
-
-      if (!companyExists)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "You have to fully create your profile to continue.",
-        });
-
-      const planExists = await db.employerPlans.findFirst({
-        where: {
-          id: planID,
-        },
-      });
-
-      if (!planExists)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message:
-            "The selected plan does not exist.It could have been deleted",
-        });
-
-      const invoiceID =
-        "#HG" +
-        cryptoRandomString({
-          length: 8,
-          type: "alphanumeric",
-        }).toUpperCase();
-      const sufficientAccountBalance = await db.accountBalance.findFirst({
-        where: {
-          isEmployerID: isEmployer.id,
           userEmail: email,
-          balance: {
-            gte: planExists.price,
-          },
+          isEmployerID: isEmployer.id
         },
-      });
+        select: {
+          id: true
+        }
+      })
 
-      if (!sufficientAccountBalance)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message:
-            "You do not have enough account balance. Top up and try again.",
-        });
+      if (!accountBalanced) throw new TRPCError({ code: "BAD_REQUEST", message: "We have not set up your balance account" })
 
-      await db.accountBalance.update({
-        where: {
-          id: sufficientAccountBalance.id,
-        },
-        data: {
-          units: {
-            increment: planExists.unit,
-          },
-          balance: {
-            decrement: planExists.price,
-          },
-        },
-      });
-      return await db.purchaseJobPlan.create({
-        data: {
-          userId,
-          isEmployerID: isEmployer.id,
-          fullName: dbUser.name as string,
-          planID: planExists.id,
-          companyName: companyExists.company_name as string,
-          companyID: companyExists.id,
-          postal: companyExists.postal as string,
-          zip: companyExists.zip,
-          county: companyExists.county as string,
-          town: companyExists.town,
-          invoiceID,
-          planName: planExists.name,
-          planPrice: planExists.price,
-          planUnits: planExists.unit,
-        },
-      });
+      return { success: true };
     }),
 
   adminDeleteEmployerPlan: privateProcedure
@@ -2316,67 +1810,6 @@ export const appRouter = router({
       });
     }),
 
-  workerDeleteRedeemHistory: privateProcedure
-    .input(
-      z.object({
-        redeemID: z.string(),
-      })
-    )
-    .mutation(async ({ input, ctx }) => {
-      const { userId, email } = ctx;
-      const { redeemID } = input;
-
-      const dbUser = await db.user.findFirst({
-        where: {
-          id: userId,
-          email,
-        },
-      });
-
-      if (!dbUser)
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "You are unauthorized, you have to login and try again.",
-        });
-
-      const isWorker = await db.workers.findFirst({
-        where: {
-          workerEmail: email,
-        },
-        select: {
-          id: true,
-        },
-      });
-
-      if (!isWorker)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "You are in unauthorized section",
-        });
-
-      const redeemHistoryExists = await db.workerRequestRedeem.findFirst({
-        where: {
-          id: redeemID,
-          isWorkerID: isWorker.id,
-        },
-      });
-
-      if (!redeemHistoryExists)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message:
-            "We did not find a redeem history detail, matching the provided ID",
-        });
-
-      return await db.workerRequestRedeem.update({
-        where: {
-          id: redeemHistoryExists.id,
-        },
-        data: {
-          hide: true,
-        },
-      });
-    }),
 
   workerDeleteReferralHistory: privateProcedure
     .input(
@@ -3776,6 +3209,21 @@ export const appRouter = router({
       const { id: companyId, company_description } = employerProfile;
 
       const company_name = employerProfile?.company_name!.trim() as string;
+      const myAccountBalance = await db.accountBalance.findFirst({
+        where: {
+          userEmail: dbUser.email,
+          isEmployerID: isEmployerPosting.id
+        },
+        select: {
+          units: true,
+          id: true
+        }
+      })
+
+      if (!myAccountBalance) throw new TRPCError({ code: "BAD_REQUEST", message: "You have no account balance details" })
+
+      if (myAccountBalance.units < 0) throw new TRPCError({ code: "BAD_REQUEST", message: "You do not have active units to post a job. Purchase to continue" })
+
 
       if (assessmentOneID) {
         if (assessmentTwoID === assessmentOneID)
@@ -3886,6 +3334,17 @@ export const appRouter = router({
             },
           });
 
+          await db.accountBalance.update({
+            where: {
+              id: myAccountBalance.id
+            },
+            data: {
+              units: {
+                decrement: 1
+              }
+            }
+          })
+
           return await db.job.create({
             data: {
               userId,
@@ -3932,6 +3391,18 @@ export const appRouter = router({
             },
           });
         }
+
+        await db.accountBalance.update({
+          where: {
+            id: myAccountBalance.id
+          },
+          data: {
+            units: {
+              decrement: 1
+            }
+          }
+        })
+
         return await db.job.create({
           data: {
             userId,
@@ -3977,7 +3448,16 @@ export const appRouter = router({
           },
         });
       }
-
+      await db.accountBalance.update({
+        where: {
+          id: myAccountBalance.id
+        },
+        data: {
+          units: {
+            decrement: 1
+          }
+        }
+      })
       return await db.job.create({
         data: {
           userId,
@@ -7908,7 +7388,7 @@ export const appRouter = router({
       });
     }),
 
-    adminDeleteRegisteredCompany: privateProcedure
+  adminDeleteRegisteredCompany: privateProcedure
     .input(
       z.object({
         companyID: z.string(),
@@ -7973,7 +7453,7 @@ export const appRouter = router({
         },
       });
 
-      if(jobsByCompany) throw new TRPCError({code:"BAD_REQUEST", message:"There are active jobs by this company. You cant delete the company"})
+      if (jobsByCompany) throw new TRPCError({ code: "BAD_REQUEST", message: "There are active jobs by this company. You cant delete the company" })
       return await db.company.delete({
         where: {
           id: companyRegisteredExists.id,
@@ -8050,7 +7530,7 @@ export const appRouter = router({
         },
       });
 
-      if(jobsByCompany) throw new TRPCError({code:"BAD_REQUEST", message:"There are active jobs by this company. You cant delete the company"})
+      if (jobsByCompany) throw new TRPCError({ code: "BAD_REQUEST", message: "There are active jobs by this company. You cant delete the company" })
       return await db.company.delete({
         where: {
           id: companyUnregisteredExists.id,
@@ -8058,7 +7538,7 @@ export const appRouter = router({
       });
     }),
 
-    adminUpdateUnregisteredCompany: privateProcedure
+  adminUpdateUnregisteredCompany: privateProcedure
     .input(z.object({
       companyID: z.string(),
       companyName: z.string().optional(),
@@ -8157,11 +7637,11 @@ export const appRouter = router({
           id: companyExists.id
         },
         data: {
-          company_name: companyName, 
-          company_description: companyDescription, 
-          category: companyCategory, 
-          website: companyWebsite, 
-          secondaryEmail: companyEmail, 
+          company_name: companyName,
+          company_description: companyDescription,
+          category: companyCategory,
+          website: companyWebsite,
+          secondaryEmail: companyEmail,
           logo
         }
       })
