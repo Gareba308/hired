@@ -19,14 +19,14 @@ const NoMoney = () => {
           </p>
           <p className="text-gray-600 text-base md:text-[15px]">
             To list a job on our platform, you&apos;ll need to top up your
-            account. Posting starts from as little as Ksh 800 per job.
+            account. Posting starts from as little as Ksh.800 per job.
           </p>
           <div className="mt-4 flex flex-col w-full sm:flex-row items-center justify-center gap-y-6 sm:gap-6">
             <Button
               variant="default"
               size="default"
-              onClick={() => router.push("/manage/pricing")}
-              className="w-full font-normal text-base px-4 rounded-sm"
+              onClick={() => router.push("/manage/pricing?origin=manage/create-job")}
+              className="w-full px-4 font-normal text-base hover:bg-primary hover:opacity-90 rounded-sm"
             >
               Top Up Now
             </Button>
@@ -34,7 +34,7 @@ const NoMoney = () => {
               variant="outline"
               onClick={() => router.push("/manage")}
               size="default"
-              className="w-full px-4 font-normal text-base hover:bg-primary hover:opacity-90 rounded-sm"
+              className="w-full font-normal text-base px-4 rounded-sm"
             >
               Homepage
             </Button>

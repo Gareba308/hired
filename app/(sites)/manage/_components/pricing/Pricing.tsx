@@ -39,13 +39,6 @@ const Pricing = ({ user, account, plans }: PricingProps) => {
   const { mutate: purchasePlan, isLoading } =
     trpc.employerPayViaPayStack.useMutation({
       onSuccess: (result) => {
-        toast({
-          title: "Success",
-          description:
-            "We are redirecting you to a page where you will safely make your payment",
-          variant: "default",
-          duration: 3000,
-        });
         setCurrentlyPurchasingPlanID(null);
         const authorization_url = result?.authorization_url;
 
