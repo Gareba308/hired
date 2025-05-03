@@ -219,6 +219,7 @@ const CountyEdit = ({ job, jobId }: TitleEditProps) => {
                             <FormControl>
                               <Input
                                 disabled={isLoading}
+                                maxLength={30}
                                 placeholder="e.g. Jambo House Waiyaki Way"
                                 {...field}
                               />

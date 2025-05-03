@@ -169,10 +169,12 @@ export default function JobDetails({
                   {job.company_name}
                 </span>
               </h2>
-              {job.category && <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
-                <Briefcase className="h-5 w-5 mr-1.5" />
-                {job.category}
-              </p>}
+              {job.category && (
+                <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
+                  <Briefcase className="h-5 w-5 mr-1.5" />
+                  {job.category}
+                </p>
+              )}
               <p
                 suppressHydrationWarning
                 className="flex items-center text-gray-600 shrink-0 text-base font-normal"
@@ -338,6 +340,23 @@ export default function JobDetails({
                   County:{" "}
                   <span className="ml-4 font-normal text-gray-700 text-base">
                     {job.county}
+                  </span>
+                </p>
+              )}
+
+              {job.address && (
+                <p className="flex flex-1 text-gray-700 mt-1 text-base font-medium">
+                  Location:{" "}
+                  <span className="ml-4 font-normal text-gray-700 text-base">
+                    {job.address}
+                  </span>
+                </p>
+              )}
+              {job.seniority && (
+                <p className="flex flex-1 text-gray-700 mt-1 text-base font-medium">
+                  Seniority:{" "}
+                  <span className="ml-4 font-normal text-gray-700 text-base">
+                    {job.seniority}
                   </span>
                 </p>
               )}

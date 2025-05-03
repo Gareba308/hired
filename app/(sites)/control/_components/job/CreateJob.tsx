@@ -1162,6 +1162,7 @@ const CreateJob = ({
                           <FormControl>
                             <Input
                               disabled={isLoading}
+                              maxLength={30}
                               placeholder="e.g. Jambo House Waiyaki Way"
                               {...field}
                               className=""
@@ -1694,9 +1695,6 @@ const CreateJob = ({
                       <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
                       <span className="flex items-center">
                         Years Of Experience
-                        <span className="text-lg font-normal pl-0.5 text-red-600">
-                          *
-                        </span>
                       </span>
                     </div>
                   </dt>
@@ -1817,9 +1815,6 @@ const CreateJob = ({
                       <GripVertical className="h-4 w-4 mr-0.5 text-gray-500" />
                       <span className="flex items-center">
                         Academic Qualifications
-                        <span className="text-lg font-normal pl-0.5 text-red-600">
-                          *
-                        </span>
                       </span>
                     </div>
                   </dt>

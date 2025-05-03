@@ -451,6 +451,23 @@ export default function UnpublishedJobsDetails({
               </p>
             )}
 
+            {job.address && (
+              <p className="flex flex-1 text-gray-700 mt-1 text-base font-medium">
+                Location:{" "}
+                <span className="ml-4 font-normal text-gray-700 text-base">
+                  {job.address}
+                </span>
+              </p>
+            )}
+            {job.seniority && (
+              <p className="flex flex-1 text-gray-700 mt-1 text-base font-medium">
+                Seniority:{" "}
+                <span className="ml-4 font-normal text-gray-700 text-base">
+                  {job.seniority}
+                </span>
+              </p>
+            )}
+
             {job.job_type && (
               <p className="flex flex-1 mt-1 text-gray-700 text-base font-medium">
                 Employment type:{" "}

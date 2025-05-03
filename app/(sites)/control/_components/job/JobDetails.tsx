@@ -216,10 +216,12 @@ export default function JobDetails({
                   {job.company_name}
                 </span>
               </p>
-              {job.category && <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
-                <Briefcase className="sm:h-5 h-4 sm:w-5 w-4 mr-1.5 shrink-0" />
-                {job.category}
-              </p>}
+              {job.category && (
+                <p className="flex items-center text-gray-600 shrink-0 text-base font-normal">
+                  <Briefcase className="sm:h-5 h-4 sm:w-5 w-4 mr-1.5 shrink-0" />
+                  {job.category}
+                </p>
+              )}
               <p
                 suppressHydrationWarning
                 className="flex items-center text-gray-600 shrink-0 text-base font-normal"
@@ -293,6 +295,23 @@ export default function JobDetails({
                 County:{" "}
                 <span className="ml-4 font-normal text-gray-700 text-base">
                   {job.county}
+                </span>
+              </p>
+            )}
+
+            {job.address && (
+              <p className="flex flex-1 text-gray-700 mt-1 text-base font-medium">
+                Location:{" "}
+                <span className="ml-4 font-normal text-gray-700 text-base">
+                  {job.address}
+                </span>
+              </p>
+            )}
+            {job.seniority && (
+              <p className="flex flex-1 text-gray-700 mt-1 text-base font-medium">
+                Seniority:{" "}
+                <span className="ml-4 font-normal text-gray-700 text-base">
+                  {job.seniority}
                 </span>
               </p>
             )}
@@ -568,8 +587,8 @@ export default function JobDetails({
             </div>
           )}
 
-           <AdSenseAd />
-           
+          <AdSenseAd />
+
           {job.benefits.length !== 0 && (
             <div className="mt-5 text-gray-700">
               <h3 className="text-xl font-medium">Benefits</h3>
@@ -633,9 +652,9 @@ export default function JobDetails({
                     <div className="text-base text-gray-700 -mt-2 -mb-2">
                       <Preview value={job.instructions} />
                       <p className="my-3 text-sm italic">
-                        <b className="text-red-700 not-italic">Note: </b>Never pay to apply
-                        for a job. Report fraudulent listings using the
-                        &apos;Report&apos; button above.
+                        <b className="text-red-700 not-italic">Note: </b>Never
+                        pay to apply for a job. Report fraudulent listings using
+                        the &apos;Report&apos; button above.
                       </p>
                     </div>
                   </div>
