@@ -103,7 +103,7 @@ const Pricing = ({ user, account, plans }: PricingProps) => {
                 </CardHeader>
                 <CardContent className="flex items-center h-5 text-primary gap-x-2">
                   <div className="text-lg font-medium">
-                    Account Units. {account.units}
+                    Available Units. {account.units}
                   </div>
                 </CardContent>
               </Card>
