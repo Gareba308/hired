@@ -3222,7 +3222,7 @@ export const appRouter = router({
 
       if (!myAccountBalance) throw new TRPCError({ code: "BAD_REQUEST", message: "You have no account balance details" })
 
-      if (myAccountBalance.units < 0) throw new TRPCError({ code: "BAD_REQUEST", message: "You do not have active units to post a job. Purchase to continue" })
+      if (myAccountBalance.units < 1) throw new TRPCError({ code: "BAD_REQUEST", message: "You do not have active units to post a job. Purchase to continue" })
 
 
       if (assessmentOneID) {

@@ -47,19 +47,16 @@ const Page = async () => {
   });
 
   const hasAccountUnits = await db.accountBalance.findFirst({
-    where: {
-      userEmail: dbUser.email,
-    },
-    select: {
-      units: true,
-    },
-  });
+      where: {
+        userEmail: dbUser.email,
+      },
+    });
 
   if (!hasAccountUnits) redirect("/manage/help?origin=manage/create-job");
 
   return (
     <>
-      {hasAccountUnits.units < 0 ? (
+      {hasAccountUnits.units < 1 ? (
         <NoMoney />
       ) : (
         <div className="pb-5 pt-2 max-w-7xl min-h-[calc(100vh-80px)] mx-auto bg-white px-4 md:px-6 text-gray-700 sm:shadow-sm sm:rounded-lg">
