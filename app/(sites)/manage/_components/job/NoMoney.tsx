@@ -19,7 +19,7 @@ const NoMoney = () => {
           </p>
           <p className="text-gray-600 text-base md:text-[15px]">
             To list a job on our platform, you&apos;ll need to top up your
-            account. Posting starts from as little as Ksh.800 per job.
+            account. Posting starts from as little as <b>Ksh.800</b> per job.
           </p>
           <div className="mt-4 flex flex-col w-full sm:flex-row items-center justify-center gap-y-6 sm:gap-6">
             <Button

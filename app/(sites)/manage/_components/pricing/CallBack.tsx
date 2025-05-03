@@ -38,10 +38,12 @@ const CallBack = () => {
   return (
     <div className="p-6 text-center">
       {status === "verifying" && (
-        <p className="flex flex-row items-center">
+        <div className='flex justify-center'>
+          <p className="flex flex-row items-center">
           <Loader className="h-4 w-4 shrink-0 mr-1.5 animate-spin" />
           Verifying...
         </p>
+        </div>
       )}
       {status === "success" && (
         <p>✅ Payment successful! Redirecting...</p>
