@@ -22,7 +22,15 @@ const FooterJobs = () => {
             />
           </div>
           <div className="mt-4 sm:mt-0 text-base">
-            &copy; {new Date().getFullYear()} Hired All rights reserved.
+          &copy; {new Date().getFullYear()}. All rights reserved.{" "}
+            <a
+              href="https://www.remoseal.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-800 hover:underline"
+            >
+              Jobs Radar
+            </a>
           </div>
           <div className="mt-6 sm:mt-0">
             <ul className="flex items-center space-x-4">

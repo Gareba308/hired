@@ -5174,8 +5174,8 @@ export const appRouter = router({
         ...(instructions && { instructions }),
         ...(briefSummary && { briefSummary }),
         ...(attemptNumbers && { attemptNumbers }),
-        ...(forDemo && { forDemo }),
-        ...(forPublic && { forPublic }),
+        ...(typeof forDemo !== "undefined" && { forDemo }),
+        ...(typeof forPublic !== "undefined" && { forPublic }),
         ...(numberQuestions && { numberQuestions: Number(numberQuestions) }),
         ...(completeTime && { completeTime: Number(completeTime) }),
       };

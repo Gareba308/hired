@@ -464,9 +464,6 @@ export default function JobDetails({
                 </div>
               </div>
             )}
-            <div className="md:hidden mx-auto w-full">
-              <AdSenseAd />
-            </div>
             {job.responsibilities && (
               <div className="mt-5">
                 <h3 className="text-xl font-medium text-gray-700">
@@ -491,7 +488,6 @@ export default function JobDetails({
                 </div>
               </div>
             )}
-
             {job.personal_skills.length !== 0 && (
               <div className="mt-3">
                 <h3 className="text-xl font-medium text-gray-700">
@@ -593,7 +589,9 @@ export default function JobDetails({
                 </div>
               </div>
             )}
-
+            <div className="md:hidden mx-auto w-full">
+              <AdSenseAd />
+            </div>
             {job.company_description && (
               <div className="text-gray-700 mt-2">
                 <h3 className="text-xl font-medium text-gray-700">
@@ -605,6 +603,9 @@ export default function JobDetails({
                 </div>
               </div>
             )}
+            <div className="md:hidden mx-auto w-full">
+              <AdSenseAd />
+            </div>
             <div className="mt-6 border border-gray-200 rounded-md px-3 pt-3">
               <h2 className="text-xl mb-2 text-gray-600 font-semibold">
                 Similar Jobs

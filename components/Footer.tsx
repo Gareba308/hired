@@ -204,7 +204,15 @@ const Footer = () => {
         </div>
         <div className="mt-5 py-3 border-t items-center justify-between sm:flex">
           <div className="text-base">
-            &copy; {new Date().getFullYear()} Hired All rights reserved.
+          &copy; {new Date().getFullYear()}. All rights reserved.{" "}
+            <a
+              href="https://www.remoseal.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-800 hover:underline"
+            >
+              Jobs Radar
+            </a>
           </div>
           <div className="mt-5 sm:mt-0">
             <ul className="flex items-center space-x-4">

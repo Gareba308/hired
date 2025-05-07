@@ -250,6 +250,17 @@ const BlogDetails = ({
                     </div>
                   </div>
                 </div>
+                <div className="text-xs mt-5">
+          &copy; {new Date().getFullYear()}. All rights reserved.{" "}
+            <a
+              href="https://www.remoseal.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-800 hover:underline"
+            >
+              Jobs Radar
+            </a>
+          </div>
               </div>
             </div>
             <div className="w-full xl:pl-4 xl:w-4/12">
